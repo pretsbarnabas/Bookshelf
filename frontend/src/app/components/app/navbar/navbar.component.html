@@ -1,1 +1,26 @@
-<p>navbar works!</p>
+<mat-toolbar>
+    <mat-toolbar-row>
+        <span>Bookshelf</span>
+        <span class="spacer"></span>
+        <div>
+            <button mat-button routerLink="">Home</button>
+            <button mat-button routerLink="books">Books</button>
+            <button mat-button routerLink="summaries">Summaries</button>
+            <button mat-button routerLink="mylist">Mylist</button>            
+        </div>
+        <span class="spacer-center"></span>
+        <mat-icon class="theme-icon" fxHide.lt-md>invert_colors</mat-icon>
+        <mat-slide-toggle (toggleChange)="changeTheme()" [checked]="isdarkModeOn" fxHide.lt-md></mat-slide-toggle>
+        <span class="spacer" fxHide.lt-md></span>
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(value)]="localizationToggleValue"
+            fxHide.lt-md>
+            <mat-button-toggle value="en">EN</mat-button-toggle>
+            <mat-button-toggle value="hu">HU</mat-button-toggle>
+        </mat-button-toggle-group>
+        <span class="spacer" fxHide.lt-md></span>
+        <div fxHide.lt-md>
+            <button mat-button routerLink="login">Login</button>
+            <button mat-button routerLink="registration">Register</button>            
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>
