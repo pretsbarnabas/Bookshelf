@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,6 +24,7 @@ import { RouterModule } from '@angular/router';
     encapsulation: ViewEncapsulation.None,
 })
 export class NavbarComponent {
+    @Output() sidenavToggleClicked = new EventEmitter<void>();
 
     localizationToggleValue: string = "en";
     isdarkModeOn = false;
@@ -31,5 +32,9 @@ export class NavbarComponent {
     changeTheme() {
         this.isdarkModeOn = !this.isdarkModeOn;
         document.body.classList.toggle('darkMode')
+    }
+
+    toggleSideNav(){
+        this.sidenavToggleClicked.emit();
     }
 }

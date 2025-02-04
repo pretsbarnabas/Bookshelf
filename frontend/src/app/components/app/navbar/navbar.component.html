@@ -1,8 +1,12 @@
 <mat-toolbar>
     <mat-toolbar-row>
+        <!-- <img src="" alt=""> -->
+         <button class="text-center" mat-button fxHide.gt-sm>
+            <mat-icon class="menu-icon mx-auto" (click)="toggleSideNav()" >menu</mat-icon>
+         </button>
         <span>Bookshelf</span>
         <span class="spacer"></span>
-        <div>
+        <div fxHide.lt-md>
             <button mat-button routerLink="">Home</button>
             <button mat-button routerLink="books">Books</button>
             <button mat-button routerLink="summaries">Summaries</button>

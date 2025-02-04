@@ -1,0 +1,10 @@
+@use '@angular/material' as mat;
+
+mat-drawer{
+    @include mat.button-overrides((
+        outlined-container-shape: none,
+        text-container-shape: none,
+        protected-container-shape: none,
+        filled-container-shape: none
+    ));
+}

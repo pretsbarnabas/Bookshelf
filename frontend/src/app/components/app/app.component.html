@@ -1,2 +1,14 @@
-<app-navbar></app-navbar>
-<router-outlet></router-outlet>
+<app-navbar (sidenavToggleClicked)="drawer.toggle()"></app-navbar>
+<mat-drawer-container class="example-container" autosize hasBackdrop="true">
+    <mat-drawer #drawer class="example-sidenav" mode="over">
+        <button mat-button routerLink="">Home</button>
+        <button mat-button routerLink="books">Books</button>
+        <button mat-button routerLink="summaries">Summaries</button>
+        <button mat-button routerLink="mylist">Mylist</button>
+    </mat-drawer>
+
+    <div class="example-sidenav-content">
+        <router-outlet></router-outlet>
+    </div>
+
+</mat-drawer-container>

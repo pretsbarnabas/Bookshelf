@@ -12,6 +12,13 @@ body {
     margin: 0;
 }
 
+:root {
+  @include mat.sidenav-overrides((
+    container-width: 150px,
+    container-shape: none
+  ));
+}
+
 html, body {
     @include mat.theme((
         color: (
