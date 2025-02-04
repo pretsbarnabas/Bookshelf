@@ -1,1 +1,41 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use 'styles/custom-theme' as custom;
+
+$bg-color-light: #fff;
+$text-color-light: #000;
+
+$bg-color-dark: #333;
+$text-color-dark: #fff;
+
+body {
+    margin: 0;
+}
+
+html, body {
+    @include mat.theme((
+        color: (
+            primary: custom.$primary-palette,
+            tertiary: custom.$tertiary-palette,
+        ),
+        typography: Roboto,
+        density: 0
+    ));
+    &{
+        background-color: $bg-color-light;
+        color: $text-color-light;
+    }
+}
+
+.darkMode {
+    @include mat.theme((
+        color: (
+            primary: custom.$primary-palette,
+            theme-type: dark,
+        ),
+    ));
+    & {
+        background-color: $bg-color-dark;
+        color: $text-color-dark;       
+    }
+}
