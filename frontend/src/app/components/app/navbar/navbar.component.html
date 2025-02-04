@@ -27,4 +27,14 @@
             <button mat-button routerLink="registration">Register</button>            
         </div>
     </mat-toolbar-row>
+    <mat-toolbar-row fxHide.gt-sm>
+        <span class="spacer-center"></span>
+        <mat-icon class="theme-icon">invert_colors</mat-icon>
+        <mat-slide-toggle (toggleChange)="changeTheme()" [checked]="isdarkModeOn"></mat-slide-toggle>
+        <span class="spacer"></span>
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(value)]="localizationToggleValue">
+            <mat-button-toggle value="en">EN</mat-button-toggle>
+            <mat-button-toggle value="hu">HU</mat-button-toggle>
+        </mat-button-toggle-group>
+    </mat-toolbar-row>
 </mat-toolbar>
