@@ -66,7 +66,7 @@
 
 ## Adatbázis MongoDB Shell formában
 ```
-use BooksProject;
+use("BooksProject");
 
 db.createCollection("books", {
     "capped": false,
@@ -78,17 +78,13 @@ db.createCollection("books", {
                 "_id": {
                     "bsonType": "objectId"
                 },
-                "id": {
-                    "bsonType": "objectId",
-                    "title": "id"
-                },
-                "ttl": {
+                "title": {
                     "bsonType": "string",
                     "title": "title",
                     "maxLength": 200,
                     "minLength": 1
                 },
-                "athr": {
+                "author": {
                     "bsonType": "string",
                     "title": "author",
                     "maxLength": 200,
@@ -136,9 +132,8 @@ db.createCollection("books", {
             },
             "additionalProperties": false,
             "required": [
-                "id",
-                "ttl",
-                "athr",
+                "title",
+                "author",
                 "release",
                 "genre",
                 "description",
@@ -162,9 +157,6 @@ db.createCollection("users", {
             "title": "users",
             "properties": {
                 "_id": {
-                    "bsonType": "objectId"
-                },
-                "id": {
                     "bsonType": "objectId"
                 },
                 "username": {
@@ -225,7 +217,6 @@ db.createCollection("users", {
             },
             "additionalProperties": false,
             "required": [
-                "id",
                 "username",
                 "password_hashed",
                 "email",
@@ -253,9 +244,6 @@ db.createCollection("reviews", {
                 "_id": {
                     "bsonType": "objectId"
                 },
-                "id": {
-                    "bsonType": "objectId"
-                },
                 "user_id": {
                     "bsonType": "objectId"
                 },
@@ -281,7 +269,6 @@ db.createCollection("reviews", {
             },
             "additionalProperties": false,
             "required": [
-                "id",
                 "user_id",
                 "book_id",
                 "score",
@@ -308,9 +295,6 @@ db.createCollection("summaries", {
                 "_id": {
                     "bsonType": "objectId"
                 },
-                "id": {
-                    "bsonType": "objectId"
-                },
                 "user_id": {
                     "bsonType": "objectId"
                 },
@@ -330,7 +314,6 @@ db.createCollection("summaries", {
             },
             "additionalProperties": false,
             "required": [
-                "id",
                 "user_id",
                 "book_id",
                 "content",
@@ -356,9 +339,6 @@ db.createCollection("comments", {
                 "_id": {
                     "bsonType": "objectId"
                 },
-                "id": {
-                    "bsonType": "objectId"
-                },
                 "user_id": {
                     "bsonType": "objectId"
                 },
@@ -379,7 +359,6 @@ db.createCollection("comments", {
             },
             "additionalProperties": false,
             "required": [
-                "id",
                 "user_id",
                 "review_id",
                 "content",
@@ -396,9 +375,9 @@ db.createCollection("comments", {
 ## Példa adat
 ```
 db.books.insert({
-    "id": ObjectId("7fdb24bfd2c9eaca400201b8"),
-    "ttl": "Lorem",
-    "athr": "Lorem",
+    "_id": ObjectId("7fdb24bfd2c9eaca400201b8"),
+    "title": "Lorem",
+    "author": "Lorem",
     "release": ISODate("2016-04-08T15:06:21.595Z"),
     "genre": "Crime",
     "user_id": ObjectId("bbcb7eae48aa8ebcf9170140"),
@@ -408,7 +387,7 @@ db.books.insert({
 });
 
 db.users.insert({
-    "id": ObjectId("db0b0c1f83fb29f652cc5a2f"),
+    "_id": ObjectId("db0b0c1f83fb29f652cc5a2f"),
     "username": "Lorem",
     "password_hashed": "$2b$10$nOUIs5kJ7naTuTFkBy1veuK0kSxUFXfuaOKdOKf9xYT0KKIGSJwFa",
     "email": "sample@email.com",
@@ -425,7 +404,7 @@ db.users.insert({
 });
 
 db.reviews.insert({
-    "id": ObjectId("a826b9febba8c411cf6d82cb"),
+    "_id": ObjectId("a826b9febba8c411cf6d82cb"),
     "user_id": ObjectId("65ae40cdabccdafedc9c01de"),
     "book_id": ObjectId("a04cadf92fa8b9c550f4bbff"),
     "score": 8,
@@ -435,7 +414,7 @@ db.reviews.insert({
 });
 
 db.summaries.insert({
-    "id": ObjectId("72bd5cfdf84d7fea96483da4"),
+    "_id": ObjectId("72bd5cfdf84d7fea96483da4"),
     "user_id": ObjectId("1b6fad0cddcb9f5dd4abe8e2"),
     "book_id": ObjectId("fac3f3c8babba71ff700efda"),
     "content": "Lorem",
@@ -444,7 +423,7 @@ db.summaries.insert({
 });
 
 db.comments.insert({
-    "id": ObjectId("7ef503b3e63a6bcb56f8db37"),
+    "_id": ObjectId("7ef503b3e63a6bcb56f8db37"),
     "user_id": ObjectId("e7bac4050eaf7b5ef50e0bae"),
     "review_id": ObjectId("f9df7adaadbe730bbec1908b"),
     "content": "Lorem",
