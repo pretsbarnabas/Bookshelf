@@ -7,7 +7,9 @@ const userSchema = new Schema({
     },
     username:{
         required: true,
-        type: String
+        type: String,
+        minLength: 1,
+        maxLength: 100
     },
     password_hashed:{
         required: true,
