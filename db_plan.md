@@ -1,4 +1,4 @@
-# BookList - Záróvizsga adatbázis terv
+# Bookshelf - Záróvizsga adatbázis terv
 
 
 

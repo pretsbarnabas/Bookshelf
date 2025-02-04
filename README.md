@@ -1,4 +1,4 @@
-# BookList
+# Bookshelf
 
 ## Témamegjelölés:
 Könyvértékelő és könyv összefoglaló weboldal.
