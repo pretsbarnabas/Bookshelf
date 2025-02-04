@@ -1,0 +1,828 @@
+{
+  "modelName": "New Model",
+  "collections": [
+    {
+      "GUID": "42d3cc2b-f30a-4cc9-9c80-cbf1f36e4a82",
+      "collectionName": "books",
+      "type": "object",
+      "properties": [
+        {
+          "name": "id",
+          "hackoladeMeta": {
+            "namingConvention": "code"
+          },
+          "isActivated": true,
+          "type": "objectId",
+          "GUID": "b3b43584-39c7-4bb3-8485-832fa76e5c54",
+          "code": "id",
+          "required": true,
+          "primaryKey": true,
+          "error": {}
+        },
+        {
+          "hackoladeMeta": {
+            "namingConvention": "code"
+          },
+          "isActivated": true,
+          "type": "string",
+          "GUID": "a8f06f1f-904a-45d4-be5e-5abae6ca576b",
+          "required": true,
+          "name": "title",
+          "code": "ttl",
+          "minLength": 1,
+          "maxLength": 200,
+          "error": {}
+        },
+        {
+          "hackoladeMeta": {
+            "namingConvention": "code"
+          },
+          "isActivated": true,
+          "type": "string",
+          "GUID": "d891c48a-4c88-4923-a557-f6cb87dc7d93",
+          "required": true,
+          "name": "author",
+          "code": "athr",
+          "minLength": 1,
+          "maxLength": 200,
+          "error": {}
+        },
+        {
+          "name": "release",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "date",
+          "primaryKey": false,
+          "GUID": "947bfc55-f86a-42b0-82de-9cf56f3f1f87",
+          "required": true,
+          "error": {}
+        },
+        {
+          "name": "genre",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "string",
+          "GUID": "1f7387d5-87fa-429f-863c-41bbc0163d93",
+          "enum": [
+            "Crime",
+            "Detective",
+            "Romance",
+            "Erotic",
+            "Fantasy",
+            "SciFi",
+            "Action",
+            "Adventure",
+            "Mystery",
+            "Horror",
+            "Comedy",
+            "Literary prose",
+            "Poetry",
+            "Drama",
+            "Historical",
+            "Children",
+            "Philosophical",
+            "Religious"
+          ],
+          "required": true,
+          "error": {}
+        },
+        {
+          "name": "user_id",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "objectId",
+          "GUID": "85634968-2299-40fc-9530-9b8451e0ffb6",
+          "error": {}
+        },
+        {
+          "name": "description",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "string",
+          "GUID": "b61be76e-eb9e-437f-99c0-9de5c1166178",
+          "required": true,
+          "maxLength": 10000,
+          "error": {}
+        },
+        {
+          "name": "added_at",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "date",
+          "primaryKey": false,
+          "GUID": "be5c1c88-544c-40b1-bc9d-85fcd872a102",
+          "required": true,
+          "now": true,
+          "error": {}
+        },
+        {
+          "name": "updated_at",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "date",
+          "primaryKey": false,
+          "GUID": "28aabcc9-8f14-49ec-a96b-b6b2d44a615a",
+          "required": true,
+          "now": true,
+          "error": {}
+        }
+      ],
+      "definitions": {
+        "type": "definitions",
+        "properties": [],
+        "GUID": "b1484d5d-9f70-4e2d-8d85-8d51f00d9f46"
+      },
+      "isActivated": true,
+      "additionalProperties": false,
+      "validationLevel": "Off",
+      "validationAction": "Warn",
+      "storageEngineName": "WiredTiger",
+      "collectionUsers": [],
+      "indexes": [],
+      "collation": {},
+      "sharding": {
+        "unique": true,
+        "collation": "null"
+      },
+      "error": {},
+      "bucketId": "d02aca00-41d9-4072-904d-dce402b8daa8"
+    },
+    {
+      "GUID": "67b8b80f-d8be-4296-aedb-3c134a720f6e",
+      "collectionName": "users",
+      "type": "object",
+      "properties": [
+        {
+          "name": "id",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "objectId",
+          "GUID": "43c35fe9-5d88-49a0-a99a-038f6338a807",
+          "required": true,
+          "primaryKey": true,
+          "error": {}
+        },
+        {
+          "name": "username",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "string",
+          "GUID": "d1a12619-2de7-4bea-8335-bcde6d7d377e",
+          "required": true,
+          "minLength": 1,
+          "maxLength": 100,
+          "error": {}
+        },
+        {
+          "name": "password_hashed",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "string",
+          "GUID": "3ffe448f-1963-4229-b92c-7123af4343be",
+          "required": true,
+          "error": {}
+        },
+        {
+          "name": "email",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "string",
+          "GUID": "b7004595-0d9a-4ea7-bd70-f4412a3d05d1",
+          "format": "email",
+          "required": true,
+          "error": {}
+        },
+        {
+          "name": "created_at",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "date",
+          "primaryKey": false,
+          "GUID": "5ea89643-69bf-4411-9de8-41d1de60c7ef",
+          "required": true,
+          "now": true,
+          "error": {}
+        },
+        {
+          "name": "updated_at",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "date",
+          "primaryKey": false,
+          "GUID": "2763f0db-5470-4a25-a5e6-9343bce81b50",
+          "required": true,
+          "now": true,
+          "error": {}
+        },
+        {
+          "name": "last_login",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "date",
+          "primaryKey": false,
+          "GUID": "62c70d59-93f0-4056-ba6a-12f517e5f5ac",
+          "required": true,
+          "error": {}
+        },
+        {
+          "name": "role",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "string",
+          "GUID": "3554ed5a-087f-4c8c-be39-ee6ae711dcd8",
+          "enum": [
+            "user",
+            "editor",
+            "admin"
+          ],
+          "required": true,
+          "error": {}
+        },
+        {
+          "name": "booklist",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "array",
+          "properties": [
+            {
+              "GUID": "0d62a614-6d3a-4740-8c73-0da86b0e82fc",
+              "type": "reference",
+              "$ref": "#model/definitions/book_status",
+              "refType": "model",
+              "ref": "762cfa11-5cad-4e6e-b993-cf6a4a6ed153",
+              "refIdPath": [
+                "9b86db9f-481b-4610-816e-6f35b204a3be",
+                "61c75857-fe2e-4d32-ad26-be04b0098b44",
+                "762cfa11-5cad-4e6e-b993-cf6a4a6ed153"
+              ],
+              "isActivated": true,
+              "displayName": "book_status",
+              "arrayItem": true,
+              "error": {
+                "name": false
+              }
+            }
+          ],
+          "additionalItems": true,
+          "GUID": "a29e6336-197e-4a03-83bc-5e3a59dcc13b",
+          "error": {}
+        }
+      ],
+      "definitions": {
+        "type": "definitions",
+        "properties": [],
+        "GUID": "d13f9f69-9f0e-4a49-8dc7-6cf0e0771c18"
+      },
+      "isActivated": true,
+      "additionalProperties": false,
+      "validationLevel": "Off",
+      "validationAction": "Warn",
+      "storageEngineName": "WiredTiger",
+      "collectionUsers": [],
+      "indexes": [],
+      "collation": {},
+      "sharding": {
+        "unique": true,
+        "collation": "null"
+      },
+      "bucketId": "d02aca00-41d9-4072-904d-dce402b8daa8"
+    },
+    {
+      "GUID": "640eb3b3-56bf-4164-a2a2-08d4e5820db5",
+      "collectionName": "reviews",
+      "type": "object",
+      "properties": [
+        {
+          "name": "id",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "objectId",
+          "GUID": "f579f60e-ba4d-422a-9184-287d32de5ac1",
+          "required": true,
+          "primaryKey": true,
+          "error": {}
+        },
+        {
+          "name": "user_id",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "objectId",
+          "GUID": "ac792ac6-3961-4c0b-99ae-056a23bba49d",
+          "required": true,
+          "error": {}
+        },
+        {
+          "name": "book_id",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "objectId",
+          "GUID": "f678a3b8-b770-4c33-9463-75e4c5b71a30",
+          "required": true,
+          "error": {}
+        },
+        {
+          "name": "score",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "numeric",
+          "GUID": "e0a13c32-f6a4-465c-8061-032c4d34e263",
+          "required": true,
+          "minimum": 1,
+          "maximum": 10,
+          "exclusiveMinimum": false,
+          "error": {}
+        },
+        {
+          "name": "content",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "string",
+          "GUID": "c5aea07b-29ed-49ad-8ea5-7df2ffc57c15",
+          "required": true,
+          "minLength": 0,
+          "maxLength": 10000,
+          "error": {}
+        },
+        {
+          "name": "created_at",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "date",
+          "primaryKey": false,
+          "GUID": "18a3ea98-511f-4738-95ff-a2cc23ab2680",
+          "required": true,
+          "now": true,
+          "error": {}
+        },
+        {
+          "name": "updated_at",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "date",
+          "primaryKey": false,
+          "GUID": "a39908f9-1fa1-4e95-a78f-16a89085946f",
+          "required": true,
+          "now": true,
+          "error": {}
+        }
+      ],
+      "definitions": {
+        "type": "definitions",
+        "properties": [],
+        "GUID": "4227538e-9bb8-4f60-b10d-8f1d4f3ba8e7"
+      },
+      "isActivated": true,
+      "additionalProperties": false,
+      "validationLevel": "Off",
+      "validationAction": "Warn",
+      "storageEngineName": "WiredTiger",
+      "collectionUsers": [],
+      "indexes": [],
+      "collation": {},
+      "sharding": {
+        "unique": true,
+        "collation": "null"
+      },
+      "bucketId": "d02aca00-41d9-4072-904d-dce402b8daa8"
+    },
+    {
+      "GUID": "bb913a63-da77-40aa-8816-2f1eda3da22b",
+      "collectionName": "summaries",
+      "type": "object",
+      "properties": [
+        {
+          "name": "id",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "objectId",
+          "GUID": "25c73bfb-fcae-48f7-8708-33d9ce515258",
+          "required": true,
+          "primaryKey": true,
+          "error": {}
+        },
+        {
+          "name": "user_id",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "objectId",
+          "GUID": "7839800a-932d-44c3-bc66-46e04a9a5034",
+          "required": true,
+          "error": {}
+        },
+        {
+          "name": "book_id",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "objectId",
+          "GUID": "bd7b1b97-43d8-4e9b-a453-abc3caa4fa31",
+          "required": true,
+          "error": {}
+        },
+        {
+          "name": "content",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "string",
+          "GUID": "7a982cf5-5ba1-4d77-8309-a14927c79594",
+          "minLength": 1,
+          "required": true,
+          "error": {}
+        },
+        {
+          "name": "created_at",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "date",
+          "primaryKey": false,
+          "GUID": "021e52ef-3200-4fd5-9e11-d2e9e81014d6",
+          "required": true,
+          "now": true,
+          "error": {}
+        },
+        {
+          "name": "updated_at",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "date",
+          "primaryKey": false,
+          "GUID": "3c1a3d22-39b9-4c72-9afe-07d56d633b7d",
+          "required": true,
+          "now": true,
+          "error": {}
+        }
+      ],
+      "definitions": {
+        "type": "definitions",
+        "properties": [],
+        "GUID": "57fa0b32-ae5e-4bb9-8f80-06ea1a4a166a"
+      },
+      "isActivated": true,
+      "additionalProperties": false,
+      "validationLevel": "Off",
+      "validationAction": "Warn",
+      "storageEngineName": "WiredTiger",
+      "collectionUsers": [],
+      "indexes": [],
+      "collation": {},
+      "sharding": {
+        "unique": true,
+        "collation": "null"
+      },
+      "bucketId": "d02aca00-41d9-4072-904d-dce402b8daa8"
+    },
+    {
+      "GUID": "46c479a4-ccd9-4a4f-9250-8f909a8e24e0",
+      "collectionName": "comments",
+      "type": "object",
+      "properties": [
+        {
+          "name": "id",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "objectId",
+          "GUID": "80537cb4-7ad3-4521-a69c-8c131ad20dcd",
+          "required": true,
+          "primaryKey": true,
+          "error": {}
+        },
+        {
+          "name": "user_id",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "objectId",
+          "GUID": "b61a560e-753f-45dd-a8b2-ed169b9df8ad",
+          "required": true,
+          "error": {}
+        },
+        {
+          "name": "review_id",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "objectId",
+          "GUID": "5e99027c-7e25-42df-a6bc-090099db296e",
+          "required": true,
+          "error": {}
+        },
+        {
+          "name": "content",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "string",
+          "GUID": "8c4b2fe2-02cb-4dc1-9043-c7070b580f6f",
+          "required": true,
+          "minLength": 1,
+          "maxLength": 1000,
+          "error": {}
+        },
+        {
+          "name": "created_at",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "date",
+          "primaryKey": false,
+          "GUID": "bfe9a57d-2dd4-4cf1-bee5-109dfaba4591",
+          "required": true,
+          "now": true,
+          "error": {}
+        },
+        {
+          "name": "updated_at",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "type": "date",
+          "primaryKey": false,
+          "GUID": "b23800a7-5c5c-443b-b534-792dba08a788",
+          "required": true,
+          "now": true,
+          "error": {}
+        }
+      ],
+      "definitions": {
+        "type": "definitions",
+        "properties": [],
+        "GUID": "78d617e5-3615-4839-8a7a-c7875d969421"
+      },
+      "isActivated": true,
+      "additionalProperties": false,
+      "validationLevel": "Off",
+      "validationAction": "Warn",
+      "storageEngineName": "WiredTiger",
+      "collectionUsers": [],
+      "indexes": [],
+      "collation": {},
+      "sharding": {
+        "unique": true,
+        "collation": "null"
+      },
+      "bucketId": "d02aca00-41d9-4072-904d-dce402b8daa8"
+    }
+  ],
+  "buckets": [
+    {
+      "name": "BooksProject",
+      "type": "bucket",
+      "collectionIds": [
+        "42d3cc2b-f30a-4cc9-9c80-cbf1f36e4a82",
+        "67b8b80f-d8be-4296-aedb-3c134a720f6e",
+        "640eb3b3-56bf-4164-a2a2-08d4e5820db5",
+        "bb913a63-da77-40aa-8816-2f1eda3da22b",
+        "46c479a4-ccd9-4a4f-9250-8f909a8e24e0"
+      ],
+      "backgroundColor": {
+        "r": 216,
+        "g": 0,
+        "b": 115,
+        "a": 1
+      },
+      "show": true,
+      "isActivated": true,
+      "GUID": "d02aca00-41d9-4072-904d-dce402b8daa8"
+    }
+  ],
+  "views": [],
+  "relationships": [],
+  "users": [],
+  "diagramViews": [],
+  "idToNameHashTable": {
+    "2bf4eadd-c877-42fe-8d44-2e97b9b72196": "",
+    "42d3cc2b-f30a-4cc9-9c80-cbf1f36e4a82": "books",
+    "b3b43584-39c7-4bb3-8485-832fa76e5c54": "id",
+    "a8f06f1f-904a-45d4-be5e-5abae6ca576b": "title",
+    "d891c48a-4c88-4923-a557-f6cb87dc7d93": "author",
+    "d02aca00-41d9-4072-904d-dce402b8daa8": "BooksProject",
+    "947bfc55-f86a-42b0-82de-9cf56f3f1f87": "release",
+    "1f7387d5-87fa-429f-863c-41bbc0163d93": "genre",
+    "85634968-2299-40fc-9530-9b8451e0ffb6": "user_id",
+    "b61be76e-eb9e-437f-99c0-9de5c1166178": "description",
+    "be5c1c88-544c-40b1-bc9d-85fcd872a102": "added_at",
+    "28aabcc9-8f14-49ec-a96b-b6b2d44a615a": "updated_at",
+    "67b8b80f-d8be-4296-aedb-3c134a720f6e": "users",
+    "43c35fe9-5d88-49a0-a99a-038f6338a807": "id",
+    "d1a12619-2de7-4bea-8335-bcde6d7d377e": "username",
+    "3ffe448f-1963-4229-b92c-7123af4343be": "password_hashed",
+    "b7004595-0d9a-4ea7-bd70-f4412a3d05d1": "email",
+    "5ea89643-69bf-4411-9de8-41d1de60c7ef": "created_at",
+    "2763f0db-5470-4a25-a5e6-9343bce81b50": "updated_at",
+    "62c70d59-93f0-4056-ba6a-12f517e5f5ac": "last_login",
+    "3554ed5a-087f-4c8c-be39-ee6ae711dcd8": "role",
+    "762cfa11-5cad-4e6e-b993-cf6a4a6ed153": "book_status",
+    "9e72e56b-ba4c-4fe7-8530-3227dec30d92": "book_id",
+    "8ac67f56-ccfc-4036-8b2a-370da570143d": "read_status",
+    "640eb3b3-56bf-4164-a2a2-08d4e5820db5": "reviews",
+    "f579f60e-ba4d-422a-9184-287d32de5ac1": "id",
+    "ac792ac6-3961-4c0b-99ae-056a23bba49d": "user_id",
+    "f678a3b8-b770-4c33-9463-75e4c5b71a30": "book_id",
+    "e0a13c32-f6a4-465c-8061-032c4d34e263": "score",
+    "c5aea07b-29ed-49ad-8ea5-7df2ffc57c15": "content",
+    "18a3ea98-511f-4738-95ff-a2cc23ab2680": "created_at",
+    "a39908f9-1fa1-4e95-a78f-16a89085946f": "updated_at",
+    "bb913a63-da77-40aa-8816-2f1eda3da22b": "summaries",
+    "25c73bfb-fcae-48f7-8708-33d9ce515258": "id",
+    "7839800a-932d-44c3-bc66-46e04a9a5034": "user_id",
+    "7a982cf5-5ba1-4d77-8309-a14927c79594": "content",
+    "021e52ef-3200-4fd5-9e11-d2e9e81014d6": "created_at",
+    "bd7b1b97-43d8-4e9b-a453-abc3caa4fa31": "book_id",
+    "a29e6336-197e-4a03-83bc-5e3a59dcc13b": "booklist",
+    "46c479a4-ccd9-4a4f-9250-8f909a8e24e0": "comments",
+    "80537cb4-7ad3-4521-a69c-8c131ad20dcd": "id",
+    "b61a560e-753f-45dd-a8b2-ed169b9df8ad": "user_id",
+    "5e99027c-7e25-42df-a6bc-090099db296e": "review_id",
+    "8c4b2fe2-02cb-4dc1-9043-c7070b580f6f": "content",
+    "bfe9a57d-2dd4-4cf1-bee5-109dfaba4591": "created_at",
+    "b23800a7-5c5c-443b-b534-792dba08a788": "updated_at",
+    "3c1a3d22-39b9-4c72-9afe-07d56d633b7d": "updated_at"
+  },
+  "definitions": {
+    "type": "definitions",
+    "properties": [
+      {
+        "name": "book_status",
+        "hackoladeMeta": {},
+        "isActivated": true,
+        "type": "document",
+        "properties": [
+          {
+            "name": "book_id",
+            "hackoladeMeta": {},
+            "isActivated": true,
+            "type": "objectId",
+            "GUID": "9e72e56b-ba4c-4fe7-8530-3227dec30d92",
+            "required": true,
+            "error": {}
+          },
+          {
+            "name": "read_status",
+            "hackoladeMeta": {},
+            "isActivated": true,
+            "type": "string",
+            "GUID": "8ac67f56-ccfc-4036-8b2a-370da570143d",
+            "required": true,
+            "enum": [
+              "to_read",
+              "has_read",
+              "is_reading",
+              "dropped",
+              "favorite"
+            ],
+            "error": {}
+          }
+        ],
+        "additionalProperties": false,
+        "GUID": "762cfa11-5cad-4e6e-b993-cf6a4a6ed153",
+        "definitionRefs": [
+          [
+            "67b8b80f-d8be-4296-aedb-3c134a720f6e",
+            "a29e6336-197e-4a03-83bc-5e3a59dcc13b",
+            "0d62a614-6d3a-4740-8c73-0da86b0e82fc"
+          ]
+        ],
+        "error": {
+          "name": false
+        }
+      }
+    ],
+    "GUID": "61c75857-fe2e-4d32-ad26-be04b0098b44"
+  },
+  "polyglotDefinitions": {
+    "type": "polyglotDefinitions",
+    "properties": [],
+    "GUID": "05737c1a-12d3-476a-a01b-2cdf8a90037f"
+  },
+  "externalDefinitions": {
+    "type": "externalDefinitions",
+    "properties": [],
+    "GUID": "c8efac9d-d115-4e9e-9f17-1effb8c2d461"
+  },
+  "sources": [],
+  "decorativeSymbols": [],
+  "dbVersion": "v7.x",
+  "dbVendor": "MongoDB",
+  "appTarget": "MONGODB",
+  "creationTS": "2025-01-23T20:52:15.832Z",
+  "GUID": "9b86db9f-481b-4610-816e-6f35b204a3be",
+  "isLineageEnabled": false,
+  "lastModifTS": "2025-02-04T20:05:30.839Z",
+  "persistenceSchemaVersion": "7",
+  "isCreatedByPlugin": true,
+  "pluginInformation": {
+    "pluginEngineVersion": "1.0.0"
+  },
+  "applicationInformation": {
+    "version": "7.9.10"
+  },
+  "hackoladeMeta": {},
+  "settings": {
+    "centralPane": {
+      "dbLevel": {
+        "erd": [
+          {
+            "GUID": "42d3cc2b-f30a-4cc9-9c80-cbf1f36e4a82",
+            "x": 1172.6666666666688,
+            "y": 1020.9999999999977,
+            "width": 352,
+            "height": 234,
+            "color": {}
+          },
+          {
+            "GUID": "67b8b80f-d8be-4296-aedb-3c134a720f6e",
+            "x": 1636.6666666666688,
+            "y": 1034.9999999999977,
+            "width": 265,
+            "height": 246,
+            "color": {}
+          },
+          {
+            "GUID": "640eb3b3-56bf-4164-a2a2-08d4e5820db5",
+            "x": 1641.6666666666679,
+            "y": 1345.9999999999982,
+            "width": 350,
+            "height": 189,
+            "color": {}
+          },
+          {
+            "GUID": "bb913a63-da77-40aa-8816-2f1eda3da22b",
+            "x": 1136.6666666666702,
+            "y": 1329.3333333333298,
+            "width": 309,
+            "height": 156,
+            "color": {}
+          },
+          {
+            "GUID": "46c479a4-ccd9-4a4f-9250-8f909a8e24e0",
+            "x": 1962.6666666666702,
+            "y": 1137.9999999999977,
+            "width": 246,
+            "height": 134,
+            "color": {}
+          }
+        ],
+        "erdDefinitions": {
+          "erd": [],
+          "rootPath": [],
+          "entities": [],
+          "decorativeSymbols": []
+        },
+        "buckets": [
+          {
+            "x": 1096.6666666666702,
+            "y": 980.9999999999977,
+            "GUID": "d02aca00-41d9-4072-904d-dce402b8daa8"
+          }
+        ],
+        "collapsedNodes": [],
+        "activeRelationship": "",
+        "activeRelationshipFields": {
+          "childField": [],
+          "parentField": []
+        },
+        "selectedCollections": [],
+        "displayColorPicker": false,
+        "graphView": {
+          "erd": [],
+          "buckets": [],
+          "decorativeSymbols": [],
+          "forceLayout": true,
+          "defaultLinkLength": 300
+        },
+        "diagramViews": [],
+        "decorativeSymbols": [],
+        "nestedCollectionsLayout": "horizontal",
+        "options": [
+          {
+            "autoWidth": false,
+            "autoHeight": false,
+            "GUID": "42d3cc2b-f30a-4cc9-9c80-cbf1f36e4a82"
+          },
+          {
+            "autoWidth": false,
+            "autoHeight": false,
+            "GUID": "67b8b80f-d8be-4296-aedb-3c134a720f6e"
+          },
+          {
+            "autoWidth": false,
+            "autoHeight": false,
+            "GUID": "640eb3b3-56bf-4164-a2a2-08d4e5820db5"
+          },
+          {
+            "autoWidth": false,
+            "autoHeight": false,
+            "GUID": "bb913a63-da77-40aa-8816-2f1eda3da22b"
+          },
+          {
+            "autoWidth": false,
+            "autoHeight": false,
+            "GUID": "46c479a4-ccd9-4a4f-9250-8f909a8e24e0"
+          }
+        ],
+        "relationshipUpdateDisabled": false,
+        "displayOptions": {}
+      },
+      "collectionLevel": {},
+      "changed": false
+    },
+    "dtDiagram": {
+      "collapsedNodes": [],
+      "shouldDistributeCollections": false
+    }
+  }
+}
