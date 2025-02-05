@@ -24,4 +24,13 @@ import { RouterModule } from '@angular/router';
 })
 export class AppComponent {
   title = 'frontend';
+
+  buttons: {route: string, icon: string, title: string}[] = [
+    {route: 'home', icon: 'home', title: 'Home'},
+    {route: 'books', icon: 'library_books', title: 'Books'},
+    {route: 'summaries', icon: 'notes', title: 'Summaries'},
+    {route: 'mylist', icon: 'list_alt', title: 'Mylist'},
+    {route: 'login', icon: 'login', title: 'Login'},
+    {route: 'registration', icon: 'person_add', title: 'Registration'},
+  ]
 }
