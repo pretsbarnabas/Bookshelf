@@ -1,16 +1,16 @@
 <mat-toolbar>
     <mat-toolbar-row>
         <!-- <img src="" alt=""> -->
-         <button class="text-center" mat-button fxHide.gt-sm>
-            <mat-icon class="menu-icon mx-auto" (click)="toggleSideNav()" >menu</mat-icon>
-         </button>
+        <button class="text-center" mat-button fxHide.gt-sm>
+            <mat-icon class="menu-icon mx-auto" (click)="toggleSideNav()">menu</mat-icon>
+        </button>
         <span>Bookshelf</span>
         <span class="spacer"></span>
         <div fxHide.lt-md>
             <button mat-button routerLink="home">Home</button>
             <button mat-button routerLink="books">Books</button>
             <button mat-button routerLink="summaries">Summaries</button>
-            <button mat-button routerLink="mylist">Mylist</button>            
+            <button mat-button routerLink="mylist">Mylist</button>
         </div>
         <span class="spacer-center"></span>
         <mat-icon class="theme-icon" fxHide.lt-md>invert_colors</mat-icon>
@@ -24,7 +24,7 @@
         <span class="spacer" fxHide.lt-md></span>
         <div fxHide.lt-md>
             <button mat-button routerLink="login">Login</button>
-            <button mat-button routerLink="registration">Register</button>            
+            <button mat-button routerLink="registration">Register</button>
         </div>
     </mat-toolbar-row>
     <mat-toolbar-row fxHide.gt-sm>

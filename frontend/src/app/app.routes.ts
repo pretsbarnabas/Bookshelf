@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
-import { BooksComponent } from './components/books/books.component';
-import { SummariesComponent } from './components/summaries/summaries.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegistrationComponent } from './components/registration/registration.component';
-import { MylistComponent } from './components/mylist/mylist.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { BookItemComponent } from './components/book-item/book-item.component';
-import { SummaryItemComponent } from './components/summary-item/summary-item.component';
+import { HomeComponent } from './components/pages/home/home.component';
+import { BooksComponent } from './components/pages/books/books.component';
+import { SummariesComponent } from './components/pages/summaries/summaries.component';
+import { LoginComponent } from './components/pages/login/login.component';
+import { RegistrationComponent } from './components/pages/registration/registration.component';
+import { MylistComponent } from './components/pages/mylist/mylist.component';
+import { ProfileComponent } from './components/pages/profile/profile.component';
+import { BookItemComponent } from './components/pages/book-item/book-item.component';
+import { SummaryItemComponent } from './components/pages/summary-item/summary-item.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full'},

@@ -7,7 +7,6 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { RouterModule } from '@angular/router';
 
-
 @Component({
     selector: 'app-navbar',
     imports: [
@@ -34,7 +33,7 @@ export class NavbarComponent {
         document.body.classList.toggle('darkMode')
     }
 
-    toggleSideNav(){
+    toggleSideNav() {
         this.sidenavToggleClicked.emit();
     }
 }
