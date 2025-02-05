@@ -1,10 +1,33 @@
 <app-navbar (sidenavToggleClicked)="drawer.toggle()"></app-navbar>
 <mat-drawer-container class="example-container" autosize hasBackdrop="true">
     <mat-drawer #drawer class="example-sidenav" mode="over">
-        <button mat-button routerLink="">Home</button>
-        <button mat-button routerLink="books">Books</button>
-        <button mat-button routerLink="summaries">Summaries</button>
-        <button mat-button routerLink="mylist">Mylist</button>
+        <div class="sidenav-column">
+            <button mat-button routerLink="">
+                <mat-icon>home</mat-icon>
+                Home
+            </button>
+            <button mat-button routerLink="books">
+                <mat-icon>library_books</mat-icon>
+                Books
+            </button>
+            <button mat-button routerLink="summaries">
+                <mat-icon>notes</mat-icon>
+                Summaries
+            </button>
+            <button mat-button routerLink="mylist">
+                <mat-icon>list_alt</mat-icon>
+                Mylist
+            </button>
+            <hr>
+            <button mat-button routerLink="login">
+                <mat-icon>login</mat-icon>
+                Login
+            </button>
+            <button mat-button routerLink="registration">
+                <mat-icon>person_add</mat-icon>
+                Registration
+            </button>
+        </div>
     </mat-drawer>
 
     <div class="example-sidenav-content">

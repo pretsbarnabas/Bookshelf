@@ -1,10 +1,22 @@
 @use '@angular/material' as mat;
 
-mat-drawer{
-    @include mat.button-overrides((
-        outlined-container-shape: none,
-        text-container-shape: none,
-        protected-container-shape: none,
-        filled-container-shape: none
-    ));
+mat-drawer {
+    @include mat.button-overrides((outlined-container-shape: none,
+            text-container-shape: none,
+            protected-container-shape: none,
+            filled-container-shape: none));
+
+    .sidenav-column {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        padding: 0;
+
+        button{
+            text-align: center;
+            mat-icon {
+                margin: 0, auto;
+            }
+        }
+    }
 }
