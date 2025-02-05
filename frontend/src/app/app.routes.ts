@@ -10,7 +10,8 @@ import { BookItemComponent } from './components/book-item/book-item.component';
 import { SummaryItemComponent } from './components/summary-item/summary-item.component';
 
 export const routes: Routes = [
-    { path: '', component: HomeComponent},
+    { path: '', redirectTo: '/home', pathMatch: 'full'},
+    { path: 'home', component: HomeComponent},
     // menubar routes
     { path: 'books', component: BooksComponent},
     { path: 'summaries', component: SummariesComponent},
