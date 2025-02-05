@@ -20,12 +20,14 @@ body {
 }
 
 html, body {
+    @include mat.core();
+
     @include mat.theme((
         color: (
             primary: custom.$primary-palette,
             tertiary: custom.$tertiary-palette,
         ),
-        typography: Roboto,
+        typography: mat-typography-config(roboto-font),
         density: 0
     ));
     &{
