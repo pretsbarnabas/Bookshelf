@@ -7,24 +7,25 @@
         <span>Bookshelf</span>
         <span class="spacer"></span>
         <div fxHide.lt-md>
-            <button mat-button routerLink="home">Home</button>
-            <button mat-button routerLink="books">Books</button>
-            <button mat-button routerLink="summaries">Summaries</button>
-            <button mat-button routerLink="mylist">Mylist</button>
+            <button mat-button routerLink="home">{{ 'APP.MENU.HOME' | translate }}</button>
+            <button mat-button routerLink="books">{{ 'APP.MENU.BOOKS' | translate }}</button>
+            <button mat-button routerLink="summaries">{{ 'APP.MENU.SUMMARIES' | translate }}</button>
+            <button mat-button routerLink="mylist">{{ 'APP.MENU.MYLIST' | translate }}</button>
         </div>
         <span class="spacer-center"></span>
         <mat-icon class="theme-icon" fxHide.lt-md>invert_colors</mat-icon>
         <mat-slide-toggle (toggleChange)="changeTheme()" [checked]="isdarkModeOn" fxHide.lt-md></mat-slide-toggle>
         <span class="spacer" fxHide.lt-md></span>
-        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(value)]="localizationToggleValue"
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" 
+            [value]="localizationToggleValue"
             fxHide.lt-md>
-            <mat-button-toggle value="en">EN</mat-button-toggle>
-            <mat-button-toggle value="hu">HU</mat-button-toggle>
+            <mat-button-toggle value="en" (change)="changeLanguage($event)">EN</mat-button-toggle>
+            <mat-button-toggle value="hu" (change)="changeLanguage($event)">HU</mat-button-toggle>
         </mat-button-toggle-group>
         <span class="spacer" fxHide.lt-md></span>
         <div fxHide.lt-md>
-            <button mat-button routerLink="login">Login</button>
-            <button mat-button routerLink="registration">Register</button>
+            <button mat-button routerLink="login">{{ 'APP.MENU.LOGIN' | translate }}</button>
+            <button mat-button routerLink="registration">{{ 'APP.MENU.REGISTER' | translate }}</button>
         </div>
     </mat-toolbar-row>
     <mat-toolbar-row fxHide.gt-sm>
@@ -32,9 +33,9 @@
         <mat-icon class="theme-icon">invert_colors</mat-icon>
         <mat-slide-toggle (toggleChange)="changeTheme()" [checked]="isdarkModeOn"></mat-slide-toggle>
         <span class="spacer"></span>
-        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(value)]="localizationToggleValue">
-            <mat-button-toggle value="en">EN</mat-button-toggle>
-            <mat-button-toggle value="hu">HU</mat-button-toggle>
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [value]="localizationToggleValue" >
+            <mat-button-toggle value="en" (change)="changeLanguage($event)">EN</mat-button-toggle>
+            <mat-button-toggle value="hu" (change)="changeLanguage($event)">HU</mat-button-toggle>
         </mat-button-toggle-group>
     </mat-toolbar-row>
 </mat-toolbar>

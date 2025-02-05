@@ -1,0 +1,15 @@
+{
+    "APP": {
+        "MENU": {
+            "HOME": "Főoldal",
+            "BOOKS": "Könyvek",
+            "SUMMARIES": "Összefoglalók",
+            "MYLIST": "Listám",
+            "LOGIN": "Bejelentkezés",
+            "REGISTER": "Regisztráció"
+        }
+    },
+    "HOME":{
+        "TEST": "Főoldal"
+    }
+}

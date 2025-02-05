@@ -1,0 +1,15 @@
+{
+    "APP": {
+        "MENU": {
+            "HOME": "Home",
+            "BOOKS": "Books",
+            "SUMMARIES": "Summaries",
+            "MYLIST": "Mylist",
+            "LOGIN": "Login",
+            "REGISTER": "Register"
+        }
+    },
+    "HOME":{
+        "TEST": "Home page"
+    }
+}
