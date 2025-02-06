@@ -11,5 +11,15 @@
     },
     "HOME":{
         "TEST": "Home page"
+    },
+    "REGISTRATION":{
+        "FORM_TITLE": "Registration",
+        "FIELDS":{
+            "EMAIL": "Email address",
+            "NAME": "Name",
+            "PASSWORD": "Password",
+            "PASSWORD_AGAIN": "Password again"
+        },
+        "SUBMIT": "Submit"
     }
 }

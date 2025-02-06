@@ -11,5 +11,15 @@
     },
     "HOME":{
         "TEST": "Főoldal"
+    },
+    "REGISTRATION":{
+        "FORM_TITLE": "Regisztráció",
+        "FIELDS":{
+            "EMAIL": "Email cím",
+            "NAME": "Név",
+            "PASSWORD": "Jelszó",
+            "PASSWORD_AGAIN": "Jelszó ismét"
+        },
+        "SUBMIT": "Elküldés"
     }
 }
