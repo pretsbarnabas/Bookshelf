@@ -1,4 +1,4 @@
-<app-navbar (sidenavToggleClicked)="drawer.toggle()" (languageTogglerTriggered)="changeLanguage($event)"></app-navbar>
+<app-navbar (sidenavToggleClicked)="drawer.toggle()"></app-navbar>
 <mat-drawer-container autosize hasBackdrop="true">
     <mat-drawer #drawer mode="over" (window:resize)="drawer.opened=false">
         <div class="sidenav-column">

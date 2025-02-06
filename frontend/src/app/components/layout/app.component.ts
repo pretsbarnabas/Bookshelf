@@ -28,12 +28,6 @@ import { TranslationService } from '../../services/translation.service';
 export class AppComponent {
   title = 'frontend';
 
-  languageKey: string = "";
-
-  constructor(
-    private translationService: TranslationService
-  ) {}
-
   sidenavButtons: {route: string, icon:string, label: string}[] = [
     {route: "home", icon:"home", label:"HOME"},
     {route: "books", icon:"library_books", label:"BOOKS"},
@@ -42,8 +36,4 @@ export class AppComponent {
     {route: "login", icon:"login", label:"LOGIN"},
     {route: "registration", icon:"person_add", label:"REGISTER"},
   ]
-
-  changeLanguage(key: string) {
-    this.translationService.changeLanguage(key);
-  }
 }
