@@ -20,7 +20,7 @@ Every collection in the database shares the same five end points, varying in fun
 
 ### Users
 
-- **GET /api/users?username?email?minCreate?maxCreate?minUpdate?maxUpdate?updated_at?last_login?role?fields?page?limit**
+- **GET /api/users?username?email?minCreate?maxCreate?minUpdate?maxUpdate?updated_at?role?fields?page?limit**
     - Query accessibility:
         - Anonymus: username, page, limit
         - User: username, min/maxCreate,min/maxUpdate, last_login, role, page, limit

@@ -19,6 +19,8 @@
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.8",
     "@types/node": "^22.13.1"
   }
 }
