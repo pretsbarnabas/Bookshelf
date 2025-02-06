@@ -2,32 +2,15 @@
 <mat-drawer-container autosize hasBackdrop="true">
     <mat-drawer #drawer mode="over" (window:resize)="drawer.opened=false">
         <div class="sidenav-column">
-            <button mat-button routerLink="home" (click)="drawer.opened=false">
-                <mat-icon>home</mat-icon>
-                {{ 'APP.MENU.HOME' | translate}}
-            </button>
-            <button mat-button routerLink="books" (click)="drawer.opened=false">
-                <mat-icon>library_books</mat-icon>
-                {{ 'APP.MENU.BOOKS' | translate}}
-            </button>
-            <button mat-button routerLink="summaries" (click)="drawer.opened=false">
-                <mat-icon>notes</mat-icon>
-                {{ 'APP.MENU.SUMMARIES' | translate}}
-            </button>
-            <button mat-button routerLink="mylist" (click)="drawer.opened=false">
-                <mat-icon>list_alt</mat-icon>
-                {{ 'APP.MENU.MYLIST' | translate}}
-            </button>
-            <hr>
-            <button mat-button routerLink="login" (click)="drawer.opened=false">
-                <mat-icon>login</mat-icon>
-                {{ 'APP.MENU.LOGIN' | translate}}
-            </button>
-            <button mat-button routerLink="registration" (click)="drawer.opened=false">
-                <mat-icon>person_add</mat-icon>
-                {{ 'APP.MENU.REGISTER' | translate}}
-            </button>
-
+            @for (btn of sidenavButtons; track $index) {
+                @if (btn.route == "login") {
+                <hr>
+                }
+                <button mat-button [routerLink]="btn.route" (click)="drawer.opened=false">
+                    <mat-icon>{{ btn.icon }}</mat-icon>
+                    {{ 'APP.MENU.'+btn.label| translate}}
+                </button>
+            }
         </div>
     </mat-drawer>
 

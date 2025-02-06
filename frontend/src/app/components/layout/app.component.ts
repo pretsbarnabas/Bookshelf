@@ -34,6 +34,15 @@ export class AppComponent {
     private translationService: TranslationService
   ) {}
 
+  sidenavButtons: {route: string, icon:string, label: string}[] = [
+    {route: "home", icon:"home", label:"HOME"},
+    {route: "books", icon:"library_books", label:"BOOKS"},
+    {route: "summaries", icon:"notes", label:"SUMMARIES"},
+    {route: "mylist", icon:"list_alt", label:"MYLIST"},
+    {route: "login", icon:"login", label:"LOGIN"},
+    {route: "registration", icon:"person_add", label:"REGISTER"},
+  ]
+
   changeLanguage(key: string) {
     this.translationService.changeLanguage(key);
   }
