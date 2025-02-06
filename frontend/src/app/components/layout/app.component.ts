@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslationService } from '../../services/translation.service';
 
 
 @Component({
@@ -30,14 +31,10 @@ export class AppComponent {
   languageKey: string = "";
 
   constructor(
-    private translationService: TranslateService
-  ) {
-    translationService.addLangs(['en', 'hu']);
-    translationService.setDefaultLang('en');
-    translationService.use('en')
-  }
+    private translationService: TranslationService
+  ) {}
 
   changeLanguage(key: string) {
-    this.translationService.use(key);
+    this.translationService.changeLanguage(key);
   }
 }

@@ -20,6 +20,10 @@
             "PASSWORD": "Password",
             "PASSWORD_AGAIN": "Password again"
         },
+        "PLACEHOLDERS":{
+            "EMAIL": "example@domain.com",
+            "NAME": "John Doe"
+        },
         "SUBMIT": "Submit"
     }
 }

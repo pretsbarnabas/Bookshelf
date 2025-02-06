@@ -9,16 +9,20 @@
             "REGISTER": "Regisztráció"
         }
     },
-    "HOME":{
+    "HOME": {
         "TEST": "Főoldal"
     },
-    "REGISTRATION":{
+    "REGISTRATION": {
         "FORM_TITLE": "Regisztráció",
-        "FIELDS":{
+        "FIELDS": {
             "EMAIL": "Email cím",
             "NAME": "Név",
             "PASSWORD": "Jelszó",
             "PASSWORD_AGAIN": "Jelszó ismét"
+        },
+        "PLACEHOLDERS": {
+            "EMAIL": "pelda@domain.hu",
+            "NAME": "Kovács János"
         },
         "SUBMIT": "Elküldés"
     }
