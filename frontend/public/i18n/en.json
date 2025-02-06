@@ -18,7 +18,7 @@
             "EMAIL": "Email address",
             "NAME": "Name",
             "PASSWORD": "Password",
-            "PASSWORD_AGAIN": "Password again"
+            "PASSWORD_AGAIN": "Confirm password"
         },
         "PLACEHOLDERS":{
             "EMAIL": "example@domain.com",

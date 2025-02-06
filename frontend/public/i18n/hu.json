@@ -18,7 +18,7 @@
             "EMAIL": "Email cím",
             "NAME": "Név",
             "PASSWORD": "Jelszó",
-            "PASSWORD_AGAIN": "Jelszó ismét"
+            "PASSWORD_AGAIN": "Jelszó megerősítése"
         },
         "PLACEHOLDERS": {
             "EMAIL": "pelda@domain.hu",

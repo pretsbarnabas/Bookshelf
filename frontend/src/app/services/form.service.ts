@@ -35,7 +35,6 @@ export class FormService {
         type: 'input',
         templateOptions: {
           label: await firstValueFrom(this.translationService.service.get('REGISTRATION.FIELDS.PASSWORD')),
-          placeholder: '',
           required: true,
         },
       },
@@ -44,7 +43,6 @@ export class FormService {
         type: 'input',
         templateOptions: {
           label: await firstValueFrom(this.translationService.service.get('REGISTRATION.FIELDS.PASSWORD_AGAIN')),
-          placeholder: '',
           required: true,
         },
       }
