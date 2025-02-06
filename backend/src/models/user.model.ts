@@ -3,13 +3,15 @@ import {Schema, model}  from "mongoose"
 const userSchema = new Schema({
     _id:{
         required: true,
-        type: Schema.Types.ObjectId
+        type: Schema.Types.ObjectId,
+        unique: true
     },
     username:{
         required: true,
         type: String,
         minLength: 1,
-        maxLength: 100
+        maxLength: 100,
+        unique: true
     },
     password_hashed:{
         required: true,
@@ -17,7 +19,8 @@ const userSchema = new Schema({
     },
     email:{
         required: true,
-        type: String
+        type: String,
+        unique: true
     },
     created_at:{
         required: true,

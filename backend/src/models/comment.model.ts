@@ -3,7 +3,8 @@ import {Schema, model}  from "mongoose"
 const commentSchema = new Schema({
     _id:{
         required: true,
-        type: Schema.Types.ObjectId
+        type: Schema.Types.ObjectId,
+        unique: true
     },
     review_id:{
         required: true,

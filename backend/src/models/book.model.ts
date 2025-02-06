@@ -3,7 +3,8 @@ import {Schema, model}  from "mongoose"
 const bookSchema = new Schema({
     _id:{
         required: true,
-        type: Schema.Types.ObjectId
+        type: Schema.Types.ObjectId,
+        unique: true
     },
     title:{
         required: true,
