@@ -7,7 +7,8 @@
             "MYLIST": "Mylist",
             "LOGIN": "Login",
             "REGISTER": "Register"
-        }
+        },
+        "SPINNER": "Loading..."
     },
     "HOME":{
         "TEST": "Home page"

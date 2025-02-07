@@ -7,7 +7,8 @@
             "MYLIST": "Listám",
             "LOGIN": "Bejelentkezés",
             "REGISTER": "Regisztráció"
-        }
+        },
+        "SPINNER": "Folyamatban..."
     },
     "HOME": {
         "TEST": "Főoldal"
