@@ -5,8 +5,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { FooterComponent } from './footer/footer.component';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,8 @@ import { FooterComponent } from './footer/footer.component';
     MatButtonModule,
     MatIconModule,
     TranslatePipe,
-    FooterComponent
+    FooterComponent,
+    NgxSpinnerModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

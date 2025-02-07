@@ -11,48 +11,55 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { FormService } from '../../../services/form.service';
 import { TranslationService } from '../../../services/translation.service';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
-  selector: 'app-registration',
-  imports: [
-    TranslatePipe,
-    FormlyModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormlyMaterialModule,
-    ReactiveFormsModule,
-    MatButtonModule
-  ],
-  templateUrl: './registration.component.html',
-  styleUrl: './registration.component.scss'
+    selector: 'app-registration',
+    imports: [
+        TranslatePipe,
+        FormlyModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormlyMaterialModule,
+        ReactiveFormsModule,
+        MatButtonModule
+    ],
+    templateUrl: './registration.component.html',
+    styleUrl: './registration.component.scss'
 })
 export class RegistrationComponent {
 
 
-  constructor(
-    private translationService: TranslationService,
-    private formService: FormService
-  ) { }
+    constructor(
+        private translationService: TranslationService,
+        private formService: FormService,
+        private spinner: NgxSpinnerService
+    ) { }
 
-  form: FormGroup = new FormGroup({});
-  // TODO : create model in /models
-  model = {
-    name: '',
-    email: '',
-    passwordGroup: ''
-  };
-  fields: FormlyFieldConfig[] = [];
+    form: FormGroup = new FormGroup({});
+    // TODO : create model in /models
+    model = {
+        name: '',
+        email: '',
+        passwordGroup: ''
+    };
+    fields: FormlyFieldConfig[] = [];
 
-  async ngOnInit() {
-    this.translationService.currentLanguage$.subscribe(() => {      
-      this.formService.getRegistrationForm().then((value) => this.fields = value);
-   })
-  }
-
-  onSubmit() {
-    if (this.form.valid) {      
-      console.log(this.model);
+    async ngOnInit() {
+        this.translationService.currentLanguage$.subscribe(() => {
+            this.formService.getRegistrationForm().then((value) => this.fields = value);
+        })
     }
-  }
+    
+    onSubmit() {
+        if (this.form.valid) {
+            console.log(this.model);
+            this.spinner.show();
+            // Temporary
+            setTimeout(() => {
+                this.spinner.hide();
+            }, 3000);
+        }
+    }
 }
