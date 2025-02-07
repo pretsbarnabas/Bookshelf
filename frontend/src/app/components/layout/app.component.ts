@@ -6,8 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { TranslationService } from '../../services/translation.service';
-
+import { FooterComponent } from './footer/footer.component';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +18,8 @@ import { TranslationService } from '../../services/translation.service';
     MatSidenavModule,
     MatButtonModule,
     MatIconModule,
-    TranslatePipe
+    TranslatePipe,
+    FooterComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

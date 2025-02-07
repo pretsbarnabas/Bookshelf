@@ -1,9 +1,11 @@
 .wrapper {
-    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.no-outline{
+.no-outline {
     border: none !important;
     box-shadow: none !important;
     border-radius: 0;
-  }
+}

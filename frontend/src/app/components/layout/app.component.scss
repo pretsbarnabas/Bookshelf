@@ -24,9 +24,17 @@ mat-drawer {
 
 .mat-drawer-container {
     background-color: transparent !important;
-}
-
-mat-drawer-container {
     flex-grow: 1;
-    overflow: auto;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden;
+
+    .mat-drawer-content {
+        flex-grow: 1;
+        overflow: auto !important;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100% !important;
+    }
 }
