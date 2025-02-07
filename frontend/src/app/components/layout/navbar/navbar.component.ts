@@ -37,6 +37,8 @@ export class NavbarComponent {
     isdarkModeOn = false;
 
     ngOnInit(){
+        if(window.matchMedia('(prefers-color-scheme: dark)').matches)
+            this.changeTheme()                    
         this.localizationToggleValue = this.translationService.checkPreferred()
     }
 
