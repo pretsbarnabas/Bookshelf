@@ -26,16 +26,20 @@
         },
         "EMSG": {
             "NAME":{
-                "REQUIRED": "Name field is required"
+                "REQUIRED": "Name field is required",
+                "MINLENGTH": "Name must be at lest 3 characters"
             },
             "EMAIL": {
-                "REQUIRED": "Email field is required"
+                "REQUIRED": "Email field is required",
+                "INCORRECT" : "Incorrect format"
             },
             "PASSWORD": {
-                "REQUIRED": "Password field is required"
+                "REQUIRED": "Password field is required",
+                "MINLENGTH": "Password must be at lest 4 characters"
             },
             "PASSWORD_AGAIN": {
-                "REQUIRED": "This field is required"
+                "REQUIRED": "This field is required",
+                "PASSWORD_MISMATCH": "Passwords do not match"
             }
         },
         "SUBMIT": "Register"

@@ -11,7 +11,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { FormService } from '../../../services/form.service';
 import { TranslationService } from '../../../services/translation.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-registration',
@@ -41,8 +40,7 @@ export class RegistrationComponent {
   model = {
     name: '',
     email: '',
-    password: '',
-    passwordAgain: ''
+    passwordGroup: ''
   };
   fields: FormlyFieldConfig[] = [];
 
@@ -53,7 +51,7 @@ export class RegistrationComponent {
   }
 
   onSubmit() {
-    if (this.form.valid) {
+    if (this.form.valid) {      
       console.log(this.model);
     }
   }

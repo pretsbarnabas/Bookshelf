@@ -26,16 +26,21 @@
         },
         "EMSG": {
             "NAME":{
-                "REQUIRED": "Név kitöltése kötelező"
+                "REQUIRED": "Név kitöltése kötelező",
+                "MINLENGTH": "A név legalább 3 karaktert tartalmazzon"
             },
             "EMAIL": {
-                "REQUIRED": "Email kitöltése kötelező"
+                "REQUIRED": "Email kitöltése kötelező",
+                "INCORRECT" : "Formátum nem megfelelő"
+
             },
             "PASSWORD": {
-                "REQUIRED": "Jelszó kitöltése kötelező"
+                "REQUIRED": "Jelszó kitöltése kötelező",
+                "MINLENGTH": "A jelszó legalább 4 karaktert tartalmazzon"
             },
             "PASSWORD_AGAIN": {
-                "REQUIRED": "Mező kitöltése kötelező"
+                "REQUIRED": "Mező kitöltése kötelező",
+                "PASSWORD_MISMATCH": "A jelszavak nem egyeznek"
             }
         },        
         "SUBMIT": "Regisztrálás"
