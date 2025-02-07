@@ -1,11 +1,6 @@
 import {Schema, model}  from "mongoose"
 
 const bookSchema = new Schema({
-    _id:{
-        required: true,
-        type: Schema.Types.ObjectId,
-        unique: true
-    },
     title:{
         required: true,
         type: String,
@@ -46,6 +41,6 @@ const bookSchema = new Schema({
         type: Date,
         default: Date.now
     }
-})
+},{versionKey: false})
 
 module.exports = model("BookModel",bookSchema,"books")

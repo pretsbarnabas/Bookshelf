@@ -1,11 +1,6 @@
 import {Schema, model}  from "mongoose"
 
 const summarySchema = new Schema({
-    _id:{
-        required: true,
-        type: Schema.Types.ObjectId,
-        unique: true
-    },
     book_id:{
         required: true,
         type: Schema.Types.ObjectId
@@ -29,6 +24,6 @@ const summarySchema = new Schema({
         type: Date,
         default: Date.now
     }
-})
+},{versionKey: false})
 
 module.exports = model("SummaryModel",summarySchema,"summaries")

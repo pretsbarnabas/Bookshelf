@@ -7,6 +7,7 @@ import { SummaryController } from "./controllers/summary.controller"
 
 export const router = express.Router()
 
+router.post("/login",UserController.login)
 
 // User routes
 router.get("/users/",UserController.getAllUsers)

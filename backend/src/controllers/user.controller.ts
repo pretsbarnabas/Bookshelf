@@ -7,30 +7,55 @@ import {Projection} from "../models/projection.model"
 
 export class UserController{
 
-    private static saltrounds = 10
+    static saltrounds = 10
 
     
-    private static hashPassword(password:string){
-        return bcrypt.hash(password, this.saltrounds)
+    static async hashPassword(password:string){
+        return await bcrypt.hash(password, this.saltrounds)
     }
     
-    private static checkPassword(password:string,hash:string){
-        return bcrypt.compare(password,hash)
+    static async checkPassword(password:string,hash:string){
+        return await bcrypt.compare(password,hash)
     }
 
     static async login(req:any,res:any){
         const {username, password} = req.body
         const user = await UserModel.findOne({username:username})
-        if(this.checkPassword(password,user.password_hashed)){
-            const token = jwt.sign({username:username,role:user.role},process.env.JWT_SECRET)
+        if(await UserController.checkPassword(password,user.password_hashed)){
+            const token = jwt.sign({username:username,role:user.role},process.env.JWT_SECRET, {expiresIn: '1h'})
             res.status(200).json({token:token})
         }
+    }
+
+    static verifyToken(req:any){
+        const token = req.headers["authorization"]
+        if(!token) return false
+        let verifiedToken = false
+        jwt.verify(token,process.env.JWT_SECRET,(err:any,decoded:any)=>{
+            if(err){
+                verifiedToken = false
+            }
+            if(decoded){
+                req.user = decoded
+                verifiedToken = true
+            }
+        })
+        return verifiedToken
+    }
+
+    static verifyUser(req:any,allowedRoles:string[]){
+        if(!UserController.verifyToken(req)) return false
+        let goodrole = false
+        allowedRoles.forEach(role => {
+            if(req.user.role == role) goodrole = true
+        });
+        return goodrole
     }
     
     static async getAllUsers(req:any,res:any){
         try{
-            let {username, email, minCreate, maxCreate, minUpdate, maxUpdate, role, fields, page = 1, limit = 10} = req.query
-            
+            let {username, email, minCreate, maxCreate, minUpdate, maxUpdate, role, fields, page = 0, limit = 10} = req.query
+
             limit = Number.parseInt(limit)
             page = Number.parseInt(page)
             
@@ -38,7 +63,7 @@ export class UserController{
                 return res.status(400).json({error:"Invalid page or limit"})
             }
 
-            const allowedFields = ["username","role","createdAt","updatedAt"]
+            const allowedFields = ["_id","username","role","created_at","updated_at"]
 
             let filters: {username?:RegExp,email?:string,role?:string} = {}
 
@@ -47,9 +72,9 @@ export class UserController{
             if(role) filters.role = role
             
             if(!minCreate) minCreate = new Date(0).toISOString().slice(0,-5)
-            if(!maxCreate) maxCreate = new Date().toISOString().slice(0,-5)
+            if(!maxCreate) maxCreate = new Date(Date.now() + 2 * (60*60*1000)).toISOString().slice(0,-5)
             if(!minUpdate) minUpdate = new Date(0).toISOString().slice(0,-5)
-            if(!maxUpdate) maxUpdate = new Date().toISOString().slice(0,-5)
+            if(!maxUpdate) maxUpdate = new Date(Date.now() + 2 * (60*60*1000)).toISOString().slice(0,-5)
 
             if(!tools.isValidISODate(minCreate)|| !tools.isValidISODate(maxCreate) || !tools.isValidISODate(minUpdate || !tools.isValidISODate(maxUpdate))){
                 return res.status(400).json({error:"Invalid date requested"})
@@ -67,18 +92,71 @@ export class UserController{
 
             if(validFields.length === 0) return res.status(400).json({error:"Invalid fields requested"})
 
-            const users = await UserModel.find()
-            res.status(200).json(users)
+            const users = await UserModel.aggregate([
+                {$match: filters},
+                {
+                    $match: {
+                      $and: [
+                        {
+                          $expr: {
+                            $gte: ["$created_at", new Date(minCreate)]
+                          }
+                        },
+                        {
+                          $expr: {
+                            $lte: ["$created_at", new Date(maxCreate)]
+                          }
+                        },
+                        {
+                          $expr: {
+                            $gte: ["$updated_at", new Date(minUpdate)]
+                          }
+                        },
+                        {
+                          $expr: {
+                            $lte: ["$updated_at", new Date(maxUpdate)]
+                          }
+                        }
+                      ]
+                    }
+                },
+                {$project: projection},
+                {$skip: page*limit},
+                {$limit: limit}
+            ])
+            if(users){
+                res.status(200).json(users)
+            }
         }catch(error:any){
             res.status(500).json({message:error.message})
         }
     }
 
     static async getUserById(req:any,res:any){
-        const {id} = req.params
         try{
-            const user = await UserModel.findById(id)
-            res.status(200).json(user)
+            const {id} = req.params
+            const {fields} = req.query
+            let allowedFields = ["_id","username","created_at","updated_at","last_login","role","booklist"]
+            
+            if(UserController.verifyUser(req,["user","admin"])){
+                allowedFields.push("email")
+            }
+
+
+            const requestedFields: string[] = fields ? fields.split(",") : allowedFields
+            const validFields: string[] = requestedFields.filter(field =>allowedFields.includes(field))
+
+            if(validFields.length === 0) return res.status(400).json({error:"Invalid fields requested"})
+            
+            if(!validFields.includes("_id")) validFields.push("-_id")
+
+            const data = await UserModel.findById(id).select(validFields)
+            if(data){
+                res.status(200).json(data)
+            }
+            else{
+                res.status(404).send()
+            }
         }catch(error:any){
             res.status(500).json({message:error.message})
         }
@@ -86,12 +164,12 @@ export class UserController{
 
     static async createUser(req:any,res:any){
         const user = req.body
+        const hashed_password = await UserController.hashPassword(user.password)
         const newUser = new UserModel({
             username: user.username,
-            password_hashed: this.hashPassword(user.password),
+            password_hashed: hashed_password,
             email: user.email,
-            role: user.role,
-            booklist: user.booklist
+            role: user.role
         })
         try{
             await newUser.save()

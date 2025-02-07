@@ -1,11 +1,6 @@
 import {Schema, model}  from "mongoose"
 
 const userSchema = new Schema({
-    _id:{
-        required: true,
-        type: Schema.Types.ObjectId,
-        unique: true
-    },
     username:{
         required: true,
         type: String,
@@ -44,8 +39,9 @@ const userSchema = new Schema({
     },
     booklist:{
         required:true,
-        type: Array
+        type: Array,
+        default: []
     }
-})
+},{versionKey: false})
 
 module.exports = model("UserModel",userSchema,"users")

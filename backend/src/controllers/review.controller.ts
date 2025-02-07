@@ -1,12 +1,123 @@
-import {Types} from "mongoose"
 const ReviewModel = require("../models/review.model")
+const mongoose = require("mongoose")
+import { Projection } from "../models/projection.model"
+import * as tools from "../tools/tools"
 
 export class ReviewController{
 
     static async getAllReviews(req:any,res:any){
         try{
-            const reviews = await ReviewModel.find()
-            res.status(200).json(reviews)
+            let {user_id, book_id, score, minCreate, maxCreate, minUpdate, maxUpdate, page=0, limit=10, fields} = req.query
+
+            let filters: {user_id?:string, book_id?:string, score?:number} = {}
+
+            limit = Number.parseInt(limit)
+            page = Number.parseInt(page)
+            if(score){
+                score = Number.parseInt(score)
+                if(Number.isNaN(score)|| score<1 || score>10){
+                    return res.status(400).json({error: "Invalid score"})
+                }
+            }
+            
+            if(Number.isNaN(limit) || Number.isNaN(page) || limit < 1 || page < 0){
+                return res.status(400).json({error:"Invalid page or limit"})
+            }
+
+            const allowedFields = ["_id","user_id","book_id","score","content","created_at","updated_at", "user.username","book.title"]
+
+            if(!minCreate) minCreate = new Date(0).toISOString().slice(0,-5)
+            if(!maxCreate) maxCreate = new Date(Date.now() + 2 * (60*60*1000)).toISOString().slice(0,-5)
+            if(!minUpdate) minUpdate = new Date(0).toISOString().slice(0,-5)
+            if(!maxUpdate) maxUpdate = new Date(Date.now() + 2 * (60*60*1000)).toISOString().slice(0,-5)
+    
+            if(!tools.isValidISODate(minCreate)|| !tools.isValidISODate(maxCreate) || !tools.isValidISODate(minUpdate || !tools.isValidISODate(maxUpdate))){
+                return res.status(400).json({error:"Invalid date requested"})
+            }
+
+            const requestedFields: string[] = fields ? fields.split(",") : allowedFields
+            const validFields: string[] = requestedFields.filter(field =>allowedFields.includes(field))
+
+            if(!validFields.includes("_id")) validFields.push("-_id")
+
+            const projection: Projection = validFields.reduce((acc: Projection,field)=>{
+                acc[field] = 1
+                return acc
+            }, {"_id": 0} as Projection)
+
+            if(validFields.length === 0) return res.status(400).json({error:"Invalid fields requested"})
+
+            if(user_id){
+                if(mongoose.Types.ObjectId.isValid(user_id)){
+                    filters.user_id = new mongoose.Types.ObjectId(user_id)
+                }
+                else{
+                    return res.status(400).json({message: "Invalid user_id format"})
+                }
+            }
+            if(book_id){
+                if(mongoose.Types.ObjectId.isValid(book_id)){
+                    filters.user_id = new mongoose.Types.ObjectId(book_id)
+                }
+                else{
+                    return res.status(400).json({message: "Invalid book_id format"})
+                }
+            }
+
+            const data = await ReviewModel.aggregate([
+                {$match: filters},
+                {
+                    $match: {
+                      $and: [
+                        {
+                          $expr: {
+                            $gte: ["$created_at", new Date(minCreate)]
+                          }
+                        },
+                        {
+                          $expr: {
+                            $lte: ["$created_at", new Date(maxCreate)]
+                          }
+                        },
+                        {
+                          $expr: {
+                            $gte: ["$updated_at", new Date(minUpdate)]
+                          }
+                        },
+                        {
+                          $expr: {
+                            $lte: ["$updated_at", new Date(maxUpdate)]
+                          }
+                        }
+                      ]
+                    }
+                },
+                {$lookup:{
+                    from: "users",
+                    localField: "user_id",
+                    foreignField: "_id",
+                    as: "user"
+                }},
+                {$unwind:{
+                    path: "$user",
+                    preserveNullAndEmptyArrays: true
+                }},
+                {$lookup:{
+                    from: "books",
+                    localField: "book_id",
+                    foreignField: "_id",
+                    as: "book"
+                }},
+                {$unwind:{
+                    path: "$book",
+                    preserveNullAndEmptyArrays: true
+                }},
+                {$project: projection},
+                {$skip: page*limit},
+                {$limit: limit}
+            ])
+
+            if(data) res.status(200).json(data)
         }catch(error:any){
             res.status(500).json({message:error.message})
         }

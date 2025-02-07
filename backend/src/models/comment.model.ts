@@ -1,11 +1,6 @@
 import {Schema, model}  from "mongoose"
 
 const commentSchema = new Schema({
-    _id:{
-        required: true,
-        type: Schema.Types.ObjectId,
-        unique: true
-    },
     review_id:{
         required: true,
         type: Schema.Types.ObjectId
@@ -30,6 +25,6 @@ const commentSchema = new Schema({
         type: Date,
         default: Date.now
     }
-})
+},{versionKey: false})
 
 module.exports = model("CommentModel",commentSchema,"comments")
