@@ -2,6 +2,7 @@ const ReviewModel = require("../models/review.model")
 const mongoose = require("mongoose")
 import { Projection } from "../models/projection.model"
 import * as tools from "../tools/tools"
+import { UserController } from "./user.controller"
 
 export class ReviewController{
 
@@ -18,13 +19,14 @@ export class ReviewController{
                 if(Number.isNaN(score)|| score<1 || score>10){
                     return res.status(400).json({error: "Invalid score"})
                 }
+                filters.score = score
             }
             
             if(Number.isNaN(limit) || Number.isNaN(page) || limit < 1 || page < 0){
                 return res.status(400).json({error:"Invalid page or limit"})
             }
 
-            const allowedFields = ["_id","user_id","book_id","score","content","created_at","updated_at", "user.username","book.title"]
+            const allowedFields = ["_id","user_id","book_id","score","content","created_at","updated_at","user","book.title"]
 
             if(!minCreate) minCreate = new Date(0).toISOString().slice(0,-5)
             if(!maxCreate) maxCreate = new Date(Date.now() + 2 * (60*60*1000)).toISOString().slice(0,-5)
@@ -121,6 +123,11 @@ export class ReviewController{
         }catch(error:any){
             res.status(500).json({message:error.message})
         }
+    }
+
+    static async getUsersReviews(req:any,res:any){
+        req.query.user_id = req.params.id
+        ReviewController.getAllReviews(req,res)
     }
 
     static async getReviewById(req:any,res:any){

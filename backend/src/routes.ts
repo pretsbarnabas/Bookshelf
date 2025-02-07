@@ -30,6 +30,7 @@ router.get("/reviews/:id",ReviewController.getReviewById)
 router.post("/reviews/",ReviewController.createReview)
 router.delete("/reviews/:id",ReviewController.deleteReview)
 router.put("/reviews/:id",ReviewController.updateReview)
+router.get("/reviews/user/:id",ReviewController.getUsersReviews)
 
 // Comment routes
 router.get("/comments/",CommentController.getAllComments)
