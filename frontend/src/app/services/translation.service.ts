@@ -36,6 +36,6 @@ export class TranslationService {
     changeLanguage(key: string) {
         this.service.use(key);
         localStorage.setItem('preferredLang', key);
-        this.currentLanguageSubject.next(key);  // Notify all subscribers of the new value
+        this.currentLanguageSubject.next(key);
     }
 }

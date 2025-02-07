@@ -24,6 +24,20 @@
             "EMAIL": "example@domain.com",
             "NAME": "John Doe"
         },
-        "SUBMIT": "Submit"
+        "EMSG": {
+            "NAME":{
+                "REQUIRED": "Name field is required"
+            },
+            "EMAIL": {
+                "REQUIRED": "Email field is required"
+            },
+            "PASSWORD": {
+                "REQUIRED": "Password field is required"
+            },
+            "PASSWORD_AGAIN": {
+                "REQUIRED": "This field is required"
+            }
+        },
+        "SUBMIT": "Register"
     }
 }

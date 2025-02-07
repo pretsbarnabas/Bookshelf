@@ -24,6 +24,20 @@
             "EMAIL": "pelda@domain.hu",
             "NAME": "Kovács János"
         },
-        "SUBMIT": "Elküldés"
+        "EMSG": {
+            "NAME":{
+                "REQUIRED": "Név kitöltése kötelező"
+            },
+            "EMAIL": {
+                "REQUIRED": "Email kitöltése kötelező"
+            },
+            "PASSWORD": {
+                "REQUIRED": "Jelszó kitöltése kötelező"
+            },
+            "PASSWORD_AGAIN": {
+                "REQUIRED": "Mező kitöltése kötelező"
+            }
+        },        
+        "SUBMIT": "Regisztrálás"
     }
 }
