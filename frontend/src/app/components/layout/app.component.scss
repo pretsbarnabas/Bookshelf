@@ -12,8 +12,9 @@ mat-drawer {
         align-items: start;
         padding: 0;
 
-        button{
+        button {
             text-align: center;
+
             mat-icon {
                 margin: 0, auto;
             }
@@ -23,4 +24,9 @@ mat-drawer {
 
 .mat-drawer-container {
     background-color: transparent !important;
+}
+
+mat-drawer-container {
+    flex-grow: 1;
+    overflow: auto;
 }

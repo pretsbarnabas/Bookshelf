@@ -12,6 +12,12 @@ body {
     margin: 0;
 }
 
+app-root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 :root {
   @include mat.sidenav-overrides((
     container-width: 150px,
