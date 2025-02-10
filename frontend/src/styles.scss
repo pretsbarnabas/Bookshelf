@@ -13,6 +13,11 @@ body {
 }
 
 app-root {
+    @include mat.button-overrides((outlined-container-shape: none,
+            text-container-shape: none,
+            protected-container-shape: none,
+            filled-container-shape: none));
+            
     min-height: 100vh;
     display: flex;
     flex-direction: column;

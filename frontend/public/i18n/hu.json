@@ -49,6 +49,8 @@
         },
         "SUBMIT":{
             "LOGIN": "Bejelentkezés",
+            "NO_ACCOUNT": "Nincs fiókom",
+            "BACK": "Vissza a bejelentkezésre",
             "REGISTER": "Regisztrálás"
         }   
     }

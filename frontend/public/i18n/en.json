@@ -48,6 +48,8 @@
         },
         "SUBMIT":{
             "LOGIN": "Login",
+            "NO_ACCOUNT": "I do not have an account",
+            "BACK": "Back to login",
             "REGISTER": "Register"
         }
     }

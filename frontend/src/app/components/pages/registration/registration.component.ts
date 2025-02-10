@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormService } from '../../../services/form.service';
 import { TranslationService } from '../../../services/translation.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-registration',
@@ -34,7 +35,8 @@ export class RegistrationComponent {
     constructor(
         private translationService: TranslationService,
         private formService: FormService,
-        private spinner: NgxSpinnerService
+        private spinner: NgxSpinnerService,
+        private router: Router
     ) { }
 
     form: FormGroup = new FormGroup({});
@@ -61,5 +63,9 @@ export class RegistrationComponent {
                 this.spinner.hide();
             }, 3000);
         }
+    }
+
+    toLoginPage(){
+        this.router.navigate(['login']);
     }
 }
