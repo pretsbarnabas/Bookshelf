@@ -1,1 +1,17 @@
-<p>login works!</p>
+<div class="wrapper">
+    <mat-card appearance="outlined" class="col-md-3 mx-auto my-5">
+            <mat-card-title class="text-center my-3">
+                {{ 'AUTH.FORM_TITLE.LOGIN' | translate }}
+            </mat-card-title>
+            <mat-card-content>
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
+                    <div class="w-50 mx-auto">
+                        <button mat-raised-button class="w-100 mt-4" type="submit" [disabled]="!form.valid">
+                            {{ 'AUTH.SUBMIT.LOGIN' | translate }}
+                        </button>
+                    </div>
+                </form>
+            </mat-card-content>
+    </mat-card>
+</div>

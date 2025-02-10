@@ -18,39 +18,57 @@ app-root {
     flex-direction: column;
 }
 
-:root {
-  @include mat.sidenav-overrides((
-    container-width: 150px,
-    container-shape: none
-  ));
+$app-components: "app-login", "app-registration", "app-home, app-books, app-book-item, app-mylist, app-profile, app-summaries, app-summary-item";
+
+@each $tag in $app-components {
+    #{$tag} {
+        display: flex;
+        align-self: stretch;
+        width: 100%;
+
+        .wrapper {
+            display: flex;
+            flex: 1;
+            width: 100%;
+            align-items: center;
+            .wrapper-content{
+                display: block;
+                width: 100%;
+                align-self: start;
+            }
+        }
+    }
 }
 
-html, body {
+:root {
+    @include mat.sidenav-overrides((container-width: 150px,
+            container-shape: none));
+}
+
+html,
+body {
     @include mat.core();
 
-    @include mat.theme((
-        color: (
-            primary: custom.$primary-palette,
-            tertiary: custom.$tertiary-palette,
-        ),
-        typography: mat-typography-config(roboto-font),
-        density: 0
-    ));
-    &{
+    @include mat.theme((color: (primary: custom.$primary-palette,
+                tertiary: custom.$tertiary-palette,
+            ),
+            typography: mat-typography-config(roboto-font),
+            density: 0));
+
+    & {
         background-color: $bg-color-light;
         color: $text-color-light;
     }
 }
 
 .darkMode {
-    @include mat.theme((
-        color: (
-            primary: custom.$primary-palette,
-            theme-type: dark,
-        ),
-    ));
+    @include mat.theme((color: (primary: custom.$primary-palette,
+                theme-type: dark,
+            ),
+        ));
+
     & {
         background-color: $bg-color-dark;
-        color: $text-color-dark;       
+        color: $text-color-dark;
     }
 }

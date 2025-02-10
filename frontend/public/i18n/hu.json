@@ -13,8 +13,11 @@
     "HOME": {
         "TEST": "Főoldal"
     },
-    "REGISTRATION": {
-        "FORM_TITLE": "Regisztráció",
+    "AUTH": {
+        "FORM_TITLE": {
+            "LOGIN": "Bejelentkezés",
+            "REGISTER": "Regisztráció"
+        },
         "FIELDS": {
             "EMAIL": "Email cím",
             "NAME": "Név",
@@ -43,7 +46,10 @@
                 "REQUIRED": "Mező kitöltése kötelező",
                 "PASSWORD_MISMATCH": "A jelszavak nem egyeznek"
             }
-        },        
-        "SUBMIT": "Regisztrálás"
+        },
+        "SUBMIT":{
+            "LOGIN": "Bejelentkezés",
+            "REGISTER": "Regisztrálás"
+        }   
     }
 }

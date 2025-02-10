@@ -13,8 +13,11 @@
     "HOME":{
         "TEST": "Home page"
     },
-    "REGISTRATION":{
-        "FORM_TITLE": "Registration",
+    "AUTH":{
+        "FORM_TITLE": {
+            "LOGIN": "Login",
+            "REGISTER": "Registration"
+        },
         "FIELDS":{
             "EMAIL": "Email address",
             "NAME": "Name",
@@ -43,6 +46,9 @@
                 "PASSWORD_MISMATCH": "Passwords do not match"
             }
         },
-        "SUBMIT": "Register"
+        "SUBMIT":{
+            "LOGIN": "Login",
+            "REGISTER": "Register"
+        }
     }
 }

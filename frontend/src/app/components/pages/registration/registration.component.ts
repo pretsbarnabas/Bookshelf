@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MatCardModule } from '@angular/material/card';
 import { FormGroup } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
