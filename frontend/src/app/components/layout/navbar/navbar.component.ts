@@ -8,6 +8,8 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { TranslationService } from '../../../services/translation.service';
+import { MatMenuModule } from '@angular/material/menu';
+
 
 @Component({
     selector: 'app-navbar',
@@ -19,6 +21,7 @@ import { TranslationService } from '../../../services/translation.service';
         FlexLayoutModule,
         MatSlideToggleModule,
         MatButtonToggleModule,
+        MatMenuModule,
         TranslatePipe
     ],
     templateUrl: './navbar.component.html',
@@ -31,14 +34,14 @@ export class NavbarComponent {
 
     constructor(
         private translationService: TranslationService
-      ) {}    
+    ) { }
 
     localizationToggleValue: string = "en";
     isdarkModeOn = false;
 
-    ngOnInit(){
-        if(window.matchMedia('(prefers-color-scheme: dark)').matches)
-            this.changeTheme()                    
+    ngOnInit() {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches)
+            this.changeTheme()
         this.localizationToggleValue = this.translationService.checkPreferred()
     }
 
@@ -49,7 +52,7 @@ export class NavbarComponent {
 
     toggleSideNav() {
         this.sidenavToggleClicked.emit();
-    }    
+    }
 
     changeLanguage(event: any) {
         this.localizationToggleValue = event.value;

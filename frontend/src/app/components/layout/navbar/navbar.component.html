@@ -1,6 +1,6 @@
 <mat-toolbar>
     <mat-toolbar-row>
-        <!-- <img src="" alt=""> -->
+        <img src="./favicon.ico" alt="" class="app-icon" fxHide.lt-md>
         <button class="text-center" mat-button fxHide.gt-sm>
             <mat-icon class="menu-icon mx-auto" (click)="toggleSideNav()">menu</mat-icon>
         </button>
@@ -18,24 +18,27 @@
             <button mat-button routerLink="registration">{{ 'APP.MENU.REGISTER' | translate }}</button>
         </div>
         <span class="spacer" fxHide.lt-md></span>
-        <mat-icon class="theme-icon" fxHide.lt-md>invert_colors</mat-icon>
-        <mat-slide-toggle (toggleChange)="changeTheme()" [checked]="isdarkModeOn" fxHide.lt-md></mat-slide-toggle>
-        <span class="spacer" fxHide.lt-md></span>
-        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" 
-            [value]="localizationToggleValue"
-            fxHide.lt-md>
-            <mat-button-toggle value="en" (change)="changeLanguage($event)">EN</mat-button-toggle>
-            <mat-button-toggle value="hu" (change)="changeLanguage($event)">HU</mat-button-toggle>
-        </mat-button-toggle-group>
-    </mat-toolbar-row>
-    <mat-toolbar-row fxHide.gt-sm>
-        <span class="spacer-center"></span>
-        <mat-icon class="theme-icon">invert_colors</mat-icon>
-        <mat-slide-toggle (toggleChange)="changeTheme()" [checked]="isdarkModeOn"></mat-slide-toggle>
-        <span class="spacer"></span>
-        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [value]="localizationToggleValue" >
-            <mat-button-toggle value="en" (change)="changeLanguage($event)">EN</mat-button-toggle>
-            <mat-button-toggle value="hu" (change)="changeLanguage($event)">HU</mat-button-toggle>
-        </mat-button-toggle-group>
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>settings</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" class="p-2">
+            <div class="mb-4 theme-holder" (click)="$event.stopPropagation()">
+                <mat-icon class="theme-icon">wb_sunny</mat-icon>
+                <mat-slide-toggle
+                    class="mx-2"
+                    (toggleChange)="changeTheme()"
+                    [checked]="isdarkModeOn">
+                </mat-slide-toggle>
+                <mat-icon class="theme-icon">brightness_2</mat-icon>
+            </div>
+            <mat-button-toggle-group
+                name="fontStyle"
+                aria-label="Font Style"
+                [value]="localizationToggleValue"
+                (click)="$event.stopPropagation()">
+                <mat-button-toggle value="en" (change)="changeLanguage($event)">EN</mat-button-toggle>
+                <mat-button-toggle value="hu" (change)="changeLanguage($event)">HU</mat-button-toggle>
+            </mat-button-toggle-group>
+        </mat-menu>
     </mat-toolbar-row>
 </mat-toolbar>

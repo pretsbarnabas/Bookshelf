@@ -8,7 +8,17 @@
 
 .theme-icon {
     transform: scale(1.2);
-    margin-right: 5px;
+}
+
+.app-icon{
+    transform: scale(.6);
+}
+
+.theme-holder{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .menu-icon {
