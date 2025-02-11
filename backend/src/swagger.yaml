@@ -96,6 +96,11 @@ paths:
                 properties:
                   token:
                     type: string
+        400:
+          description: Bad request body
+        403:
+          description: Invalid username or password
+              
   /api/users:
     get:
       summary: Get all users
