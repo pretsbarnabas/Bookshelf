@@ -113,6 +113,58 @@ paths:
       summary: Get all users
       tags:
         - Users
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Page of pagination (default 0)
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Limit of requests (default 10)
+        - in: query
+          name: fields
+          description: Comma-separated list of fields to include in the response
+          schema:
+            type: string
+            example: _id,username,role,created_at,updated_at,booklist,last_login
+        - in: query
+          name: minCreate
+          schema:
+            type: string
+          description: Filter for minimum creation date (ISO string format)
+        - in: query
+          name: maxCreate
+          schema:
+            type: string
+          description: Filter for maximum creation date (ISO string format)
+        - in: query
+          name: minUpdate
+          schema:
+            type: string
+          description: Filter for minimum update date (ISO string format)
+        - in: query
+          name: maxUpdate
+          schema:
+            type: string
+          description: Filter for maximum update date (ISO string format)
+        - in: query
+          name: username
+          schema:
+            type: string
+          description: Filter for usernames containing the string
+        - in: query
+          name: email
+          schema:
+            type: string
+          description: Filter for emails containing the string
+        - in: query
+          name: role
+          schema:
+            type: string
+          description: Filter for role of user
       responses:
         200:
           description: The list of requested users
@@ -152,6 +204,12 @@ paths:
           required: true
           schema:
             type: string
+        - in: query
+          name: fields
+          description: Comma-separated list of fields to include in the response (if authorized, email and password_hashed can be requested)
+          schema:
+            type: string
+            example: _id,username,created_at,updated_at,last_login,role,booklist
       security:
         - ApiKeyAuth: []
       responses:

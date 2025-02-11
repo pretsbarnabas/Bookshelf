@@ -69,12 +69,12 @@ export class UserController{
                 return res.status(400).json({error:"Invalid page or limit"})
             }
 
-            const allowedFields = ["_id","username","role","created_at","updated_at"]
+            const allowedFields = ["_id","username","role","created_at","updated_at","booklist","last_login"]
 
-            let filters: {username?:RegExp,email?:string,role?:string} = {}
+            let filters: {username?:RegExp,email?:RegExp,role?:string} = {}
 
             if(username) filters.username = new RegExp(`${username}`,"i")
-            if(email) filters.email = email
+            if(email) filters.email = new RegExp(`${email}`,"i")
             if(role) filters.role = role
             
             if(!minCreate) minCreate = new Date(0).toISOString().slice(0,-5)
