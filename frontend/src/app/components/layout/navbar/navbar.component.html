@@ -18,18 +18,20 @@
             <button mat-button routerLink="registration">{{ 'APP.MENU.REGISTER' | translate }}</button>
         </div>
         <span class="spacer" fxHide.lt-md></span>
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-            <mat-icon>settings</mat-icon>
+        <button mat-icon-button
+            [matMenuTriggerFor]="menu"
+            (click)="settingsIconState = 'clicked'">
+            <mat-icon [@rotate]="settingsIconState">settings</mat-icon>
         </button>
-        <mat-menu #menu="matMenu" class="p-2">
+        <mat-menu #menu="matMenu" class="p-2" (closed)="settingsIconState = 'default'">
             <div class="mb-4 theme-holder" (click)="$event.stopPropagation()">
-                <mat-icon class="theme-icon">wb_sunny</mat-icon>
+                <mat-icon class="theme-icon" [@pulse]="!isdarkModeOn">wb_sunny</mat-icon>
                 <mat-slide-toggle
                     class="mx-2"
                     (toggleChange)="changeTheme()"
                     [checked]="isdarkModeOn">
                 </mat-slide-toggle>
-                <mat-icon class="theme-icon">brightness_2</mat-icon>
+                <mat-icon class="theme-icon" [@pulse]="isdarkModeOn">brightness_2</mat-icon>
             </div>
             <mat-button-toggle-group
                 name="fontStyle"

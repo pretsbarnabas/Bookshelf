@@ -7,7 +7,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { FormlyModule } from '@ngx-formly/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { NgxSpinnerModule } from "ngx-spinner";
 
 export function createTranslateLoader(http: HttpClient) {
@@ -32,6 +32,6 @@ export const appConfig: ApplicationConfig = {
       ReactiveFormsModule,      
       NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })
     ),
-    provideAnimations(),
+    provideAnimationsAsync(),
   ]
 };

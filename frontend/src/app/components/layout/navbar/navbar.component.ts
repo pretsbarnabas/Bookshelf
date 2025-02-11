@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { TranslationService } from '../../../services/translation.service';
 import { MatMenuModule } from '@angular/material/menu';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 
 
 @Component({
@@ -27,6 +28,26 @@ import { MatMenuModule } from '@angular/material/menu';
     templateUrl: './navbar.component.html',
     styleUrl: './navbar.component.scss',
     encapsulation: ViewEncapsulation.None,
+    animations: [
+        trigger('rotate', [
+            state('default', style({ transform: 'rotate(0deg)' })),
+            state('clicked', style({ transform: 'rotate(-90deg)' })),
+            transition('default => clicked', animate('250ms ease-in')),
+            transition('clicked => default', animate('250ms ease-out')),
+        ]),
+        trigger('pulse', [
+            transition('false => true', [
+                animate('750ms ease-in-out', keyframes([
+                    style({ transform: 'translateY(0) rotate(0deg)', offset: 0 }),
+                    style({ transform: 'translateY(-2.5px) rotate(10deg)', offset: 0.2 }),
+                    style({ transform: 'translateY(2.5px) rotate(-10deg)', offset: 0.4 }),
+                    style({ transform: 'translateY(-2.5px) rotate(10deg)', offset: 0.6 }),
+                    style({ transform: 'translateY(2.5px) rotate(-10deg)', offset: 0.8 }),
+                    style({ transform: 'translateY(0) rotate(0deg)', offset: 1 })
+                ]))
+            ])
+        ])
+    ]
 })
 export class NavbarComponent {
 
@@ -38,6 +59,8 @@ export class NavbarComponent {
 
     localizationToggleValue: string = "en";
     isdarkModeOn = false;
+
+    settingsIconState = 'default';
 
     ngOnInit() {
         if (window.matchMedia('(prefers-color-scheme: dark)').matches)
