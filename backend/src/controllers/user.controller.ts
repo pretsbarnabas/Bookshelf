@@ -1,7 +1,6 @@
-import {Types} from "mongoose"
 const UserModel = require("../models/user.model")
-const jwt = require("jsonwebtoken")
-const bcrypt = require("bcrypt")
+import jwt, { Secret } from "jsonwebtoken"
+import bcrypt from "bcrypt"
 import * as tools from "../tools/tools"
 import {Projection} from "../models/projection.model"
 
@@ -20,10 +19,15 @@ export class UserController{
 
     static async login(req:any,res:any){
         const {username, password} = req.body
+        if(!username || !password) return res.status(400).json({error: "Bad request body, missing either username or password"})
         const user = await UserModel.findOne({username:username})
+        if(!user) return res.status(403).json({error: "Invalid user or password"})
         if(await UserController.checkPassword(password,user.password_hashed)){
-            const token = jwt.sign({username:username,role:user.role},process.env.JWT_SECRET, {expiresIn: '1h'})
-            res.status(200).json({token:token})
+            const token = jwt.sign({username:username,role:user.role},process.env.JWT_SECRET as Secret, {expiresIn: '1h'})
+            return res.status(200).json({token:token})
+        }
+        else{
+            return res.status(403).json({error: "Invalid user or password"})
         }
     }
 
@@ -31,7 +35,7 @@ export class UserController{
         const token = req.headers["authorization"]
         if(!token) return false
         let verifiedToken = false
-        jwt.verify(token,process.env.JWT_SECRET,(err:any,decoded:any)=>{
+        jwt.verify(token,process.env.JWT_SECRET as Secret,(err:any,decoded:any)=>{
             if(err){
                 verifiedToken = false
             }
