@@ -64,11 +64,18 @@ components:
         role:
           type: string
 
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+
 tags:
   - name: login
     description: Login feature
   - name: Users
     description: Routes managing users
+
 paths:
   /api/login:
     post:
@@ -100,7 +107,7 @@ paths:
           description: Bad request body
         403:
           description: Invalid username or password
-              
+
   /api/users:
     get:
       summary: Get all users
@@ -133,3 +140,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/user'
+
+  /api/users/{id}:
+    get:
+      summary: Get a specific user by id
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: Data of the user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        400:
+          description: Invalid fields requested
+        404:
+          description: User not found
+
+security:
+  - ApiKeyAuth: []

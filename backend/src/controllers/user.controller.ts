@@ -33,6 +33,7 @@ export class UserController{
 
     static verifyToken(req:any){
         const token = req.headers["authorization"]
+        console.log(token)
         if(!token) return false
         let verifiedToken = false
         jwt.verify(token,process.env.JWT_SECRET as Secret,(err:any,decoded:any)=>{
@@ -53,6 +54,7 @@ export class UserController{
         allowedRoles.forEach(role => {
             if(req.user.role == role) goodrole = true
         });
+        if(req.user.role === "admin") goodrole = true
         return goodrole
     }
     
@@ -137,13 +139,14 @@ export class UserController{
     }
 
     static async getUserById(req:any,res:any){
+        res.setHeader("Custom-Header","Authorization")
         try{
             const {id} = req.params
             const {fields} = req.query
             let allowedFields = ["_id","username","created_at","updated_at","last_login","role","booklist"]
             
-            if(UserController.verifyUser(req,["user","admin"])){
-                allowedFields.push("email")
+            if(UserController.verifyUser(req,["user","editor","admin"])){
+                allowedFields.push("email", "password_hashed")
             }
 
 
