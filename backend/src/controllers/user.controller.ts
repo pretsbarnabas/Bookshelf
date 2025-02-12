@@ -3,6 +3,7 @@ import jwt, { Secret } from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import * as tools from "../tools/tools"
 import {Projection} from "../models/projection.model"
+import mongoose from "mongoose"
 
 export class UserController{
 
@@ -24,6 +25,8 @@ export class UserController{
         if(!user) return res.status(403).json({error: "Invalid user or password"})
         if(await UserController.checkPassword(password,user.password_hashed)){
             const token = jwt.sign({username:username,role:user.role,id: user._id},process.env.JWT_SECRET as Secret, {expiresIn: '1h'})
+            user.last_login = new Date()
+            await user.save()
             return res.status(200).json({token:token})
         }
         else{
@@ -51,14 +54,14 @@ export class UserController{
 
     static verifyUser(req:any, userid: string = "",allowedRoles:string[] = ["user","editor"],){
         if(!UserController.verifyToken(req)) return false
-        console.log(req.user)
-        console.log(userid)
-        if(req.user.id != userid) return false
+        if(req.user.role === "admin") return true
+        if(userid){
+            if(req.user.id != userid) return false
+        }
         let goodrole = false
         allowedRoles.forEach(role => {
             if(req.user.role == role) goodrole = true
         });
-        if(req.user.role === "admin") goodrole = true
         return goodrole
     }
     
@@ -173,25 +176,61 @@ export class UserController{
     }
 
     static async createUser(req:any,res:any){
-        const user = req.body
-        const hashed_password = await UserController.hashPassword(user.password)
-        const newUser = new UserModel({
-            username: user.username,
-            password_hashed: hashed_password,
-            email: user.email,
-            role: user.role
-        })
         try{
+            const {username, password, email, role} = req.body
+
+            if(!username || !password || !email || !role) return res.status(400).json({message: "username, password, email, role required"})
+            if(role !== "user"){
+                if(!UserController.verifyUser(req,"",["admin"])) return res.status(401).json({message: `Unauthorized to create user of role ${role}`})
+            }
+            if(!tools.IsValidEmail(email)) return res.status(400).json({message: "Invalid email format"})
+
+            const hashed_password = await UserController.hashPassword(password)
+            const newUser = new UserModel({
+                username: username,
+                password_hashed: hashed_password,
+                email: email,
+                role: role
+            })
             await newUser.save()
             res.status(201).json(newUser)
         }catch(error:any){
-            res.status(500).json({message:error.message})
+            UserController.HandleMongooseErrors(error,res)
         }
+    }
+
+    static async HandleMongooseErrors(error: any, res:any){
+        if(error.code === 11000){
+            const duplicateKey = Object.keys(error.keyValue)[0]
+            const duplicateValue = error.keyValue[duplicateKey]
+            return res.status(400).json({
+                message: `${duplicateKey} of value ${duplicateValue} already exists`,
+                duplicateKey: duplicateKey,
+                duplicateValue: duplicateValue
+            })
+        }
+        if(error.name === "ValidationError"){
+            const errors: any = {};
+            for (let field in error.errors) {
+              errors[field] = error.errors[field].message;
+            }
+            return res.status(400).json({ errors });
+        }
+        return res.status(500).json({message:error})
     }
 
     static async deleteUser(req:any,res:any){
         try{
             const id = req.params
+            if(id){
+                if(!mongoose.Types.ObjectId.isValid(id)){
+                    return res.status(400).json({message: "Invalid id format"})
+                }
+            }
+            else{
+                return res.status(400).json({message: "id is required"})
+            }
+            if(!UserController.verifyUser(req,id)) return res.json(401).send()
             const data = await UserModel.findByIdAndDelete(id)
             if(data){
                 res.status(200).json({message:"User deleted"})
@@ -208,17 +247,34 @@ export class UserController{
     static async updateUser(req:any,res:any){
         try{
             const id = req.params
-            const user = req.body
-            const data = await UserModel.findByIdAndUpdate(id,user,{new:true})
-            if(data){
-                res.status(200).json(data)
+            if(id){
+                if(!mongoose.Types.ObjectId.isValid(id)){
+                    return res.status(400).json({message: "Invalid id format"})
+                }
             }
             else{
-                res.status(404).json({message:"User not found"})
+                return res.status(400).json({message: "id is required"})
             }
+            if(!UserController.verifyUser(req,id)) return res.status(401).send()
+            const user = await UserModel.findById(id)
+            const updates = req.body
+            const allowedFields = ["username","password_hashed","email","booklist"]
+            if(!user) return res.status(404).json({message: "User not found"})
+            Object.keys(updates).forEach(key => {
+                if(!allowedFields.includes(key)) return res.status(400).json({message: `Cannot update ${updates[key]} field`})
+                if(key === "email"){
+                    if(!tools.IsValidEmail(updates[key])) return res.status(400).json({message: "Invalid email format"})
+                }
+                if(key === "password_hashed"){
+                    updates[key] = UserController.hashPassword(updates[key])
+                }
+                user[key] = updates[key];
+            });
+            user.updated_at = new Date()
+            await user.save()
         }
         catch(error:any){
-            res.status(500).json({message:error.message})
+            UserController.HandleMongooseErrors(error,res)
         }
     }
 }
