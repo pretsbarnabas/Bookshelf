@@ -167,7 +167,7 @@ export class UserController{
                 res.status(200).json(data)
             }
             else{
-                res.status(404).send()
+                res.status(404).json({message: "User not found"})
             }
         }catch(error:any){
             res.status(500).json({message:error.message})
@@ -234,7 +234,7 @@ export class UserController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            if(!UserController.verifyUser(req,id)) return res.status(401).send()
+            if(!UserController.verifyUser(req,id)) return res.status(401).json({message: "Unauthorized"})
                 const user = await UserModel.findById(id)
             const updates = req.body
             const allowedFields = ["username","password","email","booklist"]

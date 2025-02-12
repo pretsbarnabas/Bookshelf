@@ -63,6 +63,22 @@ components:
           type: string
         role:
           type: string
+    userput:
+      type: object
+      required:
+        - username
+        - password
+        - email
+        - booklist
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        booklist:
+          type: array
 
   securitySchemes:
     ApiKeyAuth:
@@ -107,6 +123,14 @@ paths:
           description: Bad request body
         403:
           description: Invalid username or password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: Invalid username or password
 
   /api/users:
     get:
@@ -185,13 +209,36 @@ paths:
           application/json:
             schema:
               $ref: '#/components/requestBodies/user'
+        description: "Required fields of request, roles: user,editor,admin. Authorization required for roles other than user"
       responses:
-        200:
+        201:
           description: The created user
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/user'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: username, password, email, role required || Invalid email format || ${duplicateKey} of value ${duplicateValue} already exists || ValidationError
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+      security:
+        - ApiKeyAuth: []
 
   /api/users/{id}:
     get:
@@ -221,8 +268,122 @@ paths:
                 $ref: '#/components/schemas/user'
         400:
           description: Invalid fields requested
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid fields requested
         404:
           description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User not found
+    put:
+      summary: Update a user by id
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/userput'
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: Data of the updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ${duplicateKey} of value ${duplicateValue} already exists || Invalid email format || Cannot update ${key} field || Invalid id format || ValidationError
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User not found
+    delete:
+      summary: Delete a user by id
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: User successfully deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User deleted
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid id format
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User not found
 
 security:
   - ApiKeyAuth: []
