@@ -44,4 +44,19 @@ const userSchema = new Schema({
     }
 },{versionKey: false})
 
+
+userSchema.pre("save", function (next) {
+    // @ts-ignore
+    if (this._updateContext === "update") {
+        this.updated_at = new Date();
+    }
+
+    // @ts-ignore
+    if (this._updateContext === "login") {
+        this.last_login = new Date();
+    }
+
+    next();
+});
+
 module.exports = model("UserModel",userSchema,"users")

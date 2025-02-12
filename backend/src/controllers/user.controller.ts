@@ -25,8 +25,8 @@ export class UserController{
         if(!user) return res.status(403).json({error: "Invalid user or password"})
         if(await UserController.checkPassword(password,user.password_hashed)){
             const token = jwt.sign({username:username,role:user.role,id: user._id},process.env.JWT_SECRET as Secret, {expiresIn: '1h'})
-            user.last_login = new Date()
-            await user.save()
+            user._updateContext = "login"
+            await user.save()            
             return res.status(200).json({token:token})
         }
         else{
@@ -36,7 +36,6 @@ export class UserController{
 
     static verifyToken(req:any){
         const token = req.headers["authorization"]
-        console.log(token)
         if(!token) return false
         let verifiedToken = false
         jwt.verify(token,process.env.JWT_SECRET as Secret,(err:any,decoded:any)=>{
@@ -198,27 +197,7 @@ export class UserController{
             UserController.HandleMongooseErrors(error,res)
         }
     }
-
-    static async HandleMongooseErrors(error: any, res:any){
-        if(error.code === 11000){
-            const duplicateKey = Object.keys(error.keyValue)[0]
-            const duplicateValue = error.keyValue[duplicateKey]
-            return res.status(400).json({
-                message: `${duplicateKey} of value ${duplicateValue} already exists`,
-                duplicateKey: duplicateKey,
-                duplicateValue: duplicateValue
-            })
-        }
-        if(error.name === "ValidationError"){
-            const errors: any = {};
-            for (let field in error.errors) {
-              errors[field] = error.errors[field].message;
-            }
-            return res.status(400).json({ errors });
-        }
-        return res.status(500).json({message:error})
-    }
-
+    
     static async deleteUser(req:any,res:any){
         try{
             const id = req.params
@@ -243,10 +222,10 @@ export class UserController{
             res.status(500).json({message:error.message})
         }
     }
-
+    
     static async updateUser(req:any,res:any){
         try{
-            const id = req.params
+            const {id} = req.params
             if(id){
                 if(!mongoose.Types.ObjectId.isValid(id)){
                     return res.status(400).json({message: "Invalid id format"})
@@ -256,25 +235,52 @@ export class UserController{
                 return res.status(400).json({message: "id is required"})
             }
             if(!UserController.verifyUser(req,id)) return res.status(401).send()
-            const user = await UserModel.findById(id)
+                const user = await UserModel.findById(id)
             const updates = req.body
-            const allowedFields = ["username","password_hashed","email","booklist"]
+            const allowedFields = ["username","password","email","booklist"]
             if(!user) return res.status(404).json({message: "User not found"})
-            Object.keys(updates).forEach(key => {
-                if(!allowedFields.includes(key)) return res.status(400).json({message: `Cannot update ${updates[key]} field`})
-                if(key === "email"){
-                    if(!tools.IsValidEmail(updates[key])) return res.status(400).json({message: "Invalid email format"})
-                }
-                if(key === "password_hashed"){
-                    updates[key] = UserController.hashPassword(updates[key])
-                }
-                user[key] = updates[key];
-            });
-            user.updated_at = new Date()
+                for (const key of Object.keys(updates)) {
+                    if (!allowedFields.includes(key)) {
+                        return res.status(400).json({ message: `Cannot update ${key} field` });
+                    }
+            
+                    if (key === "email") {
+                        if (!tools.IsValidEmail(updates[key])) {
+                            return res.status(400).json({ message: "Invalid email format" });
+                        }
+                    } else if (key === "password") {
+                        const newPassHash = await UserController.hashPassword(updates[key]);
+                        user["password_hashed"] = newPassHash;
+                    } else {
+                        user[key] = updates[key];
+                    }
+            }
+            user._updateContext = "update"
             await user.save()
+            return res.status(200).json({user:user})
         }
         catch(error:any){
             UserController.HandleMongooseErrors(error,res)
         }
+    }
+    
+    static async HandleMongooseErrors(error: any, res:any){
+        if(error.code === 11000){
+            const duplicateKey = Object.keys(error.keyValue)[0]
+            const duplicateValue = error.keyValue[duplicateKey]
+            return res.status(400).json({
+                message: `${duplicateKey} of value ${duplicateValue} already exists`,
+                duplicateKey: duplicateKey,
+                duplicateValue: duplicateValue
+            })
+        }
+        if(error.name === "ValidationError"){
+            const errors: any = {};
+            for (let field in error.errors) {
+              errors[field] = error.errors[field].message;
+            }
+            return res.status(400).json({ errors });
+        }
+        return res.status(500).json({message:error})
     }
 }
