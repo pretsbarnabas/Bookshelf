@@ -23,7 +23,7 @@ export class UserController{
         const user = await UserModel.findOne({username:username})
         if(!user) return res.status(403).json({error: "Invalid user or password"})
         if(await UserController.checkPassword(password,user.password_hashed)){
-            const token = jwt.sign({username:username,role:user.role},process.env.JWT_SECRET as Secret, {expiresIn: '1h'})
+            const token = jwt.sign({username:username,role:user.role,id: user._id},process.env.JWT_SECRET as Secret, {expiresIn: '1h'})
             return res.status(200).json({token:token})
         }
         else{
@@ -38,6 +38,7 @@ export class UserController{
         let verifiedToken = false
         jwt.verify(token,process.env.JWT_SECRET as Secret,(err:any,decoded:any)=>{
             if(err){
+                console.log(err)
                 verifiedToken = false
             }
             if(decoded){
@@ -48,8 +49,11 @@ export class UserController{
         return verifiedToken
     }
 
-    static verifyUser(req:any,allowedRoles:string[]){
+    static verifyUser(req:any, userid: string = "",allowedRoles:string[] = ["user","editor"],){
         if(!UserController.verifyToken(req)) return false
+        console.log(req.user)
+        console.log(userid)
+        if(req.user.id != userid) return false
         let goodrole = false
         allowedRoles.forEach(role => {
             if(req.user.role == role) goodrole = true
@@ -139,13 +143,12 @@ export class UserController{
     }
 
     static async getUserById(req:any,res:any){
-        res.setHeader("Custom-Header","Authorization")
         try{
             const {id} = req.params
             const {fields} = req.query
             let allowedFields = ["_id","username","created_at","updated_at","last_login","role","booklist"]
             
-            if(UserController.verifyUser(req,["user","editor","admin"])){
+            if(UserController.verifyUser(req,id)){
                 allowedFields.push("email", "password_hashed")
             }
 
