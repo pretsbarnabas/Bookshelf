@@ -10,10 +10,13 @@
     <mat-drawer #drawer mode="over" (window:resize)="drawer.opened=false">
         <div class="sidenav-column">
             @for (btn of sidenavButtons; track $index) {
-                @if (btn.route == "login") {
-                <hr>
+                @if (btn.icon == "login") {
+                    <hr>
                 }
-                <button mat-button [routerLink]="btn.route" (click)="drawer.opened=false">
+                <button mat-button [routerLink]="btn.route"
+                        [queryParams]="{mode: btn.queryparam}"
+                        (click)="drawer.opened=false"
+                    >
                     <mat-icon>{{ btn.icon }}</mat-icon>
                     {{ 'APP.MENU.'+btn.label| translate}}
                 </button>

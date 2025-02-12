@@ -1,0 +1,34 @@
+<div class="wrapper">
+    <div class="col-lg-3 col-md-6 mx-auto"
+            [class]="{'col-lg-4': mode === 'register'}"
+        >
+        <mat-card appearance="raised" class="px-4 pb-5">
+                <mat-card-title class="text-center my-5">
+                    @if(mode === 'login'){
+                        {{ 'AUTH.FORM_TITLE.LOGIN' | translate }}
+                    } @else if(mode === 'register') {
+                        {{ 'AUTH.FORM_TITLE.REGISTER' | translate }}
+                    }                    
+                </mat-card-title>
+                <mat-card-content>
+                    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                        <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
+                        <div class="w-50 mx-auto">
+                            <button mat-raised-button class="w-100 mt-4" type="submit" [disabled]="!form.valid">
+                                {{ 'AUTH.SUBMIT.LOGIN' | translate }}
+                            </button>
+                        </div>
+                    </form>
+                </mat-card-content>
+        </mat-card>
+        @if(mode === 'login'){
+            <button mat-button class="w-100 mt-4 to-register" (click)="switchForms('register')">
+                {{ 'AUTH.SUBMIT.NO_ACCOUNT' | translate }}
+            </button>
+        } @else if(mode === 'register') {
+            <button mat-button class="w-100 mt-4 to-register" (click)="switchForms('login')">
+                {{ 'AUTH.SUBMIT.BACK' | translate }}
+            </button>
+        }
+    </div>
+</div>

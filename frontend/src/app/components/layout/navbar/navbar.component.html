@@ -14,8 +14,8 @@
         </div>
         <span class="spacer-center"></span>
         <div fxHide.lt-md>
-            <button mat-button routerLink="login">{{ 'APP.MENU.LOGIN' | translate }}</button>
-            <button mat-button routerLink="registration">{{ 'APP.MENU.REGISTER' | translate }}</button>
+            <button mat-button routerLink="auth" [queryParams]="{mode: 'login'}">{{ 'APP.MENU.LOGIN' | translate }}</button>
+            <button mat-button routerLink="auth" [queryParams]="{mode: 'register'}">{{ 'APP.MENU.REGISTER' | translate }}</button>
         </div>
         <span class="spacer" fxHide.lt-md></span>
         <button mat-icon-button
