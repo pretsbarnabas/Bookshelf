@@ -6,8 +6,8 @@ export interface UserRegistrationFormModel {
 
 export interface UserRegistrationModel {
     username: string,
-    email: string,
     password: string,
+    email: string,
     role: 'user'
 }
 
@@ -18,6 +18,7 @@ export interface UserLoginModel {
 
 export interface UserLoggedInModel {
     username: string,
-    email: string
+    email: string,
+    token: string,
     role: 'user' | 'editor' | 'admin'
 }

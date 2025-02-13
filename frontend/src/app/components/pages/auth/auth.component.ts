@@ -80,9 +80,9 @@ export class AuthComponent {
                     this.authService.register({
                         username: this.model.name,
                         email: this.model.email,
-                        password: this.model.passwordGroup[0],
+                        password: this.model.passwordGroup.password,
                         role: 'user'
-                    });
+                    });                                        
                 }
                 this.router.navigate(['home']);         
             }, 3000);   
