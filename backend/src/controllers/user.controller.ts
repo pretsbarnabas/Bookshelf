@@ -239,21 +239,22 @@ export class UserController{
             const updates = req.body
             const allowedFields = ["username","password","email","booklist"]
             if(!user) return res.status(404).json({message: "User not found"})
-                for (const key of Object.keys(updates)) {
-                    if (!allowedFields.includes(key)) {
-                        return res.status(400).json({ message: `Cannot update ${key} field` });
+            for (const key of Object.keys(updates)) {
+                if (!allowedFields.includes(key)) {
+                    return res.status(400).json({ message: `Cannot update ${key} field` });
+                }
+                if (key === "email") {
+                    if (!tools.IsValidEmail(updates[key])) {
+                        return res.status(400).json({ message: "Invalid email format" });
                     }
-            
-                    if (key === "email") {
-                        if (!tools.IsValidEmail(updates[key])) {
-                            return res.status(400).json({ message: "Invalid email format" });
-                        }
-                    } else if (key === "password") {
-                        const newPassHash = await UserController.hashPassword(updates[key]);
-                        user["password_hashed"] = newPassHash;
-                    } else {
-                        user[key] = updates[key];
-                    }
+                } 
+                if (key === "password") {
+                    const newPassHash = await UserController.hashPassword(updates[key]);
+                    user["password_hashed"] = newPassHash;
+                }
+                else {
+                    user[key] = updates[key];
+                }
             }
             user._updateContext = "update"
             await user.save()
