@@ -10,12 +10,18 @@
             <button mat-button routerLink="home">{{ 'APP.MENU.HOME' | translate }}</button>
             <button mat-button routerLink="books">{{ 'APP.MENU.BOOKS' | translate }}</button>
             <button mat-button routerLink="summaries">{{ 'APP.MENU.SUMMARIES' | translate }}</button>
-            <button mat-button routerLink="mylist">{{ 'APP.MENU.MYLIST' | translate }}</button>
+            @if(authService.loggedInUser && ['user', 'editor', 'admin'].includes(authService.loggedInUser.role)){
+                <button mat-button routerLink="mylist">{{ 'APP.MENU.MYLIST' | translate }}</button>
+            }
         </div>
         <span class="spacer-center"></span>
         <div fxHide.lt-md>
-            <button mat-button routerLink="auth" [queryParams]="{mode: 'login'}">{{ 'APP.MENU.LOGIN' | translate }}</button>
-            <button mat-button routerLink="auth" [queryParams]="{mode: 'register'}">{{ 'APP.MENU.REGISTER' | translate }}</button>
+            @if(!authService.loggedInUser){
+                <button mat-button routerLink="auth" [queryParams]="{mode: 'login'}">{{ 'APP.MENU.LOGIN' | translate }}</button>
+                <button mat-button routerLink="auth" [queryParams]="{mode: 'register'}">{{ 'APP.MENU.REGISTER' | translate }}</button>
+            } @else {
+                <button mat-button (click)="authService.logOut()">logout</button>
+            }
         </div>
         <span class="spacer" fxHide.lt-md></span>
         <button mat-icon-button

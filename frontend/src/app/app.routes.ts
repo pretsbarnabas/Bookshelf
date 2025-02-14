@@ -7,6 +7,7 @@ import { MylistComponent } from './components/pages/mylist/mylist.component';
 import { ProfileComponent } from './components/pages/profile/profile.component';
 import { BookItemComponent } from './components/pages/book-item/book-item.component';
 import { SummaryItemComponent } from './components/pages/summary-item/summary-item.component';
+import { authGuard } from './utilities/auth.guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -14,9 +15,9 @@ export const routes: Routes = [
     // menubar routes
     { path: 'books', component: BooksComponent },
     { path: 'summaries', component: SummariesComponent },
-    { path: 'mylist', component: MylistComponent },
-    { path: 'auth', component: AuthComponent },
-    { path: 'profile', component: ProfileComponent },
+    { path: 'mylist', component: MylistComponent, canActivate: [authGuard] },
+    { path: 'auth', component: AuthComponent, canActivate: [authGuard] },
+    { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
     // non-visible routes
     { path: 'book-item', component: BookItemComponent },
     { path: 'summary-item', component: SummaryItemComponent },

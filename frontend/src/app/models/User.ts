@@ -1,5 +1,5 @@
 export interface UserRegistrationFormModel {
-    name: string,
+    username: string,
     email: string,
     passwordGroup: any
 }
@@ -12,13 +12,16 @@ export interface UserRegistrationModel {
 }
 
 export interface UserLoginModel {
-    email: string,
+    username: string,
     password: string
 }
 
 export interface UserLoggedInModel {
-    username: string,
-    email: string,
-    token: string,
+    username: string
+    email: string
     role: 'user' | 'editor' | 'admin'
+    booklist: any[]
+    created_at: string
+    updated_at: string
+    last_login: string
 }

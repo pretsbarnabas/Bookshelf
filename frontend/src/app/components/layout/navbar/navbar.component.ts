@@ -10,6 +10,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { TranslationService } from '../../../services/translation.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
+import { AuthService } from '../../../services/auth.service';
 
 
 @Component({
@@ -54,7 +55,8 @@ export class NavbarComponent {
     @Output() sidenavToggleClicked = new EventEmitter<void>();
 
     constructor(
-        private translationService: TranslationService
+        private translationService: TranslationService,
+        public authService: AuthService
     ) { }
 
     localizationToggleValue: string = "en";

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { firstValueFrom } from "rxjs";
 import { TranslationService } from './translation.service';
-import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Injectable({
     providedIn: 'root'
@@ -25,7 +25,7 @@ export class FormService {
     async getRegistrationForm(): Promise<FormlyFieldConfig[]> {
         return [
             {
-                key: 'name',
+                key: 'username',
                 type: 'input',
                 templateOptions: {
                     label: await firstValueFrom(this.translationService.service.get('AUTH.FIELDS.NAME')),
@@ -112,24 +112,18 @@ export class FormService {
     async getLoginForm(): Promise<FormlyFieldConfig[]> {
         return [
             {
-                key: 'email',
+                key: 'username',
                 type: 'input',
                 templateOptions: {
-                    label: await firstValueFrom(this.translationService.service.get('AUTH.FIELDS.EMAIL')),
-                    placeholder: await firstValueFrom(this.translationService.service.get('AUTH.PLACEHOLDERS.EMAIL')),
+                    label: await firstValueFrom(this.translationService.service.get('AUTH.FIELDS.NAME')),
+                    placeholder: await firstValueFrom(this.translationService.service.get('AUTH.PLACEHOLDERS.NAME')),
                     required: true,
                 },
                 validation: {
                     messages: {
-                        required: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.EMAIL.REQUIRED')),
-                        email: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.EMAIL.INCORRECT'))
+                        required: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.NAME.REQUIRED')),
                     }
-                },
-                validators: {
-                    email: (control: AbstractControl) => {
-                        return (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/).test(control.value);
-                    }
-                },
+                }
             },
             {
                 key: 'password',

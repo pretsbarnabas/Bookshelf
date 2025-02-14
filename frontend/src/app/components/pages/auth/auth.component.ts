@@ -15,6 +15,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserLoginModel, UserRegistrationFormModel, UserRegistrationModel } from '../../../models/User';
 import { AuthService } from '../../../services/auth.service';
+import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 
 @Component({
     selector: 'app-auth',
@@ -48,9 +49,11 @@ export class AuthComponent {
     model: UserLoginModel | UserRegistrationFormModel | undefined;
     fields: FormlyFieldConfig[] = [];
 
+    errorMessage: string = '';
+
     async ngOnInit() {
         this.route.queryParamMap.subscribe((params) => {
-            if(!['register', 'login'].includes(params.get('mode')!)){
+            if (!['register', 'login'].includes(params.get('mode')!)) {
                 this.router.navigate([], {
                     queryParams: { mode: 'login' },
                     queryParamsHandling: 'merge',
@@ -68,35 +71,67 @@ export class AuthComponent {
 
     onSubmit() {
         if (this.form.valid) {
+            this.errorMessage = '';
             console.log(this.model);
             this.spinner.show();
-            // Temporary
-            setTimeout(() => {
-                this.spinner.hide();
-                if (this.mode === 'login')
-                    this.authService.logIn(this.model as UserLoginModel);
-                else if (this.mode === 'register') {
-                    this.model = this.model as UserRegistrationFormModel;
-                    this.authService.register({
-                        username: this.model.name,
-                        email: this.model.email,
-                        password: this.model.passwordGroup.password,
-                        role: 'user'
-                    });                                        
-                }
-                this.router.navigate(['home']);         
-            }, 3000);   
+            if (this.mode === 'login') {
+                this.logIn(this.model as UserLoginModel);
+            }
+            else if (this.mode === 'register') {
+                const user = this.model as UserRegistrationFormModel;
+                this.register({
+                    username: user.username,
+                    email: user.email,
+                    password: user.passwordGroup.password,
+                    role: 'user'
+                })
+            }
         }
+        console.log(this.errorMessage);
+    }
+
+    logIn(_user: UserLoginModel) {
+        this.authService.logIn(_user).subscribe({
+            next: async (result: boolean) => {
+                if (!result)
+                    this.errorMessage = await firstValueFrom(this.translationService.service.get('AUTH.EMSG.UNEXPECTED'))
+                else {
+                    if (this.authService.setLoggedInUser()) {
+                        this.spinner.hide();
+                    } else {
+                        this.spinner.hide();
+                        this.router.navigate(['home']);
+                        this.errorMessage = await firstValueFrom(this.translationService.service.get('AUTH.EMSG.UNEXPECTED'))
+                    }
+                }
+            },
+            error: (err: Error) => {
+                this.errorMessage = err.message;
+            }
+        })
+    }
+
+    register(_model: UserRegistrationModel) {
+        this.authService.register(_model).subscribe({
+            next: (model: any) => {
+                console.log('Registration succesful');
+                this.logIn({ username: _model.username, password: _model.password });
+            },
+            error: (err: Error) => {
+                this.errorMessage = err.message;
+                this.spinner.hide();
+            }
+        });
     }
 
     getForm() {
         this.form = new FormGroup({})
         if (this.mode === 'login') {
             this.formService.getLoginForm().then((value) => this.fields = value);
-            this.model = { email: '', password: '' }
+            this.model = { username: '', password: '' }
         }
         else if (this.mode === 'register') {
-            this.model = { name: '', email: '', passwordGroup: '' }
+            this.model = { username: '', email: '', passwordGroup: '' }
             this.formService.getRegistrationForm().then((value) => this.fields = value);
         }
     }

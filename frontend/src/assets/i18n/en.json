@@ -6,7 +6,8 @@
             "SUMMARIES": "Summaries",
             "MYLIST": "Mylist",
             "LOGIN": "Login",
-            "REGISTER": "Register"
+            "REGISTER": "Register",
+            "LOGOUT": "Logout"
         },
         "SPINNER": "Loading..."
     },
@@ -20,7 +21,7 @@
         },
         "FIELDS":{
             "EMAIL": "Email address",
-            "NAME": "Name",
+            "NAME": "Username",
             "PASSWORD": "Password",
             "PASSWORD_AGAIN": "Confirm password"
         },
@@ -30,8 +31,8 @@
         },
         "EMSG": {
             "NAME":{
-                "REQUIRED": "Name field is required",
-                "MINLENGTH": "Name must be at lest 3 characters"
+                "REQUIRED": "Username field is required",
+                "MINLENGTH": "Username must be at lest 3 characters"
             },
             "EMAIL": {
                 "REQUIRED": "Email field is required",
@@ -44,7 +45,8 @@
             "PASSWORD_AGAIN": {
                 "REQUIRED": "This field is required",
                 "PASSWORD_MISMATCH": "Passwords do not match"
-            }
+            },
+            "UNEXPECTED": "Unexpected error occured"
         },
         "SUBMIT":{
             "LOGIN": "Login",
