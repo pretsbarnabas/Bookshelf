@@ -70,8 +70,6 @@ export class AuthService {
         if (this.loggedInUser) {
             this.loggedInUser = null;
         }
-        console.log(this.loggedInUser);
-        
         this.router.navigate(['home']);
     }
 
@@ -87,7 +85,12 @@ export class AuthService {
                 this.loggedInUser = result;
                 console.log(this.loggedInUser);
                 return true;
-            })
+            }),
+            error: (err: Error) =>{
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('isLoggedIn');
+                this.loggedInUser = null;
+            }
         })
     }
 
