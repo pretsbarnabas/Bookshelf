@@ -37,6 +37,6 @@ export class AppComponent {
 
     
     ngOnInit() {
-        this.authService.checkLogin();
+        this.authService.setLoggedInUser();
     }
 }

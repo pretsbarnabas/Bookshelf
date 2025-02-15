@@ -16,12 +16,20 @@ export const routes: Routes = [
     { path: 'books', component: BooksComponent },
     { path: 'summaries', component: SummariesComponent },
     { path: 'mylist', component: MylistComponent, canActivate: [authGuard] },
-    { path: 'auth', component: AuthComponent, canActivate: [authGuard] },
+    {
+        path: 'auth', canActivate: [authGuard],
+        children: [
+            {path: '', redirectTo: 'login', pathMatch: 'full'},
+            {path: 'login', component: AuthComponent},
+            {path: 'register', component: AuthComponent},                    
+            {path: '**', redirectTo: 'login', pathMatch: 'full'},
+        ]
+    },
     { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
     // non-visible routes
     { path: 'book-item', component: BookItemComponent },
     { path: 'summary-item', component: SummaryItemComponent },
     // fallback
-    { path: '**', component: HomeComponent },
+    { path: '**', redirectTo: '/home', pathMatch: 'full' },
 
 ];

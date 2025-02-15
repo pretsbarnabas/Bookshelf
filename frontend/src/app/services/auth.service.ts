@@ -17,25 +17,34 @@ export class AuthService {
         private router: Router
     ) { }
 
-    loggedInUser: UserLoggedInModel | null = null;
+    private loggedInUser: UserLoggedInModel | null = null;
+
+    get getloggedInUser() : UserLoggedInModel | null{
+        return this.loggedInUser;
+    }
 
     logIn(_user: UserLoginModel): Observable<boolean> {
         return this.http.post<{ token: string }>(`${this.configService.get('API_URL')}/api/login`, _user).pipe(
             map((result: { token: string }) => {
                 const token = result.token;
                 localStorage.setItem('authToken', token);
-                localStorage.setItem('isLoggedIn', '1');
                 return true;
             })
         );
     }
 
     getTokenId(): string | undefined {
+        const decodedToken: any = this.decodeToken();
+        if(decodedToken)
+            return decodedToken.id;
+        return undefined;   
+    }
+
+    decodeToken(): any {
         const token = localStorage.getItem('authToken');
         if (!token) return undefined;
 
-        const decodedToken: any = jwtDecode(token);
-        return decodedToken.id;
+        return jwtDecode(token);
     }
 
     setLoggedInUser(): boolean {
@@ -43,9 +52,9 @@ export class AuthService {
         if (!tokenId) return false;
 
         try {
-            this.getLoggedInUser(tokenId).subscribe({
-                next:((result: any) => {  
-                                  
+            this.getUserFromToken(tokenId).subscribe({
+                next: ((result: any) => {
+
                     delete result._id;
                     delete result.password_hashed;
                     this.loggedInUser = result;
@@ -56,42 +65,22 @@ export class AuthService {
             return false;
         } catch (error) {
             console.error('Invalid token', error);
+            localStorage.removeItem('authToken');
+            this.loggedInUser = null;
             return false;
         }
     }
 
-    getLoggedInUser(_id: string): Observable<Object> {
+    getUserFromToken(_id: string): Observable<Object> {
         return this.http.get<Object>(`${this.configService.get('API_URL')}/api/users/${_id}`);
     }
 
     logOut() {
         localStorage.removeItem('authToken');
-        localStorage.removeItem('isLoggedIn');
         if (this.loggedInUser) {
             this.loggedInUser = null;
         }
         this.router.navigate(['home']);
-    }
-
-    checkLogin() {
-        const tokenId = this.getTokenId();
-        if (!tokenId) return;
-
-        this.getLoggedInUser(tokenId).subscribe({
-            next:((result: any) => {  
-                              
-                delete result._id;
-                delete result.password_hashed;
-                this.loggedInUser = result;
-                console.log(this.loggedInUser);
-                return true;
-            }),
-            error: (err: Error) =>{
-                localStorage.removeItem('authToken');
-                localStorage.removeItem('isLoggedIn');
-                this.loggedInUser = null;
-            }
-        })
     }
 
     register(_user: UserRegistrationModel): Observable<Object> {

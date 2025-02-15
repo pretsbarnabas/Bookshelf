@@ -17,19 +17,19 @@
                 <mat-icon>notes</mat-icon>
                 {{ 'APP.MENU.SUMMARIES' | translate}}
             </button>
-            @if(authService.loggedInUser && ['user', 'editor', 'admin'].includes(authService.loggedInUser.role)){
+            @if(authService.getloggedInUser && ['user', 'editor', 'admin'].includes(authService.getloggedInUser.role)){
                 <button mat-button routerLink="mylist" (click)="drawer.opened=false">
                     <mat-icon>list_alt</mat-icon>
                     {{ 'APP.MENU.MYLIST' | translate}}
                 </button>
             }
             <hr>
-            @if(!authService.loggedInUser){
-                <button mat-button routerLink="auth" [queryParams]="{mode: 'login'}" (click)="drawer.opened=false">
+            @if(!authService.getloggedInUser){
+                <button mat-button routerLink="auth/login" (click)="drawer.opened=false">
                     <mat-icon>login</mat-icon>
                     {{ 'APP.MENU.LOGIN' | translate}}
                 </button>
-                <button mat-button routerLink="auth" [queryParams]="{mode: 'register'}" (click)="drawer.opened=false">
+                <button mat-button routerLink="auth/register" (click)="drawer.opened=false">
                     <mat-icon>person_add</mat-icon>
                     {{ 'APP.MENU.REGISTER' | translate}}
                 </button>

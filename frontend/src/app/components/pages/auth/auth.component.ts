@@ -52,17 +52,13 @@ export class AuthComponent {
     errorMessage: string = '';
 
     async ngOnInit() {
-        this.route.queryParamMap.subscribe((params) => {
-            if (!['register', 'login'].includes(params.get('mode')!)) {
-                this.router.navigate([], {
-                    queryParams: { mode: 'login' },
-                    queryParamsHandling: 'merge',
-                });
-            } else {
-                this.mode = params.get('mode')! === 'login' ? 'login' : 'register';
-                // console.log(this.mode);
-                this.getForm();
-            }
+        this.route.url.subscribe((segments) => {
+            const childRoute = segments[0]?.path;
+            if (childRoute === 'register')
+                this.mode = 'register';
+            else
+                this.mode = 'login';
+            this.getForm();
         });
         this.translationService.currentLanguage$.subscribe(() => {
             this.getForm();
@@ -137,10 +133,6 @@ export class AuthComponent {
     }
 
     switchForms(_mode: 'login' | 'register') {
-        this.mode = _mode;
-        this.router.navigate([], {
-            queryParams: { mode: this.mode },
-            queryParamsHandling: 'merge',
-        });
+        this.router.navigate([`auth/${_mode}`]);
     }
 }
