@@ -11,8 +11,8 @@ import { authGuard } from './utilities/auth.guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: 'home', component: HomeComponent },
     // menubar routes
+    { path: 'home', component: HomeComponent },
     { path: 'books', component: BooksComponent },
     { path: 'summaries', component: SummariesComponent },
     { path: 'mylist', component: MylistComponent, canActivate: [authGuard] },
@@ -25,11 +25,10 @@ export const routes: Routes = [
             {path: '**', redirectTo: 'login', pathMatch: 'full'},
         ]
     },
-    { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
     // non-visible routes
+    { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
     { path: 'book-item', component: BookItemComponent },
     { path: 'summary-item', component: SummaryItemComponent },
     // fallback
     { path: '**', redirectTo: '/home', pathMatch: 'full' },
-
 ];

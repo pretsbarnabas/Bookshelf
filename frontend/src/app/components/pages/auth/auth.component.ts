@@ -124,15 +124,17 @@ export class AuthComponent {
         this.form = new FormGroup({})
         if (this.mode === 'login') {
             this.formService.getLoginForm().then((value) => this.fields = value);
-            this.model = { username: '', password: '' }
         }
         else if (this.mode === 'register') {
-            this.model = { username: '', email: '', passwordGroup: '' }
             this.formService.getRegistrationForm().then((value) => this.fields = value);
         }
     }
-
+    
     switchForms(_mode: 'login' | 'register') {
+        if(this.mode === 'login')
+            this.model = { username: '', email: '', passwordGroup: '' }
+        else if (this.mode === 'register')
+            this.model = { username: '', password: '' }            
         this.router.navigate([`auth/${_mode}`]);
     }
 }

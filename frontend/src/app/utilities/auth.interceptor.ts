@@ -8,7 +8,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
     const token = localStorage.getItem('authToken');    
 
-    if(token && localStorage.getItem('isLoggedIn') == '1') {        
+    if(token) {        
         const clonedRequest = req.clone({
             setHeaders: { Authorization: token }
             

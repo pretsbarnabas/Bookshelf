@@ -12,7 +12,6 @@
             <button mat-button routerLink="summaries">{{ 'APP.MENU.SUMMARIES' | translate }}</button>
             @if(authService.getloggedInUser && ['user', 'editor', 'admin'].includes(authService.getloggedInUser.role)){
                 <button mat-button routerLink="mylist">{{ 'APP.MENU.MYLIST' | translate }}</button>
-                <button mat-button routerLink="profile">profile</button>
             }
         </div>
         <span class="spacer-center"></span>
