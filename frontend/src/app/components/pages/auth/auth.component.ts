@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatCardModule } from '@angular/material/card';
 import { FormGroup } from '@angular/forms';
@@ -16,6 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserLoginModel, UserRegistrationFormModel, UserRegistrationModel } from '../../../models/User';
 import { AuthService } from '../../../services/auth.service';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-auth',
@@ -42,6 +43,8 @@ export class AuthComponent {
         private authService: AuthService,
         private route: ActivatedRoute
     ) { }
+
+    private snackBar = inject(MatSnackBar);
 
     mode: 'login' | 'register' = 'login';
 
@@ -86,25 +89,44 @@ export class AuthComponent {
         console.log(this.errorMessage);
     }
 
-    logIn(_user: UserLoginModel) {
+    async logIn(_user: UserLoginModel) {
         this.authService.logIn(_user).subscribe({
             next: async (result: boolean) => {
                 if (!result)
                     this.errorMessage = await firstValueFrom(this.translationService.service.get('AUTH.EMSG.UNEXPECTED'))
                 else {
+                    console.log(this.authService.setLoggedInUser());
+                    
                     if (this.authService.setLoggedInUser()) {
+                        const lastLoggedInUser: string | null = this.authService.shouldGreetUser()
+                        console.log(lastLoggedInUser);
+                        if(lastLoggedInUser)
+                            await this.greetUser(lastLoggedInUser);
+                        this.router.navigate(['home']);
                         this.spinner.hide();
                     } else {
                         this.spinner.hide();
-                        this.router.navigate(['home']);
                         this.errorMessage = await firstValueFrom(this.translationService.service.get('AUTH.EMSG.UNEXPECTED'))
                     }
                 }
             },
             error: (err: Error) => {
                 this.errorMessage = err.message;
+                this.spinner.hide();
             }
         })
+    }
+
+    async greetUser(username: string){
+        this.snackBar.open(
+            `${await firstValueFrom(this.translationService.service.get('AUTH.SNACKBAR.WELCOME'))} ${username}!`,
+            await firstValueFrom(this.translationService.service.get('AUTH.SNACKBAR.CLOSE')),
+            {
+                horizontalPosition: 'center',
+                verticalPosition: 'top',
+                duration: 5000
+            }
+        )
     }
 
     register(_model: UserRegistrationModel) {
@@ -121,20 +143,18 @@ export class AuthComponent {
     }
 
     getForm() {
-        this.form = new FormGroup({})
+        // this.form = new FormGroup({})
         if (this.mode === 'login') {
             this.formService.getLoginForm().then((value) => this.fields = value);
+            this.model = { username: '', password: '' }            
         }
         else if (this.mode === 'register') {
+            this.model = { username: '', email: '', passwordGroup: '' }
             this.formService.getRegistrationForm().then((value) => this.fields = value);
         }
     }
     
     switchForms(_mode: 'login' | 'register') {
-        if(this.mode === 'login')
-            this.model = { username: '', email: '', passwordGroup: '' }
-        else if (this.mode === 'register')
-            this.model = { username: '', password: '' }            
         this.router.navigate([`auth/${_mode}`]);
     }
 }

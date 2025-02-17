@@ -54,6 +54,10 @@
             "NO_ACCOUNT": "Nincs fiókom",
             "BACK": "Vissza a bejelentkezésre",
             "REGISTER": "Regisztrálás"
-        }  
+        },
+        "SNACKBAR": {
+            "WELCOME": "Üdvözöljük",
+            "CLOSE": "Bezárás"
+        }
     }
 }

@@ -53,6 +53,10 @@
             "NO_ACCOUNT": "I do not have an account",
             "BACK": "Back to login",
             "REGISTER": "Register"
+        },
+        "SNACKBAR": {
+            "WELCOME": "Welcome",
+            "CLOSE": "Close"
         }
     }
 }

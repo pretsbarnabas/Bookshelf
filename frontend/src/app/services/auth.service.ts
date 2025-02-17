@@ -18,13 +18,15 @@ export class AuthService {
     ) { }
 
     private loggedInUser: UserLoggedInModel | null = null;
+    lastLoggedInUser: string | null = null;
 
     get getloggedInUser() : UserLoggedInModel | null{
         return this.loggedInUser;
     }
 
-    logIn(_user: UserLoginModel): Observable<boolean> {
+    logIn(_user: UserLoginModel): Observable<boolean> { 
         return this.http.post<{ token: string }>(`${this.configService.get('API_URL')}/api/login`, _user).pipe(
+
             map((result: { token: string }) => {
                 const token = result.token;
                 localStorage.setItem('authToken', token);
@@ -48,7 +50,7 @@ export class AuthService {
     }
 
     setLoggedInUser(): boolean {
-        const tokenId = this.getTokenId();
+        const tokenId = this.getTokenId();        
         if (!tokenId) return false;
 
         try {
@@ -61,14 +63,27 @@ export class AuthService {
                     console.log(this.loggedInUser);
                     return true;
                 })
-            });
-            return false;
+            });   
+            return true;
         } catch (error) {
             console.error('Invalid token', error);
             localStorage.removeItem('authToken');
             this.loggedInUser = null;
             return false;
         }
+    }
+
+    shouldGreetUser(): string | null{
+        const username = this.decodeToken().username;
+        this.lastLoggedInUser = sessionStorage.getItem('lastLoggedInUser');
+        if(this.lastLoggedInUser === username){
+            return null;
+        }
+        else if(username){
+            sessionStorage.setItem('lastLoggedInUser', username);
+            return username;
+        }
+        return null;
     }
 
     getUserFromToken(_id: string): Observable<Object> {
