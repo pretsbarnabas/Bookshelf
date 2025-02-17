@@ -10,11 +10,11 @@
     transform: scale(1.2);
 }
 
-.app-icon{
+.app-icon {
     transform: scale(.6);
 }
 
-.theme-holder{
+.theme-holder {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,10 +27,24 @@
 
 button[routerLink] {
     transition: transform 0.2s ease-in-out;
-  
+
     &:hover {
-      transform: scale(1.1);
-      text-decoration: overline;
+        transform: scale(1.1);
+        text-decoration: overline;
     }
-  }
-  
+}
+
+body{
+    mat-toolbar {
+        -webkit-box-shadow: 0 4px 1px rgba(0, 0, 0, 0.2), 0 -4px 1px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 4px 1px rgba(0, 0, 0, 0.2), 0 -4px 1px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 1px rgba(0, 0, 0, 0.2), 0 -4px 1px rgba(0, 0, 0, 0.2);
+    }
+    
+    &.darkMode mat-toolbar {
+        -webkit-box-shadow: 0 2px 1px rgba(255, 255, 255, 0.5), 0 -2px 1px rgba(255, 255, 255, 0.5);
+        -moz-box-shadow: 0 2px 1px rgba(255, 255, 255, 0.5), 0 -2px 1px rgba(255, 255, 255, 0.5);
+        box-shadow: 0 2px 1px rgba(255, 255, 255, 0.5), 0 -2px 1px rgba(255, 255, 255, 0.5);
+    }
+    
+}
