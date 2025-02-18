@@ -1,14 +1,92 @@
 <div class="wrapper">
     <div class="wrapper-content">
-        <h1 class="text-center">Books</h1>
-        <div class="d-flex justify-content-center">
-            <mat-form-field class="w-50 m-5" >
-                <input matInput type="search">
-            </mat-form-field>
-            <button mat-fab extended class="m-5">
-                <mat-icon>search</mat-icon>
-                Search
-              </button>
+        <div class="d-flex flex-column">
+            <div id="Searchbar" class="d-flex justify-content-center">
+                <mat-form-field class="w-50 m-5" >
+                    <input matInput type="search">
+                </mat-form-field>
+                <button mat-fab extended class="m-5">
+                    <mat-icon>search</mat-icon>
+                    Search
+                  </button>
+            </div>
+            <div id="Filters" class="d-flex justify-content-center">
+                <button mat-fab class="m-5">
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+                <button mat-fab class="m-5">
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+                <button mat-fab class="m-5">
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+                <button mat-fab class="m-5">
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+                <button mat-fab class="m-5">
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+                <button mat-fab class="m-5">
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+                <button mat-fab class="m-5">
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+                <button mat-fab class="m-5">
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+            </div>
+            <div id="Books" class="d-flex flex-column justify-content-center">
+
+                <div class="container">
+                    <div class="rightside"></div>
+                    <div class="centertriangle"></div>
+                    <div class="leftside"></div>
+                </div>
+            </div>
         </div>
         
 </div>
+
+
+<style>
+    .container {    
+        position: relative;
+        width: 60vw;
+        height: 10vh;
+    }
+    .leftside{
+        position: absolute;
+        top: 0;
+        right: 30%;
+        margin: 0;
+        padding: 0;
+        width: 70%;
+        height: 100%;
+        background-color: blue; /* Change color as needed */
+        z-index: 1;
+    }
+    .centertriangle{
+        position: absolute;
+        top: 0;
+        right: 30%;
+        margin: 0;
+        padding: 0;
+        width: 10%;
+        height: 100%;
+        background-color: red; /* Change color as needed */
+        clip-path: polygon(100% 0%, 100% 100%, 0% 100%);
+        z-index: 2;
+    }
+    .rightside {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        width: 30%;
+        height: 100%;
+        background-color: red;
+        z-index: 1;
+    }
+  </style>
