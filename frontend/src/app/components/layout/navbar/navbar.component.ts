@@ -1,16 +1,19 @@
 import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
+import { AuthService } from '../../../services/auth.service';
+// Angular Material
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { FlexLayoutModule } from "@angular/flex-layout";
-import { RouterModule } from '@angular/router';
+import { FlexLayoutModule, MediaChange, MediaObserver } from "@angular/flex-layout";
 import { TranslatePipe } from '@ngx-translate/core';
 import { TranslationService } from '../../../services/translation.service';
-import { MatMenuModule } from '@angular/material/menu';
-import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
-import { AuthService } from '../../../services/auth.service';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { map } from 'rxjs';
 
 
 @Component({
@@ -24,6 +27,8 @@ import { AuthService } from '../../../services/auth.service';
         MatSlideToggleModule,
         MatButtonToggleModule,
         MatMenuModule,
+        MatMenuTrigger,
+        MatTooltipModule,
         TranslatePipe
     ],
     templateUrl: './navbar.component.html',
@@ -56,18 +61,35 @@ export class NavbarComponent {
 
     constructor(
         private translationService: TranslationService,
-        public authService: AuthService
-    ) { }
+        public authService: AuthService,
+        private router: Router,
+        private mediaObserver: MediaObserver
+    ) {
+        this.router.events.subscribe((event) => {
+            if (event instanceof NavigationEnd) {
+                this.activeRoute = event.urlAfterRedirects;
+            }
+        });
+    }
+
 
     localizationToggleValue: string = "en";
     isdarkModeOn = false;
 
     settingsIconState = 'default';
+    activeRoute: string = '';
+    isMdOrBeyond: boolean = false;
 
     ngOnInit() {
         if (window.matchMedia('(prefers-color-scheme: dark)').matches)
             this.changeTheme()
         this.localizationToggleValue = this.translationService.checkPreferred()
+        this.mediaObserver.asObservable().pipe(
+            map((changes: MediaChange[]) => {
+                const isMdOrBeyond = changes.some(change => ['md', 'lg', 'xl'].includes(change.mqAlias));
+                this.isMdOrBeyond = isMdOrBeyond;
+            })
+        ).subscribe();
     }
 
     changeTheme() {
@@ -82,5 +104,9 @@ export class NavbarComponent {
     changeLanguage(event: any) {
         this.localizationToggleValue = event.value;
         this.translationService.changeLanguage(this.localizationToggleValue);
+    }
+
+    isActive(route: string): boolean {
+        return this.activeRoute.startsWith(route);
     }
 }

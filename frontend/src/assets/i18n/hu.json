@@ -7,7 +7,16 @@
             "MYLIST": "Listám",
             "LOGIN": "Bejelentkezés",
             "REGISTER": "Regisztráció",
-            "LOGOUT": "Kijelentkezés"
+            "SETTINGS": {
+                "THEME": "Téma",
+                "LANG": "Nyelv",
+                "TOOLTIP" : "Beállítások"
+            },
+            "PROFILE": {
+                "PAGE": "Profil",
+                "LOGOUT": "Kijelentkezés"
+            }
+
         },
         "SPINNER": "Folyamatban..."
     },

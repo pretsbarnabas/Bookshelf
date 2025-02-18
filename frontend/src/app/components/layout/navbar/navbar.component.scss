@@ -25,26 +25,34 @@
     transform: scale(1.5);
 }
 
-button[routerLink] {
+button[routerLink]{
     transition: transform 0.2s ease-in-out;
 
     &:hover {
         transform: scale(1.1);
         text-decoration: overline;
     }
+
+    &:disabled {
+        background-color: inherit;
+        color: inherit;
+        font-weight: bold;
+        text-decoration: overline;
+    }
 }
 
-body{
+
+body {
     mat-toolbar {
         -webkit-box-shadow: 0 4px 1px rgba(0, 0, 0, 0.2), 0 -4px 1px rgba(0, 0, 0, 0.2);
         -moz-box-shadow: 0 4px 1px rgba(0, 0, 0, 0.2), 0 -4px 1px rgba(0, 0, 0, 0.2);
         box-shadow: 0 4px 1px rgba(0, 0, 0, 0.2), 0 -4px 1px rgba(0, 0, 0, 0.2);
     }
-    
+
     &.darkMode mat-toolbar {
         -webkit-box-shadow: 0 2px 1px rgba(255, 255, 255, 0.5), 0 -2px 1px rgba(255, 255, 255, 0.5);
         -moz-box-shadow: 0 2px 1px rgba(255, 255, 255, 0.5), 0 -2px 1px rgba(255, 255, 255, 0.5);
         box-shadow: 0 2px 1px rgba(255, 255, 255, 0.5), 0 -2px 1px rgba(255, 255, 255, 0.5);
     }
-    
+
 }

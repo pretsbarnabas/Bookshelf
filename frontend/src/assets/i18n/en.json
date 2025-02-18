@@ -7,7 +7,15 @@
             "MYLIST": "Mylist",
             "LOGIN": "Login",
             "REGISTER": "Register",
-            "LOGOUT": "Logout"
+            "SETTINGS": {
+                "THEME": "Theme",
+                "LANG": "Language",
+                "TOOLTIP" : "Settings"
+            },
+            "PROFILE": {
+                "PAGE": "Profile",
+                "LOGOUT": "Logout"
+            }
         },
         "SPINNER": "Loading..."
     },
