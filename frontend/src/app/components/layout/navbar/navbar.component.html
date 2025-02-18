@@ -35,7 +35,7 @@
                     <mat-icon>person</mat-icon>
                     {{ 'APP.MENU.PROFILE.PAGE' | translate }}
                 </button>                
-                <button mat-menu-item routerLink>
+                <button mat-menu-item routerLink (click)="this.authService.logOut()">
                     <mat-icon>exit_to_app</mat-icon>
                     {{ 'APP.MENU.PROFILE.LOGOUT' | translate }}
                 </button>
