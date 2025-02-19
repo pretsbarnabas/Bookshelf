@@ -8,6 +8,7 @@ import { ProfileComponent } from './components/pages/profile/profile.component';
 import { BookItemComponent } from './components/pages/book-item/book-item.component';
 import { SummaryItemComponent } from './components/pages/summary-item/summary-item.component';
 import { authGuard } from './utilities/auth.guard';
+import { NotFoundComponent } from './components/pages/not-found/not-found.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -29,6 +30,8 @@ export const routes: Routes = [
     { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
     { path: 'book-item', component: BookItemComponent },
     { path: 'summary-item', component: SummaryItemComponent },
+    { path: '404', component: NotFoundComponent },
     // fallback
-    { path: '**', redirectTo: '/home', pathMatch: 'full' },
+    // { path: '**', redirectTo: '/home', pathMatch: 'full' },
+    { path: '**', redirectTo: '/404', pathMatch: 'full' },
 ];

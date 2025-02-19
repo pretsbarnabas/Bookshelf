@@ -23,7 +23,7 @@ app-root {
     flex-direction: column;
 }
 
-$app-components: "app-auth", "app-home, app-books, app-book-item, app-mylist, app-profile, app-summaries, app-summary-item";
+$app-components: "app-auth, app-home, app-books, app-book-item, app-mylist, app-profile, app-summaries, app-summary-item, app-not-found";
 
 @each $tag in $app-components {
     #{$tag} {
