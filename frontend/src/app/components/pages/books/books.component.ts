@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2, ElementRef, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { FormlyModule } from '@ngx-formly/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -22,5 +22,17 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './books.component.scss'
 })
 export class BooksComponent {
+  @ViewChild('container') container!: ElementRef;
+  @ViewChild('showMoreButton') showMoreButton!: ElementRef;
+
+
+  constructor(private renderer: Renderer2) {}
+
+  showMore() {
+    const containerEl = this.container.nativeElement;
+    const buttonEl = this.showMoreButton.nativeElement;
+    this.renderer.setStyle(containerEl, 'height', '70vh');
+    this.renderer.setStyle(buttonEl, 'transform', 'scaleY(-1)');
+  }
 
 }
