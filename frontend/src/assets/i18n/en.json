@@ -66,5 +66,9 @@
             "WELCOME": "Welcome",
             "CLOSE": "Close"
         }
+    },
+    "404":{
+        "MESSAGE": "This is not the page you are looking for...",
+        "REDIRECT": "Redirecting to home page in:"
     }
 }
