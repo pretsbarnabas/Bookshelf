@@ -23,13 +23,13 @@ body {
     pointer-events: none;
 }
 
-p{
+#quote {
+    font-weight: normal;
+    font-size: 1.5rem;
+    font-style: italic;
+    margin: 1rem;
+}
+
+#redirect{
     font-weight: bold;
-    
-    &.quote {
-        font-weight: normal;
-        font-size: 1.5rem;
-        font-style: italic;
-        margin: 1rem;
-    }
 }

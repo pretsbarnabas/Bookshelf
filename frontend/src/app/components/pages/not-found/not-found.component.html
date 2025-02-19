@@ -5,8 +5,8 @@
             <img src="./assets/images/not-found.png" alt="not-found" class="w-50 my-0 not-found-img" fxHide.gt-sm/>
             <hr class="mt-0 w-25 mx-auto" />
             <h1 class="display-1">404!</h1>
-            <p class="quote"><i>{{ '404.MESSAGE' | translate }}</i></p>
-            <p>{{ '404.REDIRECT' | translate }}</p>
+            <p id="quote"><i>{{ '404.MESSAGE' | translate }}</i></p>
+            <p id="redirect">{{ '404.REDIRECT' | translate }}</p>
             <div class="spinner-wrapper">
                 <mat-progress-spinner
                   [mode]="'determinate'"
