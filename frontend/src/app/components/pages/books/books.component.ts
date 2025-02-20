@@ -27,12 +27,21 @@ export class BooksComponent {
 
 
   constructor(private renderer: Renderer2) {}
-
+  isExpanded = false;
   showMore() {
-    const containerEl = this.container.nativeElement;
-    const buttonEl = this.showMoreButton.nativeElement;
-    this.renderer.setStyle(containerEl, 'height', '70vh');
-    this.renderer.setStyle(buttonEl, 'transform', 'scaleY(-1)');
+    if (!this.isExpanded) {
+      const containerEl = this.container.nativeElement;
+      const buttonEl = this.showMoreButton.nativeElement;
+      this.renderer.setStyle(containerEl, 'height', '700px');
+      this.renderer.setStyle(buttonEl, 'transform', 'scaleY(-1)');
+      this.isExpanded = true;      
+    } else {
+      const containerEl = this.container.nativeElement;
+      const buttonEl = this.showMoreButton.nativeElement;
+      this.renderer.setStyle(containerEl, 'height', '10vh');
+      this.renderer.setStyle(buttonEl, 'transform', 'scaleY(1)');
+      this.isExpanded = false;
+    }
   }
 
 }
