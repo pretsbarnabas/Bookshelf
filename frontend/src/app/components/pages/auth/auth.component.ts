@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild, ViewEncapsulation } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatCardModule } from '@angular/material/card';
 import { FormGroup } from '@angular/forms';
@@ -9,11 +9,12 @@ import { MatInputModule } from '@angular/material/input';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { FormService } from '../../../services/form.service';
 import { TranslationService } from '../../../services/translation.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserLoginModel, UserRegistrationFormModel, UserRegistrationModel } from '../../../models/User';
+import { isUserLoginModel, isUserRegistrationFormModel, UserLoginModel, UserRegistrationFormModel, UserRegistrationModel } from '../../../models/User';
 import { AuthService } from '../../../services/auth.service';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -28,10 +29,12 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
         MatInputModule,
         FormlyMaterialModule,
         ReactiveFormsModule,
-        MatButtonModule
+        MatButtonModule,
+        MatIconModule
     ],
     templateUrl: './auth.component.html',
-    styleUrl: './auth.component.scss'
+    styleUrl: './auth.component.scss',
+    encapsulation: ViewEncapsulation.None
 })
 export class AuthComponent {
 
@@ -52,7 +55,8 @@ export class AuthComponent {
     model: UserLoginModel | UserRegistrationFormModel | undefined;
     fields: FormlyFieldConfig[] = [];
 
-    errorMessage: string = '';
+    errorMessages: Error[] = [];
+    @ViewChild('errorAlert', { static: false }) errorAlert!: ElementRef;
 
     async ngOnInit() {
         this.route.url.subscribe((segments) => {
@@ -69,8 +73,8 @@ export class AuthComponent {
     }
 
     onSubmit() {
+        this.errorMessages = [];
         if (this.form.valid) {
-            this.errorMessage = '';
             console.log(this.model);
             this.spinner.show();
             if (this.mode === 'login') {
@@ -86,38 +90,36 @@ export class AuthComponent {
                 })
             }
         }
-        console.log(this.errorMessage);
     }
 
     async logIn(_user: UserLoginModel) {
         this.authService.logIn(_user).subscribe({
             next: async (result: boolean) => {
                 if (!result)
-                    this.errorMessage = await firstValueFrom(this.translationService.service.get('AUTH.EMSG.UNEXPECTED'))
+                    this.errorMessages = await firstValueFrom(this.translationService.service.get('AUTH.EMSG.UNEXPECTED'))
                 else {
                     console.log(this.authService.setLoggedInUser());
-                    
+
                     if (this.authService.setLoggedInUser()) {
                         const lastLoggedInUser: string | null = this.authService.shouldGreetUser()
                         console.log(lastLoggedInUser);
-                        if(lastLoggedInUser)
+                        if (lastLoggedInUser)
                             await this.greetUser(lastLoggedInUser);
                         this.router.navigate(['home']);
                         this.spinner.hide();
                     } else {
                         this.spinner.hide();
-                        this.errorMessage = await firstValueFrom(this.translationService.service.get('AUTH.EMSG.UNEXPECTED'))
+                        this.errorMessages.push(new Error('UNEXPECTED'))
                     }
                 }
             },
-            error: (err: Error) => {
-                this.errorMessage = err.message;
-                this.spinner.hide();
+            error: async (err: Error) => {
+                this.onError(err);
             }
         })
     }
 
-    async greetUser(username: string){
+    async greetUser(username: string) {
         this.snackBar.open(
             `${await firstValueFrom(this.translationService.service.get('AUTH.SNACKBAR.WELCOME'))} ${username}!`,
             await firstValueFrom(this.translationService.service.get('AUTH.SNACKBAR.CLOSE')),
@@ -129,31 +131,39 @@ export class AuthComponent {
         )
     }
 
-    register(_model: UserRegistrationModel) {
+    async register(_model: UserRegistrationModel) {
         this.authService.register(_model).subscribe({
-            next: (model: any) => {
+            next: async (model: any) => {
                 console.log('Registration succesful');
                 this.logIn({ username: _model.username, password: _model.password });
             },
-            error: (err: Error) => {
-                this.errorMessage = err.message;
-                this.spinner.hide();
+            error: async (err: Error) => {
+                this.onError(err);
             }
         });
     }
 
+    private onError(_error: Error) {
+        this.spinner.hide();
+        this.errorMessages.push(_error);
+        setTimeout(() => {
+            this.errorAlert.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+
     getForm() {
-        // this.form = new FormGroup({})
         if (this.mode === 'login') {
+            if(!isUserLoginModel(this.model))
+                this.model = { username: '', password: '' }
             this.formService.getLoginForm().then((value) => this.fields = value);
-            this.model = { username: '', password: '' }            
         }
         else if (this.mode === 'register') {
-            this.model = { username: '', email: '', passwordGroup: '' }
+            if(!isUserRegistrationFormModel(this.model))
+                this.model = { username: '', email: '', passwordGroup: '' }
             this.formService.getRegistrationForm().then((value) => this.fields = value);
         }
     }
-    
+
     switchForms(_mode: 'login' | 'register') {
         this.router.navigate([`auth/${_mode}`]);
     }

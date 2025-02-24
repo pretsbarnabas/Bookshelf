@@ -54,7 +54,8 @@
                 "REQUIRED": "This field is required",
                 "PASSWORD_MISMATCH": "Passwords do not match"
             },
-            "UNEXPECTED": "Unexpected error occured"
+            "HTTPERRORRESPONSE": "We could not connect to the server.",
+            "UNEXPECTED": "Unexpected error occured."
         },
         "SUBMIT":{
             "LOGIN": "Login",

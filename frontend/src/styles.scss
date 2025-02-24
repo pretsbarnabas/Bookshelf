@@ -2,12 +2,6 @@
 @use '@angular/material' as mat;
 @use 'styles/custom-theme' as custom;
 
-$bg-color-light: #fff;
-$text-color-light: #000;
-
-$bg-color-dark: #333;
-$text-color-dark: #fff;
-
 body {
     margin: 0;
 }
@@ -61,8 +55,8 @@ body {
             density: 0));
 
     & {
-        background-color: $bg-color-light;
-        color: $text-color-light;
+        background-color: custom.$bg-color-light;
+        color: custom.$text-color-light;
     }
 }
 
@@ -73,7 +67,7 @@ body {
         ));
 
     & {
-        background-color: $bg-color-dark;
-        color: $text-color-dark;
+        background-color: custom.$bg-color-dark;
+        color: custom.$text-color-dark;
     }
 }

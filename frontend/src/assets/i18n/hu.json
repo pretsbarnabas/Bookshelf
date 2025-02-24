@@ -56,7 +56,8 @@
                 "REQUIRED": "Mező kitöltése kötelező",
                 "PASSWORD_MISMATCH": "A jelszavak nem egyeznek"
             },
-            "UNEXPECTED": "Váratlan hiba történt"
+            "HTTPERRORRESPONSE": "Nem sikerült a szerverhez kapcsolódni.",
+            "UNEXPECTED": "Váratlan hiba történt."
         },
         "SUBMIT":{
             "LOGIN": "Bejelentkezés",
