@@ -31,7 +31,9 @@ export class BookController{
             }
             if(genre){
                 const genrePath = BookModel.schema.path("genre")
-                if(!genrePath.options.enum.includes(genre)){
+                const genres: string[] = genrePath.options.enum.map(function(genre: string){return genre.toLowerCase()})
+                console.log(genres)
+                if(!genres.includes(genre.toLowerCase())){
                     return res.status(400).json({error: "Invalid genre requested"})
                 }
                 filters.genre = genre
