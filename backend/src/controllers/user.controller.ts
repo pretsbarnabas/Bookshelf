@@ -83,10 +83,10 @@ export class UserController{
             if(email) filters.email = new RegExp(`${email}`,"i")
             if(role) filters.role = role
             
-            if(!minCreate) minCreate = new Date(0).toISOString().slice(0,-5)
-            if(!maxCreate) maxCreate = new Date(Date.now() + 2 * (60*60*1000)).toISOString().slice(0,-5)
-            if(!minUpdate) minUpdate = new Date(0).toISOString().slice(0,-5)
-            if(!maxUpdate) maxUpdate = new Date(Date.now() + 2 * (60*60*1000)).toISOString().slice(0,-5)
+            if(!minCreate) minCreate = tools.minDate()
+            if(!maxCreate) maxCreate = tools.maxDate()
+            if(!minUpdate) minUpdate = tools.minDate()
+            if(!maxUpdate) maxUpdate = tools.maxDate()
 
             if(!tools.isValidISODate(minCreate)|| !tools.isValidISODate(maxCreate) || !tools.isValidISODate(minUpdate || !tools.isValidISODate(maxUpdate))){
                 return res.status(400).json({error:"Invalid date requested"})
