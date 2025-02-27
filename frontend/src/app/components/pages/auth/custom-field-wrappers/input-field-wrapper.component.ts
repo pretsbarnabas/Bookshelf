@@ -1,12 +1,12 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { FieldWrapper } from '@ngx-formly/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyMaterialModule } from '@ngx-formly/material';
+import { BaseFieldWrapper } from './base-field-wrapper.component';
 
 @Component({
     selector: 'input-field-wrapper',
@@ -51,33 +51,6 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
 
     `]
 })
-export class InputFieldWrapper extends FieldWrapper {
-    triggerFillAppearance: boolean = false;
+export class InputFieldWrapper extends BaseFieldWrapper {
 
-    get formControlAsFormControl(): FormControl {
-        return this.formControl as FormControl;
-    }
-
-    getError() {
-        const errors = this.field.formControl?.errors;
-        if (errors) {
-            const errorKeys = Object.keys(errors);
-            const lastErrorKey = errorKeys[0];
-            return { key: lastErrorKey, value: errors[lastErrorKey] };
-        }
-        return null;
-    }
-
-    @HostListener('window:resize', ['$event'])
-    onResize(event: any) {
-        this.checkWindowWidth();
-    }
-
-    ngOnInit() {
-        this.checkWindowWidth();
-    }
-
-    private checkWindowWidth() {
-        this.triggerFillAppearance = window.innerWidth < 767;
-    }
 }

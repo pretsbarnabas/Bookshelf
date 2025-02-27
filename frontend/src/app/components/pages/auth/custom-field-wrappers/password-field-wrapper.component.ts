@@ -1,12 +1,12 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { FieldWrapper } from '@ngx-formly/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyMaterialModule } from '@ngx-formly/material';
+import { BaseFieldWrapper } from './base-field-wrapper.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
     selector: 'password-field-wrapper',
@@ -54,38 +54,10 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
         }
     `]
 })
-export class PasswordFieldWrapper extends FieldWrapper {
+export class PasswordFieldWrapper extends BaseFieldWrapper {
     isPasswordVisible: boolean = false;
-    triggerFillAppearance: boolean = false;
-
-    get formControlAsFormControl(): FormControl {
-        return this.formControl as FormControl;
-    }
 
     togglePasswordVisibility() {
         this.isPasswordVisible = !this.isPasswordVisible;
-    }
-
-    getError() {
-        const errors = this.field.formControl?.errors;
-        if (errors) {
-            const errorKeys = Object.keys(errors);
-            const lastErrorKey = errorKeys[0];
-            return { key: lastErrorKey, value: errors[lastErrorKey] };
-        }
-        return null;
-    }
-
-    @HostListener('window:resize', ['$event'])
-    onResize(event: any) {
-        this.checkWindowWidth();
-    }
-
-    ngOnInit() {
-        this.checkWindowWidth();
-    }
-
-    private checkWindowWidth() {
-        this.triggerFillAppearance = window.innerWidth < 767;
     }
 }
