@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,7 +22,7 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
         CommonModule
     ],
     template: `
-        <mat-form-field appearance="outline" class="w-100 my-1">
+        <mat-form-field [appearance]="triggerFillAppearance ? 'fill' : 'outline'" class="w-100 my-1">
           <mat-label>{{ to.label }}</mat-label>
   
           <input
@@ -36,6 +36,7 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
           <mat-error *ngIf="field.formControl?.invalid && (field.formControl?.dirty || field.formControl?.touched)">
             <ng-container *ngIf="field.formControl?.errors">
                 <span *ngIf="this.field.formControl?.errors">
+                    <mat-icon class="error-icon">error_outline</mat-icon>
                     {{ field!.validation?.messages?.[getError()!.key] || 'Unknown error' }}
                 </span>
             </ng-container>
@@ -44,12 +45,14 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
         </mat-form-field>
     `,
     styles: [`
-        // .mdc-text-field--outlined {
-        //     --mdc-shape-small: 28px !important;
-        // }
+        .error-icon {
+            transform: scale(1.2);
+        }
+
     `]
 })
 export class InputFieldWrapper extends FieldWrapper {
+    triggerFillAppearance: boolean = false;
 
     get formControlAsFormControl(): FormControl {
         return this.formControl as FormControl;
@@ -63,5 +66,18 @@ export class InputFieldWrapper extends FieldWrapper {
             return { key: lastErrorKey, value: errors[lastErrorKey] };
         }
         return null;
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event: any) {
+        this.checkWindowWidth();
+    }
+
+    ngOnInit() {
+        this.checkWindowWidth();
+    }
+
+    private checkWindowWidth() {
+        this.triggerFillAppearance = window.innerWidth < 767;
     }
 }
