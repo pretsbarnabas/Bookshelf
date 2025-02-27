@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Input } from '@angular/core';
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { firstValueFrom } from "rxjs";
 import { TranslationService } from './translation.service';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { PasswordFieldWrapper } from '../components/pages/auth/custom-field-wrappers/password-field-wrapper.component';
+import { InputFieldWrapper } from '../components/pages/auth/custom-field-wrappers/input-field-wrapper.component';
 
 @Injectable({
     providedIn: 'root'
@@ -10,6 +12,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 export class FormService {
 
     constructor(private translationService: TranslationService) { }
+
 
     private passwordMatchValidator(): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
@@ -26,38 +29,40 @@ export class FormService {
         return [
             {
                 key: 'username',
-                type: 'input',
+                wrappers: [InputFieldWrapper],
                 templateOptions: {
                     label: await firstValueFrom(this.translationService.service.get('AUTH.FIELDS.NAME')),
                     placeholder: await firstValueFrom(this.translationService.service.get('AUTH.PLACEHOLDERS.NAME')),
                     required: true,
-                    minLength: 3
+                    minLength: 3,
+                    id: 'username',
                 },
                 validation: {
                     messages: {
                         required: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.NAME.REQUIRED')),
-                        minLength: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.NAME.MINLENGTH'))
-                    }
-                }
+                        minLength: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.NAME.MINLENGTH')),
+                    },
+                },
             },
             {
                 key: 'email',
-                type: 'input',
+                wrappers: [InputFieldWrapper],
                 templateOptions: {
                     label: await firstValueFrom(this.translationService.service.get('AUTH.FIELDS.EMAIL')),
                     placeholder: await firstValueFrom(this.translationService.service.get('AUTH.PLACEHOLDERS.EMAIL')),
                     required: true,
+                    id: 'email',
                 },
                 validation: {
                     messages: {
                         required: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.EMAIL.REQUIRED')),
-                        email: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.EMAIL.INCORRECT'))
-                    }
+                        email: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.EMAIL.INCORRECT')),
+                    },
                 },
                 validators: {
                     email: (control: AbstractControl) => {
                         return (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/).test(control.value);
-                    }
+                    },
                 },
             },
             {
@@ -65,7 +70,7 @@ export class FormService {
                 fieldGroup: [
                     {
                         key: 'password',
-                        type: 'input',
+                        wrappers: [PasswordFieldWrapper],
                         templateOptions: {
                             type: 'password',
                             label: await firstValueFrom(this.translationService.service.get('AUTH.FIELDS.PASSWORD')),
@@ -75,24 +80,29 @@ export class FormService {
                         validation: {
                             messages: {
                                 required: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.PASSWORD.REQUIRED')),
-                                minLength: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.PASSWORD.MINLENGTH'))
-                            }
-                        }
+                                minLength: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.PASSWORD.MINLENGTH')),
+                            },
+                        },
                     },
                     {
                         key: 'passwordAgain',
-                        type: 'input',
+                        wrappers: [PasswordFieldWrapper],
                         templateOptions: {
                             type: 'password',
                             label: await firstValueFrom(this.translationService.service.get('AUTH.FIELDS.PASSWORD_AGAIN')),
                             required: true,
+                            id: 'passwordAgain',
                         },
                         validation: {
                             messages: {
                                 required: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.PASSWORD_AGAIN.REQUIRED')),
-                            }
-                        }
-                    }
+                                fieldMatch: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.PASSWORD_AGAIN.PASSWORD_MISMATCH')),
+                            },
+                        },
+                        expressionProperties: {
+                            'templateOptions.disabled': (model) => !model.password || model.password.length < 4,
+                        },
+                    },
                 ],
                 validators: {
                     fieldMatch: {
@@ -102,10 +112,9 @@ export class FormService {
                             const result = validator(control);
                             return result === null;
                         },
-                        message: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.PASSWORD_AGAIN.PASSWORD_MISMATCH'))
                     },
-                }
-            }
+                },
+            },
         ];
     }
 
@@ -113,11 +122,12 @@ export class FormService {
         return [
             {
                 key: 'username',
-                type: 'input',
+                wrappers: [InputFieldWrapper],
                 templateOptions: {
                     label: await firstValueFrom(this.translationService.service.get('AUTH.FIELDS.NAME')),
                     placeholder: await firstValueFrom(this.translationService.service.get('AUTH.PLACEHOLDERS.NAME')),
                     required: true,
+                    id: 'username'
                 },
                 validation: {
                     messages: {
@@ -127,18 +137,18 @@ export class FormService {
             },
             {
                 key: 'password',
-                type: 'input',
+                wrappers: [InputFieldWrapper],
                 templateOptions: {
                     type: 'password',
                     label: await firstValueFrom(this.translationService.service.get('AUTH.FIELDS.PASSWORD')),
-                    required: true                
+                    required: true,
                 },
                 validation: {
                     messages: {
                         required: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.PASSWORD.REQUIRED'))
                     }
                 }
-            },           
+            },
         ];
     }
 }

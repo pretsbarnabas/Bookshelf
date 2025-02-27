@@ -40,7 +40,7 @@
         "EMSG": {
             "NAME":{
                 "REQUIRED": "Username field is required",
-                "MINLENGTH": "Username must be at lest 3 characters"
+                "MINLENGTH": "Username must be at least 3 characters long"
             },
             "EMAIL": {
                 "REQUIRED": "Email field is required",
@@ -48,7 +48,7 @@
             },
             "PASSWORD": {
                 "REQUIRED": "Password field is required",
-                "MINLENGTH": "Password must be at lest 4 characters"
+                "MINLENGTH": "Password must be at least 4 characters long"
             },
             "PASSWORD_AGAIN": {
                 "REQUIRED": "This field is required",

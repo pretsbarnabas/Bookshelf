@@ -28,7 +28,7 @@ import { AuthService } from '../../services/auth.service';
     ],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
-    encapsulation: ViewEncapsulation.None,
+    encapsulation: ViewEncapsulation.None,    
 })
 export class AppComponent {
     title = 'frontend';

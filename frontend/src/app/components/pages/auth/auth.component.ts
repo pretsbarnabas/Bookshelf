@@ -17,7 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { isUserLoginModel, isUserRegistrationFormModel, UserLoginModel, UserRegistrationFormModel, UserRegistrationModel } from '../../../models/User';
 import { AuthService } from '../../../services/auth.service';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-auth',
