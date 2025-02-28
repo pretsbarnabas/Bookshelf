@@ -20,7 +20,7 @@ export const bookSchema = new Schema({
     genre:{
         required:true,
         type: String,
-        enum: ["Crime","Detective","Romance","Erotic","Fantasy","SciFi","Action","Adventure","Mystery","Horror","Comedy","Literary prose","Poetry","Drama","Historical","Children","Philosophical","Religious"]
+        enum: ["Crime","Detective","Romance","Erotic","Fantasy","SciFi","Action","Adventure","Mystery","Horror","Comedy","Literary prose","Poetry","Drama","Historical","Children","Philosophical","Religious","None"]
     },
     user_id:{
         required: true,
@@ -42,5 +42,9 @@ export const bookSchema = new Schema({
         default: Date.now
     }
 },{versionKey: false})
+
+bookSchema.pre("save",function(next){
+    this.updated_at = new Date()
+})
 
 module.exports = model("BookModel",bookSchema,"books")
