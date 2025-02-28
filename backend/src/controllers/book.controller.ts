@@ -1,6 +1,5 @@
 import {Types} from "mongoose"
 const BookModel = require("../models/book.model")
-import { bookSchema } from "../models/book.model"
 import * as tools from "../tools/tools"
 import { Projection } from "../models/projection.model"
 import { UserController } from "./user.controller"
