@@ -5,6 +5,8 @@ import { map, Observable } from 'rxjs';
 import { ConfigService } from './config.service';
 import { jwtDecode } from "jwt-decode";
 import { Router } from '@angular/router';
+import { createAvatar } from '@dicebear/core';
+import { bottts } from '@dicebear/collection';
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +20,7 @@ export class AuthService {
     ) { }
 
     private loggedInUser: UserLoggedInModel | null = null;
-    lastLoggedInUser: string | null = null;
+    lastLoggedInUser: string | null = null;    
 
     get getloggedInUser() : UserLoggedInModel | null{
         return this.loggedInUser;
@@ -60,6 +62,8 @@ export class AuthService {
                     delete result._id;
                     delete result.password_hashed;
                     this.loggedInUser = result;
+                    if(this.loggedInUser)
+                        this.loggedInUser.profile_image = createAvatar(bottts, { seed: this.loggedInUser?.username }).toDataUri()
                     console.log(this.loggedInUser);
                     return true;
                 })

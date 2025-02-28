@@ -41,7 +41,8 @@
         "EMSG": {
             "NAME":{
                 "REQUIRED": "Felhasználónév kitöltése kötelező",
-                "MINLENGTH": "A felhasználónév legalább 3 karaktert tartalmazzon"
+                "MINLENGTH": "A felhasználónév legalább 3 karaktert tartalmazzon",
+                "MAXLENGTH" : "A felhasználónév legfeljebb 24 karaktert tartalmazhat"
             },
             "EMAIL": {
                 "REQUIRED": "Email kitöltése kötelező",

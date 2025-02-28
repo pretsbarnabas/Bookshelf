@@ -36,18 +36,17 @@
                 {{ 'APP.MENU.REGISTER' | translate}}
             </button>
             } @else{
-            <!-- <button mat-menu-item (click)="drawer.opened=false; authService.logOut()">
-                <mat-icon>home</mat-icon>
-                {{ 'APP.MENU.LOGOUT' | translate}}
-            </button> -->
             <mat-accordion>
                 <mat-expansion-panel hideToggle #panel class="mat-elevation-z0">
-                    <mat-expansion-panel-header>
+                    <mat-expansion-panel-header class="ps-2">
                         <mat-panel-title>
-                            <mat-icon>account_circle</mat-icon>
-                            {{ this.authService.getloggedInUser.username }}
+                            <div class="avatar-wrapper me-1">
+                                <img [src]="this.authService.getloggedInUser.profile_image" alt="Profile Picture"
+                                    class="rounded-circle">
+                            </div>
+                            <span>{{ this.authService.getloggedInUser.username | truncate }}</span>
                         </mat-panel-title>
-                    </mat-expansion-panel-header>                    
+                    </mat-expansion-panel-header>
                     <button mat-button routerLink="profile" (click)="drawer.opened=false; panel.close()"
                         [disabled]="isActive('/auth/register')">
                         <mat-icon>person</mat-icon>

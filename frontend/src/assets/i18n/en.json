@@ -40,7 +40,8 @@
         "EMSG": {
             "NAME":{
                 "REQUIRED": "Username field is required",
-                "MINLENGTH": "Username must be at least 3 characters long"
+                "MINLENGTH": "Username must be at least 3 characters long",
+                "MAXLENGTH" : "Username must be less than 24 characters long"
             },
             "EMAIL": {
                 "REQUIRED": "Email field is required",

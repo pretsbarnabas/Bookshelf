@@ -27,14 +27,19 @@
                 | translate }}</button>
             } @else {
             <button mat-button [matMenuTriggerFor]="profile">
-                <span>{{ this.authService.getloggedInUser.username }}</span>         
-                <mat-icon class="menu-icon">account_circle</mat-icon>      
+                <div class="d-inline-flex align-items-center">
+                    <span>{{ this.authService.getloggedInUser.username }}</span>
+                    <div class="avatar-wrapper ms-2">
+                        <img [src]="this.authService.getloggedInUser.profile_image" alt="Profile Picture"
+                            class="rounded-circle">
+                    </div>
+                </div>
             </button>
             <mat-menu #profile="matMenu" (window:resize)="profile._setIsOpen(false)" class="p-2">
                 <button mat-menu-item routerLink="profile" [disabled]="isActive('/profile')">
                     <mat-icon>person</mat-icon>
                     {{ 'APP.MENU.PROFILE.PAGE' | translate }}
-                </button>                
+                </button>
                 <button mat-menu-item routerLink (click)="this.authService.logOut()">
                     <mat-icon>exit_to_app</mat-icon>
                     {{ 'APP.MENU.PROFILE.LOGOUT' | translate }}

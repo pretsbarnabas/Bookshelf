@@ -78,7 +78,7 @@ export class NavbarComponent {
 
     settingsIconState = 'default';
     activeRoute: string = '';
-    isMdOrBeyond: boolean = false;
+    isMdOrBeyond: boolean = false;    
 
     ngOnInit() {
         if (window.matchMedia('(prefers-color-scheme: dark)').matches)

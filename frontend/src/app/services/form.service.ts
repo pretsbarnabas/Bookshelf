@@ -35,12 +35,14 @@ export class FormService {
                     placeholder: await firstValueFrom(this.translationService.service.get('AUTH.PLACEHOLDERS.NAME')),
                     required: true,
                     minLength: 3,
+                    maxLength: 24,
                     id: 'username',
                 },
                 validation: {
                     messages: {
                         required: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.NAME.REQUIRED')),
                         minLength: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.NAME.MINLENGTH')),
+                        maxlength: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.NAME.MAXLENGTH')),
                     },
                 },
             },

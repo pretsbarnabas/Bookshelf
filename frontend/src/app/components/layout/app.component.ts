@@ -10,22 +10,24 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { FooterComponent } from './footer/footer.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { AuthService } from '../../services/auth.service';
+import { TruncatePipe } from "../../pipes/truncate.pipe";
 
 @Component({
     selector: 'app-root',
     standalone: true,
     imports: [
-        MatSidenavModule,
-        MatButtonModule,
-        MatIconModule,
-        MatExpansionModule,
-        RouterModule,
-        RouterOutlet,
-        NavbarComponent,
-        TranslatePipe,
-        FooterComponent,
-        NgxSpinnerModule
-    ],
+    MatSidenavModule,
+    MatButtonModule,
+    MatIconModule,
+    MatExpansionModule,
+    RouterModule,
+    RouterOutlet,
+    NavbarComponent,
+    TranslatePipe,
+    FooterComponent,
+    NgxSpinnerModule,
+    TruncatePipe
+],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
     encapsulation: ViewEncapsulation.None,    
