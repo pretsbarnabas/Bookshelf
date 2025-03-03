@@ -78,6 +78,7 @@ export class FormService {
                             label: await firstValueFrom(this.translationService.service.get('AUTH.FIELDS.PASSWORD')),
                             required: true,
                             minLength: 4,
+                            id: 'password'
                         },
                         validation: {
                             messages: {
@@ -139,11 +140,12 @@ export class FormService {
             },
             {
                 key: 'password',
-                wrappers: [InputFieldWrapper],
+                wrappers: [PasswordFieldWrapper],
                 templateOptions: {
                     type: 'password',
                     label: await firstValueFrom(this.translationService.service.get('AUTH.FIELDS.PASSWORD')),
                     required: true,
+                    id: 'password'
                 },
                 validation: {
                     messages: {
