@@ -1,0 +1,26 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "dist/frontend/browser"
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/assets/(.*)",
+            "dest": "/browser/assets/$1"
+        },
+        {
+            "src": "/favicon.ico",
+            "dest": "/browser/assets/favicon.ico"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/browser/index.html"
+        }
+    ]
+}
