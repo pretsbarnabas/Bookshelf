@@ -2,13 +2,13 @@
     <div class="wrapper-content">
         <div class="d-flex flex-column">
             <div id="Searchbar" class="d-flex justify-content-center">
-                <mat-form-field class="w-50 m-5" >
+                <mat-form-field class="w-50 m-5">
                     <input matInput type="search">
                 </mat-form-field>
                 <button mat-fab extended class="m-5">
                     <mat-icon>search</mat-icon>
                     Search
-                  </button>
+                </button>
             </div>
             <div id="Filters" class="d-flex justify-content-center">
                 <button mat-fab class="m-5">
@@ -23,62 +23,87 @@
                 <button mat-fab class="m-5">
                     <mat-icon>filter_list</mat-icon>
                 </button>
-                <button mat-fab class="m-5">
-                    <mat-icon>filter_list</mat-icon>
-                </button>
-                <button mat-fab class="m-5">
-                    <mat-icon>filter_list</mat-icon>
-                </button>
-                <button mat-fab class="m-5">
-                    <mat-icon>filter_list</mat-icon>
-                </button>
-                <button mat-fab class="m-5">
-                    <mat-icon>filter_list</mat-icon>
-                </button>
             </div>
             <div id="Books" class="d-flex flex-column justify-content-center">
-
                 <div #container class="container">
-                    <div class="expanded"></div>
+                    <div class="expanded" *ngIf="isExpanded">
+                        <div id="cards" *ngFor="let book of books" class="book-card">
+                            <mat-card class="book-card">
+                                <img mat-card-image [src]="book.coverImage" alt="{{ book.title }} cover">
+                                <mat-card-header>
+                                    <mat-card-title>{{ book.title }}</mat-card-title>
+                                    <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <p>{{ book.description }}</p>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                    <button mat-button>Read More</button>
+                                </mat-card-actions>
+                            </mat-card>
+                            <mat-card class="book-card">
+                                <img mat-card-image [src]="book.coverImage" alt="{{ book.title }} cover">
+                                <mat-card-header>
+                                    <mat-card-title>{{ book.title }}</mat-card-title>
+                                    <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <p>{{ book.description }}</p>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                    <button mat-button>Read More</button>
+                                </mat-card-actions>
+                            </mat-card>
+                            <mat-card class="book-card">
+                                <img mat-card-image [src]="book.coverImage" alt="{{ book.title }} cover">
+                                <mat-card-header>
+                                    <mat-card-title>{{ book.title }}</mat-card-title>
+                                    <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <p>{{ book.description }}</p>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                    <button mat-button>Read More</button>
+                                </mat-card-actions>
+                            </mat-card>
+                            <mat-card class="book-card">
+                                <img mat-card-image [src]="book.coverImage" alt="{{ book.title }} cover">
+                                <mat-card-header>
+                                    <mat-card-title>{{ book.title }}</mat-card-title>
+                                    <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <p>{{ book.description }}</p>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                    <button mat-button>Read More</button>
+                                </mat-card-actions>
+                            </mat-card>
+                        </div>
+                    </div>
                     <div class="rightside">
                         <div class="svg-container">
-                            <img #showMoreButton src="../../../../assets/images/down-arrow.svg" alt="" (click)="showMore()" class="BtnMore ">
+                            <img #showMoreButton src="../../../../assets/images/down-arrow.svg" alt="" (click)="showMore()" class="BtnMore">
                         </div>
                     </div>
                     <div class="centertriangle"></div>
-                    <div class="leftside">
-                    </div>
+                    <div class="leftside"></div>
                 </div>
             </div>
-            <div class="book-cards">
-                <div *ngFor="let book of books" class="book-card">
-                    <mat-card>
-                        <mat-card-header>
-                            <mat-card-title>{{ book.title }}</mat-card-title>
-                            <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
-                        </mat-card-header>
-                        <mat-card-content>
-                            <p>{{ book.description }}</p>
-                        </mat-card-content>
-                        <mat-card-actions>
-                            <button mat-button>Read More</button>
-                        </mat-card-actions>
-                    </mat-card>
-                </div>
-            </div>
+            <div class="book-cards"></div>
         </div>
-        
+    </div>
 </div>
 
-
 <style>
-    .container {    
+    .container {
         position: relative;
         width: 60vw;
         height: 10vh;
         transition: height 0.5s ease;
     }
-    .expanded{
+    .expanded {
         position: absolute;
         top: 0;
         right: 0;
@@ -89,7 +114,7 @@
         background-color: green; /* Change color as needed */
         z-index: 0;
     }
-    .leftside{
+    .leftside {
         position: absolute;
         top: 0;
         right: 30%;
@@ -100,7 +125,7 @@
         background-color: blue; /* Change color as needed */
         z-index: 1;
     }
-    .centertriangle{
+    .centertriangle {
         position: absolute;
         top: 0;
         right: 30%;
@@ -135,4 +160,21 @@
         margin-right: 2rem;
         transition: transform 0.3s ease;
     }
-  </style>
+    .book-cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    .book-card {
+        width: 300px;
+        flex: 1 1 calc(20% - 1rem); /* 5 cards per row */
+        box-sizing: border-box;
+    }
+    .mat-card-image {
+        height: 200px;
+        object-fit: cover;
+    }
+</style>

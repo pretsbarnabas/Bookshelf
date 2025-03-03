@@ -49,18 +49,17 @@ export class BooksComponent implements OnInit {
 
   isExpanded = false;
   showMore() {
+    const containerEl = this.container.nativeElement;
+    const buttonEl = this.showMoreButton.nativeElement;
+
     if (!this.isExpanded) {
-      const containerEl = this.container.nativeElement;
-      const buttonEl = this.showMoreButton.nativeElement;
-      this.renderer.setStyle(containerEl, 'height', '700px');
-      this.renderer.setStyle(buttonEl, 'transform', 'scaleY(-1)');
-      this.isExpanded = true;      
+        this.renderer.setStyle(containerEl, 'height', '100vh'); // Adjust height as needed
+        this.renderer.setStyle(buttonEl, 'transform', 'scaleY(-1)');
     } else {
-      const containerEl = this.container.nativeElement;
-      const buttonEl = this.showMoreButton.nativeElement;
-      this.renderer.setStyle(containerEl, 'height', '10vh');
-      this.renderer.setStyle(buttonEl, 'transform', 'scaleY(1)');
-      this.isExpanded = false;
+        this.renderer.setStyle(containerEl, 'height', '10vh');
+        this.renderer.setStyle(buttonEl, 'transform', 'scaleY(1)');
     }
-  }
+
+    this.isExpanded = !this.isExpanded;
+}
 }
