@@ -1,37 +1,28 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './components/pages/home/home.component';
-import { BooksComponent } from './components/pages/books/books.component';
-import { SummariesComponent } from './components/pages/summaries/summaries.component';
-import { AuthComponent } from './components/pages/auth/auth.component';
-import { MylistComponent } from './components/pages/mylist/mylist.component';
-import { ProfileComponent } from './components/pages/profile/profile.component';
-import { BookItemComponent } from './components/pages/book-item/book-item.component';
-import { SummaryItemComponent } from './components/pages/summary-item/summary-item.component';
 import { authGuard } from './utilities/auth.guard';
-import { NotFoundComponent } from './components/pages/not-found/not-found.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     // menubar routes
     { path: 'home', component: HomeComponent },
-    { path: 'books', component: BooksComponent },
-    { path: 'summaries', component: SummariesComponent },
-    { path: 'mylist', component: MylistComponent, canActivate: [authGuard] },
+    { path: 'books', loadComponent: () => import('./components/pages/books/books.component').then(m => m.BooksComponent) },
+    { path: 'summaries', loadComponent: () => import('./components/pages/summaries/summaries.component').then(m => m.SummariesComponent) },
+    { path: 'mylist', loadComponent: () => import('./components/pages/mylist/mylist.component').then(m => m.MylistComponent), canActivate: [authGuard] },
     {
         path: 'auth', canActivate: [authGuard],
         children: [
-            {path: '', redirectTo: 'login', pathMatch: 'full'},
-            {path: 'login', component: AuthComponent},
-            {path: 'register', component: AuthComponent},                    
-            {path: '**', redirectTo: 'login', pathMatch: 'full'},
+            { path: '', redirectTo: 'login', pathMatch: 'full' },
+            { path: 'login', loadComponent: () => import('./components/pages/auth/auth.component').then(m => m.AuthComponent) },
+            { path: 'register', loadComponent: () => import('./components/pages/auth/auth.component').then(m => m.AuthComponent) },
+            { path: '**', redirectTo: 'login', pathMatch: 'full' },
         ]
     },
     // non-visible routes
-    { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
-    { path: 'book-item', component: BookItemComponent },
-    { path: 'summary-item', component: SummaryItemComponent },
-    { path: '404', component: NotFoundComponent },
+    { path: 'profile', loadComponent: () => import('./components/pages/profile/profile.component').then(m => m.ProfileComponent), canActivate: [authGuard] },
+    { path: 'book-item', loadComponent: () => import('./components/pages/book-item/book-item.component').then(m => m.BookItemComponent) },
+    { path: 'summary-item', loadComponent: () => import('./components/pages/summary-item/summary-item.component').then(m => m.SummaryItemComponent) },
+    { path: '404', loadComponent: () => import('./components/pages/not-found/not-found.component').then(m => m.NotFoundComponent) },
     // fallback
-    // { path: '**', redirectTo: '/home', pathMatch: 'full' },
     { path: '**', redirectTo: '/404', pathMatch: 'full' },
 ];

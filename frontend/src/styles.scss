@@ -7,14 +7,13 @@ body {
 }
 
 app-root {
-    @include mat.button-overrides((outlined-container-shape: none,
-            text-container-shape: none,
-            protected-container-shape: none,
-            filled-container-shape: none));
-            
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    @include mat.button-overrides((outlined-container-shape: none,
+            text-container-shape: none,
+            protected-container-shape: none,
+            filled-container-shape: none));            
 }
 
 $app-components: "app-auth, app-home, app-books, app-book-item, app-mylist, app-profile, app-summaries, app-summary-item, app-not-found";
