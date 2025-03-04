@@ -25,156 +25,23 @@
                 </button>
             </div>
             <div id="Books" class="d-flex flex-column justify-content-center">
-                <div #container class="container">
-                    <div class="expanded" *ngIf="isExpanded">
-                        <div id="cards" *ngFor="let book of books" class="book-card">
-                            <mat-card class="book-card">
-                                <img mat-card-image [src]="book.coverImage" alt="{{ book.title }} cover">
-                                <mat-card-header>
-                                    <mat-card-title>{{ book.title }}</mat-card-title>
-                                    <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
-                                </mat-card-header>
-                                <mat-card-content>
-                                    <p>{{ book.description }}</p>
-                                </mat-card-content>
-                                <mat-card-actions>
-                                    <button mat-button>Read More</button>
-                                </mat-card-actions>
-                            </mat-card>
-                            <mat-card class="book-card">
-                                <img mat-card-image [src]="book.coverImage" alt="{{ book.title }} cover">
-                                <mat-card-header>
-                                    <mat-card-title>{{ book.title }}</mat-card-title>
-                                    <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
-                                </mat-card-header>
-                                <mat-card-content>
-                                    <p>{{ book.description }}</p>
-                                </mat-card-content>
-                                <mat-card-actions>
-                                    <button mat-button>Read More</button>
-                                </mat-card-actions>
-                            </mat-card>
-                            <mat-card class="book-card">
-                                <img mat-card-image [src]="book.coverImage" alt="{{ book.title }} cover">
-                                <mat-card-header>
-                                    <mat-card-title>{{ book.title }}</mat-card-title>
-                                    <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
-                                </mat-card-header>
-                                <mat-card-content>
-                                    <p>{{ book.description }}</p>
-                                </mat-card-content>
-                                <mat-card-actions>
-                                    <button mat-button>Read More</button>
-                                </mat-card-actions>
-                            </mat-card>
-                            <mat-card class="book-card">
-                                <img mat-card-image [src]="book.coverImage" alt="{{ book.title }} cover">
-                                <mat-card-header>
-                                    <mat-card-title>{{ book.title }}</mat-card-title>
-                                    <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
-                                </mat-card-header>
-                                <mat-card-content>
-                                    <p>{{ book.description }}</p>
-                                </mat-card-content>
-                                <mat-card-actions>
-                                    <button mat-button>Read More</button>
-                                </mat-card-actions>
-                            </mat-card>
-                        </div>
+                <div class="book-cards row">
+                    <div class="col-md-4 col-sm-6 col-xs-12" *ngFor="let book of paginatedBooks">
+                        <mat-card class="m-3">
+                            <mat-card-header>
+                                <mat-card-title>{{ book.title }}</mat-card-title>
+                                <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                            </mat-card-header>
+                            <img mat-card-image class="book-image img-fluid" src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain" alt="{{ book.title }}">
+                            <mat-card-content>
+                                <p>Release Date: {{ this.formatDate(book.release)}}</p>
+                            </mat-card-content>
+                        </mat-card>
                     </div>
-                    <div class="rightside">
-                        <div class="svg-container">
-                            <img #showMoreButton src="../../../../assets/images/down-arrow.svg" alt="" (click)="showMore()" class="BtnMore">
-                        </div>
-                    </div>
-                    <div class="centertriangle"></div>
-                    <div class="leftside"></div>
                 </div>
+                <mat-paginator [length]="books.length" [pageSize]="pageSize" (page)="onPageChange($event)">
+                </mat-paginator>
             </div>
-            <div class="book-cards"></div>
         </div>
     </div>
 </div>
-
-<style>
-    .container {
-        position: relative;
-        width: 60vw;
-        height: 10vh;
-        transition: height 0.5s ease;
-    }
-    .expanded {
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        background-color: green; /* Change color as needed */
-        z-index: 0;
-    }
-    .leftside {
-        position: absolute;
-        top: 0;
-        right: 30%;
-        margin: 0;
-        padding: 0;
-        width: 70%;
-        height: 10vh;
-        background-color: blue; /* Change color as needed */
-        z-index: 1;
-    }
-    .centertriangle {
-        position: absolute;
-        top: 0;
-        right: 30%;
-        margin: 0;
-        padding: 0;
-        width: 10%;
-        height: 10vh;
-        background-color: red; /* Change color as needed */
-        clip-path: polygon(100% 0%, 100% 100%, 0% 100%);
-        z-index: 2;
-    }
-    .rightside {
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin: 0;
-        padding: 0;
-        width: 30%;
-        height: 10vh;
-        background-color: red;
-        z-index: 1;
-    }
-    .svg-container {
-        display: flex;
-        justify-content: right;
-        align-items: center;
-        margin-top: 20px;
-    }
-    .BtnMore {
-        width: 50px;
-        height: 50px;
-        margin-right: 2rem;
-        transition: transform 0.3s ease;
-    }
-    .book-cards {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 1rem;
-        margin-top: 2rem;
-    }
-    .book-card {
-        width: 300px;
-        flex: 1 1 calc(20% - 1rem); /* 5 cards per row */
-        box-sizing: border-box;
-    }
-    .mat-card-image {
-        height: 200px;
-        object-fit: cover;
-    }
-</style>

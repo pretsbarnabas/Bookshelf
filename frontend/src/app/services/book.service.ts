@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ConfigService } from './config.service';
+import { Book } from '../models/Book';
 
 @Injectable({
     providedIn: 'root'
@@ -13,8 +14,7 @@ export class BookService {
         private configService: ConfigService
     ) { }
 
-    getAllBooks(): Observable<any> {
-        return this.http.get<any>(`${this.configService.get('API_URL')}/api/books`);
-
+    getAllBooks(): Observable<Book[]> {
+        return this.http.get<Book[]>(`${this.configService.get('API_URL')}/api/books`);
     }
 }

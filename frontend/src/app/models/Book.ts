@@ -6,7 +6,7 @@ export interface Book {
     genre?: string
     user_id?: string
     description?: string
-    added_at?: string
-    updated_at?: string
+    added_at?: Date
+    updated_at?: Date
   }
   

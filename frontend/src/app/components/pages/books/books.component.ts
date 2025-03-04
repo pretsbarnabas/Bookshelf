@@ -7,14 +7,15 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { BookService } from '../../../services/book.service';
-import { CommonModule} from '@angular/common';
-
+import { CommonModule, DatePipe } from '@angular/common';
+import { Book } from '../../../models/Book';
 
 @Component({
   selector: 'app-books',
   standalone: true,
-  imports: [        
+  imports: [
     FormlyModule,
     MatCardModule,
     MatFormFieldModule,
@@ -23,23 +24,30 @@ import { CommonModule} from '@angular/common';
     ReactiveFormsModule,
     MatButtonModule,
     MatIconModule,
-    CommonModule],
+    CommonModule,
+    MatPaginator
+  ],
   templateUrl: './books.component.html',
-  styleUrls: ['./books.component.scss']
+  styleUrls: ['./books.component.scss'],
+  providers: [DatePipe]
 })
 export class BooksComponent implements OnInit {
   @ViewChild('container') container!: ElementRef;
   @ViewChild('showMoreButton') showMoreButton!: ElementRef;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  books: any[] = [];
+  books: Book[] = [];
+  paginatedBooks: Book[] = [];
+  pageSize = 10;
 
-  constructor(private renderer: Renderer2, private bookService: BookService) {}
+  constructor(private renderer: Renderer2, private bookService: BookService, private datePipe: DatePipe) {}
 
   ngOnInit() {
     this.bookService.getAllBooks().subscribe({
       next: (data) => {
+        console.log('Books fetched', data);
         this.books = data;
-        console.log(this.books);
+        this.updatePaginatedBooks();
       },
       error: (err) => {
         console.error('Error fetching books', err);
@@ -47,19 +55,17 @@ export class BooksComponent implements OnInit {
     });
   }
 
-  isExpanded = false;
-  showMore() {
-    const containerEl = this.container.nativeElement;
-    const buttonEl = this.showMoreButton.nativeElement;
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.updatePaginatedBooks(event.pageIndex);
+  }
 
-    if (!this.isExpanded) {
-        this.renderer.setStyle(containerEl, 'height', '100vh'); // Adjust height as needed
-        this.renderer.setStyle(buttonEl, 'transform', 'scaleY(-1)');
-    } else {
-        this.renderer.setStyle(containerEl, 'height', '10vh');
-        this.renderer.setStyle(buttonEl, 'transform', 'scaleY(1)');
-    }
-
-    this.isExpanded = !this.isExpanded;
-}
+  updatePaginatedBooks(pageIndex: number = 0) {
+    const startIndex = pageIndex * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedBooks = this.books.slice(startIndex, endIndex);
+  }
+  formatDate(date: any) {
+    return this.datePipe.transform(date, 'yyyy-MM-dd');
+  }
 }
