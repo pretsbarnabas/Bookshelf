@@ -21,7 +21,7 @@ export function IsValidEmail(email: string): boolean{
 }
 
 export function minDate(){
-  return new Date(0).toISOString().slice(0,-5)
+  return new Date(-62167219200000).toISOString().slice(0,-5)
 }
 
 export function maxDate(){
