@@ -25,7 +25,7 @@ import { Book } from '../../../models/Book';
     MatButtonModule,
     MatIconModule,
     CommonModule,
-    MatPaginator
+    MatPaginator,
   ],
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.scss'],
@@ -45,7 +45,6 @@ export class BooksComponent implements OnInit {
   ngOnInit() {
     this.bookService.getAllBooks().subscribe({
       next: (data) => {
-        console.log('Books fetched', data);
         this.books = data;
         this.updatePaginatedBooks();
       },
@@ -65,6 +64,7 @@ export class BooksComponent implements OnInit {
     const endIndex = startIndex + this.pageSize;
     this.paginatedBooks = this.books.slice(startIndex, endIndex);
   }
+
   formatDate(date: any) {
     return this.datePipe.transform(date, 'yyyy-MM-dd');
   }

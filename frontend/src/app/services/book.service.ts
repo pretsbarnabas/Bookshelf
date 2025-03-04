@@ -14,7 +14,7 @@ export class BookService {
         private configService: ConfigService
     ) { }
 
-    getAllBooks(): Observable<Book[]> {
-        return this.http.get<Book[]>(`${this.configService.get('API_URL')}/api/books`);
+    getAllBooks(pageSize: number): Observable<Book[]> {
+        return this.http.get<Book[]>(`${this.configService.get('API_URL')}/api/books?limit=${pageSize}`);
     }
 }
