@@ -43,7 +43,7 @@ export class BooksComponent implements OnInit {
   constructor(private renderer: Renderer2, private bookService: BookService, private datePipe: DatePipe) {}
 
   ngOnInit() {
-    this.bookService.getAllBooks().subscribe({
+    this.bookService.getAllBooks(this.pageSize).subscribe({
       next: (data) => {
         this.books = data;
         this.updatePaginatedBooks();
@@ -56,6 +56,7 @@ export class BooksComponent implements OnInit {
 
   onPageChange(event: PageEvent) {
     this.pageSize = event.pageSize;
+    console.log(this.pageSize);
     this.updatePaginatedBooks(event.pageIndex);
   }
 
@@ -66,6 +67,6 @@ export class BooksComponent implements OnInit {
   }
 
   formatDate(date: any) {
-    return this.datePipe.transform(date, 'yyyy-MM-dd');
+    return this.datePipe.transform(date, 'yyyy');
   }
 }

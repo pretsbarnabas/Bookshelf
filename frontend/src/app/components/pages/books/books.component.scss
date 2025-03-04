@@ -1,6 +1,13 @@
 /* filepath: /Z:/_projektmunka/Bookshelf/frontend/src/app/components/pages/books/books.component.scss */
 .book-image {
     max-height: 66%;
-    width: 33%;
+    width: 10vw;
     align-self: center;
+}
+.book-card{
+    max-width: 20vw;
+}
+.card-author{
+    text-align: center;
+    width: 100%;
 }
