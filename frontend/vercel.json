@@ -11,15 +11,21 @@
     ],
     "routes": [
         {
-            "src": "^/assets/(.*)$",
+            "src": "/assets/(.*)",
             "dest": "/assets/$1"
         },
         {
-            "src": "^/favicon.ico$",
-            "dest": "/assets/favicon.ico"
+            "src": "/(.*)\\.(js|webp|png|jpg|ico|svg|woff2|woff|ttf|otf|eot|json)$",
+            "headers": { "Content-Type": "text/javascript" },
+            "dest": "/$1.$2"
         },
         {
-            "src": "^(?!/assets/)(?!/favicon.ico)(.*)$",
+            "src": "/(.*)\\.css$",
+            "headers": { "Content-Type": "text/css" },
+            "dest": "/$1.css"
+        },
+        {
+            "src": "/(.*)",
             "dest": "/index.html"
         }
     ]
