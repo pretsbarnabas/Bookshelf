@@ -6,6 +6,7 @@ const swaggerJsdoc = require("swagger-jsdoc")
 const swaggerUi = require("swagger-ui-express");
 import YAML from "yamljs"
 const connectionString = process.env.DATABASE_URL
+const cors = require("cors")
 
 if(!connectionString) throw new Error("No connection string defined")
 
@@ -25,6 +26,7 @@ database.once("connected",()=>{
 const specs = swaggerJsdoc(YAML.load("./src/swagger.yaml"))
 
 const app = express()
+app.use(cors())
 app.use(express.json())
 app.use("/api",routes)
 
