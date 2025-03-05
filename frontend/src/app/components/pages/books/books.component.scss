@@ -19,19 +19,20 @@
 
 .book-cards {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
+    gap: 10rem;
 }
 
 .book-card {
-    flex: 0 0 calc(20% - 1rem); /* Default for large screens: 5 cards per row */
-    box-sizing: border-box;
+    min-width: fit-content;
+    min-height: fit-content;
+    flex: 1 1 calc(50% - 16px); /* Each card takes up 50% of the container width minus the gap */
+    box-sizing: border-box;/* Ensure padding and border are included in the width */
+    align-self: center;
 }
 
 .mat-card-title, .mat-card-subtitle, .mat-card-content p {
-    font-size: 2vh; /* Scale font size by viewport height */
+    font-size: 2vh /* Scale font size by viewport height */
 }
 
 .mat-card-image {
@@ -42,7 +43,8 @@
 /* For medium screens: 3 cards per row */
 @media (max-width: 1200px) {
     .book-card {
-        flex-basis:calc(33.33% - 1rem);
+        width: 33vw;
+        flex: 0 0 calc(33.33% - 1rem); /* Adjusted for 3 cards per row */
         background-color: blue;
     }
 }
@@ -50,7 +52,7 @@
 /* For small screens: 1 card per row */
 @media (max-width: 768px) {
     .book-card {
-        flex-basis:calc(100% - 1rem);
+        flex: 0 0 calc(100% - 1rem); /* Adjusted for 1 card per row */
         background-color: red;
     }
 }
