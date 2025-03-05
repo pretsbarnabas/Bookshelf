@@ -1,13 +1,56 @@
-/* filepath: /Z:/_projektmunka/Bookshelf/frontend/src/app/components/pages/books/books.component.scss */
 .book-image {
     max-height: 66%;
     width: 10vw;
     align-self: center;
 }
-.book-card{
+
+.book-card {
     max-width: 20vw;
 }
-.card-author{
+
+.card-author {
     text-align: center;
     width: 100%;
+}
+
+.wrapper {
+    font-size: 2vh; /* Scale font size by viewport height */
+}
+
+.book-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.book-card {
+    flex: 0 0 calc(20% - 1rem); /* Default for large screens: 5 cards per row */
+    box-sizing: border-box;
+}
+
+.mat-card-title, .mat-card-subtitle, .mat-card-content p {
+    font-size: 2vh; /* Scale font size by viewport height */
+}
+
+.mat-card-image {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* For medium screens: 3 cards per row */
+@media (max-width: 1200px) {
+    .book-card {
+        flex-basis:calc(33.33% - 1rem);
+        background-color: blue;
+    }
+}
+
+/* For small screens: 1 card per row */
+@media (max-width: 768px) {
+    .book-card {
+        flex-basis:calc(100% - 1rem);
+        background-color: red;
+    }
 }
