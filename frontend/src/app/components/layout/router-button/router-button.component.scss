@@ -1,0 +1,25 @@
+button.router-button {
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+        transform: scale(1.1);
+        text-decoration: overline;
+    }
+
+    &:disabled {
+        background-color: inherit;
+        color: inherit;
+        font-weight: bold;
+        text-decoration: overline;
+    }
+}
+
+body {
+    .router-button {
+        color: black !important;
+    }
+
+    &.darkMode .router-button {
+        color: white !important;
+    }    
+}

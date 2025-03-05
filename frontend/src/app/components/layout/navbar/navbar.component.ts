@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { AuthService } from '../../../services/auth.service';
 // Angular Material
@@ -14,23 +14,25 @@ import { TranslationService } from '../../../services/translation.service';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { map } from 'rxjs';
+import { RouterButtonComponent } from "../router-button/router-button.component";
 
 
 @Component({
     selector: 'app-navbar',
     imports: [
-        RouterModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatIconModule,
-        FlexLayoutModule,
-        MatSlideToggleModule,
-        MatButtonToggleModule,
-        MatMenuModule,
-        MatMenuTrigger,
-        MatTooltipModule,
-        TranslatePipe
-    ],
+    RouterModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    FlexLayoutModule,
+    MatSlideToggleModule,
+    MatButtonToggleModule,
+    MatMenuModule,
+    MatMenuTrigger,
+    MatTooltipModule,
+    TranslatePipe,
+    RouterButtonComponent,
+],
     templateUrl: './navbar.component.html',
     styleUrl: './navbar.component.scss',
     encapsulation: ViewEncapsulation.None,
@@ -62,22 +64,14 @@ export class NavbarComponent {
     constructor(
         private translationService: TranslationService,
         public authService: AuthService,
-        private router: Router,
         private mediaObserver: MediaObserver
-    ) {
-        this.router.events.subscribe((event) => {
-            if (event instanceof NavigationEnd) {
-                this.activeRoute = event.urlAfterRedirects;
-            }
-        });
-    }
+    ) {}
 
 
     localizationToggleValue: string = "en";
     isdarkModeOn = false;
 
     settingsIconState = 'default';
-    activeRoute: string = '';
     isMdOrBeyond: boolean = false;    
 
     ngOnInit() {
@@ -104,9 +98,5 @@ export class NavbarComponent {
     changeLanguage(event: any) {
         this.localizationToggleValue = event.value;
         this.translationService.changeLanguage(this.localizationToggleValue);
-    }
-
-    isActive(route: string): boolean {
-        return this.activeRoute.startsWith(route);
     }
 }
