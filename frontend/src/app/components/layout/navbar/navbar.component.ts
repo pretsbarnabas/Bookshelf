@@ -16,24 +16,25 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { map } from 'rxjs';
 import { RouterButtonComponent } from "../router-button/router-button.component";
 import { UserLoggedInModel } from '../../../models/User';
+import { ThemeService } from '../../../services/theme.service';
 
 
 @Component({
     selector: 'app-navbar',
     imports: [
-    RouterModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    FlexLayoutModule,
-    MatSlideToggleModule,
-    MatButtonToggleModule,
-    MatMenuModule,
-    MatMenuTrigger,
-    MatTooltipModule,
-    TranslatePipe,
-    RouterButtonComponent,
-],
+        RouterModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        FlexLayoutModule,
+        MatSlideToggleModule,
+        MatButtonToggleModule,
+        MatMenuModule,
+        MatMenuTrigger,
+        MatTooltipModule,
+        TranslatePipe,
+        RouterButtonComponent,
+    ],
     templateUrl: './navbar.component.html',
     styleUrl: './navbar.component.scss',
     encapsulation: ViewEncapsulation.None,
@@ -65,20 +66,21 @@ export class NavbarComponent {
     constructor(
         private translationService: TranslationService,
         public authService: AuthService,
-        private mediaObserver: MediaObserver
-    ) {}
+        private themeService: ThemeService,
+        private mediaObserver: MediaObserver,
+    ) { }
 
-    loggedInUser: UserLoggedInModel | null = null;    
+    loggedInUser: UserLoggedInModel | null = null;
 
     localizationToggleValue: string = "en";
-    isdarkModeOn = false;
+
+    currentTheme: "light" | "dark" = "light";    
 
     settingsIconState = 'default';
-    isMdOrBeyond: boolean = false;    
+    isMdOrBeyond: boolean = false;
 
     ngOnInit() {
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches)
-            this.changeTheme()
+        this.currentTheme = this.themeService.checkPreferred();
         this.localizationToggleValue = this.translationService.checkPreferred()
         this.mediaObserver.asObservable().pipe(
             map((changes: MediaChange[]) => {
@@ -88,12 +90,12 @@ export class NavbarComponent {
         ).subscribe();
         this.authService.loggedInUser$.subscribe(user => {
             this.loggedInUser = user;
-        })
+        });
     }
 
     changeTheme() {
-        this.isdarkModeOn = !this.isdarkModeOn;
-        document.body.classList.toggle('darkMode')
+        this.currentTheme = this.currentTheme === "light" ? "dark" : "light"
+        this.themeService.changeTheme(this.currentTheme)
     }
 
     toggleSideNav() {

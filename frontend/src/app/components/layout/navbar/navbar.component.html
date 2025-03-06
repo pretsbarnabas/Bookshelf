@@ -45,10 +45,10 @@
             <span class="text-center d-block">{{ 'APP.MENU.SETTINGS.THEME' | translate }}</span>
             <hr class="my-2">
             <div class="mb-4 theme-holder" (click)="$event.stopPropagation()">
-                <mat-icon class="theme-icon" [@pulse]="!isdarkModeOn">wb_sunny</mat-icon>
-                <mat-slide-toggle class="mx-2" (toggleChange)="changeTheme()" [checked]="isdarkModeOn">
+                <mat-icon class="theme-icon" [@pulse]="this.currentTheme === 'light'">wb_sunny</mat-icon>
+                <mat-slide-toggle class="mx-2" (toggleChange)="changeTheme()" [checked]="this.currentTheme === 'dark'">
                 </mat-slide-toggle>
-                <mat-icon class="theme-icon" [@pulse]="isdarkModeOn">brightness_2</mat-icon>
+                <mat-icon class="theme-icon" [@pulse]="this.currentTheme === 'dark'">brightness_2</mat-icon>
             </div>
             <span class="text-center d-block">{{ 'APP.MENU.SETTINGS.LANG' | translate }}</span>
             <hr class="my-2">
