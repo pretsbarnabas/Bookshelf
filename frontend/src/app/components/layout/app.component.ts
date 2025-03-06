@@ -1,12 +1,12 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { FooterComponent } from './footer/footer.component';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
 import { AuthService } from '../../services/auth.service';
 import { TruncatePipe } from "../../pipes/truncate.pipe";
 import { RouterButtonComponent } from "./router-button/router-button.component";
@@ -35,7 +35,20 @@ export class AppComponent {
 
     constructor(
         public authService: AuthService,
-    ) { }
+        private router: Router,
+        private spinner: NgxSpinnerService
+    ) {
+        this.router.events.subscribe((event) => {
+            if (event instanceof NavigationStart)
+                this.spinner.show();
+            else if (
+                event instanceof NavigationEnd ||
+                event instanceof NavigationCancel ||
+                event instanceof NavigationError
+            )
+                this.spinner.hide();            
+        });
+    }
 
     ngOnInit() {
         this.authService.setLoggedInUser();

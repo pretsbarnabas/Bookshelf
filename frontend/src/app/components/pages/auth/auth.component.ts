@@ -12,7 +12,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { FormService } from '../../../services/form.service';
 import { TranslationService } from '../../../services/translation.service';
-import { NgxSpinnerService } from "ngx-spinner";
 import { ActivatedRoute, Router } from '@angular/router';
 import { isUserLoginModel, isUserRegistrationFormModel, UserLoginModel, UserRegistrationFormModel, UserRegistrationModel } from '../../../models/User';
 import { AuthService } from '../../../services/auth.service';
@@ -41,7 +40,6 @@ export class AuthComponent {
     constructor(
         private translationService: TranslationService,
         private formService: FormService,
-        private spinner: NgxSpinnerService,
         private router: Router,
         private authService: AuthService,
         private route: ActivatedRoute
@@ -76,7 +74,6 @@ export class AuthComponent {
         this.errorMessages = [];
         if (this.form.valid) {
             console.log(this.model);
-            this.spinner.show();
             if (this.mode === 'login') {
                 this.logIn(this.model as UserLoginModel);
             }
@@ -106,9 +103,7 @@ export class AuthComponent {
                         if (lastLoggedInUser)
                             await this.greetUser(lastLoggedInUser);
                         this.router.navigate(['home']);
-                        this.spinner.hide();
                     } else {
-                        this.spinner.hide();
                         this.errorMessages.push(new Error('UNEXPECTED'))
                     }
                 }
@@ -144,7 +139,6 @@ export class AuthComponent {
     }
 
     private onError(_error: Error) {
-        this.spinner.hide();
         this.errorMessages.push(_error);
         setTimeout(() => {
             this.errorAlert.nativeElement.scrollIntoView({ behavior: 'smooth' });
