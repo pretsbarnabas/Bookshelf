@@ -10,21 +10,21 @@
             <router-button [payload]="{ route: 'home', localReference: 'HOME' }"></router-button>
             <router-button [payload]="{ route: 'books', localReference: 'BOOKS' }"></router-button>
             <router-button [payload]="{ route: 'summaries', localReference: 'SUMMARIES' }"></router-button>
-            @if(authService.getloggedInUser && ['user', 'editor', 'admin'].includes(authService.getloggedInUser.role)){
+            @if(this.loggedInUser && ['user', 'editor', 'admin'].includes(this.loggedInUser.role)){
             <router-button [payload]="{ route: 'mylist', localReference: 'MYLIST' }"></router-button>
             }
         </div>
         <span class="spacer-center"></span>
         <div fxHide.lt-md>
-            @if(!authService.getloggedInUser){
+            @if(!this.loggedInUser){
             <router-button [payload]="{ route: 'auth/login', localReference: 'LOGIN' }"></router-button>
             <router-button [payload]="{ route: 'auth/register', localReference: 'REGISTER' }"></router-button>
             } @else {
             <button mat-button [matMenuTriggerFor]="profile">
                 <div class="d-inline-flex align-items-center">
-                    <span>{{ this.authService.getloggedInUser.username }}</span>
+                    <span>{{ this.loggedInUser.username }}</span>
                     <div class="avatar-wrapper ms-2">
-                        <img [src]="this.authService.getloggedInUser.profile_image" alt="Profile Picture"
+                        <img [src]="this.loggedInUser.profile_image" alt="Profile Picture"
                             class="rounded-circle">
                     </div>
                 </div>

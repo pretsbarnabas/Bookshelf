@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UserLoggedInModel, UserLoginModel, UserRegistrationModel } from '../models/User';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { ConfigService } from './config.service';
 import { jwtDecode } from "jwt-decode";
 import { Router } from '@angular/router';
@@ -19,19 +19,16 @@ export class AuthService {
         private router: Router
     ) { }
 
-    private loggedInUser: UserLoggedInModel | null = null;
-    lastLoggedInUser: string | null = null;    
+    private loggedInUserSubject = new BehaviorSubject<UserLoggedInModel | null>(null);    
+    loggedInUser$ = this.loggedInUserSubject.asObservable();
 
-    get getloggedInUser() : UserLoggedInModel | null{
-        return this.loggedInUser;
-    }
+    lastLoggedInUser: string | null = null;    
 
     logIn(_user: UserLoginModel): Observable<boolean> { 
         return this.http.post<{ token: string }>(`${this.configService.get('API_URL')}/api/login`, _user).pipe(
-
             map((result: { token: string }) => {
-                const token = result.token;
-                localStorage.setItem('authToken', token);
+                localStorage.setItem('authToken', result.token);
+                this.setLoggedInUser();
                 return true;
             })
         );
@@ -39,51 +36,43 @@ export class AuthService {
 
     getTokenId(): string | undefined {
         const decodedToken: any = this.decodeToken();
-        if(decodedToken)
-            return decodedToken.id;
-        return undefined;   
+        return decodedToken ? decodedToken.id : undefined;
     }
 
     decodeToken(): any {
         const token = localStorage.getItem('authToken');
-        if (!token) return undefined;
-
-        return jwtDecode(token);
+        return token ? jwtDecode(token) : undefined;
     }
 
-    setLoggedInUser(): boolean {
-        const tokenId = this.getTokenId();        
-        if (!tokenId) return false;
-
-        try {
-            this.getUserFromToken(tokenId).subscribe({
-                next: ((result: any) => {
-
-                    delete result._id;
-                    delete result.password_hashed;
-                    this.loggedInUser = result;
-                    if(this.loggedInUser)
-                        this.loggedInUser.profile_image = createAvatar(bottts, { seed: this.loggedInUser?.username }).toDataUri()
-                    console.log(this.loggedInUser);
-                    return true;
-                })
-            });   
-            return true;
-        } catch (error) {
-            console.error('Invalid token', error);
-            localStorage.removeItem('authToken');
-            this.loggedInUser = null;
-            return false;
+    setLoggedInUser(): void {
+        const tokenId = this.getTokenId();
+        if (!tokenId) {
+            this.loggedInUserSubject.next(null);
+            return;
         }
+
+        this.getUserFromToken(tokenId).subscribe({
+            next: (result: any) => {
+                delete result._id;
+                delete result.password_hashed;
+                result.profile_image = createAvatar(bottts, { seed: result.username }).toDataUri();
+                this.loggedInUserSubject.next(result);
+            },
+            error: () => {
+                console.error('Invalid token');
+                localStorage.removeItem('authToken');
+                this.loggedInUserSubject.next(null);
+            }
+        });
     }
 
-    shouldGreetUser(): string | null{
-        const username = this.decodeToken().username;
+    shouldGreetUser(): string | null {
+        const username = this.decodeToken()?.username;
         this.lastLoggedInUser = sessionStorage.getItem('lastLoggedInUser');
-        if(this.lastLoggedInUser === username){
+
+        if (this.lastLoggedInUser === username) {
             return null;
-        }
-        else if(username){
+        } else if (username) {
             sessionStorage.setItem('lastLoggedInUser', username);
             return username;
         }
@@ -96,9 +85,7 @@ export class AuthService {
 
     logOut() {
         localStorage.removeItem('authToken');
-        if (this.loggedInUser) {
-            this.loggedInUser = null;
-        }
+        this.loggedInUserSubject.next(null);
         this.router.navigate(['home']);
     }
 

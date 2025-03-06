@@ -10,6 +10,7 @@ import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
 import { AuthService } from '../../services/auth.service';
 import { TruncatePipe } from "../../pipes/truncate.pipe";
 import { RouterButtonComponent } from "./router-button/router-button.component";
+import { UserLoggedInModel } from '../../models/User';
 
 @Component({
     selector: 'app-root',
@@ -33,6 +34,8 @@ import { RouterButtonComponent } from "./router-button/router-button.component";
 export class AppComponent {
     title = 'frontend';
 
+    loggedInUser: UserLoggedInModel | null = null;
+
     constructor(
         public authService: AuthService,
         private router: Router,
@@ -48,6 +51,9 @@ export class AppComponent {
             )
                 this.spinner.hide();            
         });
+        this.authService.loggedInUser$.subscribe(user => {
+            this.loggedInUser = user;
+        })
     }
 
     ngOnInit() {

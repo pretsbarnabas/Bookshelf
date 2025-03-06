@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormService } from '../../../services/form.service';
 import { TranslationService } from '../../../services/translation.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { isUserLoginModel, isUserRegistrationFormModel, UserLoginModel, UserRegistrationFormModel, UserRegistrationModel } from '../../../models/User';
+import { isUserLoginModel, isUserRegistrationFormModel, UserLoggedInModel, UserLoginModel, UserRegistrationFormModel, UserRegistrationModel } from '../../../models/User';
 import { AuthService } from '../../../services/auth.service';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -73,7 +73,6 @@ export class AuthComponent {
     onSubmit() {
         this.errorMessages = [];
         if (this.form.valid) {
-            console.log(this.model);
             if (this.mode === 'login') {
                 this.logIn(this.model as UserLoginModel);
             }
@@ -92,27 +91,30 @@ export class AuthComponent {
     async logIn(_user: UserLoginModel) {
         this.authService.logIn(_user).subscribe({
             next: async (result: boolean) => {
-                if (!result)
-                    this.errorMessages = await firstValueFrom(this.translationService.service.get('AUTH.EMSG.UNEXPECTED'))
-                else {
-                    console.log(this.authService.setLoggedInUser());
-
-                    if (this.authService.setLoggedInUser()) {
-                        const lastLoggedInUser: string | null = this.authService.shouldGreetUser()
-                        console.log(lastLoggedInUser);
-                        if (lastLoggedInUser)
-                            await this.greetUser(lastLoggedInUser);
-                        this.router.navigate(['home']);
-                    } else {
-                        this.errorMessages.push(new Error('UNEXPECTED'))
-                    }
+                if (!result) {
+                    this.errorMessages = await firstValueFrom(this.translationService.service.get('AUTH.EMSG.UNEXPECTED'));
+                } else {
+                    this.authService.loggedInUser$.subscribe({
+                        next: async (user: UserLoggedInModel | null) =>{
+                            const lastLoggedInUser: string | null = this.authService.shouldGreetUser();
+                            if (lastLoggedInUser) {
+                                await this.greetUser(lastLoggedInUser);
+                            }
+                            this.router.navigate(['home']);
+                        },
+                        error: async (err)=> {
+                            this.errorMessages.push(new Error('UNEXPECTED'));
+                            
+                        },                        
+                    });
                 }
             },
             error: async (err: Error) => {
                 this.onError(err);
             }
-        })
+        });
     }
+    
 
     async greetUser(username: string) {
         this.snackBar.open(
@@ -129,7 +131,6 @@ export class AuthComponent {
     async register(_model: UserRegistrationModel) {
         this.authService.register(_model).subscribe({
             next: async (model: any) => {
-                console.log('Registration succesful');
                 this.logIn({ username: _model.username, password: _model.password });
             },
             error: async (err: Error) => {

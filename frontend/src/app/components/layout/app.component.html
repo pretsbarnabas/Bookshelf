@@ -11,12 +11,12 @@
                 (click)="drawer.opened=false"></router-button>
             <router-button [payload]="{ route: 'summaries', icon: 'notes', localReference: 'SUMMARIES' }"
                 (click)="drawer.opened=false"></router-button>
-            @if(authService.getloggedInUser && ['user', 'editor', 'admin'].includes(authService.getloggedInUser.role)){
+            @if(this.loggedInUser && ['user', 'editor', 'admin'].includes(this.loggedInUser.role)){
             <router-button [payload]="{ route: 'mylist', icon: 'list_alt', localReference: 'MYLIST' }"
                 (click)="drawer.opened=false"></router-button>
             }
             <hr>
-            @if(!authService.getloggedInUser){
+            @if(!this.loggedInUser){
             <router-button [payload]="{ route: 'auth/login', icon: 'login', localReference: 'LOGIN' }"
                 (click)="drawer.opened=false"></router-button>
             <router-button [payload]="{ route: 'auth/register', icon: 'person_add', localReference: 'REGISTER' }"
@@ -27,10 +27,10 @@
                     <mat-expansion-panel-header class="ps-2">
                         <mat-panel-title>
                             <div class="avatar-wrapper me-1">
-                                <img [src]="this.authService.getloggedInUser.profile_image" alt="Profile Picture"
+                                <img [src]="this.loggedInUser.profile_image" alt="Profile Picture"
                                     class="rounded-circle">
                             </div>
-                            <span>{{ this.authService.getloggedInUser.username | truncate }}</span>
+                            <span>{{ this.loggedInUser.username | truncate }}</span>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                     <router-button [payload]="{ route: 'profile', icon: 'person', localReference: 'PROFILE.PAGE' }"
