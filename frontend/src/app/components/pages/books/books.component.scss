@@ -4,10 +4,18 @@
     width: 10vw;
     align-self: center;
 }
-.book-card{
-    max-width: 20vw;
-}
 .card-author{
     text-align: center;
     width: 100%;
+}
+.book-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.book-card {
+    margin: 10px;
+    max-width: 20vw;
+    min-width: 20vw;
+    justify-self: center;
 }
