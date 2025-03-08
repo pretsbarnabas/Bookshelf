@@ -11,6 +11,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { NgxSpinnerModule } from "ngx-spinner";
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { spinnerInterceptor } from './interceptors/spinner.interceptor';
+import { provideClientHydration } from '@angular/platform-browser';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -26,6 +27,7 @@ export const appConfig: ApplicationConfig = {
                 spinnerInterceptor
             ])
         ),
+        provideClientHydration(),
         importProvidersFrom(
             TranslateModule.forRoot({
                 defaultLanguage: 'en',

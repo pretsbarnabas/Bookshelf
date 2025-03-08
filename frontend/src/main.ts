@@ -1,4 +1,4 @@
-import { bootstrapApplication } from '@angular/platform-browser';
+import { bootstrapApplication, provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { AppComponent } from './app/components/layout/app.component';
 import { appConfig } from './app/app.config';
 import { provideConfig } from './app/services/config.service';
@@ -14,7 +14,7 @@ fetch('./assets/config.json')
     bootstrapApplication(AppComponent, {
       providers: [
         ...appConfig.providers,
-        provideConfig(config),
+        provideConfig(config), provideClientHydration(withEventReplay()),
       ]
     }).catch((err) => console.error(err));
   })
