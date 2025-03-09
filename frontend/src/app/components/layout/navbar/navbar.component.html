@@ -6,7 +6,7 @@
         </button>
         <span>Bookshelf</span>
         <span class="spacer"></span>
-        <div fxHide.lt-md>
+        <div fxHide.lt-md @defer>
             <router-button [payload]="{ route: 'home', localReference: 'HOME' }"></router-button>
             <router-button [payload]="{ route: 'books', localReference: 'BOOKS' }"></router-button>
             <router-button [payload]="{ route: 'summaries', localReference: 'SUMMARIES' }"></router-button>
@@ -15,7 +15,7 @@
             }
         </div>
         <span class="spacer-center"></span>
-        <div fxHide.lt-md>
+        <div fxHide.lt-md @defer>
             @if(!this.loggedInUser){
             <router-button [payload]="{ route: 'auth/login', localReference: 'LOGIN' }"></router-button>
             <router-button [payload]="{ route: 'auth/register', localReference: 'REGISTER' }"></router-button>
@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </button>
-            <mat-menu #profile="matMenu" (window:resize)="profile._setIsOpen(false)" class="p-2">
+            <mat-menu #profile="matMenu" (window:resize)="profile._setIsOpen(false)" class="p-2" @defer>
                 <router-button [payload]="{ route: 'profile', icon: 'person', localReference: 'PROFILE.PAGE', isMatMenu: true }"></router-button>
                 <router-button [payload]="{ route: 'exit', icon: 'exit_to_app', localReference: 'PROFILE.LOGOUT', isMatMenu: true }" (click)="this.authService.logOut()"></router-button>                
             </mat-menu>
@@ -38,10 +38,11 @@
         <span class="spacer" fxHide.lt-md></span>
         <button mat-icon-button [matMenuTriggerFor]="settings" (click)="settingsIconState = 'clicked'"
             [matTooltip]="this.isMdOrBeyond ? ('APP.MENU.SETTINGS.TOOLTIP' | translate ) : null"
-            [matTooltipPosition]="'below'" matTooltipShowDelay="500">
+            [matTooltipPosition]="'below'" matTooltipShowDelay="500"
+            @defer>
             <mat-icon [@rotate]="settingsIconState">settings</mat-icon>
         </button>
-        <mat-menu #settings="matMenu" class="p-2" (closed)="settingsIconState = 'default'">
+        <mat-menu #settings="matMenu" class="p-2" (closed)="settingsIconState = 'default'" @defer>
             <span class="text-center d-block">{{ 'APP.MENU.SETTINGS.THEME' | translate }}</span>
             <hr class="my-2">
             <div class="mb-4 theme-holder" (click)="$event.stopPropagation()">

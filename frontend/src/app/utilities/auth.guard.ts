@@ -1,17 +1,22 @@
-import { inject } from '@angular/core';
+import { inject, PLATFORM_ID } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { map, of, switchMap } from 'rxjs';
 import { UserLoggedInModel } from '../models/User';
+import { isPlatformBrowser } from '@angular/common';
 
 export const authGuard: CanActivateFn = (route, state) => {
 
     const authService = inject(AuthService);
     const router = inject(Router);
+    const platformId = inject(PLATFORM_ID);
 
     let userRole: string | null = null;
-    if(localStorage.getItem('authToken'))
-        userRole = authService.decodeToken().role;
+
+    if (isPlatformBrowser(platformId)) {
+        if (localStorage.getItem('authToken'))
+            userRole = authService.decodeToken().role;
+    }
 
     if (state.url.startsWith('/auth')) {
         if (!userRole) {
