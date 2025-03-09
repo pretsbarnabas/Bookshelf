@@ -74,7 +74,7 @@ export class NavbarComponent {
 
     localizationToggleValue: string = "en";
 
-    currentTheme: "light" | "dark" = "light";    
+    currentTheme: "light" | "dark" = "light";
 
     settingsIconState = 'default';
     isMdOrBeyond: boolean = false;

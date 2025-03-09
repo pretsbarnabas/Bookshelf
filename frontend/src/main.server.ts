@@ -1,25 +1,21 @@
+import 'zone.js';
+import '@angular/compiler';
 import { renderApplication } from '@angular/platform-server';
-import { bootstrapApplication } from '@angular/platform-browser';
+import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { AppComponent } from './app/components/layout/app.component';
-import { config } from './app/app.config.server';
-import { join } from 'node:path';
-import { readFileSync } from 'node:fs';
+import { serverConfig } from './app/app.config.server';
 
-const indexHtmlPath = join(
-    process.cwd(),
-    'dist/frontend/browser/index.html'
-);
-
-const document = readFileSync(indexHtmlPath, 'utf-8');
-
-export default async (url: string) => {
+export const bootstrapApp = async (url: string) => {
     return renderApplication(
-        () => bootstrapApplication(AppComponent, config),
+        () => bootstrapApplication(AppComponent, serverConfig),
         {
-            document,
-            url,
+            document: '<app-root></app-root>',
+            url,            
             platformProviders: [
-                { provide: 'REQUEST_URL', useValue: url }
+                { provide: 'CLIENT_HYDRATION', useFactory: provideClientHydration },
+                { provide: 'SERVER_CONTEXT', useValue: 'ssr'},
+                { provide: 'REQUEST_URL', useValue: url },
+                { provide: 'SERVER_REQUEST_TIMEOUT', useValue: 30000 }
             ]
         }
     );

@@ -2,15 +2,22 @@
     "extends": "./tsconfig.app.json",
     "compilerOptions": {
         "outDir": "./out-tsc/server",
-        "module": "NodeNext",
-        "moduleResolution": "NodeNext",
+        "target": "ES2022",
+        "module": "ES2022",
+        // "moduleResolution": "NodeNext",
         "types": [
             "node"
         ],
+        "useDefineForClassFields": false,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true
     },
+    "paths": {
+      "zone.js": ["node_modules/zone.js"],
+      "zone.js/*": ["node_modules/zone.js/*"]
+    },
     "include": [
+        "src/main.server.ts",
         "src/server.ts"
     ],
     "files": [

@@ -17,7 +17,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:application",
                     "options": {
-                        "outputPath": "dist/frontend/browser",
+                        "outputPath": "dist/frontend",
                         "index": "src/index.html",
                         "browser": "src/main.ts",
                         "polyfills": [
@@ -45,6 +45,7 @@
                             "sourceMap": false,
                             "namedChunks": false,
                             "extractLicenses": true,
+                            "aot": true,
                             "budgets": [
                                 {
                                     "type": "initial",
@@ -72,7 +73,23 @@
                     "options": {
                         "outputPath": "dist/frontend/server",
                         "main": "src/server.ts",
-                        "tsConfig": "tsconfig.server.json"
+                        "tsConfig": "tsconfig.server.json",
+                        "optimization": true,
+                        "outputHashing": "none",
+                        "sourceMap": false,
+                        "externalDependencies": [
+                            "@angular/platform-server/init",
+                            "@angular/flex-layout/server",
+                            "zone.js",
+                            "zone.js/dist/zone-node",
+                            "stream",
+                            "tty",
+                            "net"
+                        ],
+                        "assets": [
+                            "src/assets",
+                            "src/favicon.ico"
+                        ]
                     }
                 },
                 "serve-ssr": {

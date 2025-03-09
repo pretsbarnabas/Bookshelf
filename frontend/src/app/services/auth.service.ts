@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { UserLoggedInModel, UserLoginModel, UserRegistrationModel } from '../models/User';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, map, Observable } from 'rxjs';
@@ -7,27 +7,29 @@ import { jwtDecode } from "jwt-decode";
 import { Router } from '@angular/router';
 import { createAvatar } from '@dicebear/core';
 import { bottts } from '@dicebear/collection';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-
     constructor(
         private http: HttpClient,
         private configService: ConfigService,
-        private router: Router
+        private router: Router,
+        @Inject(PLATFORM_ID) private platformId: Object
     ) { }
 
-    private loggedInUserSubject = new BehaviorSubject<UserLoggedInModel | null>(null);    
+    private loggedInUserSubject = new BehaviorSubject<UserLoggedInModel | null>(null);
     loggedInUser$ = this.loggedInUserSubject.asObservable();
+    lastLoggedInUser: string | null = null;
 
-    lastLoggedInUser: string | null = null;    
-
-    logIn(_user: UserLoginModel): Observable<boolean> { 
+    logIn(_user: UserLoginModel): Observable<boolean> {
         return this.http.post<{ token: string }>(`${this.configService.get('API_URL')}/api/login`, _user).pipe(
             map((result: { token: string }) => {
-                localStorage.setItem('authToken', result.token);
+                if (isPlatformBrowser(this.platformId)) {
+                    localStorage.setItem('authToken', result.token);
+                }
                 this.setLoggedInUser();
                 return true;
             })
@@ -36,12 +38,15 @@ export class AuthService {
 
     getTokenId(): string | undefined {
         const decodedToken: any = this.decodeToken();
-        return decodedToken ? decodedToken.id : undefined;
+        return decodedToken?.id;
     }
 
     decodeToken(): any {
-        const token = localStorage.getItem('authToken');
-        return token ? jwtDecode(token) : undefined;
+        if (isPlatformBrowser(this.platformId)) {
+            const token = localStorage.getItem('authToken');
+            return token ? jwtDecode(token) : undefined;
+        }
+        return undefined;
     }
 
     setLoggedInUser(): void {
@@ -55,18 +60,28 @@ export class AuthService {
             next: (result: any) => {
                 delete result._id;
                 delete result.password_hashed;
-                result.profile_image = createAvatar(bottts, { seed: result.username }).toDataUri();
+
+                if (isPlatformBrowser(this.platformId)) {
+                    result.profile_image = createAvatar(bottts, {
+                        seed: result.username
+                    }).toDataUri();
+                }
+
                 this.loggedInUserSubject.next(result);
             },
             error: () => {
-                console.error('Invalid token');
-                localStorage.removeItem('authToken');
+                if (isPlatformBrowser(this.platformId)) {
+                    console.error('Invalid token');
+                    localStorage.removeItem('authToken');
+                }
                 this.loggedInUserSubject.next(null);
             }
         });
     }
 
     shouldGreetUser(): string | null {
+        if (!isPlatformBrowser(this.platformId)) return null;
+
         const username = this.decodeToken()?.username;
         this.lastLoggedInUser = sessionStorage.getItem('lastLoggedInUser');
 
@@ -84,7 +99,9 @@ export class AuthService {
     }
 
     logOut() {
-        localStorage.removeItem('authToken');
+        if (isPlatformBrowser(this.platformId)) {
+            localStorage.removeItem('authToken');
+        }
         this.loggedInUserSubject.next(null);
         this.router.navigate(['home']);
     }

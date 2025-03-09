@@ -2,6 +2,8 @@
 @use '@angular/material' as mat;
 @use 'styles/custom-theme' as custom;
 
+@include mat.core();
+
 body {
     margin: 0;
 }
