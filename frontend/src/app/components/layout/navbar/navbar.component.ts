@@ -17,6 +17,9 @@ import { map } from 'rxjs';
 import { RouterButtonComponent } from "../router-button/router-button.component";
 import { UserLoggedInModel } from '../../../models/User';
 import { ThemeService } from '../../../services/theme.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatBadgeModule } from '@angular/material/badge';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -34,6 +37,8 @@ import { ThemeService } from '../../../services/theme.service';
         MatTooltipModule,
         TranslatePipe,
         RouterButtonComponent,
+        MatBadgeModule,
+        CommonModule
     ],
     templateUrl: './navbar.component.html',
     styleUrl: './navbar.component.scss',
@@ -74,13 +79,18 @@ export class NavbarComponent {
 
     localizationToggleValue: string = "en";
 
-    currentTheme: "light" | "dark" = "light";    
+    currentTheme: "light" | "dark" = "light";
+    isEyeSaveModeOn: boolean = false;
+    colorBlindnessMode: "red-green" | "blue-yellow" | "monochrome" | "none" = "none";
+    isLastColorBlindnessDiff: boolean = true
 
     settingsIconState = 'default';
     isMdOrBeyond: boolean = false;
 
     ngOnInit() {
-        this.currentTheme = this.themeService.checkPreferred();
+        this.currentTheme = this.themeService.checkPreferredTheme();
+        this.isEyeSaveModeOn = this.themeService.checkEyeSaverMode();
+        this.colorBlindnessMode = this.themeService.checkColorBlindnessMode() as "red-green" | "blue-yellow" | "monochrome" | "none";
         this.localizationToggleValue = this.translationService.checkPreferred()
         this.mediaObserver.asObservable().pipe(
             map((changes: MediaChange[]) => {
@@ -91,6 +101,12 @@ export class NavbarComponent {
         this.authService.loggedInUser$.subscribe(user => {
             this.loggedInUser = user;
         });
+        if(this.colorBlindnessMode !== "none" && localStorage.getItem("wasColorBlindnessNone") === 'true'){
+            localStorage.setItem("wasColorBlindnessNone", 'false')
+            this.isLastColorBlindnessDiff = true
+        }
+        else
+            this.isLastColorBlindnessDiff = false
     }
 
     changeTheme() {
@@ -105,5 +121,18 @@ export class NavbarComponent {
     changeLanguage(event: any) {
         this.localizationToggleValue = event.value;
         this.translationService.changeLanguage(this.localizationToggleValue);
+    }
+
+    changeEyeSaveMode() {
+        this.isEyeSaveModeOn = !this.isEyeSaveModeOn;
+        this.themeService.changeEyeSaveMode(this.isEyeSaveModeOn)
+    }
+
+    changeColorBlindnessOverlay(type: string) {
+        if (this.colorBlindnessMode === type)
+            this.colorBlindnessMode = "none";
+        else
+            this.colorBlindnessMode = type as "red-green" | "blue-yellow" | "monochrome" | "none";
+        this.themeService.changeColorBlindessMode(this.colorBlindnessMode);
     }
 }

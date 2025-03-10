@@ -10,14 +10,29 @@
             "SETTINGS": {
                 "THEME": "Theme",
                 "LANG": "Language",
-                "TOOLTIP" : "Settings"
+                "EYE": "Eye Saver Mode",
+                "TOOLTIP" : "Settings",
+                "ACCESSIBILITY": {
+                    "LABEL": "Accessibility",
+                    "SUBMENU": {
+                        "COLORBLIND": "Colorblindness",
+                        "REDGREEN": "Red-Green",
+                        "BLUEYELLOW": "Blue-Yellow",
+                        "MONOCHROME" : "Monochrome"
+                    }
+                }
             },
             "PROFILE": {
                 "PAGE": "Profile",
                 "LOGOUT": "Logout"
             }
         },
-        "SPINNER": "Loading..."
+        "SPINNER": "Loading...",
+        "SNACKBAR": {
+            "LABEL": "Currently active colorblindness overlay:",
+            "CLEAR": "Clear filter",
+            "CLOSE" : "Close"
+        }
     },
     "HOME":{
         "TEST": "Home page"

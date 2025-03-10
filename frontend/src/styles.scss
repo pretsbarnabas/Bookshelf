@@ -13,7 +13,7 @@ app-root {
     @include mat.button-overrides((outlined-container-shape: none,
             text-container-shape: none,
             protected-container-shape: none,
-            filled-container-shape: none));            
+            filled-container-shape: none));
 }
 
 $app-components: "app-auth, app-home, app-books, app-book-item, app-mylist, app-profile, app-summaries, app-summary-item, app-not-found";
@@ -29,7 +29,8 @@ $app-components: "app-auth, app-home, app-books, app-book-item, app-mylist, app-
             flex: 1;
             width: 100%;
             align-items: center;
-            .wrapper-content{
+
+            .wrapper-content {
                 display: block;
                 width: 100%;
                 align-self: start;
@@ -56,17 +57,54 @@ body {
     & {
         background-color: custom.$bg-color-light;
         color: custom.$text-color-light;
+        transition: background-color .3s ease, color .3s ease;
     }
 }
 
 .darkMode {
     @include mat.theme((color: (primary: custom.$primary-palette,
-                theme-type: dark,
-            ),
-        ));
-
+    theme-type: dark,
+    ),
+    ));
+    
     & {
+        transition: background-color .3s ease, color .3s ease;
         background-color: custom.$bg-color-dark;
         color: custom.$text-color-dark;
     }
+}
+
+body.eyeSaverMode {
+    filter: sepia(.6) saturate(1.2) contrast(.9) brightness(.9);
+    transition: filter .3s ease;
+}
+
+body.colorblind-red-green {
+    filter: contrast(150%) saturate(100%) sepia(0.2) hue-rotate(-50deg);
+    transition: filter .3s ease;
+}
+
+body.colorblind-blue-yellow {
+    filter: contrast(150%) saturate(100%) sepia(0.3) hue-rotate(90deg);
+    transition: filter .3s ease;
+}
+
+body.colorblind-monochrome {
+    filter: grayscale(100%) brightness(100%);
+    transition: filter .3s ease;
+}
+
+body.eyeSaverMode.colorblind-red-green {
+    filter: sepia(.6) saturate(1.2) contrast(.9) brightness(.9) contrast(150%) saturate(100%) sepia(0.2) hue-rotate(-50deg);
+    transition: filter .3s ease;
+}
+
+body.eyeSaverMode.colorblind-blue-yellow {
+    filter: sepia(.6) saturate(1.2) contrast(.9) brightness(.9) contrast(150%) saturate(100%) sepia(0.3) hue-rotate(90deg);
+    transition: filter .3s ease;
+}
+
+body.eyeSaverMode.colorblind-monochrome {
+    filter: sepia(.6) saturate(1.2) contrast(.9) brightness(.9) grayscale(100%) brightness(100%);
+    transition: filter .3s ease;
 }
