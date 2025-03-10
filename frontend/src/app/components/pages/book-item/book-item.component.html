@@ -1,20 +1,24 @@
-<div class="book-item">
-    <div class="book-item-content ">
-        <div id="Book" class="book-card-container">
-            <mat-card class="book-card">
-                <mat-card-header>
-                    <mat-card-title class="title">{{ book.title }}</mat-card-title>
-                    <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
-                </mat-card-header>
-                <img mat-card-image class="book-image img-fluid" src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain" alt="{{ book.title }}">
-                <mat-card-content>
-                    <p>{{ formatDate(book.release) }}</p>
-                </mat-card-content>
-            </mat-card>
-        </div>
-        <div id="Book-Details" class="book-details">
-            <h2>{{ book.title }}</h2>
-            <p>{{ book.author }}</p>
+<div class="wrapper">
+    <div class="wrapper-content">
+        <div class="book-item d-flex justify-content-center align-items-center w-100">
+            <div class="book-item-content d-flex flex-column flex-lg-row justify-content-center align-items-center">
+                <div id="Book" class="book-card-container m-3">
+                    <mat-card class="book-card">
+                        <mat-card-header>
+                            <img mat-card-image class="book-image img-fluid" src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain" alt="{{ book.title }}">
+                        </mat-card-header>
+                        <mat-card-content>
+                            <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                            <mat-card-title class="title">{{ book.title }}</mat-card-title>
+                            <p>{{ formatDate(book.release) }}</p>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div id="Book-Details" class="book-details m-3">
+                    <h2>{{ book.title }}</h2>
+                    <p>{{ book.author }}</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
