@@ -1,23 +1,21 @@
 <div class="wrapper">
-    <div class="wrapper-content">
-        <div class="book-item d-flex justify-content-center align-items-center w-100">
-            <div class="book-item-content d-flex flex-column flex-lg-row justify-content-center align-items-center">
-                <div id="Book" class="book-card-container m-3">
-                    <mat-card class="book-card">
-                        <mat-card-header>
-                            <img mat-card-image class="book-image img-fluid" src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain" alt="{{ book.title }}">
-                        </mat-card-header>
-                        <mat-card-content>
-                            <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
-                            <mat-card-title class="title">{{ book.title }}</mat-card-title>
-                            <p>{{ formatDate(book.release) }}</p>
-                        </mat-card-content>
-                    </mat-card>
-                </div>
-                <div id="Book-Details" class="book-details m-3">
-                    <h2>{{ book.title }}</h2>
-                    <p>{{ book.author }}</p>
-                </div>
+    <div class="wrapper-content h-100">
+        <div class="book-item d-flex align-items-start row w-100 h-100">
+            <div id="Book" class=" col-12 col-lg-2 d-flex h-100">
+                <mat-card class="book-card w-100">
+                    <mat-card-header>
+                        <img mat-card-image class="book-image img-fluid" src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain" alt="{{ book.title }}">
+                    </mat-card-header>
+                    <mat-card-content>
+                        <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                        <mat-card-title class="title">{{ book.title }}</mat-card-title>
+                        <p>{{ formatDate(book.release) }}</p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div id="Book-Details" class="book-details col-12 col-lg-8">
+                <h2>{{ book.title }}</h2>
+                <p>{{ book.author }}</p>
             </div>
         </div>
     </div>
