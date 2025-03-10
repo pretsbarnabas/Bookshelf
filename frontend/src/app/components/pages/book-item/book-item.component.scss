@@ -1,0 +1,20 @@
+.book-item-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.book-card-container,
+.book-details {
+    flex: 1;
+}
+
+@media (min-width: 992px) {
+    .book-item-content {
+        flex-direction: row;
+    }
+
+    .book-card-container,
+    .book-details {
+        flex: 1;
+    }
+}

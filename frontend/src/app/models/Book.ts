@@ -1,5 +1,5 @@
 export interface Book {
-    _id?: string
+    _id: string
     title?: string
     author?: string
     release?: string

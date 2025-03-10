@@ -1,4 +1,5 @@
 import { Component, Renderer2, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { FormlyModule } from '@ngx-formly/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -40,7 +41,7 @@ export class BooksComponent implements OnInit {
   paginatedBooks: Book[] = [];
   pageSize = 10;
 
-  constructor(private renderer: Renderer2, private bookService: BookService, private datePipe: DatePipe) {}
+  constructor(private renderer: Renderer2, private bookService: BookService, private datePipe: DatePipe, private router: Router) {}
 
   ngOnInit() {
     this.bookService.getAllBooks(this.pageSize).subscribe({
@@ -64,6 +65,9 @@ export class BooksComponent implements OnInit {
     const startIndex = pageIndex * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     this.paginatedBooks = this.books.slice(startIndex, endIndex);
+  }
+  navigateToBook(bookId: string) {
+    this.router.navigate(['/book-item', bookId]);
   }
 
   formatDate(date: any) {

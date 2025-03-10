@@ -27,7 +27,7 @@ export const routes: Routes = [
     },
     // non-visible routes
     { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
-    { path: 'book-item', component: BookItemComponent },
+    { path: 'book-item/:id', component: BookItemComponent },
     { path: 'summary-item', component: SummaryItemComponent },
     // fallback
     { path: '**', redirectTo: '/home', pathMatch: 'full' },

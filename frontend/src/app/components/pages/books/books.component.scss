@@ -17,4 +17,21 @@
     max-width: 20vw;
     min-width: 20vw;
     justify-self: center;
+    font-size: calc(1vw + 1vh); /* Adjust font size based on viewport width and height */
+}
+.title {
+    word-break: break-word; /* Break words when they overflow */
+    overflow-wrap: break-word; /* Ensure long words break and wrap to the next line */
+}
+
+@media (max-width: 835px) {
+    .title {
+        font-size: 1rem;
+    }
+}
+@media (max-width: 650px) {
+    .title {
+
+        font-size: 0.9rem;
+    }
 }
