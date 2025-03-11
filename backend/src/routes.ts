@@ -10,6 +10,9 @@ export const router = express.Router()
 
 router.post("/login",UserController.login)
 
+router.post("/image",UserController.uploadImage)
+router.get("/image/:imageName",UserController.getImage)
+
 // User routes
 
 router.get("/users/",UserController.getAllUsers)
