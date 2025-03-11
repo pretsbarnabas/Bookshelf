@@ -5,9 +5,16 @@ const routes = require("./routes.ts")
 const swaggerJsdoc = require("swagger-jsdoc")
 const swaggerUi = require("swagger-ui-express");
 import YAML from "yamljs"
-const connectionString = process.env.DATABASE_URL
 const cors = require("cors")
 
+
+let connectionString
+if(process.argv[2] && process.argv[2] == "test"){
+    connectionString = "mongodb://localhost:27017/Bookshelf"
+}
+else{
+    connectionString = process.env.DATABASE_URL
+}
 if(!connectionString) throw new Error("No connection string defined")
 
 mongoose.connect(connectionString)

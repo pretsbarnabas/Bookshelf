@@ -6,9 +6,7 @@ const Types = require("mongoose").Types
 async function seed(){
     const uri = "mongodb://localhost:27017"
 
-    const client = new MongoClient(uri,{
-        useNewUrlParser: true
-    })
+    const client = new MongoClient(uri,{})
 
     try {
         await client.connect()
@@ -32,9 +30,9 @@ async function seed(){
             "username": "admin",
             "password_hashed": "$2b$10$2ticgdLvmAs4b5epdj3rZeyf1.04UBUbxR7m/kk/HAYhhGVLAort.",
             "email": "admin@email.com",
-            "created_at": "2016-04-08T15:06:21.595Z",
-            "updated_at": "2016-04-08T15:06:21.595Z",
-            "last_login": "2016-04-08T15:06:21.595Z",
+            "created_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z"),
+            "last_login": new Date("2016-04-08T15:06:21.595Z"),
             "role": "admin",
             "booklist": [
                 {
@@ -48,12 +46,12 @@ async function seed(){
             "_id": new Types.ObjectId("7fdb24bfd2c9eaca400201b8"),
             "title": "Lorem",
             "author": "Lorem",
-            "release": "2016-04-08T15:06:21.595Z",
+            "release": new Date("2016-04-08T15:06:21.595Z"),
             "genre": "Crime",
             "user_id": new Types.ObjectId("db0b0c1f83fb29f652cc5a2f"),
             "description": "Lorem",
-            "added_at": "2016-04-08T15:06:21.595Z",
-            "updated_at": "2016-04-08T15:06:21.595Z"
+            "added_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z")
         })
 
         await reviewsCollection.insertOne({
@@ -62,8 +60,8 @@ async function seed(){
             "book_id": new Types.ObjectId("7fdb24bfd2c9eaca400201b8"),
             "score": 8,
             "content": "Lorem",
-            "created_at": "2016-04-08T15:06:21.595Z",
-            "updated_at": "2016-04-08T15:06:21.595Z"
+            "created_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z")
         })
 
         await commentsCollection.insertOne({
@@ -71,8 +69,8 @@ async function seed(){
             "user_id": new Types.ObjectId("db0b0c1f83fb29f652cc5a2f"),
             "review_id": new Types.ObjectId("a826b9febba8c411cf6d82cb"),
             "content": "Lorem",
-            "created_at": "2016-04-08T15:06:21.595Z",
-            "updated_at": "2016-04-08T15:06:21.595Z"
+            "created_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z")
         })
 
         await summariesCollection.insertOne({
@@ -80,8 +78,8 @@ async function seed(){
             "user_id": new Types.ObjectId("db0b0c1f83fb29f652cc5a2f"),
             "book_id": new Types.ObjectId("7fdb24bfd2c9eaca400201b8"),
             "content": "Lorem",
-            "created_at": "2016-04-08T15:06:21.595Z",
-            "updated_at": "2016-04-08T15:06:21.595Z"
+            "created_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z")
         })
 
         console.log("seeded")
