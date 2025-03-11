@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ConfigService } from './config.service';
 import { Book } from '../models/Book';
-
+import { map,tap } from 'rxjs/operators';
 @Injectable({
     providedIn: 'root'
 })
@@ -20,4 +20,7 @@ export class BookService {
     getBookById(id: string): Observable<any> {
         return this.http.get<Book>(`${this.configService.get('API_URL')}/api/books/${id}`);
       }
+    getAllReviewsByBookId(id: string): Observable<any> {
+        return this.http.get<any>(`${this.configService.get('API_URL')}/api/reviews/${id}`);
+    }
 }
