@@ -1,0 +1,14 @@
+<ng-container *ngIf="!payload?.isMatMenu; else otherTemplate">
+    <button mat-button class="router-button" [routerLink]="payload?.route" [disabled]="isActive('/' + payload?.route)">
+        <mat-icon *ngIf="payload?.icon">{{ payload?.icon }}</mat-icon>
+        {{ "APP.MENU." + payload?.localReference | translate }}
+    </button>
+</ng-container>
+
+<ng-template #otherTemplate>
+    <button mat-menu-item class="router-button" [routerLink]="payload?.route"
+        [disabled]="isActive('/' + payload?.route)">
+        <mat-icon *ngIf="payload?.icon">{{ payload?.icon }}</mat-icon>
+        {{ "APP.MENU." + payload?.localReference | translate }}
+    </button>
+</ng-template>

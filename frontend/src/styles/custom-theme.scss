@@ -4,6 +4,12 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
+$bg-color-light: #fff;
+$text-color-light: #000;
+
+$bg-color-dark: #333;
+$text-color-dark: #fff;
+
 // Note: Color palettes are generated from primary: #1c4eba
 $_palettes: (
   primary: (
@@ -202,3 +208,4 @@ $tertiary-palette: map.merge(map.get($_palettes, tertiary), $_rest);
     on-surface-variant: _high-contrast-value(#000000, #ffffff, $theme-type),
   ))
  }
+ 

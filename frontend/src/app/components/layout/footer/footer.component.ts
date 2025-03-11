@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FlexLayoutModule } from "@angular/flex-layout";
 
@@ -10,7 +10,9 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     FlexLayoutModule
   ],
   templateUrl: './footer.component.html',
-  styleUrl: './footer.component.scss'
+  styleUrl: './footer.component.scss',
+  encapsulation: ViewEncapsulation.None,
+  
 })
 export class FooterComponent {
 

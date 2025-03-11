@@ -7,46 +7,107 @@
         <span>Bookshelf</span>
         <span class="spacer"></span>
         <div fxHide.lt-md>
-            <button mat-button routerLink="home">{{ 'APP.MENU.HOME' | translate }}</button>
-            <button mat-button routerLink="books">{{ 'APP.MENU.BOOKS' | translate }}</button>
-            <button mat-button routerLink="summaries">{{ 'APP.MENU.SUMMARIES' | translate }}</button>
-            @if(authService.getloggedInUser && ['user', 'editor', 'admin'].includes(authService.getloggedInUser.role)){
-                <button mat-button routerLink="mylist">{{ 'APP.MENU.MYLIST' | translate }}</button>
+            <router-button [payload]="{ route: 'home', localReference: 'HOME' }"></router-button>
+            <router-button [payload]="{ route: 'books', localReference: 'BOOKS' }"></router-button>
+            <router-button [payload]="{ route: 'summaries', localReference: 'SUMMARIES' }"></router-button>
+            @if(this.loggedInUser && ['user', 'editor', 'admin'].includes(this.loggedInUser.role)){
+            <router-button [payload]="{ route: 'mylist', localReference: 'MYLIST' }"></router-button>
             }
         </div>
         <span class="spacer-center"></span>
         <div fxHide.lt-md>
-            @if(!authService.getloggedInUser){
-                <button mat-button routerLink="auth/login">{{ 'APP.MENU.LOGIN' | translate }}</button>
-                <button mat-button routerLink="auth/register">{{ 'APP.MENU.REGISTER' | translate }}</button>
+            @if(!this.loggedInUser){
+            <router-button [payload]="{ route: 'auth/login', localReference: 'LOGIN' }"></router-button>
+            <router-button [payload]="{ route: 'auth/register', localReference: 'REGISTER' }"></router-button>
             } @else {
-                <button mat-button (click)="authService.logOut()">logout</button>
+            <button mat-button [matMenuTriggerFor]="profile">
+                <div class="d-inline-flex align-items-center">
+                    <span>{{ this.loggedInUser.username }}</span>
+                    <div class="avatar-wrapper ms-2">
+                        <img [src]="this.loggedInUser.profile_image" alt="Profile Picture" class="rounded-circle">
+                    </div>
+                </div>
+            </button>
+            <mat-menu #profile="matMenu" (window:resize)="profile._setIsOpen(false)" class="p-2">
+                <router-button
+                    [payload]="{ route: 'profile', icon: 'person', localReference: 'PROFILE.PAGE', isMatMenu: true }"></router-button>
+                <router-button
+                    [payload]="{ route: 'exit', icon: 'exit_to_app', localReference: 'PROFILE.LOGOUT', isMatMenu: true }"
+                    (click)="this.authService.logOut()"></router-button>
+            </mat-menu>
             }
         </div>
         <span class="spacer" fxHide.lt-md></span>
-        <button mat-icon-button
-            [matMenuTriggerFor]="menu"
-            (click)="settingsIconState = 'clicked'">
+        <button mat-icon-button [matMenuTriggerFor]="settings" (click)="settingsIconState = 'clicked'" [matBadge]="this.isLastColorBlindnessDiff ? '!' : null"
+            [matTooltip]="this.isMdOrBeyond ? ('APP.MENU.SETTINGS.TOOLTIP' | translate ) : null"
+            [matTooltipPosition]="'below'" matTooltipShowDelay="500">
             <mat-icon [@rotate]="settingsIconState">settings</mat-icon>
         </button>
-        <mat-menu #menu="matMenu" class="p-2" (closed)="settingsIconState = 'default'">
-            <div class="mb-4 theme-holder" (click)="$event.stopPropagation()">
-                <mat-icon class="theme-icon" [@pulse]="!isdarkModeOn">wb_sunny</mat-icon>
-                <mat-slide-toggle
-                    class="mx-2"
-                    (toggleChange)="changeTheme()"
-                    [checked]="isdarkModeOn">
+        <mat-menu 
+            #settings="matMenu"
+            class="p-1"
+            (closed)="settingsIconState = 'default'"            
+            >
+            <span class="text-center d-block">{{ 'APP.MENU.SETTINGS.THEME' | translate }}</span>
+            <hr class="my-2">
+            <div class="mb-3 theme-holder" (click)="$event.stopPropagation()">
+                <mat-icon class="theme-icon" [@pulse]="this.currentTheme === 'light'">wb_sunny</mat-icon>
+                <mat-slide-toggle class="mx-2" (toggleChange)="changeTheme()" [checked]="this.currentTheme === 'dark'">
                 </mat-slide-toggle>
-                <mat-icon class="theme-icon" [@pulse]="isdarkModeOn">brightness_2</mat-icon>
+                <mat-icon class="theme-icon" [@pulse]="this.currentTheme === 'dark'">brightness_2</mat-icon>
             </div>
-            <mat-button-toggle-group
-                name="fontStyle"
-                aria-label="Font Style"
-                [value]="localizationToggleValue"
-                (click)="$event.stopPropagation()">
-                <mat-button-toggle value="en" (change)="changeLanguage($event)">EN</mat-button-toggle>
-                <mat-button-toggle value="hu" (change)="changeLanguage($event)">HU</mat-button-toggle>
-            </mat-button-toggle-group>
+            <span class="text-center d-block">{{ 'APP.MENU.SETTINGS.EYE' | translate }}</span>
+            <hr class="my-2">
+            <div class="mb-3 theme-holder" (click)="$event.stopPropagation()">
+                <mat-icon class="theme-icon">visibility_off</mat-icon>
+                <mat-slide-toggle class="mx-2" (toggleChange)="changeEyeSaveMode()" [checked]="this.isEyeSaveModeOn">
+                </mat-slide-toggle>
+                <mat-icon class="theme-icon">visibility</mat-icon>
+            </div>
+            <span class="text-center d-block">{{ 'APP.MENU.SETTINGS.LANG' | translate }}</span>
+            <hr class="my-2">
+            <div class="theme-holder mb-3">
+                <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [value]="localizationToggleValue"
+                    (click)="$event.stopPropagation()">
+                    <mat-button-toggle value="en" (change)="changeLanguage($event)">EN</mat-button-toggle>
+                    <mat-button-toggle value="hu" (change)="changeLanguage($event)">HU</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+
+            <div>
+                <hr class="my-2">
+                <button class="accessibilityButton" mat-menu-item [matMenuTriggerFor]="accessibility"
+                    (click)="$event.stopPropagation()" [matBadge]="this.isLastColorBlindnessDiff ? '!' : null"
+                    (mouseover)="this.isLastColorBlindnessDiff = false">
+                    <mat-icon>accessibility</mat-icon>
+                    {{ 'APP.MENU.SETTINGS.ACCESSIBILITY.LABEL' | translate }}
+                </button>
+
+            </div>
+
+        </mat-menu>
+        <mat-menu #accessibility="matMenu" class="p-2" [xPosition]="'before'" [yPosition]="'above'">
+            <span class="text-center d-block">{{ 'APP.MENU.SETTINGS.ACCESSIBILITY.SUBMENU.COLORBLIND' | translate
+                }}</span>
+            <hr class="my-2">
+            <button mat-menu-item (click)="changeColorBlindnessOverlay('red-green')">
+                <span>{{ 'APP.MENU.SETTINGS.ACCESSIBILITY.SUBMENU.REDGREEN' | translate }}</span>
+                @if(this.colorBlindnessMode=='red-green'){
+                <mat-icon>check</mat-icon>
+                }
+            </button>
+            <button mat-menu-item (click)="changeColorBlindnessOverlay('blue-yellow')">
+                <span>{{ 'APP.MENU.SETTINGS.ACCESSIBILITY.SUBMENU.BLUEYELLOW' | translate }}</span>
+                @if(this.colorBlindnessMode=='blue-yellow'){
+                <mat-icon>check</mat-icon>
+                }
+            </button>
+            <button mat-menu-item (click)="changeColorBlindnessOverlay('monochrome')">
+                <span>{{ 'APP.MENU.SETTINGS.ACCESSIBILITY.SUBMENU.MONOCHROME' | translate }}</span>
+                @if(this.colorBlindnessMode=='monochrome'){
+                <mat-icon>check</mat-icon>
+                }
+            </button>
         </mat-menu>
     </mat-toolbar-row>
 </mat-toolbar>
