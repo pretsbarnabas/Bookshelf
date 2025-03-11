@@ -25,7 +25,7 @@ import { UserLoggedInModel } from '../../models/User';
         FooterComponent,
         NgxSpinnerModule,
         TruncatePipe,
-        RouterButtonComponent
+        RouterButtonComponent,
     ],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',

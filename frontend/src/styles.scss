@@ -54,8 +54,7 @@ body {
             typography: mat-typography-config(roboto-font),
             density: 0));
 
-    & {
-        transition: background-color .3s ease, color .3s ease;
+    & {        
         background-color: custom.$bg-color-light;
         color: custom.$text-color-light;
     }
@@ -68,9 +67,9 @@ body {
         ));
 
     & {
-        transition: background-color .3s ease, color .3s ease;
         background-color: custom.$bg-color-dark;
         color: custom.$text-color-dark;
+        transition: background-color .3s ease, color .3s ease;
     }
 }
 

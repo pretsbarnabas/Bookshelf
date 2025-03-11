@@ -63,8 +63,10 @@ export class ThemeService {
     changeTheme(theme: 'light' | 'dark') {
         this.currentThemeSubject.next(theme);
         sessionStorage.setItem('preferredTheme', theme)
-        if (theme === "light")
+        if (theme === "light"){
             document.body.classList.remove('darkMode')
+            void document.body.offsetWidth
+        }
         else
             document.body.classList.add('darkMode')
     }

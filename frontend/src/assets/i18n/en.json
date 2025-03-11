@@ -84,6 +84,18 @@
             "CLOSE": "Close"
         }
     },
+    "PROFILE":{
+        "PROFILECARD":{
+            "ROLE" : "Role",
+            "ROLETABLE":{
+                "USER": "User",
+                "EDITOR": "Editor",
+                "ADMIN" : "Admin"
+            },
+            "CREATED": "Created on",
+            "LAST": "Lost logged in"
+        }
+    },
     "404":{
         "MESSAGE": "This is not the page you are looking for...",
         "REDIRECT": "Redirecting to home page in:"
