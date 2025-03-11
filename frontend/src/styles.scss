@@ -55,18 +55,18 @@ body {
             density: 0));
 
     & {
+        transition: background-color .3s ease, color .3s ease;
         background-color: custom.$bg-color-light;
         color: custom.$text-color-light;
-        transition: background-color .3s ease, color .3s ease;
     }
 }
 
 .darkMode {
     @include mat.theme((color: (primary: custom.$primary-palette,
-    theme-type: dark,
-    ),
-    ));
-    
+                theme-type: dark,
+            ),
+        ));
+
     & {
         transition: background-color .3s ease, color .3s ease;
         background-color: custom.$bg-color-dark;
@@ -74,37 +74,25 @@ body {
     }
 }
 
-body.eyeSaverMode {
-    filter: sepia(.6) saturate(1.2) contrast(.9) brightness(.9);
-    transition: filter .3s ease;
+body {
+    --eye-filter: ;
+    --cb-filter: ;
+    filter: var(--eye-filter) var(--cb-filter);
+    transition: filter 0.3s ease;
 }
 
-body.colorblind-red-green {
-    filter: contrast(150%) saturate(100%) sepia(0.2) hue-rotate(-50deg);
-    transition: filter .3s ease;
+.eyeSaverMode {
+    --eye-filter: sepia(0.6) saturate(1.2) contrast(0.9) brightness(0.9);
 }
 
-body.colorblind-blue-yellow {
-    filter: contrast(150%) saturate(100%) sepia(0.3) hue-rotate(90deg);
-    transition: filter .3s ease;
+.colorblind-red-green {
+    --cb-filter: hue-rotate(-20deg) saturate(6) contrast(0.9);
 }
 
-body.colorblind-monochrome {
-    filter: grayscale(100%) brightness(100%);
-    transition: filter .3s ease;
+.colorblind-blue-yellow {
+    --cb-filter: hue-rotate(180deg) saturate(5);
 }
 
-body.eyeSaverMode.colorblind-red-green {
-    filter: sepia(.6) saturate(1.2) contrast(.9) brightness(.9) contrast(150%) saturate(100%) sepia(0.2) hue-rotate(-50deg);
-    transition: filter .3s ease;
-}
-
-body.eyeSaverMode.colorblind-blue-yellow {
-    filter: sepia(.6) saturate(1.2) contrast(.9) brightness(.9) contrast(150%) saturate(100%) sepia(0.3) hue-rotate(90deg);
-    transition: filter .3s ease;
-}
-
-body.eyeSaverMode.colorblind-monochrome {
-    filter: sepia(.6) saturate(1.2) contrast(.9) brightness(.9) grayscale(100%) brightness(100%);
-    transition: filter .3s ease;
+.colorblind-monochrome {
+    --cb-filter: grayscale(1) contrast(1.2);
 }
