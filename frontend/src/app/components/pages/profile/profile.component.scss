@@ -1,0 +1,30 @@
+.profile-card {
+    position: relative;
+    padding-top: 60px;
+}
+
+body {
+    .profile-wrapper {
+        position: absolute;
+        top: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #777;
+        border-radius: 10%;
+        padding: 15px;
+        border: 2px solid black;
+    }
+
+    &.darkMode {
+        .profile-wrapper {
+            background-color: #333;
+            border: 2px solid white;
+        }
+    }
+}

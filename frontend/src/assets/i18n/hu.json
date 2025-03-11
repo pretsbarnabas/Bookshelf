@@ -7,9 +7,32 @@
             "MYLIST": "Listám",
             "LOGIN": "Bejelentkezés",
             "REGISTER": "Regisztráció",
-            "LOGOUT": "Kijelentkezés"
+            "SETTINGS": {
+                "THEME": "Téma",
+                "LANG": "Nyelv",
+                "EYE": "Szemvédő Mód",
+                "TOOLTIP": "Beállítások",
+                "ACCESSIBILITY": {
+                    "LABEL": "Hozzáférhetőség",
+                    "SUBMENU": {
+                        "COLORBLIND": "Színvakság",
+                        "REDGREEN": "Piros-Zöld",
+                        "BLUEYELLOW": "Kék-Sárga",
+                        "MONOCHROME": "Monokróm"
+                    }
+                }
+            },
+            "PROFILE": {
+                "PAGE": "Profil",
+                "LOGOUT": "Kijelentkezés"
+            }
         },
-        "SPINNER": "Folyamatban..."
+        "SPINNER": "Folyamatban...",
+        "SNACKBAR": {
+            "LABEL": "Jelenleg aktív színvakság szűrő:",
+            "CLEAR": "Szűrő törlése",
+            "CLOSE" : "Bezárás"
+        }
     },
     "HOME": {
         "TEST": "Főoldal"
@@ -30,14 +53,14 @@
             "NAME": "Kovács János"
         },
         "EMSG": {
-            "NAME":{
+            "NAME": {
                 "REQUIRED": "Felhasználónév kitöltése kötelező",
-                "MINLENGTH": "A felhasználónév legalább 3 karaktert tartalmazzon"
+                "MINLENGTH": "A felhasználónév legalább 3 karaktert tartalmazzon",
+                "MAXLENGTH": "A felhasználónév legfeljebb 24 karaktert tartalmazhat"
             },
             "EMAIL": {
                 "REQUIRED": "Email kitöltése kötelező",
-                "INCORRECT" : "Formátum nem megfelelő"
-
+                "INCORRECT": "Formátum nem megfelelő"
             },
             "PASSWORD": {
                 "REQUIRED": "Jelszó kitöltése kötelező",
@@ -47,13 +70,35 @@
                 "REQUIRED": "Mező kitöltése kötelező",
                 "PASSWORD_MISMATCH": "A jelszavak nem egyeznek"
             },
-            "UNEXPECTED": "Váratlan hiba történt"
+            "HTTPERRORRESPONSE": "Nem sikerült a szerverhez kapcsolódni.",
+            "UNEXPECTED": "Váratlan hiba történt."
         },
-        "SUBMIT":{
+        "SUBMIT": {
             "LOGIN": "Bejelentkezés",
             "NO_ACCOUNT": "Nincs fiókom",
             "BACK": "Vissza a bejelentkezésre",
             "REGISTER": "Regisztrálás"
-        }  
+        },
+        "SNACKBAR": {
+            "WELCOME": "Üdvözöljük",
+            "CLOSE": "Bezárás"
+        }
+    },
+    "USER": "User",
+    "PROFILE":{
+        "PROFILECARD":{
+            "ROLE" : "Szerepkör",
+            "ROLETABLE":{
+                "USER": "Felhasználó",
+                "EDITOR": "Szerkesztő",
+                "ADMIN" : "Admin"
+            },
+            "CREATED": "Létrehozva",
+            "LAST": "Utoljára bejelentkezve"
+        }
+    },
+    "404": {
+        "MESSAGE": "Nem ezt az oldalt keresed...",
+        "REDIRECT": "Átirányítás a főoldalra:"
     }
 }

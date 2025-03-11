@@ -1,8 +1,28 @@
 <div class="wrapper">
-    <div class="col-lg-3 col-md-6 mx-auto"
-            [class]="{'col-lg-4': mode === 'register'}"
+    <div class="col-lg-4 col-md-6 mx-auto my-3"
+            [class]="{'col-lg-5': mode === 'register'}"
         >
-        <mat-card appearance="raised" class="px-4 pb-5">
+        @if (errorMessages.length > 0) {
+            <div class="alert alert-danger row mt-3" role="alert" #errorAlert>
+                <div class="col-10">
+                    <ul class="m-0">
+                        @for (error of errorMessages; track $index) {
+                            @if (error.name === "HttpErrorResponse") {
+                                <li>{{ 'AUTH.EMSG.HTTPERRORRESPONSE' | translate }}</li>
+                            } @else if (error.message === "UNEXPECTED") {
+                                <li>{{ 'AUTH.EMSG.UNEXPECTED' | translate }}</li>
+                            } @else{
+                                <li>{{ error.message }}</li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="col-2 justify-content-center align-items-center d-flex">
+                    <mat-icon>error_outline</mat-icon>
+                </div>
+            </div>            
+        }
+        <mat-card appearance="raised" class="px-4 pb-5" id="form-card">
                 <mat-card-title class="text-center my-5">
                     @if(mode === 'login'){
                         {{ 'AUTH.FORM_TITLE.LOGIN' | translate }}

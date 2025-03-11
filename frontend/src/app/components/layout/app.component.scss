@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 
-mat-drawer {    
+mat-drawer {
     .sidenav-column {
         display: flex;
         flex-direction: column;
@@ -15,6 +15,12 @@ mat-drawer {
             }
         }
     }
+}
+
+mat-accordion {
+    @include mat.expansion-overrides((
+        container-shape: 'none',
+    ));
 }
 
 .mat-drawer-container {

@@ -19,19 +19,19 @@ export class TranslationService {
     checkPreferred(): string {
         const localLang: string | null = localStorage.getItem('preferredLang');
         const browserLang: string = navigator.language.split('-')[0];
-        if (localLang && this.supportedLanguages.includes(localLang)){
+        if (localLang && this.supportedLanguages.includes(localLang)) {
             this.changeLanguage(localLang);
             return localLang;
         }
-        else if(this.supportedLanguages.includes(browserLang)){
+        else if (this.supportedLanguages.includes(browserLang)) {
             localStorage.setItem('preferredLang', browserLang);
             this.changeLanguage(browserLang);
             return browserLang;
         } else
             this.service.use('en');
-            return 'en';
+        return 'en';
 
-  }
+    }
 
     changeLanguage(key: string) {
         this.service.use(key);
