@@ -20,7 +20,5 @@ export class BookService {
     getBookById(id: string): Observable<any> {
         return this.http.get<Book>(`${this.configService.get('API_URL')}/api/books/${id}`);
       }
-    getAllReviewsByBookId(id: string): Observable<any> {
-        return this.http.get<any>(`${this.configService.get('API_URL')}/api/reviews/${id}`);
-    }
+
 }

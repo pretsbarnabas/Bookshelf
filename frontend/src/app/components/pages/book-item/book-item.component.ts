@@ -29,12 +29,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   providers: [DatePipe]
 })
 export class BookItemComponent implements OnInit {
-  @Input() book: any;
-  @Input('rating') public rating: number = 3;
-  @Input('starCount') public starCount: number = 5;
-  @Input('color') public color: string = 'accent';
-  @Output() private ratingUpdated = new EventEmitter();
-  
+
+  public book: any;
+  public color: string = 'accent';
+  public starCount: number = 5;
+  public rating: number = 3;
   bookId: any;
   private snackBarDuration: number = 2000;
   public ratingArr: any = [];
@@ -47,10 +46,6 @@ export class BookItemComponent implements OnInit {
     if (this.bookId) {
         this.bookService.getBookById(this.bookId).subscribe(book => {
           this.book = book;
-        });
-        this.bookService.getAllReviewsByBookId(this.bookId).subscribe(reviews => {
-          this.reviews = reviews;
-          console.log(reviews)
         });
       }
     for (let index = 0; index < this.starCount; index++) {
@@ -66,7 +61,7 @@ export class BookItemComponent implements OnInit {
     this.snackBar.open('You rated ' + rating + ' / ' + this.starCount, '', {
       duration: this.snackBarDuration
     });
-    this.ratingUpdated.emit(rating);
+    this.rating = rating;
     return false;
     //  ide  kell még konkretan a  mukodo  rating mentés  ha be  van jelentkezve  a ficko  valamint a rating  kiolvasas akkor is ha  nincs  bejenetkezve
   }
