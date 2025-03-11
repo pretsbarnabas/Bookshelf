@@ -20,7 +20,7 @@ export const routes: Routes = [
     },
     // non-visible routes
     { path: 'profile', loadComponent: () => import('./components/pages/profile/profile.component').then(m => m.ProfileComponent), canActivate: [authGuard] },
-    { path: 'book-item', loadComponent: () => import('./components/pages/book-item/book-item.component').then(m => m.BookItemComponent) },
+    { path: 'book-item/:id', loadComponent: () => import('./components/pages/book-item/book-item.component').then(m => m.BookItemComponent) },
     { path: 'summary-item', loadComponent: () => import('./components/pages/summary-item/summary-item.component').then(m => m.SummaryItemComponent) },
     { path: '404', loadComponent: () => import('./components/pages/not-found/not-found.component').then(m => m.NotFoundComponent) },
     // fallback

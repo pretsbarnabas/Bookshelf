@@ -1,1 +1,34 @@
-<p>book-item works!</p>
+<div class="wrapper">
+    <div class="wrapper-content h-100">
+        <div class="book-item d-flex align-items-start row w-100 h-100">
+            <div id="Book" class=" col-12 col-lg-2 d-flex h-100">
+                <mat-card class="book-card w-100">
+                    <mat-card-header>
+                        <img mat-card-image class="book-image img-fluid" [src]="book?.image || 'https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain'" [alt]="book?.title || 'Photo of a book'">
+                    </mat-card-header>
+                    <mat-card-content>
+                        <mat-card-subtitle>{{ book?.author }}</mat-card-subtitle>
+                        <mat-card-title class="title">{{ book?.title }}</mat-card-title>
+                        <p>{{ formatDate(book?.release) }}</p>
+                        <button mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" (click)="onClick(i+1)">
+                            <mat-icon>
+                              {{showIcon(i)}}
+                            </mat-icon>
+                          </button>
+                          <mat-error *ngIf="starCount == null || starCount == 0">
+                            Star count is <strong>required</strong> and cannot be zero
+                          </mat-error>
+                          <p class="body-2">
+                              Your rated <span class="body-2">{{rating}}</span> / <span class="body-2">{{starCount}}</span>
+                          </p>
+                          
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div id="Book-Details" class="book-details col-12 col-lg-8">
+                <h2>{{ book?.title }}</h2>
+                <p>{{ book?.author }}</p>
+            </div>
+        </div>
+    </div>
+</div>
