@@ -6,7 +6,8 @@
             "use": "@vercel/static-build",
             "config": {
                 "distDir": "dist/frontend/browser"
-            }
+            },
+            "ignoreBuildStep": "if [ \"$VERCEL_GIT_COMMIT_REF\" != \"frontend\" ]; then echo 'Skipping build for non-frontend branch: $VERCEL_GIT_COMMIT_REF'; exit 0; fi"
         }
     ],
     "routes": [
