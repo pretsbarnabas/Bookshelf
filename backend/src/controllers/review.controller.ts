@@ -130,62 +130,118 @@ export class ReviewController{
     }
 
     static async getReviewById(req:any,res:any){
-        const {id} = req.params
-        try{
-            const review = await ReviewModel.findById(id)
-            res.status(200).json(review)
-        }catch(error:any){
+        try {
+            const {id} = req.params
+            const {fields} = req.query
+
+            let allowedFields = ["_id","score","content","created_at","updated_at","book.title","book.author","user.username"]
+            
+            const requestedFields: string[] = fields ? fields.split(",") : allowedFields
+            const validFields: string[] = requestedFields.filter(field =>allowedFields.includes(field))
+
+            if(validFields.length === 0) return res.status(400).json({error:"Invalid fields requested"})
+            
+            if(!validFields.includes("_id")) validFields.push("-_id")
+
+            const data = await ReviewModel.findById(id).select(validFields)
+            if(data){
+                res.status(200).json(data)
+            }
+            else{
+                res.status(404).json({message: "Review not found"})
+            }
+        } catch (error:any) {
             res.status(500).json({message:error.message})
         }
+
     }
 
     static async createReview(req:any,res:any){
-        const review = req.body
-        const newReview = new ReviewModel({
-            user_id: review.user_id,
-            book_id: review.book_id,
-            rating: review.rating,
-            review: review.review
-        })
-        try{
+        try {
+            const {user_id,book_id,score,content = ""} = req.body
+            
+            if(!user_id || !book_id || !score)
+                return res.status(400).json({message: "user_id, book_id, score required"}) 
+            
+            const newReview = new ReviewModel({
+                user_id: user_id,
+                book_id: book_id,
+                score: score,
+                content: content
+            })
             await newReview.save()
             res.status(201).json(newReview)
-        }
-        catch(error:any){
-            res.status(500).json({message:error.message})
+        } catch (error:any) {
+            UserController.HandleMongooseErrors(error,res)
         }
     }
 
     static async deleteReview(req:any,res:any){
-        try{
-            const id = req.params
-            const data = await ReviewModel.findByIdAndDelete(id)
-            if(data){
-                res.status(200).json({message:"Review deleted"})
+        try {
+            const {id} = req.params
+            if(id){
+                if(!mongoose.Types.ObjectId.isValid(id)){
+                    return res.status(400).json({message: "Invalid id format"})
+                }
             }
             else{
-                res.status(404).json({message:"Review not found"})
+                return res.status(400).json({message: "id is required"})
             }
-        }
-        catch(error:any){
+            const review = await ReviewModel.findById(id)
+            if(!review) return res.status(404).json({message: "Review not found"})
+            
+            if(!UserController.verifyUser(req,review.user_id)) return res.json(401).send()
+            
+            const data = await ReviewModel.findByIdAndDelete(id)
+            if(data){
+                res.status(200).json({message:"User deleted"})
+            }
+            else{
+                res.status(404).json({message:"User not found"})
+            }
+        } catch (error:any) {
             res.status(500).json({message:error.message})
         }
+        
     }
 
     static async updateReview(req:any,res:any){
         try{
-            const id = req.params
-            const review = req.body
-            const updatedReview = await ReviewModel.findByIdAndUpdate(id,review,{new:true})
-            if(updatedReview){
-                res.status(200).json(updatedReview)
+            const {id} = req.params
+            if(id){
+                if(!mongoose.Types.ObjectId.isValid(id)){
+                    return res.status(400).json({message: "Invalid id format"})
+                }
             }
             else{
-                res.status(404).json({message:"Review not found"})
+                return res.status(400).json({message: "id is required"})
+            }
+            const review = await ReviewModel.findById(id)
+            if(!review) return res.status(404).json({message: "Review not found"})
+            
+            if(!UserController.verifyUser(req,review.user_id)) return res.json(401).send()
+            
+            const updates = req.body
+            const allowedFields = ["score","content"]
+
+            for (const key of Object.keys(updates)) {
+                if (!allowedFields.includes(key)) {
+                    return res.status(400).json({ message: `Cannot update ${key} field` });
+                }
+                if (key === "score") {
+                    updates[key] = Number.parseInt(updates[key])
+                    if(Number.isNaN(updates[key]))
+                        return res.status(400).json({message: "score must be a number between 1-10"})
+                } 
+                else {
+                    review[key] = updates[key];
+                }
+                await review.save()
+                return res.status(200).json({review:review})
             }
         }
         catch(error:any){
-            res.status(500).json({message:error.message})
+            UserController.HandleMongooseErrors(error,res)
         }
     }
 }

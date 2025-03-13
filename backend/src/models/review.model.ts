@@ -32,4 +32,9 @@ const reviewSchema = new Schema({
     }
 },{versionKey: false})
 
+reviewSchema.pre("save",function(next){
+    this.updated_at = new Date()
+    next();
+})
+
 module.exports = model("ReviewModel",reviewSchema,"reviews")
