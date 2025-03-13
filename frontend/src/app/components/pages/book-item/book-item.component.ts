@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Review } from '../../../models/Review';
 @Component({
   selector: 'app-book-item',
   templateUrl: './book-item.component.html',
@@ -37,7 +38,7 @@ export class BookItemComponent implements OnInit {
   bookId: any;
   private snackBarDuration: number = 2000;
   public ratingArr: any = [];
-  reviews: any[] = [];
+  reviews: Review[] = [];
   
   constructor(private route: ActivatedRoute, private bookService: BookService, private datePipe: DatePipe, private snackBar: MatSnackBar){}
   
@@ -48,6 +49,12 @@ export class BookItemComponent implements OnInit {
           this.book = book;
         });
       }
+      if (this.bookId) {
+        this.bookService.getReviewsByBook(this.bookId).subscribe(reviews => {
+          this.reviews = reviews;
+        });
+      }
+      console.log(this.reviews)
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
     }
@@ -67,8 +74,16 @@ export class BookItemComponent implements OnInit {
   }
   
   showIcon(index:number) {
-    console.log(index)
     if (this.rating >= index + 1) {
+      return 'star';
+    } else {
+      return 'star_border';
+    }
+  }
+  
+  showIconUserReview(index:number, Rating:number) {
+    console.log(index)
+    if (Rating >= index + 1) {
       return 'star';
     } else {
       return 'star_border';

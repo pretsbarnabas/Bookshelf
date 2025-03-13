@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ConfigService } from './config.service';
 import { Book } from '../models/Book';
 import { map,tap } from 'rxjs/operators';
+import { Review } from '../models/Review';
 @Injectable({
     providedIn: 'root'
 })
@@ -19,6 +20,9 @@ export class BookService {
     }
     getBookById(id: string): Observable<any> {
         return this.http.get<Book>(`${this.configService.get('API_URL')}/api/books/${id}`);
+      }
+    getReviewsByBook(book_id: string): Observable<Review[]> {
+        return this.http.get<Review[]>(`${this.configService.get('API_URL')}/api/reviews?book_id=${book_id}`);
       }
 
 }
