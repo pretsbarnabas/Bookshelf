@@ -16,6 +16,16 @@ app-root {
             filled-container-shape: none));
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
 $app-components: "app-auth, app-home, app-books, app-book-item, app-mylist, app-profile, app-summaries, app-summary-item, app-not-found";
 
 @each $tag in $app-components {
@@ -29,6 +39,7 @@ $app-components: "app-auth, app-home, app-books, app-book-item, app-mylist, app-
             flex: 1;
             width: 100%;
             align-items: center;
+            animation: fadeIn 300ms ease-in forwards;
 
             .wrapper-content {
                 display: block;
@@ -54,7 +65,7 @@ body {
             typography: mat-typography-config(roboto-font),
             density: 0));
 
-    & {        
+    & {
         background-color: custom.$bg-color-light;
         color: custom.$text-color-light;
     }

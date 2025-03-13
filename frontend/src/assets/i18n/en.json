@@ -1,6 +1,7 @@
 {
     "APP": {
         "MENU": {
+            "HEADER": "Navigation",
             "HOME": "Home",
             "BOOKS": "Books",
             "SUMMARIES": "Summaries",

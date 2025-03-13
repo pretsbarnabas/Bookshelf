@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BookService } from '../../../services/book.service';
 import { MatCardModule } from '@angular/material/card';
@@ -26,7 +26,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatIconModule,
     CommonModule,
   ],
-  providers: [DatePipe]
+  providers: [DatePipe],
+  encapsulation: ViewEncapsulation.None,
 })
 export class BookItemComponent implements OnInit {
   @Input() book: any;
@@ -34,20 +35,25 @@ export class BookItemComponent implements OnInit {
   @Input('starCount') public starCount: number = 5;
   @Input('color') public color: string = 'accent';
   @Output() private ratingUpdated = new EventEmitter();
-
+  
   bookId: any;
   private snackBarDuration: number = 2000;
   public ratingArr: any = [];
-
+  reviews: any[] = [];
+  
   constructor(private route: ActivatedRoute, private bookService: BookService, private datePipe: DatePipe, private snackBar: MatSnackBar){}
-
+  
   ngOnInit(){
     this.bookId = this.route.snapshot.paramMap.get('id');
     if (this.bookId) {
-      this.bookService.getBookById(this.bookId).subscribe(book => {
-        this.book = book;
-      });
-    }
+        this.bookService.getBookById(this.bookId).subscribe(book => {
+          this.book = book;
+        });
+        this.bookService.getAllReviewsByBookId(this.bookId).subscribe(reviews => {
+          this.reviews = reviews;
+          console.log(reviews)
+        });
+      }
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
     }
@@ -63,8 +69,9 @@ export class BookItemComponent implements OnInit {
     });
     this.ratingUpdated.emit(rating);
     return false;
+    //  ide  kell még konkretan a  mukodo  rating mentés  ha be  van jelentkezve  a ficko  valamint a rating  kiolvasas akkor is ha  nincs  bejenetkezve
   }
-
+  
   showIcon(index:number) {
     console.log(index)
     if (this.rating >= index + 1) {
@@ -73,11 +80,14 @@ export class BookItemComponent implements OnInit {
       return 'star_border';
     }
   }
-
-}
-  export enum StarRatingColor {
-    primary = "primary",
-    accent = "accent",
-    warn = "warn"
+  onBack() {
+      window.history.back();
   }
+  
+}
+export enum StarRatingColor {
+  primary = "primary",
+  accent = "accent",
+  warn = "warn"
+}
 

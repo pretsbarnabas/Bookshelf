@@ -1,6 +1,7 @@
 {
     "APP": {
         "MENU": {
+            "HEADER": "Navigáció",
             "HOME": "Főoldal",
             "BOOKS": "Könyvek",
             "SUMMARIES": "Összefoglalók",

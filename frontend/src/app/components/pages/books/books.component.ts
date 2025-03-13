@@ -1,4 +1,4 @@
-import { Component, Renderer2, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Component, Renderer2, ElementRef, ViewChild, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { FormlyModule } from '@ngx-formly/core';
@@ -30,7 +30,8 @@ import { Book } from '../../../models/Book';
   ],
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.scss'],
-  providers: [DatePipe]
+  providers: [DatePipe],
+  encapsulation: ViewEncapsulation.None,
 })
 export class BooksComponent implements OnInit {
   @ViewChild('container') container!: ElementRef;

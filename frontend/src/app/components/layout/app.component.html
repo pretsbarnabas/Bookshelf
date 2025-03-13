@@ -4,6 +4,11 @@
 <app-navbar (sidenavToggleClicked)="drawer.toggle()"></app-navbar>
 <mat-drawer-container autosize hasBackdrop="true">
     <mat-drawer #drawer mode="over" (window:resize)="drawer.opened=false">
+        <div class="mb-3 d-flex align-items-center">
+            <img src="./assets/favicon.ico" alt="bookshelf-icon" class="app-icon">
+            <span class="text-center">{{ 'APP.MENU.HEADER' | translate }}</span>
+            <hr class="m-0">
+        </div>        
         <div class="sidenav-column">
             <router-button [payload]="{ route: 'home', icon: 'home', localReference: 'HOME' }"
                 (click)="drawer.opened=false"></router-button>

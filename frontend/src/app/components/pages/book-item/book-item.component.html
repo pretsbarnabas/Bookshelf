@@ -28,6 +28,22 @@
             <div id="Book-Details" class="book-details col-12 col-lg-8">
                 <h2>{{ book?.title }}</h2>
                 <p>{{ book?.author }}</p>
+                <p>{{ formatDate(book?.release) }}</p>
+                <p>{{ book?.description }}</p>
+                <button mat-raised-button color="primary" (click)="onBack()">Back</button>
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>Reviews</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div *ngFor="let review of reviews">
+                            <p><strong>Score:</strong> {{ review.score }}</p>
+                            <p><strong>Content:</strong> {{ review.content }}</p>
+                            <p><strong>Created At:</strong> {{ review.createdAt | date }}</p>
+                            <hr>
+                          </div>
+                    </mat-card-content>
+                </mat-card>
             </div>
         </div>
     </div>

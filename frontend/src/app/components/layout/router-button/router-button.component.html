@@ -6,7 +6,7 @@
 </ng-container>
 
 <ng-template #otherTemplate>
-    <button mat-menu-item class="router-button" [routerLink]="payload?.route"
+    <button mat-menu-item class="router-button w-100" [routerLink]="payload?.route"
         [disabled]="isActive('/' + payload?.route)">
         <mat-icon *ngIf="payload?.icon">{{ payload?.icon }}</mat-icon>
         {{ "APP.MENU." + payload?.localReference | translate }}

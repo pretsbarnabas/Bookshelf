@@ -1,18 +1,15 @@
 @use '@angular/material' as mat;
 
 mat-drawer {
+    min-width: fit-content;
     .sidenav-column {
         display: flex;
         flex-direction: column;
         align-items: start;
         padding: 0;
 
-        button {
-            text-align: center;
-
-            mat-icon {
-                margin: 0, auto;
-            }
+        router-button {
+            min-width: 100% !important;
         }
     }
 }
