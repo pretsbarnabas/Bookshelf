@@ -1,0 +1,10 @@
+@media (max-width: 767px) {
+    #form-card {
+      background-color: transparent;
+      border: none;
+      box-shadow: none;
+      mat-card-title {
+        font-size: 2.5rem;
+      }
+    }
+  }

@@ -1,0 +1,103 @@
+{
+    "APP": {
+        "MENU": {
+            "HOME": "Home",
+            "BOOKS": "Books",
+            "SUMMARIES": "Summaries",
+            "MYLIST": "Mylist",
+            "LOGIN": "Login",
+            "REGISTER": "Register",
+            "SETTINGS": {
+                "THEME": "Theme",
+                "LANG": "Language",
+                "EYE": "Eye Saver Mode",
+                "TOOLTIP" : "Settings",
+                "ACCESSIBILITY": {
+                    "LABEL": "Accessibility",
+                    "SUBMENU": {
+                        "COLORBLIND": "Colorblindness",
+                        "REDGREEN": "Red-Green",
+                        "BLUEYELLOW": "Blue-Yellow",
+                        "MONOCHROME" : "Monochrome"
+                    }
+                }
+            },
+            "PROFILE": {
+                "PAGE": "Profile",
+                "LOGOUT": "Logout"
+            }
+        },
+        "SPINNER": "Loading...",
+        "SNACKBAR": {
+            "LABEL": "Currently active colorblindness overlay:",
+            "CLEAR": "Clear filter",
+            "CLOSE" : "Close"
+        }
+    },
+    "HOME":{
+        "TEST": "Home page"
+    },
+    "AUTH":{
+        "FORM_TITLE": {
+            "LOGIN": "Login",
+            "REGISTER": "Registration"
+        },
+        "FIELDS":{
+            "EMAIL": "Email address",
+            "NAME": "Username",
+            "PASSWORD": "Password",
+            "PASSWORD_AGAIN": "Confirm password"
+        },
+        "PLACEHOLDERS":{
+            "EMAIL": "example@domain.com",
+            "NAME": "John Doe"
+        },
+        "EMSG": {
+            "NAME":{
+                "REQUIRED": "Username field is required",
+                "MINLENGTH": "Username must be at least 3 characters long",
+                "MAXLENGTH" : "Username must be less than 24 characters long"
+            },
+            "EMAIL": {
+                "REQUIRED": "Email field is required",
+                "INCORRECT" : "Incorrect format"
+            },
+            "PASSWORD": {
+                "REQUIRED": "Password field is required",
+                "MINLENGTH": "Password must be at least 4 characters long"
+            },
+            "PASSWORD_AGAIN": {
+                "REQUIRED": "This field is required",
+                "PASSWORD_MISMATCH": "Passwords do not match"
+            },
+            "HTTPERRORRESPONSE": "We could not connect to the server.",
+            "UNEXPECTED": "Unexpected error occured."
+        },
+        "SUBMIT":{
+            "LOGIN": "Login",
+            "NO_ACCOUNT": "I do not have an account",
+            "BACK": "Back to login",
+            "REGISTER": "Register"
+        },
+        "SNACKBAR": {
+            "WELCOME": "Welcome",
+            "CLOSE": "Close"
+        }
+    },
+    "PROFILE":{
+        "PROFILECARD":{
+            "ROLE" : "Role",
+            "ROLETABLE":{
+                "USER": "User",
+                "EDITOR": "Editor",
+                "ADMIN" : "Admin"
+            },
+            "CREATED": "Created on",
+            "LAST": "Lost logged in"
+        }
+    },
+    "404":{
+        "MESSAGE": "This is not the page you are looking for...",
+        "REDIRECT": "Redirecting to home page in:"
+    }
+}
