@@ -25,13 +25,12 @@ export class ReviewController{
             if(Number.isNaN(limit) || Number.isNaN(page) || limit < 1 || page < 0){
                 return res.status(400).json({error:"Invalid page or limit"})
             }
+            const allowedFields = ["_id","score","content","created_at","updated_at","book.title", "user.username"]
 
-            const allowedFields = ["_id","user_id","book_id","score","content","created_at","updated_at","user","book.title"]
-
-            if(!minCreate) minCreate = new Date(0).toISOString().slice(0,-5)
-            if(!maxCreate) maxCreate = new Date(Date.now() + 2 * (60*60*1000)).toISOString().slice(0,-5)
-            if(!minUpdate) minUpdate = new Date(0).toISOString().slice(0,-5)
-            if(!maxUpdate) maxUpdate = new Date(Date.now() + 2 * (60*60*1000)).toISOString().slice(0,-5)
+            if(!minCreate) minCreate = tools.minDate()
+            if(!maxCreate) maxCreate = tools.maxDate()
+            if(!minUpdate) minUpdate = tools.minDate()
+            if(!maxUpdate) maxUpdate = tools.maxDate()
     
             if(!tools.isValidISODate(minCreate)|| !tools.isValidISODate(maxCreate) || !tools.isValidISODate(minUpdate || !tools.isValidISODate(maxUpdate))){
                 return res.status(400).json({error:"Invalid date requested"})
