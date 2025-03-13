@@ -58,7 +58,7 @@ export class ReviewController{
             }
             if(book_id){
                 if(mongoose.Types.ObjectId.isValid(book_id)){
-                    filters.user_id = new mongoose.Types.ObjectId(book_id)
+                    filters.book_id = new mongoose.Types.ObjectId(book_id)
                 }
                 else{
                     return res.status(400).json({message: "Invalid book_id format"})
