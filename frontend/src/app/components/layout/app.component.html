@@ -10,21 +10,21 @@
             <hr class="m-0">
         </div>        
         <div class="sidenav-column">
-            <router-button [payload]="{ route: 'home', icon: 'home', localReference: 'HOME' }"
+            <router-button [payload]="{ route: 'home', icon: 'home', localReference: 'HOME', isSidenav: true }"
                 (click)="drawer.opened=false"></router-button>
-            <router-button [payload]="{ route: 'books', icon: 'library_books', localReference: 'BOOKS' }"
+            <router-button [payload]="{ route: 'books', icon: 'library_books', localReference: 'BOOKS', isSidenav: true }"
                 (click)="drawer.opened=false"></router-button>
-            <router-button [payload]="{ route: 'summaries', icon: 'notes', localReference: 'SUMMARIES' }"
+            <router-button [payload]="{ route: 'summaries', icon: 'notes', localReference: 'SUMMARIES', isSidenav: true }"
                 (click)="drawer.opened=false"></router-button>
             @if(this.loggedInUser && ['user', 'editor', 'admin'].includes(this.loggedInUser.role)){
-            <router-button [payload]="{ route: 'mylist', icon: 'list_alt', localReference: 'MYLIST' }"
+            <router-button [payload]="{ route: 'mylist', icon: 'list_alt', localReference: 'MYLIST', isSidenav: true }"
                 (click)="drawer.opened=false"></router-button>
             }
             <hr>
             @if(!this.loggedInUser){
-            <router-button [payload]="{ route: 'auth/login', icon: 'login', localReference: 'LOGIN' }"
+            <router-button [payload]="{ route: 'auth/login', icon: 'login', localReference: 'LOGIN', isSidenav: true }"
                 (click)="drawer.opened=false"></router-button>
-            <router-button [payload]="{ route: 'auth/register', icon: 'person_add', localReference: 'REGISTER' }"
+            <router-button [payload]="{ route: 'auth/register', icon: 'person_add', localReference: 'REGISTER', isSidenav: true }"
                 (click)="drawer.opened=false"></router-button>
             } @else{
             <mat-accordion>
@@ -38,9 +38,9 @@
                             <span>{{ this.loggedInUser.username | truncate }}</span>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <router-button [payload]="{ route: 'profile', icon: 'person', localReference: 'PROFILE.PAGE' }"
+                    <router-button [payload]="{ route: 'profile', icon: 'person', localReference: 'PROFILE.PAGE', isSidenav: true }"
                         (click)="drawer.opened=false; panel.close()"></router-button>
-                    <router-button [payload]="{ route: 'exit', icon: 'exit_to_app', localReference: 'PROFILE.LOGOUT' }"
+                    <router-button [payload]="{ route: 'exit', icon: 'exit_to_app', localReference: 'PROFILE.LOGOUT', isSidenav: true }"
                         (click)="drawer.opened=false; panel.close(); this.authService.logOut()"></router-button>
                 </mat-expansion-panel>
             </mat-accordion>
