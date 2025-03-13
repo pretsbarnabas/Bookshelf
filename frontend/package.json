@@ -7,7 +7,9 @@
     "build": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "test:cypress": "npm i && concurrently \"npm run start\" \"npx cypress open\" \"cd ../backend && npm run test\""
+    "test:env": "npm i && concurrently \"npm run start\" \"cd ../backend && npm run test\"",
+    "test:cypress": "npm i && concurrently \"npm run start\" \"npx cypress open\" \"cd ../backend && npm run test\"",
+    "sharp": "npm i && concurrently \"npm run start\" \"cd ../backend && npm run start\""
   },
   "private": true,
   "dependencies": {
