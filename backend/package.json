@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "start": "npx nodemon ./src/main.ts",
-    "test": "npm i && concurrently \"mongod --port 27017 --dbpath C:/data/db\" \"node test/seed.js\" \"npx nodemon ./src/main.ts test\""
+    "test:environment": "npm i && concurrently \"mongod --port 27017 --dbpath C:/data/db\" \"npx nodemon ./src/main.ts test\"",
+    "test:seed": "npm i && concurrently \"mongod --port 27017 --dbpath C:/data/db\" \"node test/seed.js\" \"npx nodemon ./src/main.ts test\""
   },
   "keywords": [],
   "author": "",
