@@ -29,13 +29,13 @@ export class FormService {
         return [
             {
                 key: 'username',
-                wrappers: [InputFieldWrapper],
+                wrappers: [InputFieldWrapper],            
                 templateOptions: {
                     label: await firstValueFrom(this.translationService.service.get('AUTH.FIELDS.NAME')),
                     placeholder: await firstValueFrom(this.translationService.service.get('AUTH.PLACEHOLDERS.NAME')),
                     required: true,
                     minLength: 3,
-                    maxLength: 24,
+                    maxLength: 24,                                
                     id: 'username',
                 },
                 validation: {

@@ -88,7 +88,7 @@ body {
     --eye-filter: ;
     --cb-filter: ;
     filter: var(--eye-filter) var(--cb-filter);
-    transition: filter 0.3s ease;
+    transition: background-color .3s ease, color .3s ease;
 }
 
 .eyeSaverMode {
