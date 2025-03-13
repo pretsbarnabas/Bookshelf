@@ -20,7 +20,7 @@ const reviewSchema = new Schema({
         type: String,
         maxLength: 10000
     },
-    added_at:{
+    created_at:{
         required: true,
         type: Date,
         default: Date.now

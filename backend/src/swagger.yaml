@@ -77,6 +77,32 @@ components:
         added_at: 2016-04-08T15:06:21.595Z
         updated_at: 2016-04-08T15:06:21.595Z
 
+    review:
+      type: object
+      properties:
+        _id:
+          type: object
+        user_id:
+          type: object
+        book_id:
+          type: object
+        score:
+          type: integer
+        content:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+      example:
+        _id: a826b9febba8c411cf6d82cb
+        user_id: db0b0c1f83fb29f652cc5a2f
+        book_id: 7fdb24bfd2c9eaca400201b8
+        score: 8
+        content: Lorem
+        created_at: 2016-04-08T15:06:21.595Z
+        updated_at: 2016-04-08T15:06:21.595Z
+
   requestBodies:
     user:
       type: object
@@ -129,6 +155,32 @@ components:
           type: string
         booklist:
           type: array
+    review:
+      type: object
+      required:
+        - user_id
+        - book_id
+        - score
+        - content
+      properties:
+        user_id:
+          type: string
+        book_id:
+          type: string
+        score:
+          type: integer
+        content:
+          type: string
+    reviewput:
+      type: object
+      required:
+        - score
+        - content
+      properties:
+        score:
+          type: integer
+        content:
+          type: string
 
   securitySchemes:
     ApiKeyAuth:
@@ -141,6 +193,10 @@ tags:
     description: Login feature
   - name: Users
     description: Routes managing users
+  - name: Reviews
+    description: Routes managing book reviews
+  - name: Books
+    description: Routes managing books
 
 paths:
   /api/login:
@@ -702,6 +758,172 @@ paths:
                   message:
                     type: string
                     example: Book not found
+  /api/reviews:
+    get:
+      summary: Get all reviews
+      tags:
+        - Reviews
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Page of pagination (default 0)
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Limit of requests (default 10)
+        - in: query
+          name: fields
+          description: Comma-separated list of fields to include in the response
+          schema:
+            type: string
+            example: _id,user_id,book_id,score,content,created_at,updated_at,user.username,book.title
+        - in: query
+          name: score
+          schema:
+            type: string
+          description: Filter reviews by score
+        - in: query
+          name: user_id
+          schema:
+            type: string
+          description: Filter reviews by user ID
+        - in: query
+          name: book_id
+          schema:
+            type: string
+          description: Filter reviews by book ID
+        - in: query
+          name: minCreate
+          schema:
+            type: string
+          description: Filter reviews by minimum creation date
+        - in: query
+          name: maxCreate
+          schema:
+            type: string
+          description: Filter reviews by maximum creation date
+        - in: query
+          name: minUpdate
+          schema:
+            type: string
+          description: Filter reviews by minimum update date
+        - in: query
+          name: maxUpdate
+          schema:
+            type: string
+          description: Filter reviews by maximum update date
+      responses:
+        200:
+          description: The list of reviews
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/review'
+    post:
+      summary: Create a new review
+      tags:
+        - Reviews
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/review'
+      responses:
+        201:
+          description: The created review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/review'
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized
+      security:
+        - ApiKeyAuth: []
+
+  /api/reviews/{id}:
+    get:
+      summary: Get a specific review by id
+      tags:
+        - Reviews
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Data of the review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/review'
+        404:
+          description: Review not found
+    put:
+      summary: Update a review by id
+      tags:
+        - Reviews
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/reviewput'
+      responses:
+        200:
+          description: Data of the updated review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/review'
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized
+        404:
+          description: Review not found
+    delete:
+      summary: Delete a review by id
+      tags:
+        - Reviews
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: Review successfully deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Review deleted
+        404:
+          description: Review not found
 
 security:
   - ApiKeyAuth: []

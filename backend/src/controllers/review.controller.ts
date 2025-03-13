@@ -134,6 +134,15 @@ export class ReviewController{
             const {id} = req.params
             const {fields} = req.query
 
+            if(id){
+                if(!mongoose.Types.ObjectId.isValid(id)){
+                    return res.status(400).json({message: "Invalid id format"})
+                }
+            }
+            else{
+                return res.status(400).json({message: "id is required"})
+            }
+
             let allowedFields = ["_id","score","content","created_at","updated_at","book.title","book.author","user.username"]
             
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
@@ -143,8 +152,40 @@ export class ReviewController{
             
             if(!validFields.includes("_id")) validFields.push("-_id")
 
-            const data = await ReviewModel.findById(id).select(validFields)
-            if(data){
+            const projection: Projection = validFields.reduce((acc: Projection,field)=>{
+                acc[field] = 1
+                return acc
+            }, {"_id": 0} as Projection)
+
+            if(validFields.length === 0) return res.status(400).json({error:"Invalid fields requested"})
+    
+
+            const data = await ReviewModel.aggregate([
+                { $match: { _id: new mongoose.Types.ObjectId(id) } },
+                {$lookup:{
+                    from: "users",
+                    localField: "user_id",
+                    foreignField: "_id",
+                    as: "user"
+                }},
+                {$unwind:{
+                    path: "$user",
+                    preserveNullAndEmptyArrays: true
+                }},
+                {$lookup:{
+                    from: "books",
+                    localField: "book_id",
+                    foreignField: "_id",
+                    as: "book"
+                }},
+                {$unwind:{
+                    path: "$book",
+                    preserveNullAndEmptyArrays: true
+                }},
+                { $project: projection }
+              ])
+
+            if(data[0]){
                 res.status(200).json(data)
             }
             else{
@@ -194,10 +235,10 @@ export class ReviewController{
             
             const data = await ReviewModel.findByIdAndDelete(id)
             if(data){
-                res.status(200).json({message:"User deleted"})
+                res.status(200).json({message:"Review deleted"})
             }
             else{
-                res.status(404).json({message:"User not found"})
+                res.status(404).json({message:"Review not found"})
             }
         } catch (error:any) {
             res.status(500).json({message:error.message})
@@ -233,12 +274,10 @@ export class ReviewController{
                     if(Number.isNaN(updates[key]))
                         return res.status(400).json({message: "score must be a number between 1-10"})
                 } 
-                else {
-                    review[key] = updates[key];
-                }
-                await review.save()
-                return res.status(200).json({review:review})
+                review[key] = updates[key];
             }
+            await review.save()
+            return res.status(200).json({review:review})
         }
         catch(error:any){
             UserController.HandleMongooseErrors(error,res)
