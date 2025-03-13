@@ -6,6 +6,7 @@ import {Projection} from "../models/projection.model"
 import mongoose from "mongoose"
 import fs from "fs"
 import path from "path"
+import { Logger } from "../tools/logger"
 
 export class UserController{
 
@@ -42,7 +43,7 @@ export class UserController{
         let verifiedToken = false
         jwt.verify(token,process.env.JWT_SECRET as Secret,(err:any,decoded:any)=>{
             if(err){
-                console.log(err)
+                Logger.error(err)
                 verifiedToken = false
             }
             if(decoded){

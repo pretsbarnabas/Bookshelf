@@ -5,28 +5,32 @@ const routes = require("./routes.ts")
 const swaggerJsdoc = require("swagger-jsdoc")
 const swaggerUi = require("swagger-ui-express");
 import YAML from "yamljs"
+import { Logger } from "./tools/logger"
 const cors = require("cors")
 
 
 let connectionString
-if(process.argv[2] && process.argv[2] == "test"){
+if(process.argv && process.argv.includes("test")){
     connectionString = "mongodb://localhost:27017/Bookshelf"
 }
 else{
     connectionString = process.env.DATABASE_URL
 }
-if(!connectionString) throw new Error("No connection string defined")
+if(!connectionString){
+    Logger.error("No connection string defined")
+    throw new Error("No connection string defined")
+}
 
 mongoose.connect(connectionString)
 
 const database = mongoose.connection
 
 database.on("error",(error:any)=>{
-    console.log(error)
+    Logger.error(error)
 })
 
 database.once("connected",()=>{
-    console.log("Database connected")
+    Logger.info("Connected to Database")
 })
 
 
@@ -40,7 +44,7 @@ app.use("/api",routes)
 app.use("/api/swagger",swaggerUi.serve,swaggerUi.setup(specs))
 
 app.listen(3000,()=>{
-    console.log("Server started")
+    Logger.info("Server started")
 })
 
 module.exports = app

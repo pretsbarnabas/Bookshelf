@@ -10,7 +10,7 @@ async function seed(){
 
     try {
         await client.connect()
-        console.log("connected to db")
+        console.log("Seeder: Connected to db")
 
         const usersCollection = client.db("Bookshelf").collection("users")
         const booksCollection = client.db("Bookshelf").collection("books")
@@ -82,7 +82,7 @@ async function seed(){
             "updated_at": new Date("2016-04-08T15:06:21.595Z")
         })
 
-        console.log("seeded")
+        console.log("Seeder: Seeded")
         client.close()
     } catch (error) {
         console.log(error)
