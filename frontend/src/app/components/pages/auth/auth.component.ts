@@ -17,6 +17,7 @@ import { isUserLoginModel, isUserRegistrationFormModel, UserLoggedInModel, UserL
 import { AuthService } from '../../../services/auth.service';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-auth',
@@ -53,7 +54,7 @@ export class AuthComponent {
     model: UserLoginModel | UserRegistrationFormModel | undefined;
     fields: FormlyFieldConfig[] = [];
 
-    errorMessages: Error[] = [];
+    errorMessages: HttpErrorResponse[] = [];
     @ViewChild('errorAlert', { static: false }) errorAlert!: ElementRef;
 
     async ngOnInit() {
@@ -95,26 +96,25 @@ export class AuthComponent {
                     this.errorMessages = await firstValueFrom(this.translationService.service.get('AUTH.EMSG.UNEXPECTED'));
                 } else {
                     this.authService.loggedInUser$.subscribe({
-                        next: async (user: UserLoggedInModel | null) =>{
+                        next: async (user: UserLoggedInModel | null) => {
                             const lastLoggedInUser: string | null = this.authService.shouldGreetUser();
                             if (lastLoggedInUser) {
                                 await this.greetUser(lastLoggedInUser);
                             }
                             this.router.navigate(['home']);
                         },
-                        error: async (err)=> {
-                            this.errorMessages.push(new Error('UNEXPECTED'));
-                            
-                        },                        
+                        error: async (err) => {
+                            this.errorMessages.push(new HttpErrorResponse({ error: 'UNEXPECTED' }));
+                        },
                     });
                 }
             },
-            error: async (err: Error) => {
+            error: async (err: HttpErrorResponse) => {
                 this.onError(err);
             }
         });
     }
-    
+
 
     async greetUser(username: string) {
         this.snackBar.open(
@@ -133,13 +133,13 @@ export class AuthComponent {
             next: async (model: any) => {
                 this.logIn({ username: _model.username, password: _model.password });
             },
-            error: async (err: Error) => {
+            error: async (err: HttpErrorResponse) => {
                 this.onError(err);
             }
         });
     }
 
-    private onError(_error: Error) {
+    private onError(_error: HttpErrorResponse) {
         this.errorMessages.push(_error);
         setTimeout(() => {
             this.errorAlert.nativeElement.scrollIntoView({ behavior: 'smooth' });
@@ -148,12 +148,12 @@ export class AuthComponent {
 
     getForm() {
         if (this.mode === 'login') {
-            if(!isUserLoginModel(this.model))
+            if (!isUserLoginModel(this.model))
                 this.model = { username: '', password: '' }
             this.formService.getLoginForm().then((value) => this.fields = value);
         }
         else if (this.mode === 'register') {
-            if(!isUserRegistrationFormModel(this.model))
+            if (!isUserRegistrationFormModel(this.model))
                 this.model = { username: '', email: '', passwordGroup: '' }
             this.formService.getRegistrationForm().then((value) => this.fields = value);
         }
