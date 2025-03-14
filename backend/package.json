@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "start": "npx nodemon ./src/main.ts",
-    "test:environment": "npm i && concurrently \"mongod --quiet --port 27017 --dbpath C:/data/db\" \"npx nodemon ./src/main.ts test\"",
-    "test:seed": "npm i && concurrently \"mongod --quiet --port 27017 --dbpath C:/data/db\" \"node test/seed.js\" \"npx nodemon ./src/main.ts test\""
+    "test:env": "npm i && powershell Remove-Item ./test/mongolog.* && concurrently \"mongod --logpath test/mongolog.json --quiet --port 27017 --dbpath C:/data/db\" \"npx nodemon ./src/main.ts test\"",
+    "test:seed": "npm i && powershell Remove-Item ./test/mongolog.* && concurrently \"mongod --logpath test/mongolog.json --quiet --port 27017 --dbpath C:/data/db\" \"node test/seed.ts\" \"npx nodemon ./src/main.ts test\""
   },
   "keywords": [],
   "author": "",
