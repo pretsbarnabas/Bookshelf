@@ -12,6 +12,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Review } from '../../../models/Review';
+import { UserLoggedInModel } from '../../../models/User';
+import { UserService } from '../../../services/user.service';
+
 @Component({
   selector: 'app-book-item',
   templateUrl: './book-item.component.html',
@@ -39,10 +42,12 @@ export class BookItemComponent implements OnInit {
   private snackBarDuration: number = 2000;
   public ratingArr: any = [];
   reviews: Review[] = [];
-  
-  constructor(private route: ActivatedRoute, private bookService: BookService, private datePipe: DatePipe, private snackBar: MatSnackBar){}
+  uniqueIds: any = [];
+  users: UserLoggedInModel[] = [];
+  constructor(private route: ActivatedRoute, private bookService: BookService, private datePipe: DatePipe, private snackBar: MatSnackBar, private userService: UserService){}
   
   ngOnInit(){
+    this.uniqueIds = [];
     this.bookId = this.route.snapshot.paramMap.get('id');
     if (this.bookId) {
         this.bookService.getBookById(this.bookId).subscribe(book => {
@@ -52,9 +57,8 @@ export class BookItemComponent implements OnInit {
       if (this.bookId) {
         this.bookService.getReviewsByBook(this.bookId).subscribe(reviews => {
           this.reviews = reviews;
-        });
+          });
       }
-      console.log(this.reviews)
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
     }
@@ -82,7 +86,6 @@ export class BookItemComponent implements OnInit {
   }
   
   showIconUserReview(index:number, Rating:number) {
-    console.log(index)
     if (Rating >= index + 1) {
       return 'star';
     } else {

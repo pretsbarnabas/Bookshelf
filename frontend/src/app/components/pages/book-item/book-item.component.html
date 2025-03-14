@@ -37,9 +37,13 @@
                     </mat-card-header>
                     <mat-card-content>
                         <div *ngFor="let review of reviews"> 
-                            <button mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" >
+                            <div class="review-header">
+                                <img class="user-profile-picture" [src]="review.user.profile_image ?? './assets/images/bingus.webp'" />
+                                <span class="username">{{review.user.username}}</span>
+                            </div>
+                            <button mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i">
                                 <mat-icon>
-                                  {{showIconUserReview(i,review.score / 2)}}
+                                  {{showIconUserReview(i, review.score / 2)}}
                                 </mat-icon>
                               </button>
                             <p>
