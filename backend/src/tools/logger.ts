@@ -9,18 +9,18 @@ export abstract class Logger{
     static magenta = "\x1b[35m"
 
     static info(text: string){
-        console.log(Logger.white,`Library [INFO]: ${text}`)
+        console.log(Logger.white,`[${new Date().toISOString()}] [INFO] Library: ${text}`)
     }
 
     static warn(text:string){
-        console.log(Logger.yellow,`Library [WARN]: ${text}`)
+        console.log(Logger.yellow,`[${new Date().toISOString()}] [WARN] Library: ${text}`)
     }
 
     static error(text:string){
-        console.log(Logger.red,`Library [ERROR]: ${text}`)
+        console.log(Logger.red,`[${new Date().toISOString()}] [ERROR] Library: ${text}`)
     }
 
     static debug(text:string){
-        console.log(Logger.magenta,`Library [DEBUG]: ${text}`)
+        console.log(Logger.magenta,`[${new Date().toISOString()}] [DEBUG] Library: ${text}`)
     }
 } 

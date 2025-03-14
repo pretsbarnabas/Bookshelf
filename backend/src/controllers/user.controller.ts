@@ -1,118 +1,17 @@
 const UserModel = require("../models/user.model")
-import jwt, { Secret } from "jsonwebtoken"
-import bcrypt from "bcrypt"
-import * as tools from "../tools/tools"
+
+import * as dates from "../tools/dates"
+import * as validators from "../tools/validators"
 import {Projection} from "../models/projection.model"
 import mongoose from "mongoose"
-import fs from "fs"
-import path from "path"
 import { Logger } from "../tools/logger"
+import { Authenticator } from "./auth.controller"
+import { ErrorHandler } from "../tools/errorhandler"
 
 export class UserController{
 
-    static saltrounds = 10
 
-    
-    static async hashPassword(password:string){
-        return await bcrypt.hash(password, this.saltrounds)
-    }
-    
-    static async checkPassword(password:string,hash:string){
-        return await bcrypt.compare(password,hash)
-    }
-
-    static async login(req:any,res:any){
-        const {username, password} = req.body
-        if(!username || !password) return res.status(400).json({error: "Bad request body, missing either username or password"})
-        const user = await UserModel.findOne({username:username})
-        if(!user) return res.status(403).json({error: "Invalid user or password"})
-        if(await UserController.checkPassword(password,user.password_hashed)){
-            const token = jwt.sign({username:username,role:user.role,id: user._id},process.env.JWT_SECRET as Secret, {expiresIn: '1h'})
-            user._updateContext = "login"
-            await user.save()            
-            return res.status(200).json({token:token})
-        }
-        else{
-            return res.status(403).json({error: "Invalid user or password"})
-        }
-    }
-
-    static verifyToken(req:any){
-        const token = req.headers["authorization"]
-        if(!token) return false
-        let verifiedToken = false
-        jwt.verify(token,process.env.JWT_SECRET as Secret,(err:any,decoded:any)=>{
-            if(err){
-                Logger.error(err)
-                verifiedToken = false
-            }
-            if(decoded){
-                req.user = decoded
-                verifiedToken = true
-            }
-        })
-        return verifiedToken
-    }
-
-    static verifyUser(req:any, userid: string = "",allowedRoles:string[] = ["user","editor"],){
-        if(!UserController.verifyToken(req)) return false
-        if(req.user.role === "admin") return true
-        if(userid){
-            if(req.user.id != userid) return false
-        }
-        let goodrole = false
-        allowedRoles.forEach(role => {
-            if(req.user.role == role) goodrole = true
-        });
-        return goodrole
-    }
-
-    static uploadImage(req:any,res:any){
-        const { imageData, imageName } = req.body;
-
-        if (!imageData || !imageName) {
-          return res.status(400).json({ message: 'Base64 image or image name missing' });
-        }
-        
-        
-        
-        // Strip out the base64 prefix (if present)
-        const base64Data = imageData.replace(/^data:image\/\w+;base64,/, '');
-        
-        // Convert base64 string to a buffer
-        const imageBuffer = Buffer.from(base64Data, 'base64');
-        
-        // Define the path where you want to store the image
-        const imagePath = path.join(__dirname, "../../images",imageName)
-
-         // Ensure the images directory exists
-         fs.mkdirSync(path.join(__dirname, '../../images'), { recursive: true });
-
-         // Write the image to the filesystem
-         fs.writeFile(imagePath, imageBuffer, (err) => {
-           if (err) {
-             return res.status(500).json({ message: 'Failed to save image', error: err });
-           }
-           res.status(200).json({ message: 'Image saved successfully', imagePath });
-         });
-    }
-
-    static getImage(req:any,res:any){
-        try {
-            const {imageName} = req.params
-            const imagePath = path.join(__dirname, "../../images",imageName)
-
-            return res.sendFile(imagePath,(err:any)=>{
-                if(err){
-                    res.status(404).send("Image not found")
-                }
-            })
-
-        } catch (error) {
-            return res.status(500).json({ message: error });
-        }
-    }
-    
+  
     static async getAllUsers(req:any,res:any){
         try{
             let {username, email, minCreate, maxCreate, minUpdate, maxUpdate, role, fields, page = 0, limit = 10} = req.query
@@ -121,6 +20,7 @@ export class UserController{
             page = Number.parseInt(page)
             
             if(Number.isNaN(limit) || Number.isNaN(page) || limit < 1 || page < 0){
+                Logger.info("Invalid page or limit requested")
                 return res.status(400).json({error:"Invalid page or limit"})
             }
 
@@ -132,17 +32,27 @@ export class UserController{
             if(email) filters.email = new RegExp(`${email}`,"i")
             if(role) filters.role = role
             
-            if(!minCreate) minCreate = tools.minDate()
-            if(!maxCreate) maxCreate = tools.maxDate()
-            if(!minUpdate) minUpdate = tools.minDate()
-            if(!maxUpdate) maxUpdate = tools.maxDate()
+            if(!minCreate) minCreate = dates.minDate()
+            if(!maxCreate) maxCreate = dates.maxDate()
+            if(!minUpdate) minUpdate = dates.minDate()
+            if(!maxUpdate) maxUpdate = dates.maxDate()
 
-            if(!tools.isValidISODate(minCreate)|| !tools.isValidISODate(maxCreate) || !tools.isValidISODate(minUpdate || !tools.isValidISODate(maxUpdate))){
-                return res.status(400).json({error:"Invalid date requested"})
+            if(!validators.isValidISODate(minCreate)|| !validators.isValidISODate(maxCreate)){
+                Logger.info(`Invalid date requested\nminCreate: ${minCreate}\nmaxCreate: ${maxCreate}`)
+                return res.status(400).json({error:"Invalid create date requested"})
+            }
+            if(!validators.isValidISODate(minUpdate) || !validators.isValidISODate(maxUpdate)){
+                Logger.info(`Invalid date requested\nminUpdate: ${minUpdate}\nmaxUpdate: ${maxUpdate}`)
+                return res.status(400).json({error:"Invalid update date requested"})
             }
 
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
             const validFields: string[] = requestedFields.filter(field =>allowedFields.includes(field))
+
+            if(validFields.length === 0){
+                Logger.info("Invalid fields requested")
+                return res.status(400).json({error:"Invalid fields requested"})
+            }
 
             if(!validFields.includes("_id")) validFields.push("-_id")
 
@@ -151,7 +61,7 @@ export class UserController{
                 return acc
             }, {"_id": 0} as Projection)
 
-            if(validFields.length === 0) return res.status(400).json({error:"Invalid fields requested"})
+
 
             const users = await UserModel.aggregate([
                 {$match: filters},
@@ -186,10 +96,11 @@ export class UserController{
                 {$limit: limit}
             ])
             if(users){
+                Logger.info("Request handled")
                 res.status(200).json(users)
             }
         }catch(error:any){
-            res.status(500).json({message:error.message})
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
     }
 
@@ -199,27 +110,32 @@ export class UserController{
             const {fields} = req.query
             let allowedFields = ["_id","username","created_at","updated_at","last_login","role","booklist"]
             
-            if(UserController.verifyUser(req,id)){
+            if(Authenticator.verifyUser(req,id)){
                 allowedFields.push("email", "password_hashed")
             }
 
 
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
             const validFields: string[] = requestedFields.filter(field =>allowedFields.includes(field))
-
-            if(validFields.length === 0) return res.status(400).json({error:"Invalid fields requested"})
+            
+            if(validFields.length === 0){
+                Logger.info("Invalid fields requested")
+                return res.status(400).json({error:"Invalid fields requested"})
+            }
             
             if(!validFields.includes("_id")) validFields.push("-_id")
 
             const data = await UserModel.findById(id).select(validFields)
             if(data){
+                Logger.info("Request handled")
                 res.status(200).json(data)
             }
             else{
+                Logger.info("Requested user not found")
                 res.status(404).json({message: "User not found"})
             }
         }catch(error:any){
-            res.status(500).json({message:error.message})
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
     }
 
@@ -227,13 +143,19 @@ export class UserController{
         try{
             const {username, password, email, role} = req.body
 
-            if(!username || !password || !email || !role) return res.status(400).json({message: "username, password, email, role required"})
-            if(role !== "user"){
-                if(!UserController.verifyUser(req,"",["admin"])) return res.status(401).json({message: `Unauthorized to create user of role ${role}`})
+            if(!username || !password || !email || !role){
+                Logger.info("Missing body parameters, request not handled")
+                return res.status(400).json({message: "username, password, email, role required"})
             }
-            if(!tools.IsValidEmail(email)) return res.status(400).json({message: "Invalid email format"})
+            if(role !== "user"){
+                if(!Authenticator.verifyUser(req,"",["admin"])){
+                    Logger.warn("Unathorized use of creation")
+                    return res.status(401).json({message: `Unauthorized to create user of role ${role}`})
+                }
+            }
+            if(!validators.IsValidEmail(email)) return res.status(400).json({message: "Invalid email format"})
 
-            const hashed_password = await UserController.hashPassword(password)
+            const hashed_password = await Authenticator.hashPassword(password)
             const newUser = new UserModel({
                 username: username,
                 password_hashed: hashed_password,
@@ -243,7 +165,7 @@ export class UserController{
             await newUser.save()
             res.status(201).json(newUser)
         }catch(error:any){
-            UserController.HandleMongooseErrors(error,res)
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
     }
     
@@ -258,7 +180,7 @@ export class UserController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            if(!UserController.verifyUser(req,id)) return res.json(401).send()
+            if(!Authenticator.verifyUser(req,id)) return res.json(401).send()
             const data = await UserModel.findByIdAndDelete(id)
             if(data){
                 res.status(200).json({message:"User deleted"})
@@ -283,7 +205,7 @@ export class UserController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            if(!UserController.verifyUser(req,id)) return res.status(401).json({message: "Unauthorized"})
+            if(!Authenticator.verifyUser(req,id)) return res.status(401).json({message: "Unauthorized"})
                 const user = await UserModel.findById(id)
             const updates = req.body
             const allowedFields = ["username","password","email","booklist"]
@@ -293,12 +215,12 @@ export class UserController{
                     return res.status(400).json({ message: `Cannot update ${key} field` });
                 }
                 if (key === "email") {
-                    if (!tools.IsValidEmail(updates[key])) {
+                    if (!validators.IsValidEmail(updates[key])) {
                         return res.status(400).json({ message: "Invalid email format" });
                     }
                 } 
                 if (key === "password") {
-                    const newPassHash = await UserController.hashPassword(updates[key]);
+                    const newPassHash = await Authenticator.hashPassword(updates[key]);
                     user["password_hashed"] = newPassHash;
                 }
                 else {
@@ -310,27 +232,7 @@ export class UserController{
             return res.status(200).json({user:user})
         }
         catch(error:any){
-            UserController.HandleMongooseErrors(error,res)
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
-    }
-    
-    static async HandleMongooseErrors(error: any, res:any){
-        if(error.code === 11000){
-            const duplicateKey = Object.keys(error.keyValue)[0]
-            const duplicateValue = error.keyValue[duplicateKey]
-            return res.status(400).json({
-                message: `${duplicateKey} of value ${duplicateValue} already exists`,
-                duplicateKey: duplicateKey,
-                duplicateValue: duplicateValue
-            })
-        }
-        if(error.name === "ValidationError"){
-            const errors: any = {};
-            for (let field in error.errors) {
-              errors[field] = error.errors[field].message;
-            }
-            return res.status(400).json({ errors });
-        }
-        return res.status(500).json({message:error})
     }
 }

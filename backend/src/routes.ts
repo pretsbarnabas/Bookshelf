@@ -4,14 +4,16 @@ import { BookController } from "./controllers/book.controller"
 import { ReviewController } from "./controllers/review.controller"
 import { CommentController } from "./controllers/comment.controller"
 import { SummaryController } from "./controllers/summary.controller"
+import { ImageController } from "./controllers/image.controller"
+import { Authenticator } from "./controllers/auth.controller"
 
 
 export const router = express.Router()
 
-router.post("/login",UserController.login)
+router.post("/login",Authenticator.login)
 
-router.post("/image",UserController.uploadImage)
-router.get("/image/:imageName",UserController.getImage)
+router.post("/image",ImageController.uploadImage)
+router.get("/image/:imageName",ImageController.getImage)
 
 // User routes
 

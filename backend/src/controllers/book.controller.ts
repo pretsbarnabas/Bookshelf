@@ -1,8 +1,11 @@
 import {Types} from "mongoose"
 const BookModel = require("../models/book.model")
-import * as tools from "../tools/tools"
+import * as dates from "../tools/dates"
+import * as validators from "../tools/validators"
 import { Projection } from "../models/projection.model"
-import { UserController } from "./user.controller"
+import { Authenticator } from "./auth.controller"
+import { ErrorHandler } from "../tools/errorhandler"
+import { Logger } from "../tools/logger"
 
 export class BookController{
     
@@ -38,15 +41,20 @@ export class BookController{
                 filters.genre = genre
             }
             
-            if(!minRelease) minRelease = tools.minDate() 
-            if(!maxRelease) maxRelease = tools.maxDate()
+            if(!minRelease) minRelease = dates.minDate() 
+            if(!maxRelease) maxRelease = dates.maxDate()
 
-            if(!tools.isValidISODate(minRelease) || !tools.isValidISODate(maxRelease)){
+            if(!validators.isValidISODate(minRelease) || !validators.isValidISODate(maxRelease)){
                 return res.status(400).json({error: "Invalid date requested"})
             }
 
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
             const validFields: string[] = requestedFields.filter(field =>allowedFields.includes(field))
+
+            if(validFields.length === 0){
+                Logger.info("Invalid fields requested")
+                return res.status(400).json({error:"Invalid fields requested"})
+            }
 
             if(!validFields.includes("_id")) validFields.push("-_id")
 
@@ -117,10 +125,10 @@ export class BookController{
             
             if(!title) return res.status(400).json({error: "title required"})
             
-            if(!UserController.verifyUser(req,"",["editor"])) return res.status(401).json({message:  `Unauthorized`})
+            if(!Authenticator.verifyUser(req,"",["editor"])) return res.status(401).json({message:  `Unauthorized`})
             
             if(release){
-                if(!tools.isValidISODate(release))
+                if(!validators.isValidISODate(release))
                     return res.status(400).json({error:"Invalid date"})
             }
 
@@ -137,7 +145,7 @@ export class BookController{
             res.status(201).json(newBook)
         }
         catch(error:any){
-            UserController.HandleMongooseErrors(error,res)
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
     }
 
@@ -152,7 +160,7 @@ export class BookController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            if(!UserController.verifyUser(req,"",["editor"])) return res.json(401).send()
+            if(!Authenticator.verifyUser(req,"",["editor"])) return res.json(401).send()
             const data = await BookModel.findByIdAndDelete(id)
             if(data){
                 res.status(200).json({message:"Book deleted"})
@@ -177,7 +185,7 @@ export class BookController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            if(!UserController.verifyUser(req,id)) return res.status(401).json({message: "Unauthorized"})
+            if(!Authenticator.verifyUser(req,id)) return res.status(401).json({message: "Unauthorized"})
                 const book = await BookModel.findById(id)
             const updates = req.body
             const allowedFields = ["title","author","release","genre","description"]
@@ -187,7 +195,7 @@ export class BookController{
                     return res.status(400).json({ message: `Cannot update ${key} field` });
                 }
                 if (key === "release") {
-                    if(!tools.isValidISODate(updates[key])){
+                    if(!validators.isValidISODate(updates[key])){
                         return res.status(400).json({message: "Invalid date"})
                     }
                 } 
@@ -204,7 +212,7 @@ export class BookController{
             return res.status(200).json({book:book})
         }
         catch(error:any){
-            UserController.HandleMongooseErrors(error,res)
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
     }
 }

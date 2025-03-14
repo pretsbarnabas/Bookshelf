@@ -1,8 +1,11 @@
 const ReviewModel = require("../models/review.model")
 const mongoose = require("mongoose")
 import { Projection } from "../models/projection.model"
-import * as tools from "../tools/tools"
-import { UserController } from "./user.controller"
+import * as dates from "../tools/dates"
+import * as validators from "../tools/validators"
+import { Authenticator } from "./auth.controller"
+import { ErrorHandler } from "../tools/errorhandler"
+import { Logger } from "../tools/logger"
 
 export class ReviewController{
 
@@ -27,17 +30,22 @@ export class ReviewController{
             }
             const allowedFields = ["_id","score","content","created_at","updated_at","book.title", "user.username"]
 
-            if(!minCreate) minCreate = tools.minDate()
-            if(!maxCreate) maxCreate = tools.maxDate()
-            if(!minUpdate) minUpdate = tools.minDate()
-            if(!maxUpdate) maxUpdate = tools.maxDate()
+            if(!minCreate) minCreate = dates.minDate()
+            if(!maxCreate) maxCreate = dates.maxDate()
+            if(!minUpdate) minUpdate = dates.minDate()
+            if(!maxUpdate) maxUpdate = dates.maxDate()
     
-            if(!tools.isValidISODate(minCreate)|| !tools.isValidISODate(maxCreate) || !tools.isValidISODate(minUpdate || !tools.isValidISODate(maxUpdate))){
+            if(!validators.isValidISODate(minCreate)|| !validators.isValidISODate(maxCreate) || !validators.isValidISODate(minUpdate || !validators.isValidISODate(maxUpdate))){
                 return res.status(400).json({error:"Invalid date requested"})
             }
 
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
             const validFields: string[] = requestedFields.filter(field =>allowedFields.includes(field))
+
+            if(validFields.length === 0){
+                Logger.info("Invalid fields requested")
+                return res.status(400).json({error:"Invalid fields requested"})
+            }
 
             if(!validFields.includes("_id")) validFields.push("-_id")
 
@@ -46,7 +54,6 @@ export class ReviewController{
                 return acc
             }, {"_id": 0} as Projection)
 
-            if(validFields.length === 0) return res.status(400).json({error:"Invalid fields requested"})
 
             if(user_id){
                 if(mongoose.Types.ObjectId.isValid(user_id)){
@@ -213,7 +220,7 @@ export class ReviewController{
             await newReview.save()
             res.status(201).json(newReview)
         } catch (error:any) {
-            UserController.HandleMongooseErrors(error,res)
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
     }
 
@@ -231,7 +238,7 @@ export class ReviewController{
             const review = await ReviewModel.findById(id)
             if(!review) return res.status(404).json({message: "Review not found"})
             
-            if(!UserController.verifyUser(req,review.user_id)) return res.json(401).send()
+            if(!Authenticator.verifyUser(req,review.user_id)) return res.json(401).send()
             
             const data = await ReviewModel.findByIdAndDelete(id)
             if(data){
@@ -260,7 +267,7 @@ export class ReviewController{
             const review = await ReviewModel.findById(id)
             if(!review) return res.status(404).json({message: "Review not found"})
             
-            if(!UserController.verifyUser(req,review.user_id)) return res.json(401).send()
+            if(!Authenticator.verifyUser(req,review.user_id)) return res.json(401).send()
             
             const updates = req.body
             const allowedFields = ["score","content"]
@@ -280,7 +287,7 @@ export class ReviewController{
             return res.status(200).json({review:review})
         }
         catch(error:any){
-            UserController.HandleMongooseErrors(error,res)
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
     }
 }
