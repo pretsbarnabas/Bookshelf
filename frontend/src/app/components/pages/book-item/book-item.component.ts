@@ -57,6 +57,7 @@ export class BookItemComponent implements OnInit {
       if (this.bookId) {
         this.bookService.getReviewsByBook(this.bookId).subscribe(reviews => {
           this.reviews = reviews;
+          console.log(reviews)
           });
       }
     for (let index = 0; index < this.starCount; index++) {

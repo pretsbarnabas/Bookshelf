@@ -30,30 +30,33 @@
                 <p>{{ book?.author }}</p>
                 <p>{{ formatDate(book?.release) }}</p>
                 <p>{{ book?.description }}</p>
-                <button mat-raised-button color="primary" (click)="onBack()">Back</button>
                 <mat-card>
                     <mat-card-header>
                         <mat-card-title>Reviews</mat-card-title>
                     </mat-card-header>
                     <mat-card-content>
+                        <div *ngIf="reviews.length == 0">
+                            <p>No reviews yet, but you can write yours anytime!</p>
+                        </div>
                         <div *ngFor="let review of reviews"> 
                             <div class="review-header">
-                                <img class="user-profile-picture" [src]="review.user.profile_image ?? './assets/images/bingus.webp'" />
+                                <img class="user-profile-picture" [src]="review.user.imageUrl ?? './assets/images/bingus.webp'" />
                                 <span class="username">{{review.user.username}}</span>
                             </div>
                             <button mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i">
                                 <mat-icon>
-                                  {{showIconUserReview(i, review.score / 2)}}
+                                    {{showIconUserReview(i, review.score / 2)}}
                                 </mat-icon>
-                              </button>
+                            </button>
                             <p>
-                              {{review.content}}                          
+                                {{review.content}}                          
                             </p>
                             <p>{{formatDate(review.added_at)}}</p>
                             <hr>
-                          </div>
+                        </div>
                     </mat-card-content>
                 </mat-card>
+                <button mat-raised-button color="primary" (click)="onBack()">Back</button>
             </div>
         </div>
     </div>

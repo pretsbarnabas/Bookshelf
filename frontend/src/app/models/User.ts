@@ -35,5 +35,5 @@ export interface UserLoggedInModel {
     created_at: string
     updated_at: string
     last_login: string
-    profile_image?: string
+    imageUrl?: string
 }
