@@ -1,11 +1,11 @@
-import { UserLoggedInModel } from "./User"
+import { User } from "./User"
 
 export interface Review {
-    _id: string
+    _id?: string
     book_id: string
-    user: UserLoggedInModel
+    user: User
     score: number
     content: string
-    added_at: Date
-    updated_at: Date
+    added_at?: Date
+    updated_at?: Date
 }    

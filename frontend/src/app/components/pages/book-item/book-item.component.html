@@ -10,18 +10,24 @@
                         <mat-card-subtitle>{{ book?.author }}</mat-card-subtitle>
                         <mat-card-title class="title">{{ book?.title }}</mat-card-title>
                         <p>{{ formatDate(book?.release) }}</p>
-                        <button mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" (click)="onClick(i+1)">
-                            <mat-icon>
-                              {{showIcon(i)}}
-                            </mat-icon>
-                          </button>
-                          <mat-error *ngIf="starCount == null || starCount == 0">
-                            Star count is <strong>required</strong> and cannot be zero
-                          </mat-error>
-                          <p class="body-2">
-                              Your rated <span class="body-2">{{rating}}</span> / <span class="body-2">{{starCount}}</span>
-                          </p>
-
+                        <form *ngIf="isLoggedIn"  [formGroup]="reviewForm" (ngSubmit)="onSubmitReview()">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Content</mat-label>
+                                <textarea matInput formControlName="content"></textarea>
+                            </mat-form-field>
+                            <button mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" (click)="onClick(i+1)">
+                                <mat-icon>
+                                  {{showIcon(i)}}
+                                </mat-icon>
+                              </button>
+                              <mat-error *ngIf="starCount == null || starCount == 0">
+                                Star count is <strong>required</strong> and cannot be zero
+                              </mat-error>
+                              <p class="body-2">
+                                  Your rated <span class="body-2">{{rating}}</span> / <span class="body-2">{{starCount}}</span>
+                              </p>
+                            <button mat-raised-button color="primary" type="submit">Submit</button>
+                        </form>
                     </mat-card-content>
                 </mat-card>
             </div>
@@ -43,6 +49,7 @@
                                 <img class="user-profile-picture" [src]="review.user.imageUrl ?? './assets/images/bingus.webp'" />
                                 <span class="username">{{review.user.username}}</span>
                             </div>
+                            
                             <button mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i">
                                 <mat-icon>
                                     {{showIconUserReview(i, review.score / 2)}}
@@ -56,7 +63,7 @@
                         </div>
                     </mat-card-content>
                 </mat-card>
-                <button mat-raised-button color="primary" (click)="onBack()">Back</button>
+                <button class="backButton" mat-raised-button color="primary" (click)="onBack()">Back</button>
             </div>
         </div>
     </div>

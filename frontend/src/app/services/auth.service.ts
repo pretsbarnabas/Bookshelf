@@ -44,19 +44,39 @@ export class AuthService {
         return token ? jwtDecode(token) : undefined;
     }
 
+    // setLoggedInUser(): void {
+    //     const tokenId = this.getTokenId();
+    //     if (!tokenId) {
+    //         this.loggedInUserSubject.next(null);
+    //         return;
+    //     }
+    
+
+    //     this.getUserFromToken(tokenId).subscribe({
+    //         next: (result: any) => {
+    //             delete result._id;
+    //             delete result.password_hashed;
+    //             result.profile_image = createAvatar(bottts, { seed: result.username }).toDataUri();
+    //             this.loggedInUserSubject.next(result);
+    //         },
+    //         error: () => {
+    //             console.error('Invalid token');
+    //             localStorage.removeItem('authToken');
+    //             this.loggedInUserSubject.next(null);
+    //         }
+    //     });
+    // }
     setLoggedInUser(): void {
         const tokenId = this.getTokenId();
         if (!tokenId) {
             this.loggedInUserSubject.next(null);
             return;
         }
-
+    
         this.getUserFromToken(tokenId).subscribe({
             next: (result: any) => {
-                delete result._id;
-                delete result.password_hashed;
                 result.profile_image = createAvatar(bottts, { seed: result.username }).toDataUri();
-                this.loggedInUserSubject.next(result);
+                this.loggedInUserSubject.next(result as UserLoggedInModel);
             },
             error: () => {
                 console.error('Invalid token');

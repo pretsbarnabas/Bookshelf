@@ -28,6 +28,7 @@ export function isUserRegistrationFormModel(model: UserLoginModel | UserRegistra
 
 
 export interface UserLoggedInModel {
+    _id?: string
     username: string
     email: string
     role: 'user' | 'editor' | 'admin'
@@ -35,5 +36,16 @@ export interface UserLoggedInModel {
     created_at: string
     updated_at: string
     last_login: string
+    imageUrl?: string
+}
+export interface User {
+    _id?: string
+    username: string
+    email: string
+    role: 'user' | 'editor' | 'admin'
+    booklist: any[]
+    created_at?: string
+    updated_at?: string
+    last_login?: string
     imageUrl?: string
 }

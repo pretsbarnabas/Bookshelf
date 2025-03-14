@@ -24,5 +24,7 @@ export class BookService {
     getReviewsByBook(book_id: string): Observable<Review[]> {
         return this.http.get<Review[]>(`${this.configService.get('API_URL')}/api/reviews?book_id=${book_id}`);
       }
-
-}
+    Addreview( newReview: any): Observable<Review> {
+        return this.http.post<Review>(`${this.configService.get('API_URL')}/api/reviews`, newReview);
+      }
+    }

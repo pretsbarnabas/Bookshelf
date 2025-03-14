@@ -6,14 +6,16 @@ import { FormlyModule } from '@ngx-formly/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormlyMaterialModule } from '@ngx-formly/material';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormGroup,FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Review } from '../../../models/Review';
-import { UserLoggedInModel } from '../../../models/User';
+import { UserLoggedInModel,User } from '../../../models/User';
 import { UserService } from '../../../services/user.service';
+import { AuthService } from '../../../services/auth.service';
+
 
 @Component({
   selector: 'app-book-item',
@@ -43,22 +45,44 @@ export class BookItemComponent implements OnInit {
   public ratingArr: any = [];
   reviews: Review[] = [];
   uniqueIds: any = [];
-  users: UserLoggedInModel[] = [];
-  constructor(private route: ActivatedRoute, private bookService: BookService, private datePipe: DatePipe, private snackBar: MatSnackBar, private userService: UserService){}
-  
+  users: User[] = [];
+  isLoggedIn: boolean = false;
+  reviewForm: FormGroup;
+  loggedInUser: UserLoggedInModel | null = null;
+
+  constructor(
+    private route: ActivatedRoute,
+    private bookService: BookService,
+    private datePipe: DatePipe,
+    private snackBar: MatSnackBar,
+    private userService: UserService,
+    private authService: AuthService,
+    private fb: FormBuilder
+  ){
+    this.reviewForm = this.fb.group({
+      content: ['', Validators.required]
+  });
+  }
+  fillreviews() {
+    this.reviews = [];
+    this.bookService.getReviewsByBook(this.bookId).subscribe(reviews => {
+      this.reviews = reviews;
+      });
+    }
   ngOnInit(){
     this.uniqueIds = [];
     this.bookId = this.route.snapshot.paramMap.get('id');
+    this.authService.loggedInUser$.subscribe(user => {
+      this.isLoggedIn = !!user;
+      this.loggedInUser = user;
+    });
     if (this.bookId) {
         this.bookService.getBookById(this.bookId).subscribe(book => {
           this.book = book;
         });
       }
       if (this.bookId) {
-        this.bookService.getReviewsByBook(this.bookId).subscribe(reviews => {
-          this.reviews = reviews;
-          console.log(reviews)
-          });
+        this.fillreviews();
       }
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
@@ -96,7 +120,30 @@ export class BookItemComponent implements OnInit {
   onBack() {
       window.history.back();
   }
-  
+  onSubmitReview() {
+    console
+    if (this.reviewForm.valid) {
+      console.log(this.reviewForm.value.content)
+      console.log(this.rating)
+      console.log(this.bookId)
+      const newReview = {
+        content: this.reviewForm.value.content,
+        score: this.rating * 2,
+        book_id: this.bookId,
+        user_id: this.loggedInUser!._id
+      };
+      console.log(newReview)
+
+      this.bookService.Addreview(newReview).subscribe(review => {
+        console.log(review)
+        this.fillreviews();
+        this.reviewForm.reset();
+        this.snackBar.open('Review submitted successfully', '', {
+          duration: this.snackBarDuration
+        });
+      });
+    }
+  }
 }
 export enum StarRatingColor {
   primary = "primary",
