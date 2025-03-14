@@ -28,7 +28,7 @@ export class ReviewController{
             if(Number.isNaN(limit) || Number.isNaN(page) || limit < 1 || page < 0){
                 return res.status(400).json({error:"Invalid page or limit"})
             }
-            const allowedFields = ["_id","score","content","created_at","updated_at","book.title", "user.username"]
+            const allowedFields = ["_id","score","content","created_at","updated_at","book.title", "user.username","user.imageUrl","user.role","user.updated_at","user.created_at","user.last_login"]
 
             if(!minCreate) minCreate = dates.minDate()
             if(!maxCreate) maxCreate = dates.maxDate()
@@ -150,7 +150,7 @@ export class ReviewController{
                 return res.status(400).json({message: "id is required"})
             }
 
-            let allowedFields = ["_id","score","content","created_at","updated_at","book.title","book.author","user.username"]
+            let allowedFields = ["_id","score","content","created_at","updated_at","book.title","book.author","user.username","user.imageUrl","user.role","user.updated_at","user.created_at","user.last_login"]
             
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
             const validFields: string[] = requestedFields.filter(field =>allowedFields.includes(field))
