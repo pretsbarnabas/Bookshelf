@@ -1,4 +1,5 @@
 import {Schema, model}  from "mongoose"
+import { Logger } from "../tools/logger";
 
 const userSchema = new Schema({
     username:{
@@ -41,6 +42,10 @@ const userSchema = new Schema({
         required:true,
         type: Array,
         default: []
+    },
+    imageUrl:{
+        required:false,
+        type: String
     }
 },{versionKey: false})
 
@@ -58,5 +63,9 @@ userSchema.pre("save", function (next) {
 
     next();
 });
+
+userSchema.post("save",function(next){
+    Logger.info(`${this._id} user saved`)
+})
 
 module.exports = model("UserModel",userSchema,"users")

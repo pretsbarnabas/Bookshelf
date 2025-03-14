@@ -7,10 +7,12 @@ import mongoose from "mongoose"
 import { Logger } from "../tools/logger"
 import { Authenticator } from "./auth.controller"
 import { ErrorHandler } from "../tools/errorhandler"
+import { ImageController } from "./image.controller"
 
 export class UserController{
 
 
+    static currentUrl = "http://localhost:3000/api"
   
     static async getAllUsers(req:any,res:any){
         try{
@@ -24,7 +26,7 @@ export class UserController{
                 return res.status(400).json({error:"Invalid page or limit"})
             }
 
-            const allowedFields = ["_id","username","role","created_at","updated_at","booklist","last_login"]
+            const allowedFields = ["_id","username","role","created_at","updated_at","booklist","last_login","imageUrl"]
 
             let filters: {username?:RegExp,email?:RegExp,role?:string} = {}
 
@@ -108,7 +110,7 @@ export class UserController{
         try{
             const {id} = req.params
             const {fields} = req.query
-            let allowedFields = ["_id","username","created_at","updated_at","last_login","role","booklist"]
+            let allowedFields = ["_id","username","created_at","updated_at","last_login","role","booklist","imageUrl"]
             
             if(Authenticator.verifyUser(req,id)){
                 allowedFields.push("email", "password_hashed")
@@ -208,7 +210,7 @@ export class UserController{
             if(!Authenticator.verifyUser(req,id)) return res.status(401).json({message: "Unauthorized"})
                 const user = await UserModel.findById(id)
             const updates = req.body
-            const allowedFields = ["username","password","email","booklist"]
+            const allowedFields = ["username","password","email","booklist","image"]
             if(!user) return res.status(404).json({message: "User not found"})
             for (const key of Object.keys(updates)) {
                 if (!allowedFields.includes(key)) {
@@ -219,7 +221,15 @@ export class UserController{
                         return res.status(400).json({ message: "Invalid email format" });
                     }
                 } 
-                if (key === "password") {
+                if(key === "image"){
+                    req.body.imageName = `user-${user._id}`
+                    req.body.imageData = updates["image"]
+                    const newImageName = ImageController.uploadImage(req,res)
+                    if(!newImageName) return
+                    const newImageUrl = `${UserController.currentUrl}/image/${newImageName}`
+                    user["imageUrl"] = newImageUrl
+                }
+                else if (key === "password") {
                     const newPassHash = await Authenticator.hashPassword(updates[key]);
                     user["password_hashed"] = newPassHash;
                 }
