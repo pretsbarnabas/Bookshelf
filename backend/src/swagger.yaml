@@ -197,6 +197,8 @@ components:
 tags:
   - name: login
     description: Login feature
+  - name: Image
+    description: Get Images from server
   - name: Users
     description: Routes managing users
   - name: Reviews
@@ -243,6 +245,23 @@ paths:
                   token:
                     type: string
                     example: Invalid username or password
+
+  /api/image/{imageName}:
+    get:
+      summary: Retrieve an image
+      tags:
+        - Image
+      parameters:
+        - name: imageName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Image retrieved successfully
+        404:
+          description: Image not found
 
   /api/users:
     get:
