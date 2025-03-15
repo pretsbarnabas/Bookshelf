@@ -15,6 +15,8 @@ import { Review } from '../../../models/Review';
 import { UserLoggedInModel,User } from '../../../models/User';
 import { UserService } from '../../../services/user.service';
 import { AuthService } from '../../../services/auth.service';
+import { PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @Component({
@@ -31,6 +33,7 @@ import { AuthService } from '../../../services/auth.service';
     MatButtonModule,
     MatIconModule,
     CommonModule,
+    MatPaginatorModule
   ],
   providers: [DatePipe]
 })
@@ -44,6 +47,8 @@ export class BookItemComponent implements OnInit {
   private snackBarDuration: number = 2000;
   public ratingArr: any = [];
   reviews: Review[] = [];
+  paginatedReviews: Review[] = [];
+  pageSize = 10;
   uniqueIds: any = [];
   users: User[] = [];
   isLoggedIn: boolean = false;
@@ -63,12 +68,6 @@ export class BookItemComponent implements OnInit {
       content: ['', Validators.required]
   });
   }
-  fillreviews() {
-    this.reviews = [];
-    this.bookService.getReviewsByBook(this.bookId).subscribe(reviews => {
-      this.reviews = reviews;
-      });
-    }
   ngOnInit(){
     this.uniqueIds = [];
     this.bookId = this.route.snapshot.paramMap.get('id');
@@ -87,6 +86,28 @@ export class BookItemComponent implements OnInit {
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
     }
+  }
+  fillreviews() {
+    this.reviews = [];
+    this.bookService.getReviewsByBook(this.bookId).subscribe(reviews => {
+      this.reviews = reviews;
+      this.updatePaginatedReviews();
+    });
+  }
+
+  updatePaginatedReviews(pageIndex: number = 0) {
+    this.paginatedReviews = [];
+    const startIndex = pageIndex * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    console.log(startIndex)
+    console.log(endIndex)
+    this.paginatedReviews = this.reviews.slice(startIndex, endIndex);
+    console.log(this.paginatedReviews)
+  }
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    console.log(this.pageSize);
+    this.updatePaginatedReviews(event.pageIndex);
   }
   
   formatDate(date: any) {

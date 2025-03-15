@@ -44,7 +44,7 @@
                         <div *ngIf="reviews.length == 0">
                             <p>No reviews yet, but you can write yours anytime!</p>
                         </div>
-                        <div *ngFor="let review of reviews"> 
+                        <div *ngFor="let review of paginatedReviews"> 
                             <div class="review-header">
                                 <img class="user-profile-picture" [src]="review.user.imageUrl ?? './assets/images/bingus.webp'" />
                                 <span class="username">{{review.user.username}}</span>
@@ -61,6 +61,8 @@
                             <p>{{formatDate(review.added_at)}}</p>
                             <hr>
                         </div>
+                        <mat-paginator [length]="reviews.length" [pageSize]="pageSize" [pageSizeOptions]="[10, 15, 20]" (page)="onPageChange($event)">
+                        </mat-paginator>
                     </mat-card-content>
                 </mat-card>
                 <button class="backButton" mat-raised-button color="primary" (click)="onBack()">Back</button>
