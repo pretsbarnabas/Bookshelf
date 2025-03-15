@@ -206,11 +206,31 @@ export class ReviewController{
 
     static async createReview(req:any,res:any){
         try {
-            const {user_id,book_id,score,content = ""} = req.body
+            const {user_id,book_id,score,content = null} = req.body
             
-            if(!user_id || !book_id || !score)
-                return res.status(400).json({message: "user_id, book_id, score required"}) 
-            
+            if(user_id){
+                if(!mongoose.Types.ObjectId.isValid(user_id)){
+                    return res.status(400).json({message: "Invalid id format on user_id"})
+                }
+            }
+            else{
+                return res.status(400).json({message: "user_id is required"})
+            }
+            if(book_id){
+                if(!mongoose.Types.ObjectId.isValid(book_id)){
+                    return res.status(400).json({message: "Invalid id format on book_id"})
+                }
+            }
+            else{
+                return res.status(400).json({message: "book_id is required"})
+            }
+            if(!score)
+                return res.status(400).json({message: "score required"}) 
+            if(Number.isNaN(score)){
+                return res.status(400).json({message: "Invalid score, must be a number"})
+            }
+            if(!Authenticator.verifyUser(req,user_id)) return res.json(401).send()
+
             const newReview = new ReviewModel({
                 user_id: user_id,
                 book_id: book_id,

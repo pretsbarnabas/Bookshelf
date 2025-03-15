@@ -16,9 +16,10 @@ const reviewSchema = new Schema({
         max: 10
     },
     content:{
-        required: true,
+        required: false,
         type: String,
-        maxLength: 10000
+        maxLength: 10000,
+        default: null
     },
     created_at:{
         required: true,

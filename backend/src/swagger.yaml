@@ -69,6 +69,8 @@ components:
           type: string
         updated_at:
           type: string
+        imageUrl:
+          type: string
       example:
         _id: 7fdb24bfd2c9eaca400201b8
         title: Lorem
@@ -79,6 +81,7 @@ components:
         description: Lorem
         added_at: 2016-04-08T15:06:21.595Z
         updated_at: 2016-04-08T15:06:21.595Z
+        imageUrl: http://localhost:3000/api/image/user-db0b0c1f83fb29f652cc5a2f.png
 
     review:
       type: object
@@ -114,6 +117,7 @@ components:
         - password
         - email
         - role
+        - image
       properties:
         username:
           type: string
@@ -123,6 +127,14 @@ components:
           type: string
         role:
           type: string
+        image:
+          type: string
+      example:
+        username: required
+        password: required
+        email: required
+        role: required
+        image: nullable
     book:
       type: object
       required:
@@ -131,6 +143,7 @@ components:
         - release
         - genre
         - description
+        - image
       properties:
         title:
           type: string
@@ -142,6 +155,15 @@ components:
           type: string
         description:
           type: string
+        image:
+          type: string
+      example:
+        title: required
+        author: optional, default Unknown
+        release: nullable, default null
+        genre: optional, default None
+        description: optional, default No description added
+
     userput:
       type: object
       required:
@@ -161,6 +183,12 @@ components:
           type: array
         image:
           type: string
+      example:
+        username: optional
+        password: optional
+        email: optional
+        booklist: optional
+        image: optional
     review:
       type: object
       required:
@@ -177,6 +205,11 @@ components:
           type: integer
         content:
           type: string
+      example:
+        user_id: required
+        book_id: required
+        score: required
+        content: nullable
     reviewput:
       type: object
       required:
@@ -187,6 +220,9 @@ components:
           type: integer
         content:
           type: string
+      example:
+        score: optional
+        content: optional
 
   securitySchemes:
     ApiKeyAuth:

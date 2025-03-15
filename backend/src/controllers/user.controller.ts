@@ -12,7 +12,6 @@ import { ImageController } from "./image.controller"
 export class UserController{
 
 
-    static currentUrl = "http://localhost:3000/api"
   
     static async getAllUsers(req:any,res:any){
         try{
@@ -143,7 +142,7 @@ export class UserController{
 
     static async createUser(req:any,res:any){
         try{
-            const {username, password, email, role} = req.body
+            const {username, image ,password, email, role} = req.body
 
             if(!username || !password || !email || !role){
                 Logger.info("Missing body parameters, request not handled")
@@ -164,6 +163,16 @@ export class UserController{
                 email: email,
                 role: role
             })
+            if(image){
+                req.body.imageName = `user-${newUser._id}`
+                req.body.imageData = image
+                const newImageName = ImageController.uploadImage(req,res)
+                if(!newImageName) return
+                const newImageUrl = `${ImageController.currentUrl}/image/${newImageName}`
+                newUser.imageUrl = newImageUrl
+                await newUser.save()
+            }
+            Logger.info(`New user created: ${newUser._id}`)
             await newUser.save()
             res.status(201).json(newUser)
         }catch(error:any){
@@ -226,7 +235,7 @@ export class UserController{
                     req.body.imageData = updates["image"]
                     const newImageName = ImageController.uploadImage(req,res)
                     if(!newImageName) return
-                    const newImageUrl = `${UserController.currentUrl}/image/${newImageName}`
+                    const newImageUrl = `${ImageController.currentUrl}/image/${newImageName}`
                     user["imageUrl"] = newImageUrl
                 }
                 else if (key === "password") {

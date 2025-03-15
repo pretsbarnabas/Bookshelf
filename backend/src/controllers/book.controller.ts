@@ -6,6 +6,7 @@ import { Projection } from "../models/projection.model"
 import { Authenticator } from "./auth.controller"
 import { ErrorHandler } from "../tools/errorhandler"
 import { Logger } from "../tools/logger"
+import { ImageController } from "./image.controller"
 
 export class BookController{
     
@@ -41,51 +42,53 @@ export class BookController{
                 filters.genre = genre
             }
             
-            if(!minRelease) minRelease = dates.minDate() 
-            if(!maxRelease) maxRelease = dates.maxDate()
-
-            if(!validators.isValidISODate(minRelease) || !validators.isValidISODate(maxRelease)){
-                return res.status(400).json({error: "Invalid date requested"})
-            }
-
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
             const validFields: string[] = requestedFields.filter(field =>allowedFields.includes(field))
-
+            
             if(validFields.length === 0){
                 Logger.info("Invalid fields requested")
                 return res.status(400).json({error:"Invalid fields requested"})
             }
-
+            
             if(!validFields.includes("_id")) validFields.push("-_id")
-
-            const projection: Projection = validFields.reduce((acc: Projection,field)=>{
-                acc[field] = 1
-                return acc
-            }, {"_id": 0} as Projection)
-    
-
-            const books = await BookModel.aggregate([
-                {$match: filters},
-                {
-                    $match: {
-                      $and: [
-                        {
-                          $expr: {
-                            $gte: ["$release", new Date(minRelease)]
-                          }
-                        },
-                        {
-                          $expr: {
-                            $lte: ["$release", new Date(maxRelease)]
-                          }
+                
+                const projection: Projection = validFields.reduce((acc: Projection,field)=>{
+                    acc[field] = 1
+                    return acc
+                }, {"_id": 0} as Projection)
+                
+                
+                
+                const matchConditions = [];
+                
+                if (filters) {
+                    matchConditions.push({ $match: filters });
+                }
+                
+                if (minRelease || maxRelease) {
+                    const releaseFilter: {$gte?:Date,$lte?:Date} = {};
+                    
+                    if (minRelease) {
+                        if(!validators.isValidISODate(minRelease)){
+                            return res.status(400).json({error: "Invalid date requested"})
                         }
-                      ]
+                        releaseFilter.$gte = new Date(minRelease);
                     }
-                },
-                {$project: projection},
-                {$skip: page*limit},
-                {$limit: limit}
-            ])
+                    if (maxRelease) {
+                        if(!validators.isValidISODate(maxRelease)){
+                            return res.status(400).json({error: "Invalid date requested"})
+                        }
+                        releaseFilter.$lte = new Date(maxRelease);
+                    }
+                    
+                    matchConditions.push({ $match: { release: releaseFilter } });
+                }
+                
+                matchConditions.push({ $project: projection });
+                matchConditions.push({ $skip: page * limit });
+                matchConditions.push({ $limit: limit });
+                
+            const books = await BookModel.aggregate(matchConditions);
             if(books){
                 res.status(200).json(books)
             }
@@ -121,7 +124,7 @@ export class BookController{
 
     static async createBook(req:any,res:any){
         try{
-            let {title, author = "Unknown", genre = "None", description = "", release = null} = req.body
+            let {title, image, author = "Unknown", genre = "None", description = "No description added", release = null} = req.body
             
             if(!title) return res.status(400).json({error: "title required"})
             
@@ -139,9 +142,19 @@ export class BookController{
                 genre: genre,
                 description: description,
                 release: release,
-                user_id: req.user.id
+                user_id: new Types.ObjectId(req.user.id as string)
             })
             await newBook.save()
+            if(image){
+                req.body.imageName = `book-${newBook._id}`
+                req.body.imageData = image
+                const newImageName = ImageController.uploadImage(req,res)
+                if(!newImageName) return
+                const newImageUrl = `${ImageController.currentUrl}/image/${newImageName}`
+                newBook.imageUrl = newImageUrl
+                await newBook.save()
+            }
+            Logger.info(`New book created: ${newBook._id}`)
             res.status(201).json(newBook)
         }
         catch(error:any){
@@ -206,9 +219,20 @@ export class BookController{
                         return res.status(400).json({error: "Invalid genre requested"})
                     }
                 }
-                book[key] = updates[key];
+                if(key === "image"){
+                    req.body.imageName = `book-${book._id}`
+                    req.body.imageData = updates["image"]
+                    const newImageName = ImageController.uploadImage(req,res)
+                    if(!newImageName) return
+                    const newImageUrl = `${ImageController.currentUrl}/image/${newImageName}`
+                    book["imageUrl"] = newImageUrl
+                }
+                else{
+                    book[key] = updates[key];
+                }
             }
             await book.save()
+            Logger.info(`Book saved: ${book._id}`)
             return res.status(200).json({book:book})
         }
         catch(error:any){

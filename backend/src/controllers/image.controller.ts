@@ -4,6 +4,10 @@ import * as validators from "../tools/validators"
 import { Logger } from "../tools/logger";
 
 export class ImageController{
+
+    static currentUrl = "http://localhost:3000/api"
+
+
     static uploadImage(req:any, res:any) {
         const { imageData, imageName } = req.body;
     

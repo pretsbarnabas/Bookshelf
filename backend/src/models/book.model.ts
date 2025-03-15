@@ -14,8 +14,8 @@ export const bookSchema = new Schema({
         maxLength: 100
     },
     release:{
-        required: true,
-        type: Date
+        type: Date,
+        default: null
     },
     genre:{
         required:true,
@@ -40,6 +40,10 @@ export const bookSchema = new Schema({
         required: true,
         type: Date,
         default: Date.now
+    },
+    imageUrl:{
+        required:false,
+        type: String
     }
 },{versionKey: false})
 
