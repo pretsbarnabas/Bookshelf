@@ -195,7 +195,11 @@ export class UserController{
             }
             if(!Authenticator.verifyUser(req,id)) return res.json(401).send()
             const data = await UserModel.findByIdAndDelete(id)
-            if(data){
+            if(!data){
+                res.status(404).json({message:"User not found"})
+                
+            }
+            else{
                 res.status(200).json({message:"User deleted"})
                 Logger.info(`User deleted: ${id}`)
                 const deletedReviews = await ReviewModel.deleteMany({user_id: id})
@@ -203,10 +207,9 @@ export class UserController{
                 const deletedComments = await CommentModel.deleteMany({user_id: id})
                 if(deletedComments) Logger.info(`Deleted comments of user: ${id}`)
 
+                if(data.imageUrl) ImageController.deleteImage(data.imageUrl.split("/").pop())
             }
-            else{
-                res.status(404).json({message:"User not found"})
-            }
+            
         }
         catch(error:any){
             res.status(500).json({message:error.message})

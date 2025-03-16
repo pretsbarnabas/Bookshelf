@@ -164,7 +164,7 @@ export class BookController{
 
     static async deleteBook(req:any,res:any){
         try{
-            const id = req.params
+            const {id} = req.params
             if(id){
                 if(!Types.ObjectId.isValid(id)){
                     return res.status(400).json({message: "Invalid id format"})
@@ -177,6 +177,7 @@ export class BookController{
             const data = await BookModel.findByIdAndDelete(id)
             if(data){
                 res.status(200).json({message:"Book deleted"})
+                if(data.imageUrl) ImageController.deleteImage(data.imageUrl.split("/").pop())
             }
             else{
                 res.status(404).json({message:"Book not found"})

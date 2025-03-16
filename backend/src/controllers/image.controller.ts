@@ -60,6 +60,8 @@ export class ImageController{
         return finalImageName
     }
 
+    
+
     static getImage(req:any,res:any){
         try {
             const {imageName} = req.params
@@ -73,6 +75,26 @@ export class ImageController{
 
         } catch (error) {
             return res.status(500).json({ message: error });
+        }
+    }
+
+
+    static deleteImage(imageName: string) {
+        try {
+            if (!imageName) {
+                Logger.warn("Image name is required when deleting")
+            }
+    
+            const imagePath = path.join(__dirname, "../../images", imageName);
+    
+            if (!fs.existsSync(imagePath)) {
+                Logger.warn(`File not found: ${imagePath}`)
+            }
+    
+            fs.unlinkSync(imagePath);
+            Logger.info(`Deleted image: ${imageName}`);
+        } catch (error) {
+            Logger.error(`Error deleting image: ${JSON.stringify(error)}`);
         }
     }
 }
