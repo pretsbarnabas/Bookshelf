@@ -1,31 +1,28 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UserLoggedInModel, UserLoginModel, UserRegistrationModel } from '../models/User';
-import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, map, Observable } from 'rxjs';
-import { ConfigService } from './config.service';
 import { jwtDecode } from "jwt-decode";
 import { Router } from '@angular/router';
 import { createAvatar } from '@dicebear/core';
 import { bottts } from '@dicebear/collection';
+import { CrudService } from './crud.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
+    private crudService = inject(CrudService);
+    private router = inject(Router);
 
-    constructor(
-        private http: HttpClient,
-        private configService: ConfigService,
-        private router: Router
-    ) { }
+    constructor() { }
 
-    private loggedInUserSubject = new BehaviorSubject<UserLoggedInModel | null>(null);    
+    private loggedInUserSubject = new BehaviorSubject<UserLoggedInModel | null>(null);
     loggedInUser$ = this.loggedInUserSubject.asObservable();
 
-    lastLoggedInUser: string | null = null;    
+    lastLoggedInUser: string | null = null;
 
-    logIn(_user: UserLoginModel): Observable<boolean> { 
-        return this.http.post<{ token: string }>(`${this.configService.get('API_URL')}/api/login`, _user).pipe(
+    logIn(_user: UserLoginModel): Observable<boolean> {
+        return this.crudService.create<UserLoginModel>('login', _user).pipe(
             map((result: { token: string }) => {
                 localStorage.setItem('authToken', result.token);
                 this.setLoggedInUser();
@@ -80,7 +77,7 @@ export class AuthService {
     }
 
     getUserFromToken(_id: string): Observable<Object> {
-        return this.http.get<Object>(`${this.configService.get('API_URL')}/api/users/${_id}`);
+        return this.crudService.getById<Object>('users', _id);
     }
 
     logOut() {
@@ -90,6 +87,6 @@ export class AuthService {
     }
 
     register(_user: UserRegistrationModel): Observable<Object> {
-        return this.http.post(`${this.configService.get('API_URL')}/api/users`, _user);
+        return this.crudService.create('users', _user);
     }
 }

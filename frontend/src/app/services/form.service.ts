@@ -1,4 +1,4 @@
-import { Injectable, Input } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { firstValueFrom } from "rxjs";
 import { TranslationService } from './translation.service';
@@ -10,8 +10,9 @@ import { InputFieldWrapper } from '../components/pages/auth/custom-field-wrapper
     providedIn: 'root'
 })
 export class FormService {
+    private translationService = inject(TranslationService);
 
-    constructor(private translationService: TranslationService) { }
+    constructor() { }
 
 
     private passwordMatchValidator(): ValidatorFn {
