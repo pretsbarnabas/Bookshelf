@@ -94,7 +94,11 @@
                 "ADMIN" : "Admin"
             },
             "CREATED": "Created on",
-            "LAST": "Lost logged in"
+            "UPDATED": "Updated on",
+            "BUTTONS": {
+                "EDIT": "Edit",
+                "DELETE": "Delete"
+            }
         }
     },
     "404":{

@@ -95,7 +95,11 @@
                 "ADMIN" : "Admin"
             },
             "CREATED": "Létrehozva",
-            "LAST": "Utoljára bejelentkezve"
+            "UPDATED": "Módosítva",
+            "BUTTONS": {
+                "EDIT": "Módosítás",
+                "DELETE": "Törlés"
+            }
         }
     },
     "404": {

@@ -1,32 +1,36 @@
 <div class="wrapper">
-    <div class="wrapper-content mx-5">
-        <div class="row mt-5">
-            <div class="col-12 col-sm-6 col-md-4">
-                <mat-card appearance="raised" class="profile-card">
-                    <mat-card-header>
-                        <div class="profile-wrapper">
-                            <img [src]="this.loggedInUser?.profile_image" alt="Profile Picture"
-                                class="rounded-circle w-100">
-                        </div>
-                        <div class="w-100 text-center">
+    <div class="wrapper-content">
+        <mat-card appearance="raised" class="profile-card my-1 p-0">
+            <mat-card-content>
+                <div class="row">
+                    <div class="col-12 col-md-4 col-lg-3 text-center">
+                        <mat-card appearance="outlined" class="p-2">
+                            <div class="profile-wrapper mx-auto w-50">
+                                <img [src]="this.loggedInUser?.profile_image" alt="Profile Picture">
+                            </div>
                             <mat-card-title class="mt-1">{{ this.loggedInUser?.username }}</mat-card-title>
-                            <hr class="my-2">
-                            <mat-card-subtitle>{{ this.loggedInUser?.email }}</mat-card-subtitle>
-                            <mat-card-subtitle>{{ 'PROFILE.PROFILECARD.ROLE' | translate }}:
+                            <hr class="my-2 w-75 mx-auto">
+                            <mat-card-subtitle class="mt-2">{{ this.loggedInUser?.email }}</mat-card-subtitle>
+                            <mat-card-subtitle class="mt-2">{{ 'PROFILE.PROFILECARD.ROLE' | translate }}:
                                 {{ this.roleDataHead | translate }}</mat-card-subtitle>
-                        </div>
-                    </mat-card-header>
-                    <hr class="my-2">
-                    <mat-card-content>
-                        <div class="text-center">
-                            <mat-card-subtitle>{{ 'PROFILE.PROFILECARD.CREATED' | translate }}:</mat-card-subtitle>
+                            <mat-card-subtitle class="mt-2">{{ 'PROFILE.PROFILECARD.CREATED' | translate }}:</mat-card-subtitle>
                             {{ this.loggedInUser?.created_at! | localizedDate }}
-                            <mat-card-subtitle>{{ 'PROFILE.PROFILECARD.LAST' | translate }}:</mat-card-subtitle>
-                            {{ this.loggedInUser?.last_login! | localizedDate }}
-                        </div>
-                    </mat-card-content>
-                </mat-card>
-            </div>
-        </div>
+                            <mat-card-subtitle class="mt-2">{{ 'PROFILE.PROFILECARD.UPDATED' | translate }}:</mat-card-subtitle>
+                            {{ this.loggedInUser?.updated_at! | localizedDate }}
+                            <button mat-fab extended class="w-75 mx-auto my-1 mt-3" id="edit-button">
+                                <mat-icon>edit</mat-icon>
+                                {{ 'PROFILE.PROFILECARD.BUTTONS.EDIT' | translate }}
+                            </button>
+                            <button mat-fab extended class="w-75 mx-auto my-1" id="delete-button">
+                                <mat-icon>delete</mat-icon>
+                                {{ 'PROFILE.PROFILECARD.BUTTONS.DELETE' | translate }}
+                            </button>
+                        </mat-card>
+                    </div>
+                    <div class="col-12 col-md-8 col-lg-9">
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
     </div>
 </div>

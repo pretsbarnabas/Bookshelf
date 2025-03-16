@@ -5,6 +5,9 @@ import { UserLoggedInModel } from '../../../models/User';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LocalizedDatePipe } from '../../../pipes/date.pipe';
 import { CommonModule, DatePipe } from '@angular/common';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-profile',
@@ -13,7 +16,10 @@ import { CommonModule, DatePipe } from '@angular/common';
         MatCardModule,
         TranslatePipe,
         CommonModule,
-        LocalizedDatePipe
+        LocalizedDatePipe,
+        FlexLayoutModule,
+        MatIconModule,
+        MatButtonModule
     ],
     providers: [DatePipe],
     templateUrl: './profile.component.html',
