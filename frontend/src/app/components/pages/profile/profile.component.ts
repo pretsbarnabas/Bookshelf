@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../../services/global/auth.service';
 import { UserLoggedInModel } from '../../../models/User';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LocalizedDatePipe } from '../../../pipes/date.pipe';

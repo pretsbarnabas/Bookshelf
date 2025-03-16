@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { UserLoggedInModel, UserLoginModel, UserRegistrationModel } from '../models/User';
+import { UserLoggedInModel, UserLoginModel, UserRegistrationModel } from '../../models/User';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { jwtDecode } from "jwt-decode";
 import { Router } from '@angular/router';

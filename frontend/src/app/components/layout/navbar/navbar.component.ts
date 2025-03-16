@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../../services/global/auth.service';
 // Angular Material
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,13 +10,13 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FlexLayoutModule, MediaChange, MediaObserver } from "@angular/flex-layout";
 import { TranslatePipe } from '@ngx-translate/core';
-import { TranslationService } from '../../../services/translation.service';
+import { TranslationService } from '../../../services/global/translation.service';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { map } from 'rxjs';
 import { RouterButtonComponent } from "../router-button/router-button.component";
 import { UserLoggedInModel } from '../../../models/User';
-import { ThemeService } from '../../../services/theme.service';
+import { ThemeService } from '../../../services/global/theme.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { CommonModule } from '@angular/common';
