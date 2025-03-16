@@ -1,4 +1,3 @@
-require("dotenv").config()
 const express = require("express")
 const mongoose = require("mongoose")
 const routes = require("./routes.ts")
@@ -9,13 +8,14 @@ import { Logger } from "./tools/logger"
 const cors = require("cors")
 
 
-let connectionString
 if(process.argv && process.argv.includes("test")){
-    connectionString = "mongodb://localhost:27017/Bookshelf"
+    require("dotenv").config({path: ".env.test"})
 }
 else{
-    connectionString = process.env.DATABASE_URL
+    require("dotenv").config()
 }
+
+const connectionString = process.env.DATABASE_URL
 if(!connectionString){
     Logger.error("No connection string defined")
     throw new Error("No connection string defined")
