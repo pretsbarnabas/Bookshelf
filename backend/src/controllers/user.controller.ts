@@ -1,4 +1,6 @@
 const UserModel = require("../models/user.model")
+const ReviewModel = require("../models/review.model")
+const CommentModel = require("../models/comment.model")
 
 import * as dates from "../tools/dates"
 import * as validators from "../tools/validators"
@@ -182,7 +184,7 @@ export class UserController{
     
     static async deleteUser(req:any,res:any){
         try{
-            const id = req.params
+            const {id} = req.params
             if(id){
                 if(!mongoose.Types.ObjectId.isValid(id)){
                     return res.status(400).json({message: "Invalid id format"})
@@ -195,6 +197,12 @@ export class UserController{
             const data = await UserModel.findByIdAndDelete(id)
             if(data){
                 res.status(200).json({message:"User deleted"})
+                Logger.info(`User deleted: ${id}`)
+                const deletedReviews = await ReviewModel.deleteMany({user_id: id})
+                if(deletedReviews) Logger.info(`Deleted reviews of user: ${id}`)
+                const deletedComments = await CommentModel.deleteMany({user_id: id})
+                if(deletedComments) Logger.info(`Deleted comments of user: ${id}`)
+
             }
             else{
                 res.status(404).json({message:"User not found"})
