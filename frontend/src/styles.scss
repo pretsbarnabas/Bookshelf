@@ -3,6 +3,7 @@
 @use 'styles/custom-theme' as custom;
 
 body {
+    min-height: 10px;
     margin: 0;
 }
 
