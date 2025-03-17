@@ -33,7 +33,7 @@ export class Authenticator{
     }
 
     static verifyToken(req:any){
-        const token = req.headers["authorization"]
+        const token = req.headers["authorization"].split(" ").pop()
         if(!token) return false
         let verifiedToken = false
         jwt.verify(token,process.env.JWT_SECRET as Secret,(err:any,decoded:any)=>{
