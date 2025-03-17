@@ -9,7 +9,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     const router = inject(Router);
 
     let userRole: string | null = null;
-    if(localStorage.getItem('authToken'))
+    if (localStorage.getItem('authToken'))
         userRole = authService.decodeToken().role;
 
     if (state.url.startsWith('/auth')) {
@@ -26,7 +26,14 @@ export const authGuard: CanActivateFn = (route, state) => {
             router.navigate(['auth/login']);
         }
     }
+    console.log(state.url)
+    console.log(userRole)
+    if (state.url.startsWith('/admin'))
+        if (!userRole)
+            router.navigate(['auth/login']);
+        else if (userRole && userRole == 'admin')
+            return of(true);
+        else
+            router.navigate(['home']);
     return of(false);
-
-
 };

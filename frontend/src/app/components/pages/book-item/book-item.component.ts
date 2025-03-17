@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BookService } from '../../../services/book.service';
+import { BookService } from '../../../services/page/book.service';
 import { MatCardModule } from '@angular/material/card';
 import { FormlyModule } from '@ngx-formly/core';
 import { MatFormFieldModule } from '@angular/material/form-field';

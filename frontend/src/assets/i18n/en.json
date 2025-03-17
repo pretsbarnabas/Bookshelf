@@ -8,6 +8,7 @@
             "MYLIST": "Mylist",
             "LOGIN": "Login",
             "REGISTER": "Register",
+            "ADMIN" : "Admin",
             "SETTINGS": {
                 "THEME": "Theme",
                 "LANG": "Language",

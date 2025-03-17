@@ -9,7 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { BookService } from '../../../services/book.service';
+import { BookService } from '../../../services/page/book.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Book } from '../../../models/Book';
 

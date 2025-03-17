@@ -13,6 +13,9 @@
             @if(this.loggedInUser && ['user', 'editor', 'admin'].includes(this.loggedInUser.role)){
             <router-button [payload]="{ route: 'mylist', localReference: 'MYLIST' }"></router-button>
             }
+            @if(this.loggedInUser && this.loggedInUser.role === 'admin'){
+            <router-button [payload]="{ route: 'admin', localReference: 'ADMIN' }"></router-button>
+            }
         </div>
         <span class="spacer-center"></span>
         <div fxHide.lt-md>
@@ -38,16 +41,13 @@
             }
         </div>
         <span class="spacer" fxHide.lt-md></span>
-        <button mat-icon-button [matMenuTriggerFor]="settings" (click)="settingsIconState = 'clicked'" [matBadge]="this.isLastColorBlindnessDiff ? '!' : null"
+        <button mat-icon-button [matMenuTriggerFor]="settings" (click)="settingsIconState = 'clicked'"
+            [matBadge]="this.isLastColorBlindnessDiff ? '!' : null"
             [matTooltip]="this.isMdOrBeyond ? ('APP.MENU.SETTINGS.TOOLTIP' | translate ) : null"
             [matTooltipPosition]="'below'" matTooltipShowDelay="500">
             <mat-icon [@rotate]="settingsIconState">settings</mat-icon>
         </button>
-        <mat-menu 
-            #settings="matMenu"
-            class="p-1"
-            (closed)="settingsIconState = 'default'"            
-            >
+        <mat-menu #settings="matMenu" class="p-1" (closed)="settingsIconState = 'default'">
             <span class="text-center d-block">{{ 'APP.MENU.SETTINGS.THEME' | translate }}</span>
             <hr class="my-2">
             <div class="mb-3 theme-holder" (click)="$event.stopPropagation()">

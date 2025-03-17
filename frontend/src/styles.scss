@@ -27,7 +27,7 @@ app-root {
     }
 }
 
-$app-components: "app-auth, app-home, app-books, app-book-item, app-mylist, app-profile, app-summaries, app-summary-item, app-not-found";
+$app-components: "app-auth, app-home, app-books, app-book-item, app-mylist, app-profile, app-summaries, app-summary-item, app-not-found, app-admin";
 
 @each $tag in $app-components {
     #{$tag} {

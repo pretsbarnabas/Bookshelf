@@ -1,10 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { firstValueFrom } from "rxjs";
-import { TranslationService } from './global/translation.service';
+import { TranslationService } from '../global/translation.service';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { PasswordFieldWrapper } from '../components/pages/auth/custom-field-wrappers/password-field-wrapper.component';
-import { InputFieldWrapper } from '../components/pages/auth/custom-field-wrappers/input-field-wrapper.component';
+import { PasswordFieldWrapper } from '../../components/pages/auth/custom-field-wrappers/password-field-wrapper.component';
+import { InputFieldWrapper } from '../../components/pages/auth/custom-field-wrappers/input-field-wrapper.component';
 
 @Injectable({
     providedIn: 'root'

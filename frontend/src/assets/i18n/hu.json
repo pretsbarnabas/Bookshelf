@@ -8,6 +8,7 @@
             "MYLIST": "Listám",
             "LOGIN": "Bejelentkezés",
             "REGISTER": "Regisztráció",
+            "ADMIN" : "Admin",
             "SETTINGS": {
                 "THEME": "Téma",
                 "LANG": "Nyelv",

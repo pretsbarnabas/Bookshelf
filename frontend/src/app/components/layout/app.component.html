@@ -20,6 +20,10 @@
             <router-button [payload]="{ route: 'mylist', icon: 'list_alt', localReference: 'MYLIST', isSidenav: true }"
                 (click)="drawer.opened=false"></router-button>
             }
+            @if(this.loggedInUser && this.loggedInUser.role === 'admin'){
+                <router-button [payload]="{ route: 'admin', icon: 'security', localReference: 'ADMIN', isSidenav: true }"
+                    (click)="drawer.opened=false"></router-button>
+                }
             <hr>
             @if(!this.loggedInUser){
             <router-button [payload]="{ route: 'auth/login', icon: 'login', localReference: 'LOGIN', isSidenav: true }"

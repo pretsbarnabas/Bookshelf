@@ -10,7 +10,7 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { FormService } from '../../../services/form.service';
+import { FormService } from '../../../services/page/form.service';
 import { TranslationService } from '../../../services/global/translation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isUserLoginModel, isUserRegistrationFormModel, UserLoggedInModel, UserLoginModel, UserRegistrationFormModel, UserRegistrationModel } from '../../../models/User';
