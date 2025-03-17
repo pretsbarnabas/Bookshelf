@@ -1,12 +1,14 @@
 
 @media (min-width: 992px) {
     .book-item-content {
-        flex-direction: row;
+        flex-direction: column;
     }
 
-    .book-card-container,
+    .book-card-container{
+        height: 30vh;
+    }
     .book-details {
-        flex: 1;
+        height: 70vh;
     }
 }
 .user-profile-picture {
@@ -25,3 +27,24 @@
     float: right;
     border-radius: 20%;
 }
+.mw-80{
+    max-width: 100%;
+}
+.form-row {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-row {
+    display: flex;
+    flex-direction: row;
+    margin-top: 8px;
+    margin-left: 0;
+    padding: 0;
+}
+.starButton{
+    margin-bottom: 1rem;
+    padding: 0;
+    max-width: 20%;
+}
+
