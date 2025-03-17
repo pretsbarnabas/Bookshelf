@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { UserLoggedInModel, UserLoginModel, UserRegistrationModel } from '../../models/User';
+import { UserModel, UserLoginModel, UserRegistrationModel } from '../../models/User';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { jwtDecode } from "jwt-decode";
 import { Router } from '@angular/router';
@@ -16,7 +16,7 @@ export class AuthService {
 
     constructor() { }
 
-    private loggedInUserSubject = new BehaviorSubject<UserLoggedInModel | null>(null);
+    private loggedInUserSubject = new BehaviorSubject<UserModel | null>(null);
     loggedInUser$ = this.loggedInUserSubject.asObservable();
 
     lastLoggedInUser: string | null = null;
@@ -50,7 +50,6 @@ export class AuthService {
 
         this.getUserFromToken(tokenId).subscribe({
             next: (result: any) => {
-                delete result._id;
                 delete result.password_hashed;
                 result.profile_image = createAvatar(bottts, { seed: result.username }).toDataUri();
                 this.loggedInUserSubject.next(result);

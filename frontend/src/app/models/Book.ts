@@ -4,6 +4,7 @@ export interface BookRoot {
 }
 
 export interface Book {
+    type: 'book'
     _id: string
     title: string
     author: string

@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormService } from '../../../services/page/form.service';
 import { TranslationService } from '../../../services/global/translation.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { isUserLoginModel, isUserRegistrationFormModel, UserLoggedInModel, UserLoginModel, UserRegistrationFormModel, UserRegistrationModel } from '../../../models/User';
+import { isUserLoginModel, isUserRegistrationFormModel, UserModel, UserLoginModel, UserRegistrationFormModel, UserRegistrationModel } from '../../../models/User';
 import { AuthService } from '../../../services/global/auth.service';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -96,7 +96,7 @@ export class AuthComponent {
                     this.errorMessages = await firstValueFrom(this.translationService.service.get('AUTH.EMSG.UNEXPECTED'));
                 } else {
                     this.authService.loggedInUser$.subscribe({
-                        next: async (user: UserLoggedInModel | null) => {
+                        next: async (user: UserModel | null) => {
                             const lastLoggedInUser: string | null = this.authService.shouldGreetUser();
                             if (lastLoggedInUser) {
                                 await this.greetUser(lastLoggedInUser);

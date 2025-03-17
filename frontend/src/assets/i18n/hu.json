@@ -103,6 +103,13 @@
             }
         }
     },
+    "ADMIN": {
+        "BUTTONS": {
+            "USERS": "Felhasználók",
+            "BOOKS" : "Könyvek",
+            "REVIEWS": "Vélemények"
+        }
+    },
     "404": {
         "MESSAGE": "Nem ezt az oldalt keresed...",
         "REDIRECT": "Átirányítás a főoldalra:"

@@ -1,0 +1,40 @@
+<mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+        <ng-container [ngSwitch]="payload?.type">
+            <ng-container *ngSwitchCase="'user'">
+                <img [src]="this.payload?.item.imageUrl ?? this.payload?.item.profile_image" alt="Profile Image" class="avatar-image my-auto me-2">
+                <mat-panel-title> {{ payload?.item.username }}</mat-panel-title>
+                <mat-panel-description> {{ payload?.item.role }}</mat-panel-description>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'book'">
+                <mat-panel-title>{{ payload?.item.title }}</mat-panel-title>
+                <mat-panel-description>{{ payload?.item.author }}</mat-panel-description>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'review'">
+                <mat-panel-title>{{ payload?.item.user_id }}</mat-panel-title>
+                <mat-panel-description>{{ payload?.item.score }}</mat-panel-description>
+            </ng-container>
+
+        </ng-container>
+
+        <button mat-button class="edit" (click)="$event.stopPropagation()">
+            <mat-icon class="mx-auto">edit</mat-icon>
+        </button>
+        <button mat-button class="delete" (click)="$event.stopPropagation()">
+            <mat-icon class="mx-auto">delete</mat-icon>
+        </button>
+    </mat-expansion-panel-header>
+
+    <div [ngSwitch]="payload?.type">
+        <p *ngSwitchCase="'user'">{{ payload?.item.created_at | localizedDate }}</p>
+
+        <ng-container *ngSwitchCase="'book'">
+            <p>Published: {{ payload?.item.release | localizedDate }}</p>
+            <p>Genre: {{ payload?.item.genre }}</p>
+        </ng-container>
+
+        <p *ngSwitchCase="'review'">{{ payload?.item.content }}</p>
+    </div>
+</mat-expansion-panel>

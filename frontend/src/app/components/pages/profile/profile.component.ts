@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { AuthService } from '../../../services/global/auth.service';
-import { UserLoggedInModel } from '../../../models/User';
+import { UserModel } from '../../../models/User';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LocalizedDatePipe } from '../../../pipes/date.pipe';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -34,7 +34,7 @@ export class ProfileComponent {
 
     }
 
-    loggedInUser: UserLoggedInModel | null = null;
+    loggedInUser: UserModel | null = null;
     roleDataHead: string = "";
 
     ngOnInit() {

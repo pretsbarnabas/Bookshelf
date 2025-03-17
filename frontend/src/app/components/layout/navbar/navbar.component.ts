@@ -15,7 +15,7 @@ import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { map } from 'rxjs';
 import { RouterButtonComponent } from "../router-button/router-button.component";
-import { UserLoggedInModel } from '../../../models/User';
+import { UserModel } from '../../../models/User';
 import { ThemeService } from '../../../services/global/theme.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -75,7 +75,7 @@ export class NavbarComponent {
         private mediaObserver: MediaObserver,
     ) { }
 
-    loggedInUser: UserLoggedInModel | null = null;
+    loggedInUser: UserModel | null = null;
 
     localizationToggleValue: string = "en";
 

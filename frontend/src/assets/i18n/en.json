@@ -102,6 +102,13 @@
             }
         }
     },
+    "ADMIN": {
+        "BUTTONS": {
+            "USERS": "Users",
+            "BOOKS" : "Books",
+            "REVIEWS": "Reviews"
+        }
+    },
     "404":{
         "MESSAGE": "This is not the page you are looking for...",
         "REDIRECT": "Redirecting to home page in:"
