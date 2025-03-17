@@ -40,7 +40,6 @@ components:
       example:
         _id: 67a5c3cba3bb48fa646f9638
         username: User
-        password_hashed: $2b$10$Tk179TvlrUQqQuxU/XHoI.rP/edBea12duhNIOTV2VO9FZZhvRo5S
         email: email@email.com
         role: user
         booklist: []
@@ -48,6 +47,26 @@ components:
         updated_at: 2025-02-07T08:26:51.424Z
         last_login: 2025-02-07T08:26:51.424Z
         imageUrl: http://localhost:3000/api/image/user-db0b0c1f83fb29f652cc5a2f.png
+    UserListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+          example:
+            - _id: "67a5c3cba3bb48fa646f9638"
+              username: "User"
+              email: "email@email.com"
+              role: "user"
+              booklist: []
+              created_at: "2025-02-07T08:26:51.424Z"
+              updated_at: "2025-02-07T08:26:51.424Z"
+              last_login: "2025-02-07T08:26:51.424Z"
+              imageUrl: "http://localhost:3000/api/image/user-db0b0c1f83fb29f652cc5a2f.png"
+        pages:
+          type: integer
+          example: 10
     book:
       type: object
       properties:
@@ -81,7 +100,28 @@ components:
         description: Lorem
         added_at: 2016-04-08T15:06:21.595Z
         updated_at: 2016-04-08T15:06:21.595Z
-        imageUrl: http://localhost:3000/api/image/user-db0b0c1f83fb29f652cc5a2f.png
+        imageUrl: http://localhost:3000/api/image/book-db0b0c1f83fb29f652cc5a2f.png
+    BookListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/book'
+          example:
+            _id: 7fdb24bfd2c9eaca400201b8
+            title: Lorem
+            author: Lorem
+            release: 2016-04-08T15:06:21.595Z
+            genre: Crime
+            user_id: bbcb7eae48aa8ebcf9170140
+            description: Lorem
+            added_at: 2016-04-08T15:06:21.595Z
+            updated_at: 2016-04-08T15:06:21.595Z
+            imageUrl: http://localhost:3000/api/image/book-db0b0c1f83fb29f652cc5a2f.png
+        pages:
+          type: integer
+          example: 10
 
     review:
       type: object
@@ -108,6 +148,24 @@ components:
         content: Lorem
         created_at: 2016-04-08T15:06:21.595Z
         updated_at: 2016-04-08T15:06:21.595Z
+    ReviewListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/review'
+          example:
+            _id: a826b9febba8c411cf6d82cb
+            user_id: db0b0c1f83fb29f652cc5a2f
+            book_id: 7fdb24bfd2c9eaca400201b8
+            score: 8
+            content: Lorem
+            created_at: 2016-04-08T15:06:21.595Z
+            updated_at: 2016-04-08T15:06:21.595Z
+        pages:
+          type: integer
+          example: 10
 
   requestBodies:
     user:
@@ -364,7 +422,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/user'
+                  $ref: '#/components/schemas/UserListResponse'
 
     post:
       summary: Create a new user
@@ -621,7 +679,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/book'
+                  $ref: '#/components/schemas/BookListResponse'
 
     post:
       summary: Create a new book
@@ -884,7 +942,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/review'
+                  $ref: '#/components/schemas/ReviewListResponse'
     post:
       summary: Create a new review
       tags:
