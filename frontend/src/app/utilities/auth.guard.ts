@@ -26,8 +26,6 @@ export const authGuard: CanActivateFn = (route, state) => {
             router.navigate(['auth/login']);
         }
     }
-    console.log(state.url)
-    console.log(userRole)
     if (state.url.startsWith('/admin'))
         if (!userRole)
             router.navigate(['auth/login']);

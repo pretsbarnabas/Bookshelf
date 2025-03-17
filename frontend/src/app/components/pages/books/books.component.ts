@@ -47,7 +47,7 @@ export class BooksComponent implements OnInit {
   ngOnInit() {
     this.bookService.getAllBooks(this.pageSize).subscribe({
       next: (data) => {
-        this.books = data;
+        this.books = data.data;
         this.updatePaginatedBooks();
       },
       error: (err) => {

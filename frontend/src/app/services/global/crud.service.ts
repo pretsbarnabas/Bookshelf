@@ -16,8 +16,8 @@ export class CrudService {
         this.apiUrl = this.configService.get('API_URL');
     }
 
-    getAll<T>(_endpoint: string): Observable<T[]> {
-        return this.http.get<T[]>(`${this.apiUrl}/${_endpoint}`);
+    getAll<T>(_endpoint: string): Observable<T> {
+        return this.http.get<T>(`${this.apiUrl}/${_endpoint}`);
     }
 
     getById<T>(_endpoint: string, _id: number | string): Observable<T> {

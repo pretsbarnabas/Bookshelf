@@ -1,3 +1,8 @@
+export interface BookRoot {
+    data: Book[],
+    pages: number
+}
+
 export interface Book {
     _id: string
     title: string
@@ -6,7 +11,7 @@ export interface Book {
     genre: string
     user_id: string
     description: string
-    added_at: Date
-    updated_at: Date
-  }
-  
+    added_at: string
+    updated_at: string
+    imageUrl: string
+}
