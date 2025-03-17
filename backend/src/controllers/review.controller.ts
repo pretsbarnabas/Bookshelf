@@ -125,7 +125,11 @@ export class ReviewController{
                 {$limit: limit}
             ])
 
-            if(data) res.status(200).json(data)
+            if(data){
+                Logger.info("Request handled")
+                const pages = Math.ceil(await ReviewModel.estimatedDocumentCount() / limit)
+                res.status(200).json({data: data, pages: pages})
+            }
         }catch(error:any){
             res.status(500).json({message:error.message})
         }

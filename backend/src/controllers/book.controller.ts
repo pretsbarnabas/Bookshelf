@@ -90,10 +90,12 @@ export class BookController{
                 
             const books = await BookModel.aggregate(matchConditions);
             if(books){
-                res.status(200).json(books)
+                Logger.info("Request handled")
+                const pages = Math.ceil(await BookModel.estimatedDocumentCount() / limit)
+                res.status(200).json({data: books, pages: pages})
             }
         }catch(error:any){
-            res.status(500).json({message:error.message})
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
     }
 

@@ -100,7 +100,8 @@ export class UserController{
             ])
             if(users){
                 Logger.info("Request handled")
-                res.status(200).json(users)
+                const pages = Math.ceil(await UserModel.estimatedDocumentCount() / limit)
+                res.status(200).json({data: users, pages: pages})
             }
         }catch(error:any){
             ErrorHandler.HandleMongooseErrors(error,res)
@@ -114,7 +115,7 @@ export class UserController{
             let allowedFields = ["_id","username","created_at","updated_at","last_login","role","booklist","imageUrl"]
             
             if(Authenticator.verifyUser(req,id)){
-                allowedFields.push("email", "password_hashed")
+                allowedFields.push("email")
             }
 
 
