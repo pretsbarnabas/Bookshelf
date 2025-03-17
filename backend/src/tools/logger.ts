@@ -9,18 +9,18 @@ export abstract class Logger{
     static magenta = "\x1b[35m"
 
     static info(text: string){
-        console.log(`[${new Date().toLocaleString()}] [INFO] Library: ${text}`,Logger.white)
+        console.log(Logger.white,`[${new Date().toLocaleString()}] [INFO] Library: ${text}`)
     }
 
     static warn(text:string){
-        console.log(`[${new Date().toLocaleString()}] [WARN] Library: ${text}`,Logger.yellow)
+        console.log(Logger.yellow,`[${new Date().toLocaleString()}] [WARN] Library: ${text}`)
     }
 
     static error(text:string){
-        console.log(`[${new Date().toLocaleString()}] [ERROR] Library: ${text}`,Logger.red)
+        console.log(Logger.error,`[${new Date().toLocaleString()}] [ERROR] Library: ${text}`)
     }
 
     static debug(text:string){
-        console.log(`[${new Date().toLocaleString()}] [DEBUG] Library: ${text}`,Logger.magenta)
+        console.log(Logger.magenta,`[${new Date().toLocaleString()}] [DEBUG] Library: ${text}`)
     }
 } 
