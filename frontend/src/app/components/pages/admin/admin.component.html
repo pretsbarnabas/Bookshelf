@@ -1,18 +1,27 @@
 <div class="wrapper">
     <div class="wrapper-content">
-        <div class="my-3 d-flex align-items-center justify-content-center">
-            <button mat-fab extended (click)="changePaginatedArray('users')" [disabled]="this.disabledButton === 'users'">
-                <mat-icon>person</mat-icon>
-                {{ 'ADMIN.BUTTONS.USERS' | translate }}
-            </button>
-            <button mat-fab extended (click)="changePaginatedArray('books')" class="mx-3" [disabled]="this.disabledButton === 'books'">
-                <mat-icon>library_books</mat-icon>
-                {{ 'ADMIN.BUTTONS.BOOKS' | translate }}
-            </button>
-            <button mat-fab extended (click)="changePaginatedArray('reviews')" [disabled]="this.disabledButton === 'reviews'">
-                <mat-icon>rate_review</mat-icon>
-                {{ 'ADMIN.BUTTONS.REVIEWS' | translate }}
-            </button>
+        <div class="my-3 w-100 d-flex justify-content-center row">
+            <div class="col-12 col-sm-4 mt-1">
+                <button mat-fab extended (click)="changePaginatedArray('users')"
+                    [disabled]="this.disabledButton === 'users'" class="w-100">
+                    <mat-icon>person</mat-icon>
+                    {{ 'ADMIN.BUTTONS.USERS' | translate }}
+                </button>
+            </div>
+            <div class="col-12 col-sm-4 mt-1">
+                <button mat-fab extended (click)="changePaginatedArray('books')"
+                    [disabled]="this.disabledButton === 'books'" class="w-100">
+                    <mat-icon>library_books</mat-icon>
+                    {{ 'ADMIN.BUTTONS.BOOKS' | translate }}
+                </button>
+            </div>
+            <div class="col-12 col-sm-4 mt-1">
+                <button mat-fab extended (click)="changePaginatedArray('reviews')"
+                    [disabled]="this.disabledButton === 'reviews'" class="w-100">
+                    <mat-icon>rate_review</mat-icon>
+                    {{ 'ADMIN.BUTTONS.REVIEWS' | translate }}
+                </button>
+            </div>
         </div>
         <mat-paginator [length]="this.currentArrayInPaginator.length" [pageSize]="this.pageSize"
             [pageSizeOptions]="[5, 10, 25]">
