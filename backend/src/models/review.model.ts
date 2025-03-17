@@ -1,4 +1,6 @@
-import {Schema, model}  from "mongoose"
+import {Schema, model, Types}  from "mongoose"
+import { Logger } from "../tools/logger"
+const BookModel = require("./book.model")
 
 const reviewSchema = new Schema({
     book_id:{
@@ -38,4 +40,17 @@ reviewSchema.pre("save",function(next){
     next();
 })
 
-module.exports = model("ReviewModel",reviewSchema,"reviews")
+reviewSchema.post("save",async function(next){
+    const RelevantReviews = await ReviewModel.aggregate([{$match: {book_id: this.book_id}}])
+    const SumScore = RelevantReviews.reduce((sum: Number,item:any)=>{
+        return sum += item.score
+    },0)
+    const avgScore = SumScore/RelevantReviews.length 
+    const Book = await BookModel.findById(this.book_id)
+    Book.score = avgScore
+    await Book.save()
+})
+
+const ReviewModel = model("ReviewModel",reviewSchema,"reviews")
+
+module.exports = ReviewModel

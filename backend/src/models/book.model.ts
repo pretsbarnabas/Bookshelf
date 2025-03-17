@@ -44,6 +44,12 @@ export const bookSchema = new Schema({
     imageUrl:{
         required:false,
         type: String
+    },
+    score:{
+        required:false,
+        type: Number,
+        min: 1,
+        max: 10
     }
 },{versionKey: false})
 

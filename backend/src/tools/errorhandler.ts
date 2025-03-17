@@ -1,3 +1,5 @@
+import { Logger } from "./logger";
+
 export class ErrorHandler{
     static async HandleMongooseErrors(error: any, res:any){
         if(error.code === 11000){
@@ -16,6 +18,7 @@ export class ErrorHandler{
             }
             return res.status(400).json({ errors });
         }
+        Logger.error(JSON.stringify(error))
         return res.status(500).json({message:error})
     }
 

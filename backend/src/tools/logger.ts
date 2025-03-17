@@ -17,7 +17,7 @@ export abstract class Logger{
     }
 
     static error(text:string){
-        console.log(Logger.error,`[${new Date().toLocaleString()}] [ERROR] Library: ${text}`)
+        console.log(Logger.red,`[${new Date().toLocaleString()}] [ERROR] Library: ${text}`)
     }
 
     static debug(text:string){
