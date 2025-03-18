@@ -80,6 +80,7 @@ export class NavbarComponent {
         );
 
     loggedInUser: UserModel | null = null;
+    remainingTime: number = 60000;
 
     localizationToggleValue: string = "en";
 
@@ -105,6 +106,9 @@ export class NavbarComponent {
         ).subscribe();
         this.authService.loggedInUser$.subscribe(user => {
             this.loggedInUser = user;
+        });
+        this.authService.remainingTime$.subscribe(time => {
+            this.remainingTime = time;
         });
         if (this.colorBlindnessMode !== "none" && localStorage.getItem("wasColorBlindnessNone") === 'true') {
             localStorage.setItem("wasColorBlindnessNone", 'false')
@@ -139,5 +143,18 @@ export class NavbarComponent {
         else
             this.colorBlindnessMode = type as "red-green" | "blue-yellow" | "monochrome" | "none";
         this.themeService.changeColorBlindessMode(this.colorBlindnessMode);
+    }
+
+    formatRemainingTime(): string {
+        if (this.remainingTime <= 0) return 'Token expired';
+
+        const minutes = String(
+            Math.floor(this.remainingTime / 60000)
+        ).padStart(2, '0');
+        const seconds = String(
+            Math.floor((this.remainingTime % 60000) / 1000)
+        ).padStart(2, '0');
+
+        return `${minutes} : ${seconds}`;
     }
 }

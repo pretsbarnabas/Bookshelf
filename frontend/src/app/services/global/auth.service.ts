@@ -19,6 +19,9 @@ export class AuthService {
     private loggedInUserSubject = new BehaviorSubject<UserModel | null>(null);
     loggedInUser$ = this.loggedInUserSubject.asObservable();
 
+    private remainingTimeSubject = new BehaviorSubject<number>(0);
+    remainingTime$ = this.remainingTimeSubject.asObservable();
+
     lastLoggedInUser: string | null = null;
 
     logIn(_user: UserLoginModel): Observable<boolean> {
@@ -38,13 +41,26 @@ export class AuthService {
 
         const expiresIn = (decodedToken.exp * 1000) - Date.now();
 
-        if (expiresIn > 0) {
-            setTimeout(() => this.logOut(), expiresIn);
-        }
+        setInterval(() => {
+            const remainingTime = this.getRemainingTime();
+            this.remainingTimeSubject.next(remainingTime);
+        }, 1000);
+
+        setTimeout(() => this.logOut(), expiresIn);
+    }
+
+    getRemainingTime(): number {
+        const decodedToken = this.decodeToken();
+        if (!decodedToken || !decodedToken.exp) return 0;
+
+        const expiresIn = (decodedToken.exp * 1000) - Date.now();
+        return expiresIn;
     }
 
     getTokenId(): string | undefined {
         const decodedToken: any = this.decodeToken();
+        if (decodedToken)
+            this.remainingTimeSubject.next((decodedToken.exp * 1000) - Date.now());
         return decodedToken ? decodedToken.id : undefined;
     }
 
@@ -59,7 +75,6 @@ export class AuthService {
             this.logOut();
             return undefined;
         }
-
         return decoded;
     }
 
@@ -74,6 +89,7 @@ export class AuthService {
             next: (result: any) => {
                 result.profile_image = createAvatar(bottts, { seed: result.username }).toDataUri();
                 this.loggedInUserSubject.next(result);
+                this.scheduleAutoLogout();
             },
             error: () => {
                 console.error('Invalid token');
@@ -103,6 +119,7 @@ export class AuthService {
     logOut() {
         localStorage.removeItem('authToken');
         this.loggedInUserSubject.next(null);
+        this.remainingTimeSubject.next(0);
         this.router.navigate(['home']);
     }
 
