@@ -37,10 +37,14 @@
     z-index: 9001;
 }
 
-.mat-mdc-menu-panel.accessibility {
+.mat-mdc-menu-panel.accessibility {    
     position: absolute;
     top: 180px;
     right: 0;
+    @media screen and (max-width: 300px) {
+        top: 400px;
+        right: -165px;        
+    }
     z-index: 9000;
 }
 
