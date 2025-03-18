@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div class="wrapper-content h-100">
-        <div class="book-item d-flex align-items-start row w-100 h-100">
-            <div id="Book" class=" col-12 col-lg-2 d-flex h-100">
+        <div class="book-item d-flex align-items-start w-100 h-100 flex-sm-column flex-md-row flex-lg-row">
+            <div id="Book" class="col-12 col-lg-2 d-flex h-100">
                 <mat-card class="book-card w-100">
                     <mat-card-header>
                         <img mat-card-image class="book-image img-fluid" [src]="book?.image || 'https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain'" [alt]="book?.title || 'Photo of a book'">
@@ -10,24 +10,24 @@
                         <mat-card-subtitle>{{ book?.author }}</mat-card-subtitle>
                         <mat-card-title class="title">{{ book?.title }}</mat-card-title>
                         <p>{{ formatDate(book?.release) }}</p>
-                        <form class="form-row" *ngIf="isLoggedIn"  [formGroup]="reviewForm" (ngSubmit)="onSubmitReview()">
+                        <form class="form-row" *ngIf="isLoggedIn" [formGroup]="reviewForm" (ngSubmit)="onSubmitReview()">
                             <mat-form-field class="mw-80" appearance="fill">
                                 <mat-label>Content</mat-label>
                                 <textarea matInput formControlName="content"></textarea>
                             </mat-form-field>
                             <div class="button-row">
-                                <button class="starButton" mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" (click)="onClick(i+1)">
+                                <button class="starButton" mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr; index as i" [id]="'star_'+i" (click)="onClick(i+1)">
                                     <mat-icon>
-                                    {{showIcon(i)}}
+                                        {{showIcon(i)}}
                                     </mat-icon>
-                              </button>                                 
+                                </button>
                             </div>
-                              <mat-error *ngIf="starCount == null || starCount == 0">
+                            <mat-error *ngIf="starCount == null || starCount == 0">
                                 Star count is <strong>required</strong> and cannot be zero
-                              </mat-error>
-                              <p class="body-2">
-                                  Your rated <span class="body-2">{{rating}}</span> / <span class="body-2">{{starCount}}</span>
-                              </p>
+                            </mat-error>
+                            <p class="body-2">
+                                Your rated <span class="body-2">{{rating}}</span> / <span class="body-2">{{starCount}}</span>
+                            </p>
                             <button mat-raised-button color="primary" type="submit">Submit</button>
                         </form>
                     </mat-card-content>
@@ -46,19 +46,18 @@
                         <div *ngIf="reviews.length == 0">
                             <p>No reviews yet, but you can write yours anytime!</p>
                         </div>
-                        <div *ngFor="let review of paginatedReviews"> 
+                        <div *ngFor="let review of paginatedReviews">
                             <div class="review-header">
                                 <img class="user-profile-picture" [src]="review.user.imageUrl ?? './assets/images/bingus.webp'" />
                                 <span class="username">{{review.user.username}}</span>
                             </div>
-                            
-                            <button mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i">
+                            <button mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr; index as i" [id]="'star_'+i">
                                 <mat-icon>
                                     {{showIconUserReview(i, review.score / 2)}}
                                 </mat-icon>
                             </button>
                             <p>
-                                {{review.content}}                          
+                                {{review.content}}
                             </p>
                             <p>{{formatDate(review.added_at)}}</p>
                             <hr>
