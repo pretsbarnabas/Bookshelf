@@ -86,6 +86,7 @@ body {
 }
 
 body {
+    overflow: visible;
     --eye-filter: ;
     --cb-filter: ;
     filter: var(--eye-filter) var(--cb-filter);

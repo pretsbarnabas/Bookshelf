@@ -29,6 +29,21 @@
     display: none;
 }
 
+.mat-mdc-menu-panel.settings {
+    width: 170px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    z-index: 9001;
+}
+
+.mat-mdc-menu-panel.accessibility {
+    position: absolute;
+    top: 180px;
+    right: 0;
+    z-index: 9000;
+}
+
 body {
     mat-toolbar {
         -webkit-box-shadow: 0 4px 1px rgba(0, 0, 0, 0.2), 0 -4px 1px rgba(0, 0, 0, 0.2);

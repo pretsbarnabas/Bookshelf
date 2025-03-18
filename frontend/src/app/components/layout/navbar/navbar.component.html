@@ -23,7 +23,8 @@
             <router-button [payload]="{ route: 'auth/login', localReference: 'LOGIN' }"></router-button>
             <router-button [payload]="{ route: 'auth/register', localReference: 'REGISTER' }"></router-button>
             } @else {
-            <button mat-button [matMenuTriggerFor]="profile">
+            <button mat-button [matMenuTriggerFor]="profile"
+            (window:resize)="profile.closed.emit()">
                 <div class="d-inline-flex align-items-center">
                     <span>{{ this.loggedInUser.username }}</span>
                     <div class="avatar-wrapper ms-2">
@@ -31,7 +32,7 @@
                     </div>
                 </div>
             </button>
-            <mat-menu #profile="matMenu" (window:resize)="profile._setIsOpen(false)" class="p-2">
+            <mat-menu #profile="matMenu" class="p-2">
                 <router-button
                     [payload]="{ route: 'profile', icon: 'person', localReference: 'PROFILE.PAGE', isMatMenu: true }"></router-button>
                 <router-button
@@ -47,7 +48,7 @@
             [matTooltipPosition]="'below'" matTooltipShowDelay="500">
             <mat-icon [@rotate]="settingsIconState">settings</mat-icon>
         </button>
-        <mat-menu #settings="matMenu" class="p-1" (closed)="settingsIconState = 'default'">
+        <mat-menu #settings="matMenu" class="p-1 settings" (closed)="settingsIconState = 'default'">
             <span class="text-center d-block">{{ 'APP.MENU.SETTINGS.THEME' | translate }}</span>
             <hr class="my-2">
             <div class="mb-3 theme-holder" (click)="$event.stopPropagation()">
@@ -76,17 +77,16 @@
 
             <div>
                 <hr class="my-2">
-                <button class="accessibilityButton" mat-menu-item [matMenuTriggerFor]="accessibility"
+                <button class="accessibilityButton text-center" mat-menu-item [matMenuTriggerFor]="accessibility"
                     (click)="$event.stopPropagation()" [matBadge]="this.isLastColorBlindnessDiff ? '!' : null"
                     (mouseover)="this.isLastColorBlindnessDiff = false">
-                    <mat-icon>accessibility</mat-icon>
+                    <mat-icon class="mx-auto">accessibility</mat-icon>
                     {{ 'APP.MENU.SETTINGS.ACCESSIBILITY.LABEL' | translate }}
                 </button>
-
             </div>
 
         </mat-menu>
-        <mat-menu #accessibility="matMenu" class="p-2" [xPosition]="'before'" [yPosition]="'above'">
+        <mat-menu #accessibility="matMenu" class="p-2 accessibility" [xPosition]="'before'" [yPosition]="'above'">
             <span class="text-center d-block">{{ 'APP.MENU.SETTINGS.ACCESSIBILITY.SUBMENU.COLORBLIND' | translate
                 }}</span>
             <hr class="my-2">
