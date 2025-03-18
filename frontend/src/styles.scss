@@ -5,6 +5,8 @@
 body {
     min-height: 10px;
     margin: 0;
+    overflow: visible;
+    transition: background-color .3s ease, color .3s ease;
 }
 
 app-root {
@@ -15,6 +17,35 @@ app-root {
             text-container-shape: none,
             protected-container-shape: none,
             filled-container-shape: none));
+}
+
+#app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#app,
+.cdk-overlay-container {
+    --eye-filter: ;
+    --cb-filter: ;
+    filter: var(--eye-filter) var(--cb-filter) !important;
+
+    &.eyeSaverMode {
+        --eye-filter: sepia(0.6) saturate(1.2) contrast(0.9) brightness(0.9);
+    }
+
+    &.colorblind-red-green {
+        --cb-filter: hue-rotate(-20deg) saturate(6) contrast(0.9);
+    }
+
+    &.colorblind-blue-yellow {
+        --cb-filter: hue-rotate(180deg) saturate(5);
+    }
+
+    &.colorblind-monochrome {
+        --cb-filter: grayscale(1) contrast(1.2);
+    }
 }
 
 @keyframes fadeIn {
@@ -70,6 +101,11 @@ body {
         background-color: custom.$bg-color-light;
         color: custom.$text-color-light;
     }
+
+    #app {
+        background-color: custom.$bg-color-light;
+        color: custom.$text-color-light;
+    }
 }
 
 .darkMode {
@@ -83,28 +119,10 @@ body {
         color: custom.$text-color-dark;
         transition: background-color .3s ease, color .3s ease;
     }
-}
 
-body {
-    overflow: visible;
-    --eye-filter: ;
-    --cb-filter: ;
-    filter: var(--eye-filter) var(--cb-filter);
-    transition: background-color .3s ease, color .3s ease;
-}
-
-.eyeSaverMode {
-    --eye-filter: sepia(0.6) saturate(1.2) contrast(0.9) brightness(0.9);
-}
-
-.colorblind-red-green {
-    --cb-filter: hue-rotate(-20deg) saturate(6) contrast(0.9);
-}
-
-.colorblind-blue-yellow {
-    --cb-filter: hue-rotate(180deg) saturate(5);
-}
-
-.colorblind-monochrome {
-    --cb-filter: grayscale(1) contrast(1.2);
+    #app {
+        background-color: custom.$bg-color-dark;
+        color: custom.$text-color-dark;
+        transition: background-color .3s ease, color .3s ease;
+    }
 }
