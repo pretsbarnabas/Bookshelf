@@ -26,9 +26,21 @@ export class AuthService {
             map((result: { token: string }) => {
                 localStorage.setItem('authToken', result.token);
                 this.setLoggedInUser();
+                this.scheduleAutoLogout();
                 return true;
             })
         );
+    }
+
+    scheduleAutoLogout(): void {
+        const decodedToken = this.decodeToken();
+        if (!decodedToken || !decodedToken.exp) return;
+
+        const expiresIn = (decodedToken.exp * 1000) - Date.now();
+
+        if (expiresIn > 0) {
+            setTimeout(() => this.logOut(), expiresIn);
+        }
     }
 
     getTokenId(): string | undefined {
@@ -38,7 +50,17 @@ export class AuthService {
 
     decodeToken(): any {
         const token = localStorage.getItem('authToken');
-        return token ? jwtDecode(token) : undefined;
+        if (!token) return undefined;
+
+        const decoded = jwtDecode(token) as any;
+        const currentTime = Math.floor(Date.now() / 1000);
+
+        if (decoded.exp && decoded.exp < currentTime) {
+            this.logOut();
+            return undefined;
+        }
+
+        return decoded;
     }
 
     setLoggedInUser(): void {
@@ -50,7 +72,6 @@ export class AuthService {
 
         this.getUserFromToken(tokenId).subscribe({
             next: (result: any) => {
-                delete result.password_hashed;
                 result.profile_image = createAvatar(bottts, { seed: result.username }).toDataUri();
                 this.loggedInUserSubject.next(result);
             },

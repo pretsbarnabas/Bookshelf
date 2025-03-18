@@ -35,6 +35,7 @@ export class AdminComponent {
     private reviewService = inject(ReviewService);
 
     currentArrayInPaginator: UserModel[] | Book[] | Review[] = [];
+    itemType: 'user' | 'book' | 'review' = 'user';
     disabledButton: 'users' | 'books' | 'reviews' = 'users';
     maxPages: number = 0;
     users: UserModel[] = [];
@@ -48,8 +49,6 @@ export class AdminComponent {
 
     ngOnInit() {
         this.getUsers();
-
-
     }
 
     changePaginatedArray(_array: 'users' | 'books' | 'reviews') {
@@ -71,7 +70,8 @@ export class AdminComponent {
         this.userService.getAllUser(this.pageSize).subscribe({
             next: (data) => {
                 this.users = data.data;
-                this.users.forEach(u => u.type = 'user');
+                this.users = this.users.filter(u => u.role != 'admin');
+                this.itemType = 'user';
                 this.maxPages = data.pages;
                 this.currentArrayInPaginator = this.users;
                 console.log(this.users)
@@ -86,7 +86,7 @@ export class AdminComponent {
         this.bookService.getAllBooks(this.pageSize).subscribe({
             next: (data) => {
                 this.books = data.data;
-                this.books.forEach(b => b.type = 'book');
+                this.itemType = 'book';
                 this.maxPages = data.pages;
                 this.currentArrayInPaginator = this.books;
                 console.log(this.books)
@@ -101,7 +101,7 @@ export class AdminComponent {
         this.reviewService.getAllReviews(this.pageSize).subscribe({
             next: (data) => {
                 this.reviews = data.data;
-                this.reviews.forEach(r => r.type = 'review');
+                this.itemType = 'review';
                 this.maxPages = data.pages;
                 this.currentArrayInPaginator = this.reviews;
                 console.log(this.reviews)

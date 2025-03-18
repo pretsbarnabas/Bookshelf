@@ -1,6 +1,6 @@
 <div class="wrapper">
     <div class="wrapper-content">
-        <div class="my-3 w-100 d-flex justify-content-center row">
+        <div class="my-3 mx-auto w-100 d-flex justify-content-center row">
             <div class="col-12 col-sm-4 mt-1">
                 <button mat-fab extended (click)="changePaginatedArray('users')"
                     [disabled]="this.disabledButton === 'users'" class="w-100">
@@ -23,14 +23,16 @@
                 </button>
             </div>
         </div>
-        <mat-paginator [length]="this.currentArrayInPaginator.length" [pageSize]="this.pageSize"
-            [pageSizeOptions]="[5, 10, 25]">
-
-        </mat-paginator>
-        <mat-accordion>
-            @for (item of this.currentArrayInPaginator; track $index) {
-            <expansion-item [payload]="{ type: item.type, item : item}"></expansion-item>
-            }
-        </mat-accordion>
+        <div class="mx-3">
+            <mat-paginator [length]="this.currentArrayInPaginator.length" [pageSize]="this.pageSize"
+                [pageSizeOptions]="[5, 10, 25]">
+    
+            </mat-paginator>
+            <mat-accordion>
+                @for (item of this.currentArrayInPaginator; track $index) {
+                <expansion-item [payload]="{ type: this.itemType, item : item}"></expansion-item>
+                }
+            </mat-accordion>
+        </div>
     </div>
 </div>

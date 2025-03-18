@@ -8,11 +8,11 @@ mat-expansion-panel-header {
 }
 
 body {
-    mat-expansion-panel {
+    #item-panel {
         border-bottom: 1px solid rgb(0, 0, 0);
     }
 
-    &.darkMode mat-expansion-panel {
+    &.darkMode #item-panel {
         border-bottom: 1px solid rgba(255, 255, 255, 0.5);
     }
 
