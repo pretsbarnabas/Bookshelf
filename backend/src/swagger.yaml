@@ -128,9 +128,9 @@ components:
       properties:
         _id:
           type: object
-        user_id:
+        user:
           type: object
-        book_id:
+        book:
           type: object
         score:
           type: integer
@@ -141,13 +141,21 @@ components:
         updated_at:
           type: string
       example:
-        _id: a826b9febba8c411cf6d82cb
-        user_id: db0b0c1f83fb29f652cc5a2f
-        book_id: 7fdb24bfd2c9eaca400201b8
-        score: 8
-        content: Lorem
-        created_at: 2016-04-08T15:06:21.595Z
-        updated_at: 2016-04-08T15:06:21.595Z
+        - _id: a826b9febba8c411cf6d82cb
+          user:
+            _id: 67a5c3cba3bb48fa646f9638
+            username: User
+            role: user
+            imageUrl: http://localhost:3000/api/image/user-db0b0c1f83fb29f652cc5a2f.png
+          book:
+            _id: 7fdb24bfd2c9eaca400201b8
+            title: Lorem
+            author: Lorem
+            imageUrl: http://localhost:3000/api/image/book-db0b0c1f83fb29f652cc5a2f.png
+          score: 8
+          content: Lorem
+          created_at: 2016-04-08T15:06:21.595Z
+          updated_at: 2016-04-08T15:06:21.595Z
     ReviewListResponse:
       type: object
       properties:
@@ -157,8 +165,16 @@ components:
             $ref: '#/components/schemas/review'
           example:
             _id: a826b9febba8c411cf6d82cb
-            user_id: db0b0c1f83fb29f652cc5a2f
-            book_id: 7fdb24bfd2c9eaca400201b8
+            user:
+              _id: 67a5c3cba3bb48fa646f9638
+              username: User
+              role: user
+              imageUrl: http://localhost:3000/api/image/user-db0b0c1f83fb29f652cc5a2f.png
+            book:
+              _id: 7fdb24bfd2c9eaca400201b8
+              title: Lorem
+              author: Lorem
+              imageUrl: http://localhost:3000/api/image/book-db0b0c1f83fb29f652cc5a2f.png
             score: 8
             content: Lorem
             created_at: 2016-04-08T15:06:21.595Z
@@ -250,13 +266,10 @@ components:
     review:
       type: object
       required:
-        - user_id
         - book_id
         - score
         - content
       properties:
-        user_id:
-          type: string
         book_id:
           type: string
         score:
@@ -264,7 +277,6 @@ components:
         content:
           type: string
       example:
-        user_id: required
         book_id: required
         score: required
         content: nullable
