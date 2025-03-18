@@ -98,7 +98,7 @@ export class UserController{
                 {$skip: page*limit},
                 {$limit: limit}
             ])
-            if(users){
+            if(users.length){
                 Logger.info("Request handled")
                 const pages = Math.ceil(await UserModel.estimatedDocumentCount() / limit)
                 res.status(200).json({data: users, pages: pages})
@@ -175,8 +175,8 @@ export class UserController{
                 newUser.imageUrl = newImageUrl
                 await newUser.save()
             }
-            Logger.info(`New user created: ${newUser._id}`)
             await newUser.save()
+            Logger.info(`New user created: ${newUser._id}`)
             res.status(201).json(newUser)
         }catch(error:any){
             ErrorHandler.HandleMongooseErrors(error,res)
@@ -229,7 +229,8 @@ export class UserController{
                 return res.status(400).json({message: "id is required"})
             }
             if(!Authenticator.verifyUser(req,id)) return res.status(401).json({message: "Unauthorized"})
-                const user = await UserModel.findById(id)
+            
+            const user = await UserModel.findById(id)
             const updates = req.body
             const allowedFields = ["username","password","email","booklist","image"]
             if(!user) return res.status(404).json({message: "User not found"})

@@ -168,11 +168,10 @@ export class ReviewController{
                 return acc
             }, {"_id": 0} as Projection)
 
-            if(validFields.length === 0) return res.status(400).json({error:"Invalid fields requested"})
     
 
             const data = await ReviewModel.aggregate([
-                { $match: { _id: new mongoose.Types.ObjectId(id) } },
+                { $match: { _id: new mongoose.Types.ObjectId(id as string) } },
                 {$lookup:{
                     from: "users",
                     localField: "user_id",
@@ -210,16 +209,8 @@ export class ReviewController{
 
     static async createReview(req:any,res:any){
         try {
-            const {user_id,book_id,score,content = null} = req.body
+            const {book_id,score,content = null} = req.body
             
-            if(user_id){
-                if(!mongoose.Types.ObjectId.isValid(user_id)){
-                    return res.status(400).json({message: "Invalid id format on user_id"})
-                }
-            }
-            else{
-                return res.status(400).json({message: "user_id is required"})
-            }
             if(book_id){
                 if(!mongoose.Types.ObjectId.isValid(book_id)){
                     return res.status(400).json({message: "Invalid id format on book_id"})
@@ -233,10 +224,10 @@ export class ReviewController{
             if(Number.isNaN(score)){
                 return res.status(400).json({message: "Invalid score, must be a number"})
             }
-            if(!Authenticator.verifyUser(req,user_id)) return res.json(401).send()
+            if(!Authenticator.verifyUser(req)) return res.json(401).send()
 
             const newReview = new ReviewModel({
-                user_id: user_id,
+                user_id: new mongoose.Types.ObjectId(req.user.id as string),
                 book_id: book_id,
                 score: score,
                 content: content
