@@ -136,9 +136,12 @@ export class CommentController{
             ])
             if(comments.length){
                 const pages = Math.ceil(await CommentModel.estimatedDocumentCount() / limit)
-                res.status(200).json({data: comments, pages: pages})
                 Logger.info("Request handled")
-
+                return res.status(200).json({data: comments, pages: pages})
+            }
+            else{
+                Logger.warn("No comments found")
+                return res.status(404).json({message: "No comments found"})
             }
 
 
@@ -199,7 +202,7 @@ export class CommentController{
                     as: "review"
                 }},
                 {$unwind:{
-                    path: "$book",
+                    path: "$review",
                     preserveNullAndEmptyArrays: true
                 }},
                 {$lookup:{
