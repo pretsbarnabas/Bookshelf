@@ -8,19 +8,19 @@
             "MYLIST": "Mylist",
             "LOGIN": "Login",
             "REGISTER": "Register",
-            "ADMIN" : "Admin",
+            "ADMIN": "Admin",
             "SETTINGS": {
                 "THEME": "Theme",
                 "LANG": "Language",
                 "EYE": "Eye Saver Mode",
-                "TOOLTIP" : "Settings",
+                "TOOLTIP": "Settings",
                 "ACCESSIBILITY": {
                     "LABEL": "Accessibility",
                     "SUBMENU": {
                         "COLORBLIND": "Colorblindness",
                         "REDGREEN": "Red-Green",
                         "BLUEYELLOW": "Blue-Yellow",
-                        "MONOCHROME" : "Monochrome"
+                        "MONOCHROME": "Monochrome"
                     }
                 }
             },
@@ -33,36 +33,36 @@
         "SNACKBAR": {
             "LABEL": "Currently active colorblindness overlay:",
             "CLEAR": "Clear filter",
-            "CLOSE" : "Close"
+            "CLOSE": "Close"
         }
     },
-    "HOME":{
+    "HOME": {
         "TEST": "Home page"
     },
-    "AUTH":{
+    "AUTH": {
         "FORM_TITLE": {
             "LOGIN": "Login",
             "REGISTER": "Registration"
         },
-        "FIELDS":{
+        "FIELDS": {
             "EMAIL": "Email address",
             "NAME": "Username",
             "PASSWORD": "Password",
             "PASSWORD_AGAIN": "Confirm password"
         },
-        "PLACEHOLDERS":{
+        "PLACEHOLDERS": {
             "EMAIL": "example@domain.com",
             "NAME": "John Doe"
         },
         "EMSG": {
-            "NAME":{
+            "NAME": {
                 "REQUIRED": "Username field is required",
                 "MINLENGTH": "Username must be at least 3 characters long",
-                "MAXLENGTH" : "Username must be less than 24 characters long"
+                "MAXLENGTH": "Username must be less than 24 characters long"
             },
             "EMAIL": {
                 "REQUIRED": "Email field is required",
-                "INCORRECT" : "Incorrect format"
+                "INCORRECT": "Incorrect format"
             },
             "PASSWORD": {
                 "REQUIRED": "Password field is required",
@@ -75,7 +75,7 @@
             "HTTPERRORRESPONSE": "We could not connect to the server.",
             "UNEXPECTED": "Unexpected error occured."
         },
-        "SUBMIT":{
+        "SUBMIT": {
             "LOGIN": "Login",
             "NO_ACCOUNT": "I do not have an account",
             "BACK": "Back to login",
@@ -86,13 +86,13 @@
             "CLOSE": "Close"
         }
     },
-    "PROFILE":{
-        "PROFILECARD":{
-            "ROLE" : "Role",
-            "ROLETABLE":{
+    "PROFILE": {
+        "PROFILECARD": {
+            "ROLE": "Role",
+            "ROLETABLE": {
                 "USER": "User",
                 "EDITOR": "Editor",
-                "ADMIN" : "Admin"
+                "ADMIN": "Admin"
             },
             "CREATED": "Created on",
             "UPDATED": "Updated on",
@@ -105,11 +105,28 @@
     "ADMIN": {
         "BUTTONS": {
             "USERS": "Users",
-            "BOOKS" : "Books",
+            "BOOKS": "Books",
             "REVIEWS": "Reviews"
         }
     },
-    "404":{
+    "FOOTER": {
+        "QUOTES": {
+            "G": "A room without books is like a body without a soul.",
+            "M1": "Every morning is a new page. What will you write today?",
+            "M2": "Books, like mornings, bring new beginnings.",
+            "M3": "Start your day with a story worth telling.",
+            "D1": "Every book has a turning point. Maybe today is yours.",
+            "D2": "The best journeys happen between the pages of a book.",
+            "D3": "A good book is like an adventure—where will yours take you today?",
+            "E1": "As the sun sets, let a book light your way.",
+            "E2": "The best endings are found in books and quiet evenings.",
+            "E3": "Let the world fade, and the words take over.",
+            "N1": "A book before bed is a dream before sleep.",
+            "N2": "Some stories are best read under the stars.",
+            "N3": "The night is silent, but books are never quiet."
+        }
+    },
+    "404": {
         "MESSAGE": "This is not the page you are looking for...",
         "REDIRECT": "Redirecting to home page in:"
     }
