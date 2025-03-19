@@ -4,7 +4,7 @@
 }
 
 mat-expansion-panel-header {
-    height: fit-content !important;    
+    height: fit-content !important;
 }
 
 body {
@@ -16,4 +16,11 @@ body {
         border-bottom: 1px solid rgba(255, 255, 255, 0.5);
     }
 
+}
+
+.desc {
+    text-align: justify;
+    max-height: 150px;
+    overflow-y: auto;
+    scrollbar-width: thin;
 }

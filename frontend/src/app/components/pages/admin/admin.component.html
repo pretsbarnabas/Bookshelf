@@ -29,9 +29,7 @@
                 [pageIndex]="this.currentPageIndex"
                 >
                 
-            </mat-paginator>
-            <button mat-button [disabled]="this.isPrevDisabled" (previousPage)="this.changePage('prev')">Previous</button>
-            <button mat-button [disabled]="this.isNextDisabled" (nextPage)="this.changePage('next')">Next</button>
+            </mat-paginator>            
             <mat-accordion>
                 @for (item of this.currentArrayInPaginator; track $index) {
                 <expansion-item [payload]="{ type: this.itemType, item : item}"></expansion-item>

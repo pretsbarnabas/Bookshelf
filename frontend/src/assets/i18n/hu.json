@@ -117,6 +117,15 @@
                 "CREATED": "Létrehozva",
                 "UPDATED": "Módosítva",
                 "LAST": "Utoljára bejelentkezve"
+            },
+            "BOOK": {
+                "ADDED": "Létrehozva",
+                "UPDATED": "Módosítva",
+                "USERID": "UserId",
+                "RELEASE": "Kiadás dátuma",
+                "GENRE": "Műfaj",
+                "AUTHOR": "Szerző",
+                "DESC": "Leírás"
             }
         }
     },

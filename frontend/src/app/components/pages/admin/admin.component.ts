@@ -115,6 +115,7 @@ export class AdminComponent {
                 this.itemType = 'book';
                 this.maxPages = data.pages;
                 this.currentArrayInPaginator = this.books;
+                console.log(this.books)
             },
             error: (err) => {
                 console.error('Error fetching books', err);

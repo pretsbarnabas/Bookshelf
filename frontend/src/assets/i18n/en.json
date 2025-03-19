@@ -116,6 +116,15 @@
                 "CREATED": "Created on",
                 "UPDATED": "Updated on",
                 "LAST": "Last login"
+            },
+            "BOOK": {
+                "ADDED": "Created on",
+                "UPDATED": "Updated on",
+                "USERID": "UserId",
+                "RELEASE": "Release date",
+                "GENRE": "Genre",
+                "AUTHOR": "Author",
+                "DESC": "Description"
             }
         }
     },
