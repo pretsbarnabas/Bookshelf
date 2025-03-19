@@ -107,6 +107,16 @@
             "USERS": "Users",
             "BOOKS": "Books",
             "REVIEWS": "Reviews"
+        },
+        "ITEM": {
+            "USER": {
+                "NAME": "Username",
+                "EMAIL": "Email",
+                "ROLE": "Role",
+                "CREATED": "Created on",
+                "UPDATED": "Updated on",
+                "LAST": "Last login"
+            }
         }
     },
     "FOOTER": {

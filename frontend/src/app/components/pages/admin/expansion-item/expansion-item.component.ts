@@ -6,6 +6,7 @@ import { LocalizedDatePipe } from '../../../../pipes/date.pipe';
 import { CommonModule, DatePipe } from '@angular/common';
 import { createAvatar } from '@dicebear/core';
 import { bottts } from '@dicebear/collection';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'expansion-item',
@@ -15,6 +16,7 @@ import { bottts } from '@dicebear/collection';
         MatIconModule,
         LocalizedDatePipe,
         CommonModule,        
+        TranslatePipe
     ],
     providers: [DatePipe],
     templateUrl: './expansion-item.component.html',

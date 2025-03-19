@@ -9,7 +9,7 @@
                         <mat-panel-title> {{ payload?.item.username }}</mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-4">
-                        <mat-panel-description> {{ payload?.item.role }}</mat-panel-description>
+                        <mat-panel-description>{{ 'ADMIN.ITEM.USER.ROLE' | translate }}: {{ payload?.item.role }}</mat-panel-description>
                     </div>
                 </ng-container>
 
@@ -47,7 +47,14 @@
     </mat-expansion-panel-header>
 
     <div [ngSwitch]="payload?.type">
-        <p *ngSwitchCase="'user'">{{ payload?.item.created_at | localizedDate }}</p>
+        <ng-container *ngSwitchCase="'user'">            
+            <div class="row text-center">
+                <p class="col-12 col-sm-6 col-lg-3">Id: {{ payload?.item._id }}</p>
+                <p class="col-12 col-sm-6 col-lg-3">{{ 'ADMIN.ITEM.USER.CREATED' | translate }}: {{ payload?.item.created_at | localizedDate }}</p>
+                <p class="col-12 col-sm-6 col-lg-3">{{ 'ADMIN.ITEM.USER.CREATED' | translate }}: {{ payload?.item.updated_at | localizedDate }}</p>
+                <p class="col-12 col-sm-6 col-lg-3">{{ 'ADMIN.ITEM.USER.LAST' | translate }}: {{ payload?.item.last_login | localizedDate }}</p>
+            </div>
+        </ng-container>
 
         <ng-container *ngSwitchCase="'book'">
             <p>{{ payload?.item.release | localizedDate }}</p>

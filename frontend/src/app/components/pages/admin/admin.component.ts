@@ -5,13 +5,27 @@ import { Book } from '../../../models/Book';
 import { Review } from '../../../models/Review';
 import { UserModel } from '../../../models/User';
 import { UserService } from '../../../services/page/user.service';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ExpansionItemComponent } from './expansion-item/expansion-item.component';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Subject } from 'rxjs';
+
+export class CustomPaginatorIntl extends MatPaginatorIntl {
+    override itemsPerPageLabel = 'Items per page:';
+    override nextPageLabel = 'Next';
+    override previousPageLabel = 'Previous';
+    override firstPageLabel = 'First page';
+    override lastPageLabel = 'Last page';
+
+    override getRangeLabel = (page: number, pageSize: number, length: number): string => {
+        return `Page ${page + 1} of ${length}`;
+    };
+
+}
 
 @Component({
     selector: 'app-admin',
@@ -24,7 +38,9 @@ import { TranslatePipe } from '@ngx-translate/core';
         ExpansionItemComponent,
         TranslatePipe
     ],
-    providers: [],
+    providers: [
+        { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
+    ],
     templateUrl: './admin.component.html',
     styleUrl: './admin.component.scss',
     encapsulation: ViewEncapsulation.None,
@@ -37,11 +53,22 @@ export class AdminComponent {
     currentArrayInPaginator: UserModel[] | Book[] | Review[] = [];
     itemType: 'user' | 'book' | 'review' = 'user';
     disabledButton: 'users' | 'books' | 'reviews' = 'users';
+
     maxPages: number = 0;
+    currentPageIndex = 0;
+
     users: UserModel[] = [];
     books: Book[] = [];
     reviews: Review[] = [];
     pageSize: number = 10;
+
+    get isPrevDisabled(): boolean {
+        return this.currentPageIndex === 0;
+    }
+
+    get isNextDisabled(): boolean {
+        return this.currentPageIndex >= this.maxPages - 1;
+    }
 
     constructor() {
 
@@ -74,7 +101,6 @@ export class AdminComponent {
                 this.itemType = 'user';
                 this.maxPages = data.pages;
                 this.currentArrayInPaginator = this.users;
-                console.log(this.users)
             },
             error: (err) => {
                 console.error('Error fetching users', err);
@@ -89,7 +115,6 @@ export class AdminComponent {
                 this.itemType = 'book';
                 this.maxPages = data.pages;
                 this.currentArrayInPaginator = this.books;
-                console.log(this.books)
             },
             error: (err) => {
                 console.error('Error fetching books', err);
@@ -104,11 +129,29 @@ export class AdminComponent {
                 this.itemType = 'review';
                 this.maxPages = data.pages;
                 this.currentArrayInPaginator = this.reviews;
-                console.log(this.reviews)
             },
             error: (err) => {
                 console.error('Error fetching reviews', err);
             }
         });
+    }
+
+    pageEvent(event: any) {
+        this.pageSize = event.pageSize;
+        switch (this.disabledButton) {
+            case 'users':
+                this.getUsers();
+                break;
+            case 'books':
+                this.getBooks();
+                break;
+            case 'reviews':
+                this.getReviews();
+                break;
+        }
+    }
+
+    changePage(to: 'next' | 'prev') {
+        console.log(to)
     }
 }
