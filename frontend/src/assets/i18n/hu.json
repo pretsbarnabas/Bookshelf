@@ -108,6 +108,16 @@
             "USERS": "Felhasználók",
             "BOOKS" : "Könyvek",
             "REVIEWS": "Vélemények"
+        },
+        "ITEM": {
+            "USER": {
+                "NAME": "Felhasználónév",
+                "EMAIL": "Email cím",
+                "ROLE": "Szerepkör",
+                "CREATED": "Létrehozva",
+                "UPDATED": "Módosítva",
+                "LAST": "Utoljára bejelentkezve"
+            }
         }
     },
     "FOOTER": {

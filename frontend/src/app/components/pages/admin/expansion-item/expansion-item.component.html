@@ -49,10 +49,10 @@
     <div [ngSwitch]="payload?.type">
         <ng-container *ngSwitchCase="'user'">            
             <div class="row text-center">
-                <p class="col-12 col-sm-6 col-lg-3">Id: {{ payload?.item._id }}</p>
-                <p class="col-12 col-sm-6 col-lg-3">{{ 'ADMIN.ITEM.USER.CREATED' | translate }}: {{ payload?.item.created_at | localizedDate }}</p>
-                <p class="col-12 col-sm-6 col-lg-3">{{ 'ADMIN.ITEM.USER.CREATED' | translate }}: {{ payload?.item.updated_at | localizedDate }}</p>
-                <p class="col-12 col-sm-6 col-lg-3">{{ 'ADMIN.ITEM.USER.LAST' | translate }}: {{ payload?.item.last_login | localizedDate }}</p>
+                <p class="col-12 col-sm-6 col-lg-3"><b>Id: </b><i>{{ payload?.item._id }}</i></p>
+                <p class="col-12 col-sm-6 col-lg-3"><b>{{ 'ADMIN.ITEM.USER.CREATED' | translate }}: </b><i>{{ payload?.item.created_at | localizedDate }}</i></p>
+                <p class="col-12 col-sm-6 col-lg-3"><b>{{ 'ADMIN.ITEM.USER.UPDATED' | translate }}: </b><i>{{ payload?.item.updated_at | localizedDate }}</i></p>
+                <p class="col-12 col-sm-6 col-lg-3"><b>{{ 'ADMIN.ITEM.USER.LAST' | translate }}: </b><i>{{ payload?.item.last_login | localizedDate }}</i></p>
             </div>
         </ng-container>
 
