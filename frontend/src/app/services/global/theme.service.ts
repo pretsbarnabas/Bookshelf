@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -6,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ThemeService {
 
-    constructor() { }
+    constructor(@Inject(DOCUMENT) private document: Document) { }
 
     private currentThemeSubject = new BehaviorSubject<'light' | 'dark'>('light');
     currentTheme$ = this.currentThemeSubject.asObservable();
@@ -63,21 +64,25 @@ export class ThemeService {
     changeTheme(theme: 'light' | 'dark') {
         this.currentThemeSubject.next(theme);
         sessionStorage.setItem('preferredTheme', theme)
-        if (theme === "light"){
-            document.body.classList.remove('darkMode')
-            void document.body.offsetWidth
+        if (theme === "light") {
+            this.document.body.classList.remove('darkMode')
+            void this.document.body.offsetWidth
         }
         else
-            document.body.classList.add('darkMode')
+            this.document.body.classList.add('darkMode')
     }
 
     changeEyeSaveMode(isOn: boolean) {
         this.isEyeSaveModeOnSubject.next(isOn);
         sessionStorage.setItem('isEyeSaveModeOn', isOn.toString())
-        if (isOn)
-            document.body.classList.add('eyeSaverMode')
-        else
-            document.body.classList.remove('eyeSaverMode')
+        if (isOn) {
+            this.document.querySelector('#app')!.classList.add('eyeSaverMode')
+            this.document.querySelectorAll('.cdk-overlay-container')!.forEach(m => m.classList.add('eyeSaverMode'))
+        }
+        else {
+            this.document.querySelector('#app')!.classList.remove('eyeSaverMode')
+            this.document.querySelectorAll('.cdk-overlay-container')!.forEach(m => m.classList.remove('eyeSaverMode'))
+        }
     }
 
     changeColorBlindessMode(type: string) {
@@ -85,15 +90,19 @@ export class ThemeService {
         switch (type) {
             case "red-green":
                 localStorage.setItem("colorBlindnessMode", type);
-                document.body.classList.add('colorblind-red-green');
+                this.document.querySelector('#app')!.classList.add('colorblind-red-green');
+                this.document.querySelectorAll('.cdk-overlay-container')!.forEach(m => m.classList.add('colorblind-red-green'))
                 break;
             case "blue-yellow":
                 localStorage.setItem("colorBlindnessMode", type);
-                document.body.classList.add('colorblind-blue-yellow');
+                this.document.querySelector('#app')!.classList.add('colorblind-blue-yellow');
+                this.document.querySelectorAll('.cdk-overlay-container')!.forEach(m => m.classList.add('colorblind-blue-yellow'))
+
                 break;
             case "monochrome":
                 localStorage.setItem("colorBlindnessMode", type);
-                document.body.classList.add('colorblind-monochrome');
+                this.document.querySelector('#app')!.classList.add('colorblind-monochrome');
+                this.document.querySelectorAll('.cdk-overlay-container')!.forEach(m => m.classList.add('colorblind-monochrome'))
                 break;
             default: {
                 localStorage.setItem("wasColorBlindnessNone", "true")
@@ -105,8 +114,13 @@ export class ThemeService {
 
     private removeColorOverlays() {
         localStorage.removeItem("colorBlindnessMode");
-        document.body.classList.remove('colorblind-red-green');
-        document.body.classList.remove('colorblind-blue-yellow');
-        document.body.classList.remove('colorblind-monochrome');
+        this.document.querySelector('#app')!.classList.remove('colorblind-red-green');
+        this.document.querySelector('#app')!.classList.remove('colorblind-blue-yellow');
+        this.document.querySelector('#app')!.classList.remove('colorblind-monochrome');     
+        this.document.querySelectorAll('.cdk-overlay-container')!.forEach(m => {
+            m.classList.remove('colorblind-red-green');
+            m.classList.remove('colorblind-blue-yellow');
+            m.classList.remove('colorblind-monochrome');
+        });   
     }
 }

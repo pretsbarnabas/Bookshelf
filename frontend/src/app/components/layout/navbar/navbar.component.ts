@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, inject, Output, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../../services/global/auth.service';
 // Angular Material
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,16 +10,16 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { FlexLayoutModule, MediaChange, MediaObserver } from "@angular/flex-layout";
 import { TranslatePipe } from '@ngx-translate/core';
-import { TranslationService } from '../../../services/translation.service';
+import { TranslationService } from '../../../services/global/translation.service';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { map } from 'rxjs';
+import { map, shareReplay } from 'rxjs';
 import { RouterButtonComponent } from "../router-button/router-button.component";
-import { UserLoggedInModel } from '../../../models/User';
-import { ThemeService } from '../../../services/theme.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserModel } from '../../../models/User';
+import { ThemeService } from '../../../services/global/theme.service';
 import { MatBadgeModule } from '@angular/material/badge';
 import { CommonModule } from '@angular/common';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 
 @Component({
@@ -65,17 +65,22 @@ import { CommonModule } from '@angular/common';
     ]
 })
 export class NavbarComponent {
+    private breakpointObserver = inject(BreakpointObserver);
+    private translationService = inject(TranslationService);
+    public authService = inject(AuthService);
+    private themeService = inject(ThemeService);
+    private mediaObserver = inject(MediaObserver);
 
     @Output() sidenavToggleClicked = new EventEmitter<void>();
 
-    constructor(
-        private translationService: TranslationService,
-        public authService: AuthService,
-        private themeService: ThemeService,
-        private mediaObserver: MediaObserver,
-    ) { }
+    isMobile$ = this.breakpointObserver.observe([Breakpoints.Handset])
+        .pipe(
+            map(result => result.matches),
+            shareReplay()
+        );
 
-    loggedInUser: UserLoggedInModel | null = null;
+    loggedInUser: UserModel | null = null;
+    remainingTime: number = 60000;
 
     localizationToggleValue: string = "en";
 
@@ -86,6 +91,7 @@ export class NavbarComponent {
 
     settingsIconState = 'default';
     isMdOrBeyond: boolean = false;
+
 
     ngOnInit() {
         this.currentTheme = this.themeService.checkPreferredTheme();
@@ -101,7 +107,10 @@ export class NavbarComponent {
         this.authService.loggedInUser$.subscribe(user => {
             this.loggedInUser = user;
         });
-        if(this.colorBlindnessMode !== "none" && localStorage.getItem("wasColorBlindnessNone") === 'true'){
+        this.authService.remainingTime$.subscribe(time => {
+            this.remainingTime = time;
+        });
+        if (this.colorBlindnessMode !== "none" && localStorage.getItem("wasColorBlindnessNone") === 'true') {
             localStorage.setItem("wasColorBlindnessNone", 'false')
             this.isLastColorBlindnessDiff = true
         }
@@ -134,5 +143,18 @@ export class NavbarComponent {
         else
             this.colorBlindnessMode = type as "red-green" | "blue-yellow" | "monochrome" | "none";
         this.themeService.changeColorBlindessMode(this.colorBlindnessMode);
+    }
+
+    formatRemainingTime(): string {
+        if (this.remainingTime <= 0) return 'Token expired';
+
+        const minutes = String(
+            Math.floor(this.remainingTime / 60000)
+        ).padStart(2, '0');
+        const seconds = String(
+            Math.floor((this.remainingTime % 60000) / 1000)
+        ).padStart(2, '0');
+
+        return `${minutes} : ${seconds}`;
     }
 }

@@ -1,8 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
-import { map, of, switchMap } from 'rxjs';
-import { UserLoggedInModel } from '../models/User';
+import { AuthService } from '../services/global/auth.service';
+import { of } from 'rxjs';
 
 export const authGuard: CanActivateFn = (route, state) => {
 
@@ -10,7 +9,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     const router = inject(Router);
 
     let userRole: string | null = null;
-    if(localStorage.getItem('authToken'))
+    if (localStorage.getItem('authToken'))
         userRole = authService.decodeToken().role;
 
     if (state.url.startsWith('/auth')) {
@@ -27,7 +26,12 @@ export const authGuard: CanActivateFn = (route, state) => {
             router.navigate(['auth/login']);
         }
     }
+    if (state.url.startsWith('/admin'))
+        if (!userRole)
+            router.navigate(['auth/login']);
+        else if (userRole && userRole == 'admin')
+            return of(true);
+        else
+            router.navigate(['home']);
     return of(false);
-
-
 };

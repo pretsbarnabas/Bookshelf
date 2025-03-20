@@ -1,22 +1,30 @@
+@use '@angular/material' as mat;
+
 .profile-card {
     position: relative;
     padding-top: 60px;
+    @include mat.card-overrides((
+        elevated-container-shape: None,
+  ));
+}
+
+#edit-button {
+    background-color: orange;
+    color: black;
+}
+
+#delete-button {
+    background-color: red;
+    color: white;
 }
 
 body {
     .profile-wrapper {
-        position: absolute;
-        top: -40px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100px;
-        height: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        min-width: 100px;
+        max-width: 150px;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         background-color: #777;
-        border-radius: 10%;
+        border-radius: 50%;
         padding: 15px;
         border: 2px solid black;
     }

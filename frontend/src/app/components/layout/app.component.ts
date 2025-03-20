@@ -7,10 +7,10 @@ import { RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { FooterComponent } from './footer/footer.component';
 import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/global/auth.service';
 import { TruncatePipe } from "../../pipes/truncate.pipe";
 import { RouterButtonComponent } from "./router-button/router-button.component";
-import { UserLoggedInModel } from '../../models/User';
+import { UserModel } from '../../models/User';
 
 @Component({
     selector: 'app-root',
@@ -34,7 +34,7 @@ import { UserLoggedInModel } from '../../models/User';
 export class AppComponent {
     title = 'frontend';
 
-    loggedInUser: UserLoggedInModel | null = null;
+    loggedInUser: UserModel | null = null;
 
     constructor(
         public authService: AuthService,

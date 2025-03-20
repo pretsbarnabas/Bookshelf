@@ -1,18 +1,27 @@
 @use '@angular/material' as mat;
 
+app-navbar{
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+app-footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 1000;
+}
+
 mat-drawer {
+    min-width: fit-content;
     .sidenav-column {
         display: flex;
         flex-direction: column;
         align-items: start;
         padding: 0;
 
-        button {
-            text-align: center;
-
-            mat-icon {
-                margin: 0, auto;
-            }
+        router-button {
+            min-width: 100% !important;
         }
     }
 }

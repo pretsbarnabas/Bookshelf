@@ -1,4 +1,4 @@
-import { Component, Renderer2, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Component, Renderer2, ElementRef, ViewChild, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { FormlyModule } from '@ngx-formly/core';
@@ -9,7 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { BookService } from '../../../services/book.service';
+import { BookService } from '../../../services/page/book.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Book } from '../../../models/Book';
 
@@ -30,7 +30,8 @@ import { Book } from '../../../models/Book';
   ],
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.scss'],
-  providers: [DatePipe]
+  providers: [DatePipe],
+  encapsulation: ViewEncapsulation.None,
 })
 export class BooksComponent implements OnInit {
   @ViewChild('container') container!: ElementRef;
@@ -44,15 +45,15 @@ export class BooksComponent implements OnInit {
   constructor(private renderer: Renderer2, private bookService: BookService, private datePipe: DatePipe, private router: Router) {}
 
   ngOnInit() {
-    this.bookService.getAllBooks(this.pageSize).subscribe({
-      next: (data) => {
-        this.books = data;
-        this.updatePaginatedBooks();
-      },
-      error: (err) => {
-        console.error('Error fetching books', err);
-      }
-    });
+    // this.bookService.getAllBooks(this.pageSize).subscribe({
+    //   next: (data) => {
+    //     this.books = data.data;
+    //     this.updatePaginatedBooks();
+    //   },
+    //   error: (err) => {
+    //     console.error('Error fetching books', err);
+    //   }
+    // });
   }
 
   onPageChange(event: PageEvent) {
