@@ -33,6 +33,7 @@ export class Authenticator{
     }
 
     static verifyToken(req:any){
+        if(!req.headers["authorization"]) return false
         const token = req.headers["authorization"].split(" ").pop()
         if(!token) return false
         let verifiedToken = false
@@ -51,6 +52,7 @@ export class Authenticator{
 
     static verifyUser(req:any, userid: string = "",allowedRoles:string[] = ["user","editor"],){
         if(!Authenticator.verifyToken(req)) return false
+        Logger.debug("after verifyToken")
         if(req.user.role === "admin") return true
         if(userid){
             if(req.user.id != userid) return false

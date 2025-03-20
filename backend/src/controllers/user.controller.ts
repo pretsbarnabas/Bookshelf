@@ -103,6 +103,10 @@ export class UserController{
                 const pages = Math.ceil(await UserModel.estimatedDocumentCount() / limit)
                 res.status(200).json({data: users, pages: pages})
             }
+            else{
+                Logger.warn("No users found")
+                res.status(404).json({message: "No users found"})
+            }
         }catch(error:any){
             ErrorHandler.HandleMongooseErrors(error,res)
         }
@@ -117,6 +121,7 @@ export class UserController{
             if(Authenticator.verifyUser(req,id)){
                 allowedFields.push("email")
             }
+
 
 
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
