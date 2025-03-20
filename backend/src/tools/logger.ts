@@ -9,7 +9,7 @@ export abstract class Logger{
     static magenta = "\x1b[35m"
 
     static info(text: string){
-        console.log(`[${new Date().toLocaleString()}] [INFO] Library: ${text}`)
+        console.log(Logger.white,`[${new Date().toLocaleString()}] [INFO] Library: ${text}`)
     }
 
     static warn(text:string){
