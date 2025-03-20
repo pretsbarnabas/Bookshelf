@@ -5,7 +5,7 @@ import { Logger } from "../tools/logger";
 
 export class ImageController{
 
-    static currentUrl = "http://localhost:3000/api"
+    static currentUrl = "https://bookshelf.koyeb.app/api"
 
 
     static uploadImage(req:any, res:any) {
