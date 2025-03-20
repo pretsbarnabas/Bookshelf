@@ -9,9 +9,11 @@ RUN npm install -g ts-node typescript
 
 COPY . ./
 
+RUN tsc
+
 ENV DATABASE_URL="temp"
 ENV JWT_TOKEN="temp"
 
 EXPOSE 3000
 
-CMD ["ts-node", "src/main.ts"]
+CMD ["node", "dist/main.js"]
