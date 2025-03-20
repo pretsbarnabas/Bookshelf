@@ -16,7 +16,7 @@ import { MatCardModule } from '@angular/material/card';
         MatButtonModule,
         MatIconModule,
         LocalizedDatePipe,
-        CommonModule,        
+        CommonModule,
         TranslatePipe,
         MatCardModule
     ],
@@ -28,9 +28,9 @@ import { MatCardModule } from '@angular/material/card';
 export class ExpansionItemComponent {
     @Input() payload?: { type: 'user' | 'book' | 'review', item: any }
 
-    ngOnInit() {
-        if(this.payload?.item && this.payload?.type === 'user' && !this.payload.item.imageUrl){
+    ngOnChanges() {
+        if (this.payload?.item && this.payload?.type === 'user' && !this.payload.item.imageUrl) {
             this.payload.item.profile_image = createAvatar(bottts, { seed: this.payload?.item.username }).toDataUri();
         }
-    }    
+    }
 }

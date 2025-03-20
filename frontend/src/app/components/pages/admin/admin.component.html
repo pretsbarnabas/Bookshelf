@@ -24,12 +24,19 @@
             </div>
         </div>
         <div class="mx-3 mb-5">
-            <mat-paginator [length]="this.maxPages" [pageSize]="this.pageSize" (page)="this.pageEvent($event)"
-                [pageSizeOptions]="[5, 10, 25]" 
+            <!-- <mat-paginator [length]="this.maxPages" [pageSize]="this.pageSize" (page)="this.pageEvent($event)"
+            [pageSizeOptions]="[5, 10, 25]" 
+            [pageIndex]="this.currentPageIndex"
+            >
+            
+        </mat-paginator>             -->
+            <custom-paginator
+                [pageSizeOptions]="[5, 10, 25]"
+                [totalPages]="this.maxPages"
+                [pageSize]="this.pageSize"
                 [pageIndex]="this.currentPageIndex"
-                >
-                
-            </mat-paginator>            
+                (pageChanged)="this.changePage($event)"
+                />
             <mat-accordion>
                 @for (item of this.currentArrayInPaginator; track $index) {
                 <expansion-item [payload]="{ type: this.itemType, item : item}"></expansion-item>

@@ -104,6 +104,11 @@
         }
     },
     "ADMIN": {
+        "PAGINATOR": {
+            "PAGESIZES": "Oldal méretek",
+            "PAGEINDEX": "Oldal",
+            "MAXPAGES": "Max"
+        },
         "BUTTONS": {
             "USERS": "Felhasználók",
             "BOOKS" : "Könyvek",

@@ -13,8 +13,8 @@ export class BookService {
 
     constructor() { }
 
-    getAllBooks(pageSize: number): Observable<BookRoot> {
-        return this.crudService.getAll<BookRoot>(`books?limit=${pageSize}`);
+    getAllBooks(pageSize: number, pageIndex: number): Observable<BookRoot> {
+        return this.crudService.getAll<BookRoot>(`books?limit=${pageSize}&page=${pageIndex}`);
     }
     getBookById(id: string): Observable<any> {
         return this.crudService.getById<Book>('books', id);

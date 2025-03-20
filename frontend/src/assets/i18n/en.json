@@ -103,6 +103,11 @@
         }
     },
     "ADMIN": {
+        "PAGINATOR": {
+            "PAGESIZES": "Page sizes",
+            "PAGEINDEX": "Page",
+            "MAXPAGES": "Max"
+        },
         "BUTTONS": {
             "USERS": "Users",
             "BOOKS": "Books",

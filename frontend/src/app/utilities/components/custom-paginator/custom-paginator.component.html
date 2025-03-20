@@ -1,0 +1,37 @@
+<mat-toolbar>
+    <mat-toolbar-row id="custom-paginator" class="py-2">
+        <div class="w-100 d-flex justify-content-between row">
+            <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
+                <mat-form-field class="w-75">
+                    <mat-label>{{ 'ADMIN.PAGINATOR.PAGESIZES' | translate }}</mat-label>
+                    <mat-select [(value)]="this.pageSize" (valueChange)="this.onPageSizeChange()">
+                        @for (pageSizeOption of this.pageSizeOptions; track $index) {
+                        <mat-option [value]="pageSizeOption">{{ pageSizeOption }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
+                <button mat-mini-fab (click)="this.goToFirstPage()">
+                    <mat-icon>first_page</mat-icon>
+                </button>
+                <button mat-mini-fab (click)="this.goToPreviousPage()">
+                    <mat-icon>chevron_left</mat-icon>
+                </button>
+                {{ this.pageIndex + 1 }}
+                <button mat-mini-fab (click)="this.goToNextPage()">
+                    <mat-icon>chevron_right</mat-icon>
+                </button>
+                <button mat-mini-fab (click)="this.goToLastPage()">
+                    <mat-icon>last_page</mat-icon>
+                </button>
+            </div>
+            <div class="col-12 col-md-4 d-flex justify-content-center">
+                {{ 'ADMIN.PAGINATOR.PAGEINDEX' | translate }}:
+                {{ this.pageIndex + 1 }}
+                {{ 'ADMIN.PAGINATOR.MAXPAGES' | translate }}:
+                {{ this.totalPages}}
+            </div>
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>

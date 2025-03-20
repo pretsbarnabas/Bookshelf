@@ -11,8 +11,8 @@ export class UserService {
 
     constructor() { }
 
-    getAllUser(pageSize: number): Observable<UserRoot> {
-        return this.crudService.getAll<UserRoot>(`users?limit=${pageSize}`);
+    getAllUser(pageSize: number, pageIndex: number): Observable<UserRoot> {
+        return this.crudService.getAll<UserRoot>(`users?limit=${pageSize}&page=${pageIndex}`);
     }
 
     // getById<T>(_endpoint: string, _id: number | string): Observable<T> {

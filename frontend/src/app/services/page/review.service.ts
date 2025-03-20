@@ -11,7 +11,7 @@ export class ReviewService {
 
     constructor() { }
 
-    getAllReviews(pageSize: number): Observable<ReviewRoot> {
-        return this.crudService.getAll<ReviewRoot>(`reviews?limit=${pageSize}`);
+    getAllReviews(pageSize: number, pageIndex: number): Observable<ReviewRoot> {
+        return this.crudService.getAll<ReviewRoot>(`reviews?limit=${pageSize}&page=${pageIndex}`);
     }
 }
