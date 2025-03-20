@@ -1,5 +1,6 @@
 {
     "APP": {
+        "TITLE": "Bookshelf",
         "MENU": {
             "HEADER": "Navigation",
             "HOME": "Home",
@@ -37,9 +38,12 @@
         }
     },
     "HOME": {
+        "TITLE": "Home",
         "TEST": "Home page"
     },
     "AUTH": {
+        "REGISTERTITLE": "Registration",
+        "LOGINTITLE": "Login",        
         "FORM_TITLE": {
             "LOGIN": "Login",
             "REGISTER": "Registration"
@@ -86,7 +90,23 @@
             "CLOSE": "Close"
         }
     },
+    "BOOKS":{
+        "TITLE": "Books"
+    },
+    "BOOKITEM": {
+        "TITLE": "Details"
+    },
+    "SUMMARIES":{
+        "TITLE": "Summaries"
+    },
+    "SUMMARYITEM": {
+        "TITLE": "Details"
+    },
+    "MYLIST":{
+        "TITLE": "Mylist"
+    },
     "PROFILE": {
+        "TITLE": "Profile",
         "PROFILECARD": {
             "ROLE": "Role",
             "ROLETABLE": {
@@ -103,6 +123,7 @@
         }
     },
     "ADMIN": {
+        "TITLE": "Admin",
         "PAGINATOR": {
             "PAGESIZES": "Page sizes",
             "PAGEINDEX": "Page",
@@ -151,6 +172,7 @@
         }
     },
     "404": {
+        "TITLE": "404!",
         "MESSAGE": "This is not the page you are looking for...",
         "REDIRECT": "Redirecting to home page in:"
     }

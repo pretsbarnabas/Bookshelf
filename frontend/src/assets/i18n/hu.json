@@ -1,5 +1,6 @@
 {
     "APP": {
+        "TITLE": "Bookshelf",
         "MENU": {
             "HEADER": "Navigáció",
             "HOME": "Főoldal",
@@ -8,7 +9,7 @@
             "MYLIST": "Listám",
             "LOGIN": "Bejelentkezés",
             "REGISTER": "Regisztráció",
-            "ADMIN" : "Admin",
+            "ADMIN": "Admin",
             "SETTINGS": {
                 "THEME": "Téma",
                 "LANG": "Nyelv",
@@ -33,13 +34,16 @@
         "SNACKBAR": {
             "LABEL": "Jelenleg aktív színvakság szűrő:",
             "CLEAR": "Szűrő törlése",
-            "CLOSE" : "Bezárás"
+            "CLOSE": "Bezárás"
         }
     },
     "HOME": {
+        "TITLE": "Főoldal",
         "TEST": "Főoldal"
     },
     "AUTH": {
+        "REGISTERTITLE": "Regisztráció",
+        "LOGINTITLE": "Bejelentkezés",
         "FORM_TITLE": {
             "LOGIN": "Bejelentkezés",
             "REGISTER": "Regisztráció"
@@ -86,14 +90,29 @@
             "CLOSE": "Bezárás"
         }
     },
-    "USER": "User",
-    "PROFILE":{
-        "PROFILECARD":{
-            "ROLE" : "Szerepkör",
-            "ROLETABLE":{
+    "BOOKS": {
+        "TITLE": "Könyvek"
+    },
+    "BOOKITEM": {
+        "TITLE": "Részletek"
+    },
+    "SUMMARIES": {
+        "TITLE": "Összefoglalók"
+    },
+    "SUMMARYITEM": {
+        "TITLE": "Részletek"
+    },
+    "MYLIST": {
+        "TITLE": "Listám"
+    },
+    "PROFILE": {
+        "TITLE": "Profil",
+        "PROFILECARD": {
+            "ROLE": "Szerepkör",
+            "ROLETABLE": {
                 "USER": "Felhasználó",
                 "EDITOR": "Szerkesztő",
-                "ADMIN" : "Admin"
+                "ADMIN": "Admin"
             },
             "CREATED": "Létrehozva",
             "UPDATED": "Módosítva",
@@ -104,6 +123,7 @@
         }
     },
     "ADMIN": {
+        "TITLE": "Admin",
         "PAGINATOR": {
             "PAGESIZES": "Oldal méretek",
             "PAGEINDEX": "Oldal",
@@ -111,7 +131,7 @@
         },
         "BUTTONS": {
             "USERS": "Felhasználók",
-            "BOOKS" : "Könyvek",
+            "BOOKS": "Könyvek",
             "REVIEWS": "Vélemények"
         },
         "ITEM": {
@@ -152,6 +172,7 @@
         }
     },
     "404": {
+        "TITLE": "404!",
         "MESSAGE": "Nem ezt az oldalt keresed...",
         "REDIRECT": "Átirányítás a főoldalra:"
     }

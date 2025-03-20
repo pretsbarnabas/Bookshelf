@@ -1,8 +1,8 @@
-import { ApplicationConfig, importProvidersFrom, inject, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter, TitleStrategy, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
-import { HttpClient, HttpHandler, HttpInterceptorFn, provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { FormlyModule } from '@ngx-formly/core';
@@ -12,6 +12,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { spinnerInterceptor } from './interceptors/spinner.interceptor';
 import { cacheInterceptor } from './interceptors/cache.interceptor';
+import { CustomTitleStrategy } from './utilities/custom.title.strategy';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -20,12 +21,13 @@ export function createTranslateLoader(http: HttpClient) {
 export const appConfig: ApplicationConfig = {
     providers: [
         provideZoneChangeDetection({ eventCoalescing: true }),
-        provideRouter(routes),
+        provideRouter(routes, withComponentInputBinding()),
+        { provide: TitleStrategy, useClass: CustomTitleStrategy },
         provideHttpClient(withFetch(),
             withInterceptors([
                 authInterceptor,
                 cacheInterceptor,
-                spinnerInterceptor,                
+                spinnerInterceptor,
             ])
         ),
         importProvidersFrom(
