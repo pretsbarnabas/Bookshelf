@@ -14,4 +14,4 @@ ENV JWT_TOKEN="temp"
 
 EXPOSE 3000
 
-CMD ["ts-node", "src/index.ts"]
+CMD ["ts-node", "src/main.ts"]
