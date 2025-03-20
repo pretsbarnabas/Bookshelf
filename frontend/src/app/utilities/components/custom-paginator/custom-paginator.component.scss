@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap');
 
 #custom-paginator {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+#custom-paginator-row {
     height: fit-content;
 }
 
@@ -12,7 +18,8 @@
     height: 0 !important;
 }
 
-#display-pages, #current-page{
+#display-pages,
+#current-page {
     font-family: "Source Code Pro", monospace;
     font-optical-sizing: auto;
 }
@@ -21,8 +28,8 @@
     font-size: .75em;
 }
 
-@media (max-width: 576px){
-    #button-holder{
+@media (max-width: 576px) {
+    #button-holder {
         margin: 20px 0px;
 
     }
