@@ -25,8 +25,8 @@
                 </button>
             </div>
             <div id="Books" class="d-flex flex-column justify-content-center">
-                <div class="book-cards row">
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4" *ngFor="let book of paginatedBooks">
+                <div class="book-cards row w-100">
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4" *ngFor="let book of books">
                         <mat-card class="book-card" (click)="navigateToBook(book._id)">
                             <mat-card-header>
                                 <mat-card-title class="title">{{ book.title }}</mat-card-title>
@@ -39,8 +39,13 @@
                         </mat-card>
                     </div>
                 </div>
-                <mat-paginator [length]="books.length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChange($event)">
-                </mat-paginator>
+                <custom-paginator
+                [pageSizeOptions]="[5, 10, 25]"
+                [totalPages]="this.maxPages"
+                [pageSize]="this.pageSize"
+                [pageIndex]="this.currentPageIndex"
+                (pageChanged)="this.changePage($event)"
+                />
             </div>
         </div>
     </div>

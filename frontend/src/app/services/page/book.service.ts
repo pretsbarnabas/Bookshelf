@@ -3,13 +3,17 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ConfigService } from '../global/config.service';
 import { Book, BookRoot } from '../../models/Book';
-import { map,tap } from 'rxjs/operators';
 import { CrudService } from '../global/crud.service';
+import { Review } from '../../models/Review';
 @Injectable({
     providedIn: 'root'
 })
 export class BookService {
-    private crudService = inject(CrudService);   
+    // deprecated
+    private http = inject(HttpClient);
+    private configService = inject(ConfigService);
+
+    private crudService = inject(CrudService);
 
     constructor() { }
 
@@ -17,9 +21,12 @@ export class BookService {
         return this.crudService.getAll<BookRoot>(`books?limit=${pageSize}&page=${pageIndex}`);
     }
     getBookById(id: string): Observable<any> {
-        return this.crudService.getById<Book>('books', id);
-      }
-    getAllReviewsByBookId(id: string): Observable<any> {
-        return this.crudService.getById<any>('reviews', id);
+        return this.http.get<Book>(`${this.configService.get('API_URL')}/api/books/${id}`);
+    }
+    getReviewsByBook(book_id: string, pageSize: number): Observable<any> {
+        return this.http.get<any>(`${this.configService.get('API_URL')}/api/reviews?book_id=${book_id}&limit=${pageSize}`);
+    }
+    Addreview(newReview: any): Observable<Review> {
+        return this.http.post<Review>(`${this.configService.get('API_URL')}/api/reviews`, newReview);
     }
 }

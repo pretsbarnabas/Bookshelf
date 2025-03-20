@@ -6,17 +6,18 @@ import { FormlyModule } from '@ngx-formly/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormlyMaterialModule } from '@ngx-formly/material';
-import { FormGroup,FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Review } from '../../../models/Review';
-import { UserLoggedInModel,User } from '../../../models/User';
-import { UserService } from '../../../services/user.service';
-import { AuthService } from '../../../services/auth.service';
+import { Review, ReviewPB } from '../../../models/Review';
+import { UserService } from '../../../services/page/user.service';
+
 import { PageEvent } from '@angular/material/paginator';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { AuthService } from '../../../services/global/auth.service';
+import { UserModel } from '../../../models/User';
 
 
 @Component({
@@ -47,15 +48,15 @@ export class BookItemComponent implements OnInit {
   bookId: any;
   private snackBarDuration: number = 2000;
   public ratingArr: any = [];
-  reviews: Review[] = [];
-  paginatedReviews: Review[] = [];
+  reviews: ReviewPB[] = [];
+  paginatedReviews: ReviewPB[] = [];
   pageSize = 10;
   uniqueIds: any = [];
   uniqueUserIds: any = [];
-  users: User[] = [];
+  users: UserModel[] = [];
   isLoggedIn: boolean = false;
   reviewForm: FormGroup;
-  loggedInUser: UserLoggedInModel | null = null;
+  loggedInUser: UserModel | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -65,12 +66,12 @@ export class BookItemComponent implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private fb: FormBuilder
-  ){
+  ) {
     this.reviewForm = this.fb.group({
       content: ['', Validators.required]
-  });
+    });
   }
-  ngOnInit(){
+  ngOnInit() {
     this.uniqueIds = [];
     this.bookId = this.route.snapshot.paramMap.get('id');
     this.authService.loggedInUser$.subscribe(user => {
@@ -78,15 +79,15 @@ export class BookItemComponent implements OnInit {
       this.loggedInUser = user;
     });
     if (this.bookId) {
-        this.bookService.getBookById(this.bookId).subscribe(book => {
-          this.book = book;
-        });
-      }
-      if (this.bookId) {
-        this.fillreviews();
-        console.log(this.uniqueUserIds)
-        
-      }
+      this.bookService.getBookById(this.bookId).subscribe(book => {
+        this.book = book;
+      });
+    }
+    if (this.bookId) {
+      this.fillreviews();
+      console.log(this.uniqueUserIds)
+
+    }
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
     }
@@ -109,11 +110,11 @@ export class BookItemComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.fillreviews();
   }
-  
+
   formatDate(date: any) {
     return this.datePipe.transform(date, 'yyyy');
   }
-  onClick(rating:number) {
+  onClick(rating: number) {
     // console.log(rating)
     this.snackBar.open('You rated ' + rating + ' / ' + this.starCount, '', {
       duration: this.snackBarDuration
@@ -122,16 +123,16 @@ export class BookItemComponent implements OnInit {
     return false;
     //  ide  kell még konkretan a  mukodo  rating mentés  ha be  van jelentkezve  a ficko  valamint a rating  kiolvasas akkor is ha  nincs  bejenetkezve
   }
-  
-  showIcon(index:number) {
+
+  showIcon(index: number) {
     if (this.rating >= index + 1) {
       return 'star';
     } else {
       return 'star_border';
     }
   }
-  
-  showIconUserReview(index:number, Rating:number) {
+
+  showIconUserReview(index: number, Rating: number) {
     if (Rating >= index + 1) {
       return 'star';
     } else {
@@ -139,7 +140,7 @@ export class BookItemComponent implements OnInit {
     }
   }
   onBack() {
-      window.history.back();
+    window.history.back();
   }
   onSubmitReview() {
     console
@@ -168,14 +169,9 @@ export class BookItemComponent implements OnInit {
         this.snackBar.open('You have already submitted a review', '', {
           duration: this.snackBarDuration
         });
+      }
     }
   }
-}
-}
-export enum StarRatingColor {
-  primary = "primary",
-  accent = "accent",
-  warn = "warn"
 }
 export enum StarRatingColor {
   primary = "primary",
