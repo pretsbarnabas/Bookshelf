@@ -23,6 +23,7 @@ export class CustomPaginatorComponent {
     @Input() pageSize: number = 10;
     @Input() pageIndex: number = 0;
     @Input() pageSizeOptions: number[] = [5, 10, 20];
+    prevPageSize: number = 10;
 
     @Output() pageChanged = new EventEmitter<{ pageIndex: number; pageSize: number }>();
 
@@ -54,8 +55,10 @@ export class CustomPaginatorComponent {
         }
     }
 
-    onPageSizeChange(): void {
-        this.pageSize = this.pageSize;
+    onPageSizeChange(): void {    
+        if(this.prevPageSize < this.pageSize)    
+            this.pageIndex = 0;
+        this.prevPageSize = this.pageSize;
         this.emitPageChange();
     }
 
