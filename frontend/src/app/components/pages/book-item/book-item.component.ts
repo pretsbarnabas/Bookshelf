@@ -6,11 +6,19 @@ import { FormlyModule } from '@ngx-formly/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormlyMaterialModule } from '@ngx-formly/material';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormGroup,FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Review } from '../../../models/Review';
+import { UserLoggedInModel,User } from '../../../models/User';
+import { UserService } from '../../../services/user.service';
+import { AuthService } from '../../../services/auth.service';
+import { PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
+
 @Component({
   selector: 'app-book-item',
   templateUrl: './book-item.component.html',
@@ -25,38 +33,82 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatButtonModule,
     MatIconModule,
     CommonModule,
+    MatPaginatorModule
   ],
   providers: [DatePipe],
   encapsulation: ViewEncapsulation.None,
 })
 export class BookItemComponent implements OnInit {
-  @Input() book: any;
-  @Input('rating') public rating: number = 3;
-  @Input('starCount') public starCount: number = 5;
-  @Input('color') public color: string = 'accent';
-  @Output() private ratingUpdated = new EventEmitter();
-  
+
+  public book: any;
+  public color: string = 'accent';
+  public starCount: number = 5;
+  public rating: number = 3;
   bookId: any;
   private snackBarDuration: number = 2000;
   public ratingArr: any = [];
-  reviews: any[] = [];
-  
-  constructor(private route: ActivatedRoute, private bookService: BookService, private datePipe: DatePipe, private snackBar: MatSnackBar){}
-  
+  reviews: Review[] = [];
+  paginatedReviews: Review[] = [];
+  pageSize = 10;
+  uniqueIds: any = [];
+  users: User[] = [];
+  isLoggedIn: boolean = false;
+  reviewForm: FormGroup;
+  loggedInUser: UserLoggedInModel | null = null;
+
+  constructor(
+    private route: ActivatedRoute,
+    private bookService: BookService,
+    private datePipe: DatePipe,
+    private snackBar: MatSnackBar,
+    private userService: UserService,
+    private authService: AuthService,
+    private fb: FormBuilder
+  ){
+    this.reviewForm = this.fb.group({
+      content: ['', Validators.required]
+  });
+  }
   ngOnInit(){
+    this.uniqueIds = [];
     this.bookId = this.route.snapshot.paramMap.get('id');
+    this.authService.loggedInUser$.subscribe(user => {
+      this.isLoggedIn = !!user;
+      this.loggedInUser = user;
+    });
     if (this.bookId) {
         this.bookService.getBookById(this.bookId).subscribe(book => {
           this.book = book;
         });
-        this.bookService.getAllReviewsByBookId(this.bookId).subscribe(reviews => {
-          this.reviews = reviews;
-          console.log(reviews)
-        });
+      }
+      if (this.bookId) {
+        this.fillreviews();
       }
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
     }
+  }
+  fillreviews() {
+    this.reviews = [];
+    this.bookService.getReviewsByBook(this.bookId).subscribe(reviews => {
+      this.reviews = reviews;
+      this.updatePaginatedReviews();
+    });
+  }
+
+  updatePaginatedReviews(pageIndex: number = 0) {
+    this.paginatedReviews = [];
+    const startIndex = pageIndex * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    console.log(startIndex)
+    console.log(endIndex)
+    this.paginatedReviews = this.reviews.slice(startIndex, endIndex);
+    console.log(this.paginatedReviews)
+  }
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    console.log(this.pageSize);
+    this.updatePaginatedReviews(event.pageIndex);
   }
   
   formatDate(date: any) {
@@ -67,14 +119,21 @@ export class BookItemComponent implements OnInit {
     this.snackBar.open('You rated ' + rating + ' / ' + this.starCount, '', {
       duration: this.snackBarDuration
     });
-    this.ratingUpdated.emit(rating);
+    this.rating = rating;
     return false;
     //  ide  kell még konkretan a  mukodo  rating mentés  ha be  van jelentkezve  a ficko  valamint a rating  kiolvasas akkor is ha  nincs  bejenetkezve
   }
   
   showIcon(index:number) {
-    console.log(index)
     if (this.rating >= index + 1) {
+      return 'star';
+    } else {
+      return 'star_border';
+    }
+  }
+  
+  showIconUserReview(index:number, Rating:number) {
+    if (Rating >= index + 1) {
       return 'star';
     } else {
       return 'star_border';
@@ -83,7 +142,35 @@ export class BookItemComponent implements OnInit {
   onBack() {
       window.history.back();
   }
-  
+  onSubmitReview() {
+    console
+    if (this.reviewForm.valid) {
+      console.log(this.reviewForm.value.content)
+      console.log(this.rating)
+      console.log(this.bookId)
+      const newReview = {
+        content: this.reviewForm.value.content,
+        score: this.rating * 2,
+        book_id: this.bookId,
+        user_id: this.loggedInUser!._id
+      };
+      console.log(newReview)
+
+      this.bookService.Addreview(newReview).subscribe(review => {
+        console.log(review)
+        this.fillreviews();
+        this.reviewForm.reset();
+        this.snackBar.open('Review submitted successfully', '', {
+          duration: this.snackBarDuration
+        });
+      });
+    }
+  }
+}
+export enum StarRatingColor {
+  primary = "primary",
+  accent = "accent",
+  warn = "warn"
 }
 export enum StarRatingColor {
   primary = "primary",

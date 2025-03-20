@@ -66,16 +66,7 @@ export class AuthService {
 
     decodeToken(): any {
         const token = localStorage.getItem('authToken');
-        if (!token) return undefined;
-
-        const decoded = jwtDecode(token) as any;
-        const currentTime = Math.floor(Date.now() / 1000);
-
-        if (decoded.exp && decoded.exp < currentTime) {
-            this.logOut();
-            return undefined;
-        }
-        return decoded;
+        return token ? jwtDecode(token) : undefined;
     }
 
     setLoggedInUser(): void {
@@ -84,7 +75,7 @@ export class AuthService {
             this.loggedInUserSubject.next(null);
             return;
         }
-
+    
         this.getUserFromToken(tokenId).subscribe({
             next: (result: any) => {
                 result.profile_image = createAvatar(bottts, { seed: result.username }).toDataUri();
