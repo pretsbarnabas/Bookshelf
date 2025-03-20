@@ -26,4 +26,9 @@ const summarySchema = new Schema({
     }
 },{versionKey: false})
 
+summarySchema.pre("save",function(next){
+    this.updated_at = new Date()
+    next();
+})
+
 module.exports = model("SummaryModel",summarySchema,"summaries")

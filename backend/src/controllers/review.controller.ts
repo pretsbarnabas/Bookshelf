@@ -130,6 +130,10 @@ export class ReviewController{
                 const pages = Math.ceil(await ReviewModel.estimatedDocumentCount() / limit)
                 res.status(200).json({data: data, pages: pages})
             }
+            else{
+                Logger.warn("No reviews found")
+                res.status(404).json({message: "No reviews found"})
+            }
         }catch(error:any){
             res.status(500).json({message:error.message})
         }
@@ -228,7 +232,7 @@ export class ReviewController{
 
             const newReview = new ReviewModel({
                 user_id: new mongoose.Types.ObjectId(req.user.id as string),
-                book_id: book_id,
+                book_id: new mongoose.Types.ObjectId(book_id as string),
                 score: score,
                 content: content
             })
@@ -263,7 +267,7 @@ export class ReviewController{
                 res.status(404).json({message:"Review not found"})
             }
         } catch (error:any) {
-            res.status(500).json({message:error.message})
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
         
     }
