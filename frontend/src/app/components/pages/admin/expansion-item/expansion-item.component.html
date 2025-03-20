@@ -1,6 +1,28 @@
 <mat-expansion-panel hideToggle id="item-panel">
     <mat-expansion-panel-header class="py-3">
         <div class="row w-100">
+            <div class="d-flex justify-content-end align-item-center">
+                @if(this.payload?.type === 'user'){
+                @if(this.payload?.item.role === 'user'){
+                <button mat-mini-fab class="promote-demote me-1" (click)="$event.stopPropagation()">
+                    <mat-icon class="mx-auto">vertical_align_top</mat-icon>
+                </button>
+                }
+                @if(this.payload?.item.role === 'editor') {
+                <button mat-mini-fab class="promote-demote me-1" (click)="$event.stopPropagation()">
+                    <mat-icon class="mx-auto">vertical_align_bottom</mat-icon>
+                </button>
+                }
+                } @else {
+                <button mat-mini-fab class="edit me-1" (click)="$event.stopPropagation()">
+                    <mat-icon class="mx-auto">edit</mat-icon>
+                </button>
+                }
+                <button mat-mini-fab class="delete" (click)="$event.stopPropagation()">
+                    <mat-icon class="mx-auto">delete</mat-icon>
+                </button>
+            </div>
+
             <ng-container [ngSwitch]="this.payload?.type">
                 <ng-container *ngSwitchCase="'user'">
                     <div class="col-12 col-sm-4 d-flex">
@@ -34,16 +56,6 @@
 
             </ng-container>
 
-            <div class="col-12 col-sm-4">
-                <div class="d-flex justify-content-end">
-                    <button mat-mini-fab class="edit me-1" (click)="$event.stopPropagation()">
-                        <mat-icon class="mx-auto">edit</mat-icon>
-                    </button>
-                    <button mat-mini-fab class="delete" (click)="$event.stopPropagation()">
-                        <mat-icon class="mx-auto">delete</mat-icon>
-                    </button>
-                </div>
-            </div>
         </div>
     </mat-expansion-panel-header>
 
@@ -83,15 +95,19 @@
                 <mat-card-content>
                     <div class="row">
                         <div class="col-12 col-sm-4 col-md-3 d-flex mb-2 p-3">
-                            <img src="./assets/images/no-cover.svg" alt="Book Cover Image" class="w-100 my-auto book-cover">
+                            <img src="./assets/images/no-cover.svg" alt="Book Cover Image"
+                                class="w-100 my-auto book-cover">
                         </div>
                         <div class="col-12 col-sm-8 col-md-9">
                             <div class="row text-center">
-                                <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.RELEASE' | translate }}: </b><i>{{
+                                <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.RELEASE' | translate }}:
+                                    </b><i>{{
                                         this.payload?.item.release | localizedDate }}</i></p>
-                                <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.GENRE' | translate }}: </b><i>{{
+                                <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.GENRE' | translate }}:
+                                    </b><i>{{
                                         this.payload?.item.genre }}</i></p>
-                                <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.AUTHOR' | translate }}: </b><i>{{
+                                <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.AUTHOR' | translate }}:
+                                    </b><i>{{
                                         this.payload?.item.author }}</i></p>
                                 <p><b>{{ 'ADMIN.ITEM.BOOK.DESC' | translate }}</b></p>
                                 <hr class="m-0">

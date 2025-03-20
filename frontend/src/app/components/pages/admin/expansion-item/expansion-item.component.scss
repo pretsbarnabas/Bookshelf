@@ -12,7 +12,7 @@ body {
         border-bottom: 1px solid rgb(0, 0, 0);
     }
 
-    .book-cover{
+    .book-cover {
         border: 4px ridge rgb(0, 0, 0);
     }
 
@@ -21,7 +21,7 @@ body {
             border-bottom: 1px solid rgba(255, 255, 255, 0.5);
         }
 
-        .book-cover{
+        .book-cover {
             border: 4px ridge rgba(255, 255, 255, 0.5);
         }
     }
@@ -36,3 +36,32 @@ body {
     scrollbar-width: thin;
 }
 
+button.save {
+    background-color: #4CAF50;
+    mat-icon {
+        color: white;
+    }
+}
+
+button.edit {
+    background-color: #2196F3;
+    mat-icon {
+        color: white;
+    }
+}
+
+button.delete {
+    background-color: #F44336;
+
+    mat-icon {
+        color: white;
+    }
+}
+
+button.promote-demote {
+    background-color: #FF9800;
+
+    mat-icon {
+        color: black;
+    }
+}
