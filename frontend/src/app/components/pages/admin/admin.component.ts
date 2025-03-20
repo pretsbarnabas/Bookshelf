@@ -12,6 +12,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { ExpansionItemComponent } from './expansion-item/expansion-item.component';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CustomPaginatorComponent } from "../../../utilities/components/custom-paginator/custom-paginator.component";
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
     selector: 'app-admin',
@@ -22,11 +23,19 @@ import { CustomPaginatorComponent } from "../../../utilities/components/custom-p
         MatExpansionModule,
         ExpansionItemComponent,
         TranslatePipe,
-        CustomPaginatorComponent
+        CustomPaginatorComponent,
     ],
     templateUrl: './admin.component.html',
     styleUrl: './admin.component.scss',
     encapsulation: ViewEncapsulation.None,
+    animations: [
+        trigger('onChange', [
+            transition('* => *', [
+                style({ opacity: 0, transform: 'translateY(-10px)' }),
+                animate('500ms ease-in', style({ opacity: 1, transform: 'translateY(0)' }))
+            ]),
+        ])
+    ]
 })
 export class AdminComponent {
     private userService = inject(UserService);
@@ -36,6 +45,7 @@ export class AdminComponent {
     currentArrayInPaginator: UserModel[] | Book[] | Review[] = [];
     itemType: 'user' | 'book' | 'review' = 'user';
     disabledButton: 'users' | 'books' | 'reviews' = 'users';
+    animate: boolean = false;
 
     maxPages: number = 0;
     currentPageIndex = 0;
@@ -54,7 +64,7 @@ export class AdminComponent {
     }
 
     changePaginatedArray(_array: 'users' | 'books' | 'reviews') {
-        if(this.disabledButton != _array)
+        if (this.disabledButton != _array)
             this.currentPageIndex = 0;
         this.disabledButton = _array;
         switch (_array) {
@@ -68,6 +78,7 @@ export class AdminComponent {
                 this.getReviews();
                 break;
         }
+        this.animate = !this.animate;
     }
 
     getUsers() {
@@ -113,23 +124,7 @@ export class AdminComponent {
         });
     }
 
-    // pageEvent(event: any) {
-    //     this.pageSize = event.pageSize;
-    //     switch (this.disabledButton) {
-    //         case 'users':
-    //             this.getUsers();
-    //             break;
-    //         case 'books':
-    //             this.getBooks();
-    //             break;
-    //         case 'reviews':
-    //             this.getReviews();
-    //             break;
-    //     }
-    // }
-
     changePage(changes: { pageIndex: number; pageSize: number }) {
-        console.log(changes)
         this.currentPageIndex = changes.pageIndex;
         this.pageSize = changes.pageSize;
         this.changePaginatedArray(this.disabledButton);

@@ -31,7 +31,7 @@ export const cacheInterceptor: HttpInterceptorFn = (req, next) => {
                 startWith(cachedResponse)
             );
         }
-        console.log('cached response loaded');
+        // console.log('cached response loaded');
         return of(cachedResponse);
     }
 

@@ -1,3 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap');
+
 #custom-paginator {
     height: fit-content;
+}
+
+#page-size-select {
+    max-width: fit-content;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+    height: 0 !important;
+}
+
+#display-pages, #current-page{
+    font-family: "Source Code Pro", monospace;
+    font-optical-sizing: auto;
+}
+
+#display-pages {
+    font-size: .75em;
+}
+
+@media (max-width: 576px){
+    #button-holder{
+        margin: 20px 0px;
+
+    }
 }

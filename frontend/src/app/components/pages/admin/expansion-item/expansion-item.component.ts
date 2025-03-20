@@ -27,8 +27,9 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class ExpansionItemComponent {
     @Input() payload?: { type: 'user' | 'book' | 'review', item: any }
+    animate: boolean = false;
 
-    ngOnChanges() {
+    ngOnChanges() {        
         if (this.payload?.item && this.payload?.type === 'user' && !this.payload.item.imageUrl) {
             this.payload.item.profile_image = createAvatar(bottts, { seed: this.payload?.item.username }).toDataUri();
         }
