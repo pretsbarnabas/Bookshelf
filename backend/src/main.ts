@@ -1,6 +1,6 @@
 const express = require("express")
 const mongoose = require("mongoose")
-const routes = require("./routes.ts")
+const routes = require("./routes")
 const swaggerJsdoc = require("swagger-jsdoc")
 const swaggerUi = require("swagger-ui-express");
 import YAML from "yamljs"
