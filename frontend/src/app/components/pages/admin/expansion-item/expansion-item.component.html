@@ -1,0 +1,108 @@
+<mat-expansion-panel hideToggle id="item-panel">
+    <mat-expansion-panel-header class="py-3">
+        <div class="row w-100">
+            <ng-container [ngSwitch]="this.payload?.type">
+                <ng-container *ngSwitchCase="'user'">
+                    <div class="col-12 col-sm-4 d-flex">
+                        <img [src]="this.payload?.item.imageUrl ?? this.payload?.item.profile_image" alt="Profile Image"
+                            class="avatar-image my-auto me-2">
+                        <mat-panel-title> {{ this.payload?.item.username }}</mat-panel-title>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <mat-panel-description>{{ 'ADMIN.ITEM.USER.ROLE' | translate }}: {{ this.payload?.item.role
+                            }}</mat-panel-description>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'book'">
+                    <div class="col-12 col-sm-4">
+                        <mat-panel-title>{{ this.payload?.item.title }}</mat-panel-title>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <mat-panel-description>Id: {{ this.payload?.item._id }}</mat-panel-description>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'review'">
+                    <div class="col-12 col-sm-4">
+                        <mat-panel-title>{{ this.payload?.item.user.username }}</mat-panel-title>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <mat-panel-description>{{ this.payload?.item.score }}</mat-panel-description>
+                    </div>
+                </ng-container>
+
+            </ng-container>
+
+            <div class="col-12 col-sm-4">
+                <div class="d-flex justify-content-end">
+                    <button mat-mini-fab class="edit me-1" (click)="$event.stopPropagation()">
+                        <mat-icon class="mx-auto">edit</mat-icon>
+                    </button>
+                    <button mat-mini-fab class="delete" (click)="$event.stopPropagation()">
+                        <mat-icon class="mx-auto">delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </mat-expansion-panel-header>
+
+    <div [ngSwitch]="this.payload?.type">
+        <ng-container *ngSwitchCase="'user'">
+            <div class="row text-center">
+                <p class="col-12 col-sm-6 col-lg-3"><b>{{ 'ADMIN.ITEM.USER.CREATED' | translate }}: </b><i>{{
+                        this.payload?.item.created_at | localizedDate }}</i></p>
+                <p class="col-12 col-sm-6 col-lg-3"><b>{{ 'ADMIN.ITEM.USER.UPDATED' | translate }}: </b><i>{{
+                        this.payload?.item.updated_at | localizedDate }}</i></p>
+                <p class="col-12 col-sm-6 col-lg-3"><b>{{ 'ADMIN.ITEM.USER.LAST' | translate }}: </b><i>{{
+                        this.payload?.item.last_login | localizedDate }}</i></p>
+            </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'book'">
+            <h5 class="text-center mt-3">
+                Record DATA
+            </h5>
+
+            <mat-card appearance="raised">
+                <mat-card-content>
+                    <div class="row text-center">
+                        <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.ADDED' | translate }}: </b><i>{{
+                                this.payload?.item.added_at | localizedDate }}</i></p>
+                        <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.UPDATED' | translate }}: </b><i>{{
+                                this.payload?.item.updated_at | localizedDate }}</i></p>
+                        <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.USERID' | translate }}: </b><i>{{
+                                this.payload?.item.user_id }}</i></p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <h5 class="text-center mt-3">
+                Book DATA
+            </h5>
+            <mat-card appearance="raised">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-12 col-sm-4 col-md-3 d-flex mb-2 p-3">
+                            <img src="./assets/images/no-cover.svg" alt="Book Cover Image" class="w-100 my-auto book-cover">
+                        </div>
+                        <div class="col-12 col-sm-8 col-md-9">
+                            <div class="row text-center">
+                                <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.RELEASE' | translate }}: </b><i>{{
+                                        this.payload?.item.release | localizedDate }}</i></p>
+                                <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.GENRE' | translate }}: </b><i>{{
+                                        this.payload?.item.genre }}</i></p>
+                                <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.AUTHOR' | translate }}: </b><i>{{
+                                        this.payload?.item.author }}</i></p>
+                                <p><b>{{ 'ADMIN.ITEM.BOOK.DESC' | translate }}</b></p>
+                                <hr class="m-0">
+                                <p class="desc mt-1">{{ this.payload?.item.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
+
+        <p *ngSwitchCase="'review'">{{ this.payload?.item.content }}</p>
+    </div>
+</mat-expansion-panel>

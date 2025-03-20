@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BookService } from '../../../services/book.service';
+import { BookService } from '../../../services/page/book.service';
 import { MatCardModule } from '@angular/material/card';
 import { FormlyModule } from '@ngx-formly/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,7 +35,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     CommonModule,
     MatPaginatorModule
   ],
-  providers: [DatePipe]
+  providers: [DatePipe],
+  encapsulation: ViewEncapsulation.None,
 })
 export class BookItemComponent implements OnInit {
 
@@ -170,6 +171,11 @@ export class BookItemComponent implements OnInit {
     }
   }
 }
+}
+export enum StarRatingColor {
+  primary = "primary",
+  accent = "accent",
+  warn = "warn"
 }
 export enum StarRatingColor {
   primary = "primary",

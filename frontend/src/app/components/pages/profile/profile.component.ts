@@ -1,10 +1,13 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { AuthService } from '../../../services/auth.service';
-import { UserLoggedInModel } from '../../../models/User';
+import { AuthService } from '../../../services/global/auth.service';
+import { UserModel } from '../../../models/User';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LocalizedDatePipe } from '../../../pipes/date.pipe';
 import { CommonModule, DatePipe } from '@angular/common';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-profile',
@@ -13,7 +16,10 @@ import { CommonModule, DatePipe } from '@angular/common';
         MatCardModule,
         TranslatePipe,
         CommonModule,
-        LocalizedDatePipe
+        LocalizedDatePipe,
+        FlexLayoutModule,
+        MatIconModule,
+        MatButtonModule
     ],
     providers: [DatePipe],
     templateUrl: './profile.component.html',
@@ -28,7 +34,7 @@ export class ProfileComponent {
 
     }
 
-    loggedInUser: UserLoggedInModel | null = null;
+    loggedInUser: UserModel | null = null;
     roleDataHead: string = "";
 
     ngOnInit() {

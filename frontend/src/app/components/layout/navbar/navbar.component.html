@@ -1,8 +1,8 @@
 <mat-toolbar>
     <mat-toolbar-row>
-        <img src="./assets/favicon.ico" alt="" class="app-icon" fxHide.lt-md>
-        <button class="text-center" mat-button fxHide.gt-sm>
-            <mat-icon class="menu-icon mx-auto" (click)="toggleSideNav()">menu</mat-icon>
+        <img src="./assets/favicon.ico" alt="bookshelf-icon" class="app-icon" fxHide.lt-md>
+        <button class="text-center" mat-button fxHide.gt-sm (click)="toggleSideNav()">
+            <mat-icon class="menu-icon mx-auto">menu</mat-icon>
         </button>
         <span>Bookshelf</span>
         <span class="spacer"></span>
@@ -13,6 +13,9 @@
             @if(this.loggedInUser && ['user', 'editor', 'admin'].includes(this.loggedInUser.role)){
             <router-button [payload]="{ route: 'mylist', localReference: 'MYLIST' }"></router-button>
             }
+            @if(this.loggedInUser && this.loggedInUser.role === 'admin'){
+            <router-button [payload]="{ route: 'admin', localReference: 'ADMIN' }"></router-button>
+            }
         </div>
         <span class="spacer-center"></span>
         <div fxHide.lt-md>
@@ -20,15 +23,15 @@
             <router-button [payload]="{ route: 'auth/login', localReference: 'LOGIN' }"></router-button>
             <router-button [payload]="{ route: 'auth/register', localReference: 'REGISTER' }"></router-button>
             } @else {
-            <button mat-button [matMenuTriggerFor]="profile">
+            <button mat-button [matMenuTriggerFor]="profile" (window:resize)="profile.closed.emit()">
                 <div class="d-inline-flex align-items-center">
-                    <span>{{ this.loggedInUser.username }}</span>
+                    <span>{{ this.formatRemainingTime() }} - {{ this.loggedInUser.username }}</span>
                     <div class="avatar-wrapper ms-2">
                         <img [src]="this.loggedInUser.imageUrl" alt="Profile Picture" class="rounded-circle">
                     </div>
                 </div>
             </button>
-            <mat-menu #profile="matMenu" (window:resize)="profile._setIsOpen(false)" class="p-2">
+            <mat-menu #profile="matMenu" class="p-2">
                 <router-button
                     [payload]="{ route: 'profile', icon: 'person', localReference: 'PROFILE.PAGE', isMatMenu: true }"></router-button>
                 <router-button
@@ -38,16 +41,13 @@
             }
         </div>
         <span class="spacer" fxHide.lt-md></span>
-        <button mat-icon-button [matMenuTriggerFor]="settings" (click)="settingsIconState = 'clicked'" [matBadge]="this.isLastColorBlindnessDiff ? '!' : null"
+        <button mat-icon-button [matMenuTriggerFor]="settings" (click)="settingsIconState = 'clicked'"
+            [matBadge]="this.isLastColorBlindnessDiff ? '!' : null"
             [matTooltip]="this.isMdOrBeyond ? ('APP.MENU.SETTINGS.TOOLTIP' | translate ) : null"
             [matTooltipPosition]="'below'" matTooltipShowDelay="500">
             <mat-icon [@rotate]="settingsIconState">settings</mat-icon>
         </button>
-        <mat-menu 
-            #settings="matMenu"
-            class="p-1"
-            (closed)="settingsIconState = 'default'"            
-            >
+        <mat-menu #settings="matMenu" class="p-1 settings" (closed)="settingsIconState = 'default'">
             <span class="text-center d-block">{{ 'APP.MENU.SETTINGS.THEME' | translate }}</span>
             <hr class="my-2">
             <div class="mb-3 theme-holder" (click)="$event.stopPropagation()">
@@ -76,17 +76,18 @@
 
             <div>
                 <hr class="my-2">
-                <button class="accessibilityButton" mat-menu-item [matMenuTriggerFor]="accessibility"
+                <button class="accessibilityButton text-center" mat-menu-item [matMenuTriggerFor]="accessibility"
                     (click)="$event.stopPropagation()" [matBadge]="this.isLastColorBlindnessDiff ? '!' : null"
                     (mouseover)="this.isLastColorBlindnessDiff = false">
-                    <mat-icon>accessibility</mat-icon>
+                    <mat-icon class="mx-auto">accessibility</mat-icon>
                     {{ 'APP.MENU.SETTINGS.ACCESSIBILITY.LABEL' | translate }}
                 </button>
-
             </div>
 
         </mat-menu>
-        <mat-menu #accessibility="matMenu" class="p-2" [xPosition]="'before'" [yPosition]="'above'">
+        <mat-menu #accessibility="matMenu" class="p-2 accessibility"
+            [xPosition]="(isMobile$ | async) ? 'after' : 'before'"
+            [yPosition]="(isMobile$ | async) ? 'below' : 'above'">
             <span class="text-center d-block">{{ 'APP.MENU.SETTINGS.ACCESSIBILITY.SUBMENU.COLORBLIND' | translate
                 }}</span>
             <hr class="my-2">

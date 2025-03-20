@@ -1,12 +1,14 @@
 {
     "APP": {
         "MENU": {
+            "HEADER": "Navigáció",
             "HOME": "Főoldal",
             "BOOKS": "Könyvek",
             "SUMMARIES": "Összefoglalók",
             "MYLIST": "Listám",
             "LOGIN": "Bejelentkezés",
             "REGISTER": "Regisztráció",
+            "ADMIN" : "Admin",
             "SETTINGS": {
                 "THEME": "Téma",
                 "LANG": "Nyelv",
@@ -94,7 +96,59 @@
                 "ADMIN" : "Admin"
             },
             "CREATED": "Létrehozva",
-            "LAST": "Utoljára bejelentkezve"
+            "UPDATED": "Módosítva",
+            "BUTTONS": {
+                "EDIT": "Módosítás",
+                "DELETE": "Törlés"
+            }
+        }
+    },
+    "ADMIN": {
+        "PAGINATOR": {
+            "PAGESIZES": "Oldal méretek",
+            "PAGEINDEX": "Oldal",
+            "MAXPAGES": "Max"
+        },
+        "BUTTONS": {
+            "USERS": "Felhasználók",
+            "BOOKS" : "Könyvek",
+            "REVIEWS": "Vélemények"
+        },
+        "ITEM": {
+            "USER": {
+                "NAME": "Felhasználónév",
+                "EMAIL": "Email cím",
+                "ROLE": "Szerepkör",
+                "CREATED": "Létrehozva",
+                "UPDATED": "Módosítva",
+                "LAST": "Utoljára bejelentkezve"
+            },
+            "BOOK": {
+                "ADDED": "Létrehozva",
+                "UPDATED": "Módosítva",
+                "USERID": "UserId",
+                "RELEASE": "Kiadás dátuma",
+                "GENRE": "Műfaj",
+                "AUTHOR": "Szerző",
+                "DESC": "Leírás"
+            }
+        }
+    },
+    "FOOTER": {
+        "QUOTES": {
+            "G": "A szoba könyvek nélkül olyan, mint a test lélek nélkül.",
+            "M1": "Minden reggel egy új oldal. Mit fogsz ma írni?",
+            "M2": "A könyvek, akárcsak a reggelek, új kezdeteket hoznak.",
+            "M3": "Kezdd a napod egy történettel, amit érdemes elmesélni!",
+            "D1": "Minden könyvnek van egy fordulópontja. Talán a mai a tiéd!",
+            "D2": "A legjobb utazások a könyvek lapjai között történnek.",
+            "D3": "Egy jó könyv egy kaland – hova visz ma téged?",
+            "E1": "Ahogy a nap lenyugszik, hagyd, hogy egy könyv világítson utat!",
+            "E2": "A legjobb befejezések a könyvekben és a csendes estéken találhatók.",
+            "E3": "Hagyd, hogy a világ elhalványuljon, és a szavak vegyék át a helyét.",
+            "N1": "Egy könyv elalvás előtt olyan, mint egy álom alvás előtt.",
+            "N2": "Vannak történetek, amelyeket a csillagok alatt a legjobb olvasni.",
+            "N3": "Az éjszaka csendes, de a könyvek sosem hallgatnak."
         }
     },
     "404": {

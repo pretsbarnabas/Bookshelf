@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { TranslationService } from '../services/translation.service';
+import { TranslationService } from '../services/global/translation.service';
 
 @Pipe({
     name: 'localizedDate',

@@ -9,6 +9,8 @@ export const routes: Routes = [
     { path: 'books', loadComponent: () => import('./components/pages/books/books.component').then(m => m.BooksComponent) },
     { path: 'summaries', loadComponent: () => import('./components/pages/summaries/summaries.component').then(m => m.SummariesComponent) },
     { path: 'mylist', loadComponent: () => import('./components/pages/mylist/mylist.component').then(m => m.MylistComponent), canActivate: [authGuard] },
+    { path: 'profile', loadComponent: () => import('./components/pages/profile/profile.component').then(m => m.ProfileComponent), canActivate: [authGuard] },
+    { path: 'admin', loadComponent: () => import('./components/pages/admin/admin.component').then(m => m.AdminComponent), canActivate: [authGuard] },
     {
         path: 'auth', canActivate: [authGuard],
         children: [
@@ -19,7 +21,6 @@ export const routes: Routes = [
         ]
     },
     // non-visible routes
-    { path: 'profile', loadComponent: () => import('./components/pages/profile/profile.component').then(m => m.ProfileComponent), canActivate: [authGuard] },
     { path: 'book-item/:id', loadComponent: () => import('./components/pages/book-item/book-item.component').then(m => m.BookItemComponent) },
     { path: 'summary-item', loadComponent: () => import('./components/pages/summary-item/summary-item.component').then(m => m.SummaryItemComponent) },
     { path: '404', loadComponent: () => import('./components/pages/not-found/not-found.component').then(m => m.NotFoundComponent) },

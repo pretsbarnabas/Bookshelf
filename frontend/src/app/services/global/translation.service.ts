@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -7,13 +7,14 @@ import { BehaviorSubject } from 'rxjs';
     providedIn: 'root'
 })
 export class TranslationService {
+    public service = inject(TranslateService);
     private currentLanguageSubject = new BehaviorSubject<string>('Initial Value');
     currentLanguage$ = this.currentLanguageSubject.asObservable();
     private supportedLanguages: string[] = ['en', 'hu'];
 
-    constructor(public service: TranslateService) {
-        service.addLangs(this.supportedLanguages);
-        service.setDefaultLang('en');
+    constructor() {
+        this.service.addLangs(this.supportedLanguages);
+        this.service.setDefaultLang('en');
     }
 
     checkPreferred(): string {
