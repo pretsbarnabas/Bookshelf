@@ -15,14 +15,14 @@ export class BookService {
         private configService: ConfigService
     ) { }
 
-    getAllBooks(pageSize: number): Observable<Book[]> {
-        return this.http.get<Book[]>(`${this.configService.get('API_URL')}/api/books?limit=${pageSize}`);
+    getAllBooks(pageSize: number): Observable<any> {
+        return this.http.get<any>(`${this.configService.get('API_URL')}/api/books?limit=${pageSize}`); //modelt letrehozni
     }
     getBookById(id: string): Observable<any> {
         return this.http.get<Book>(`${this.configService.get('API_URL')}/api/books/${id}`);
       }
-    getReviewsByBook(book_id: string): Observable<Review[]> {
-        return this.http.get<Review[]>(`${this.configService.get('API_URL')}/api/reviews?book_id=${book_id}`);
+    getReviewsByBook(book_id: string, pageSize: number): Observable<any> {
+        return this.http.get<any>(`${this.configService.get('API_URL')}/api/reviews?book_id=${book_id}&limit=${pageSize}`);
       }
     Addreview( newReview: any): Observable<Review> {
         return this.http.post<Review>(`${this.configService.get('API_URL')}/api/reviews`, newReview);

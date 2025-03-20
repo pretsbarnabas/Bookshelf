@@ -51,6 +51,7 @@ export class BookItemComponent implements OnInit {
   paginatedReviews: Review[] = [];
   pageSize = 10;
   uniqueIds: any = [];
+  uniqueUserIds: any = [];
   users: User[] = [];
   isLoggedIn: boolean = false;
   reviewForm: FormGroup;
@@ -83,6 +84,8 @@ export class BookItemComponent implements OnInit {
       }
       if (this.bookId) {
         this.fillreviews();
+        console.log(this.uniqueUserIds)
+        
       }
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
@@ -90,25 +93,21 @@ export class BookItemComponent implements OnInit {
   }
   fillreviews() {
     this.reviews = [];
-    this.bookService.getReviewsByBook(this.bookId).subscribe(reviews => {
-      this.reviews = reviews;
-      this.updatePaginatedReviews();
+    this.bookService.getReviewsByBook(this.bookId, this.pageSize).subscribe(reviews => {
+      this.reviews = reviews.data;
+      console.log(this.reviews)
+      for (let i = 0; i < this.reviews.length; i++) {
+        if (!this.uniqueUserIds.includes(this.reviews[i].user._id)) {
+          this.uniqueUserIds.push(this.reviews[i].user._id);
+          console.log(this.uniqueUserIds)
+        }
+      }
     });
   }
 
-  updatePaginatedReviews(pageIndex: number = 0) {
-    this.paginatedReviews = [];
-    const startIndex = pageIndex * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    console.log(startIndex)
-    console.log(endIndex)
-    this.paginatedReviews = this.reviews.slice(startIndex, endIndex);
-    console.log(this.paginatedReviews)
-  }
   onPageChange(event: PageEvent) {
     this.pageSize = event.pageSize;
-    console.log(this.pageSize);
-    this.updatePaginatedReviews(event.pageIndex);
+    this.fillreviews();
   }
   
   formatDate(date: any) {
@@ -155,17 +154,23 @@ export class BookItemComponent implements OnInit {
         user_id: this.loggedInUser!._id
       };
       console.log(newReview)
-
-      this.bookService.Addreview(newReview).subscribe(review => {
-        console.log(review)
-        this.fillreviews();
-        this.reviewForm.reset();
-        this.snackBar.open('Review submitted successfully', '', {
+      if (!this.uniqueUserIds.includes(this.loggedInUser!._id)) {
+        this.bookService.Addreview(newReview).subscribe(review => {
+          console.log(review)
+          this.fillreviews();
+          this.reviewForm.reset();
+          this.snackBar.open('Review submitted successfully', '', {
+            duration: this.snackBarDuration
+          });
+        });
+      }
+      else {
+        this.snackBar.open('You have already submitted a review', '', {
           duration: this.snackBarDuration
         });
-      });
     }
   }
+}
 }
 export enum StarRatingColor {
   primary = "primary",

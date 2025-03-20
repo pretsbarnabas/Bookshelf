@@ -45,16 +45,15 @@ export class BooksComponent implements OnInit {
   constructor(private renderer: Renderer2, private bookService: BookService, private datePipe: DatePipe, private router: Router) {}
 
   ngOnInit() {
-    // this.bookService.getAllBooks(this.pageSize).subscribe({
-    //   next: (data) => {
-    //     this.books = data.data;
-    //     this.updatePaginatedBooks();
-    //   },
-    //   error: (err) => {
-    //     console.error('Error fetching books', err);
-    //   }
-    // });
-  }
+    this.bookService.getAllBooks(this.pageSize).subscribe({
+      next: (response) => {
+        this.books = response.data;
+        this.updatePaginatedBooks();
+      },
+      error: (err) => {
+        console.error('Error fetching books', err);
+      }
+    });
 
   onPageChange(event: PageEvent) {
     this.pageSize = event.pageSize;
