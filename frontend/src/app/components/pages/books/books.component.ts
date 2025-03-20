@@ -42,7 +42,6 @@ export class BooksComponent implements OnInit {
     pageSize = 10;
 
     books: Book[] = [];
-    // paginatedBooks: Book[] = [];
 
     constructor(private renderer: Renderer2, private bookService: BookService, private datePipe: DatePipe, private router: Router) { }
 

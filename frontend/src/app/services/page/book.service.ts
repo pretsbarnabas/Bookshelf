@@ -21,12 +21,12 @@ export class BookService {
         return this.crudService.getAll<BookRoot>(`books?limit=${pageSize}&page=${pageIndex}`);
     }
     getBookById(id: string): Observable<any> {
-        return this.http.get<Book>(`${this.configService.get('API_URL')}/api/books/${id}`);
+        return this.http.get<Book>(`${this.configService.get('API_URL')}/books/${id}`);
     }
     getReviewsByBook(book_id: string, pageSize: number): Observable<any> {
-        return this.http.get<any>(`${this.configService.get('API_URL')}/api/reviews?book_id=${book_id}&limit=${pageSize}`);
+        return this.http.get<any>(`${this.configService.get('API_URL')}/reviews?book_id=${book_id}&limit=${pageSize}`);
     }
     Addreview(newReview: any): Observable<Review> {
-        return this.http.post<Review>(`${this.configService.get('API_URL')}/api/reviews`, newReview);
+        return this.http.post<Review>(`${this.configService.get('API_URL')}/reviews`, newReview);
     }
 }
