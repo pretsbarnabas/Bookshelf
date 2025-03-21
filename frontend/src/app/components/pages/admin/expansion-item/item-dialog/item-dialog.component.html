@@ -1,16 +1,25 @@
 @if(this.data.type === 'delete'){
-<h2 mat-dialog-title>{{ 'ADMIN.DIALOG.DELETE.HEADER' | translate }}</h2>
+<h2 mat-dialog-title>{{ 'ADMIN.DIALOG.DELETE.HEADER' | translate }}?</h2>
 <mat-dialog-content>
     {{ 'ADMIN.DIALOG.DELETE.MESSAGE' | translate }}
 </mat-dialog-content>
-@if( this.data.item?.type === 'user' ){
 <mat-dialog-content>
     <div><b>Id: </b>{{ this.data.item?._id }}</div>
+    @if( this.data.item?.type === 'user' ){
     <div><b>{{ 'ADMIN.DIALOG.USER.USERNAME' | translate }}: </b>{{ this.data.item?.username }}</div>
+    }
+    @if( this.data.item?.type === 'book' ){
+    <div><b>{{ 'ADMIN.DIALOG.BOOK.TITLE' | translate }}: </b>{{ this.data.item?.title }}</div>
+    <div><b>{{ 'ADMIN.DIALOG.BOOK.USERID' | translate }}: </b>{{ this.data.item?.user_id }}</div>
+
+    }
+    @if( this.data.item?.type === 'review' ){
+    <div><b>{{ 'ADMIN.DIALOG.REVIEW.USER' | translate }}: </b>{{ this.data.item?.user.username }}</div>
+    <div><b>UserId: </b>{{ this.data.item?.user._id }}</div>
+    }
 </mat-dialog-content>
-}
 <mat-dialog-actions>
-    <button mat-button (click)="emitResult(false)">{{ 'ADMIN.DIALOG.DELETE.BUTTONNO' | translate }}</button>
-    <button mat-button (click)="emitResult(true)">{{ 'ADMIN.DIALOG.DELETE.BUTTONYES' | translate }}</button>
+    <button mat-raised-button (click)="emitResult(false)">{{ 'ADMIN.DIALOG.DELETE.BUTTONNO' | translate }}</button>
+    <button mat-raised-button (click)="emitResult(true)">{{ 'ADMIN.DIALOG.DELETE.BUTTONYES' | translate }}</button>
 </mat-dialog-actions>
 }

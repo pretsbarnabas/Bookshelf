@@ -43,13 +43,14 @@ export class ExpansionItemComponent {
     }
 
     openDialog(type: string) {
-        console.log(type)
         this.payload!.item.type = this.payload?.type;        
+        console.log(this.payload?.item)
         const dialogRef = this.dialog.open(ItemDialogComponent, {
             data: {
                 type: type,
                 item: this.payload?.item
-            }
+            },
+            disableClose: true
         });
 
         dialogRef.afterClosed().subscribe(result => {

@@ -6,7 +6,7 @@ export interface ReviewRoot {
 export interface Review {
     type: 'review'
     _id: string
-    user_id: string
+    user: UserModel
     book_id: string
     score: number
     content: string

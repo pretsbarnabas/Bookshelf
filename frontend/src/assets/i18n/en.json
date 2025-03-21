@@ -162,6 +162,13 @@
             },            
             "USER": {
                 "USERNAME": "Username"
+            },
+            "BOOK": {
+                "TITLE": "Title",
+                "USERID": "Created by"
+            },
+            "REVIEW": {
+                "USER": "Created by"                
             }
         }
     },

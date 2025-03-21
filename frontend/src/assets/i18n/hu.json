@@ -162,6 +162,13 @@
             },            
             "USER": {
                 "USERNAME": "Felhasználónév"
+            },
+            "BOOK": {
+                "TITLE": "Cím",
+                "USERID": "Létrehozta"
+            },
+            "REVIEW": {
+                "USER": "Létrehozta"                
             }
         }
     },
