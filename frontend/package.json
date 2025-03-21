@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --configuration=production",
+    "build": "ng build --configuration=production && npm run postbuild",
+    "postbuild": "node postbuild.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
