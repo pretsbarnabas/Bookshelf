@@ -144,6 +144,10 @@
                 "LAST": "Last login"
             },
             "BOOK": {
+                "HEADERS": {                    
+                    "RECORD": "Record Data",
+                    "BOOK": "Book Data"
+                },
                 "ADDED": "Created on",
                 "UPDATED": "Updated on",
                 "USERID": "UserId",

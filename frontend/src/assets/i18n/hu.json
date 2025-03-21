@@ -144,6 +144,10 @@
                 "LAST": "Utoljára bejelentkezve"
             },
             "BOOK": {
+                "HEADERS": {
+                    "RECORD": "Rekord adatai",
+                    "BOOK": "Könyv adatai"
+                },
                 "ADDED": "Létrehozva",
                 "UPDATED": "Módosítva",
                 "USERID": "UserId",

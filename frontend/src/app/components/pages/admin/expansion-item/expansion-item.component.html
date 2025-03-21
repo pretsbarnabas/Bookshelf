@@ -68,34 +68,46 @@
     <div [ngSwitch]="this.payload?.type">
         <ng-container *ngSwitchCase="'user'">
             <div class="row text-center">
-                <p class="col-12 col-sm-6 col-lg-3"><b>{{ 'ADMIN.ITEM.USER.CREATED' | translate }}: </b><i>{{
-                        this.payload?.item.created_at | localizedDate }}</i></p>
-                <p class="col-12 col-sm-6 col-lg-3"><b>{{ 'ADMIN.ITEM.USER.UPDATED' | translate }}: </b><i>{{
-                        this.payload?.item.updated_at | localizedDate }}</i></p>
-                <p class="col-12 col-sm-6 col-lg-3"><b>{{ 'ADMIN.ITEM.USER.LAST' | translate }}: </b><i>{{
-                        this.payload?.item.last_login | localizedDate }}</i></p>
+                <div class="col-12 col-sm-6 col-lg-3"><b>{{ 'ADMIN.ITEM.USER.CREATED' | translate }}: </b><i>{{
+                        this.payload?.item.created_at | localizedDate }}</i>
+                    <p><i>({{ this.payload?.item.created_at | relativeTime }})</i></p>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3"><b>{{ 'ADMIN.ITEM.USER.UPDATED' | translate }}: </b><i>{{
+                        this.payload?.item.updated_at | localizedDate }}</i>
+                    <p><i>({{ this.payload?.item.updated_at | relativeTime }})</i></p>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3"><b>{{ 'ADMIN.ITEM.USER.LAST' | translate }}: </b><i>{{
+                        this.payload?.item.last_login | localizedDate }}</i>
+                    <p><i>({{ this.payload?.item.last_login | relativeTime }})</i></p>
+                </div>
             </div>
         </ng-container>
 
         <ng-container *ngSwitchCase="'book'">
             <h5 class="text-center mt-3">
-                Record DATA
+                {{ 'ADMIN.ITEM.BOOK.HEADERS.RECORD' | translate }}
             </h5>
 
             <mat-card appearance="raised">
                 <mat-card-content>
                     <div class="row text-center">
-                        <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.ADDED' | translate }}: </b><i>{{
-                                this.payload?.item.added_at | localizedDate  }}</i></p>
-                        <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.UPDATED' | translate }}: </b><i>{{
-                                this.payload?.item.updated_at | localizedDate }}</i></p>
-                        <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.USERID' | translate }}: </b><i>{{
-                                this.payload?.item.user_id }}</i></p>
+                        <div class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.ADDED' | translate }}: </b><i>{{
+                                this.payload?.item.added_at | localizedDate }}</i>
+                            <p><i>({{ this.payload?.item.added_at | relativeTime }})</i></p>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.UPDATED' | translate }}: </b><i>{{
+                                this.payload?.item.updated_at | localizedDate }}</i>
+                            <p><i>({{ this.payload?.item.added_at | relativeTime }})</i></p>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.USERID' | translate }}: </b><i>{{
+                                this.payload?.item.user_id }}</i>
+                            <p><i>({{ this.payload?.item.added_at | relativeTime }})</i></p>
+                        </div>
                     </div>
                 </mat-card-content>
             </mat-card>
             <h5 class="text-center mt-3">
-                Book DATA
+                {{ 'ADMIN.ITEM.BOOK.HEADERS.BOOK' | translate }}
             </h5>
             <mat-card appearance="raised">
                 <mat-card-content>
