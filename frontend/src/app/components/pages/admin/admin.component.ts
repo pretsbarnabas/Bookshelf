@@ -14,6 +14,9 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { CustomPaginatorComponent } from "../../../utilities/components/custom-paginator/custom-paginator.component";
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslationService } from '../../../services/global/translation.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
     selector: 'app-admin',
@@ -42,6 +45,7 @@ export class AdminComponent {
     private userService = inject(UserService);
     private bookService = inject(BookService);
     private reviewService = inject(ReviewService);
+    private translationService = inject(TranslationService);
 
     currentArrayInPaginator: UserModel[] | Book[] | Review[] = [];
     itemType: 'user' | 'book' | 'review' = 'user';
@@ -58,7 +62,7 @@ export class AdminComponent {
 
     errorMessages: HttpErrorResponse[] = [];
     @ViewChild('errorAlert', { static: false }) errorAlert!: ElementRef;
-
+    private snackBar = inject(MatSnackBar);
 
     constructor() {
 
@@ -98,12 +102,14 @@ export class AdminComponent {
         this.userService.getAllUser(this.pageSize, this.currentPageIndex).subscribe({
             next: (data) => {
                 this.users = data.data;
-                this.users = this.users.filter(u => u.role != 'admin');
                 this.itemType = 'user';
                 this.maxPages = data.pages;
                 this.currentArrayInPaginator = this.users;
             },
-            error: (err) => {
+            error: (err: HttpErrorResponse) => {
+                if (err.status === 404) {
+                    this.currentPageIndex = 0;
+                }
                 this.onError(err);
             }
         });
@@ -118,6 +124,9 @@ export class AdminComponent {
                 this.currentArrayInPaginator = this.books;
             },
             error: (err) => {
+                if (err.status === 404) {
+                    this.currentPageIndex = 0;
+                }
                 this.onError(err);
             }
         });
@@ -132,7 +141,10 @@ export class AdminComponent {
                 this.currentArrayInPaginator = this.reviews;
             },
             error: (err) => {
-                this.onError(err);                
+                if (err.status === 404) {
+                    this.currentPageIndex = 0;
+                }
+                this.onError(err);
             }
         });
     }
@@ -141,5 +153,45 @@ export class AdminComponent {
         this.currentPageIndex = changes.pageIndex;
         this.pageSize = changes.pageSize;
         this.changePaginatedArray(this.disabledButton);
+    }
+
+    async handleDialogRequest(requestParams: { dialogType: 'delete', item: any }) {
+        switch (requestParams.item.type) {
+            case 'user':
+                if (requestParams.dialogType === 'delete') {
+                    // console.log('delete user')
+                    this.userService.deleteUser((requestParams.item as UserModel)._id).subscribe({
+                        next: async (response: { message: string }) => {
+                            console.log(response.message);
+                            await this.showDialogSnackbar('ADMIN.SNACKBAR.DELETED')
+                            setTimeout(() => {
+                                this.changePaginatedArray('users');
+                            }, 250);
+                        },
+                        error: (err) => {
+                            this.onError(err);
+                        }
+                    });
+                }
+                break;
+            case 'book':
+                console.log('delete book');
+                break;
+            case 'review':
+                console.log('delete book');
+                break;
+        }
+    }
+
+    async showDialogSnackbar(_snackbarLabel: string) {
+        this.snackBar.open(
+            `${await firstValueFrom(this.translationService.service.get(_snackbarLabel))}`,
+            await firstValueFrom(this.translationService.service.get('ADMIN.SNACKBAR.CLOSE')),
+            {
+                horizontalPosition: 'center',
+                verticalPosition: 'top',
+                duration: 3000
+            }
+        )
     }
 }

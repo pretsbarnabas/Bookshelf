@@ -1,4 +1,4 @@
-import { Component, inject, Input, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,9 +10,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { ItemDialogComponent } from './item-dialog/item-dialog.component';
-import { UserModel } from '../../../../models/User';
-import { Book } from '../../../../models/Book';
-import { Review } from '../../../../models/Review';
+import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
     selector: 'expansion-item',
@@ -24,6 +22,7 @@ import { Review } from '../../../../models/Review';
         CommonModule,
         TranslatePipe,
         MatCardModule,
+        MatChipsModule
     ],
     providers: [DatePipe],
     templateUrl: './expansion-item.component.html',
@@ -32,7 +31,8 @@ import { Review } from '../../../../models/Review';
 })
 export class ExpansionItemComponent {
     readonly dialog = inject(MatDialog);
-    @Input() payload?: { type: 'user' | 'book' | 'review', item: any }
+    @Input() payload?: { type: 'user' | 'book' | 'review', item: any };
+    @Output() onDialogResultTrue = new EventEmitter<{ dialogType: 'delete', item: any }>();
     animate: boolean = false;
 
     ngOnChanges() {
@@ -41,7 +41,7 @@ export class ExpansionItemComponent {
         }
     }
 
-    openDialog(type: string) {
+    openDialog(type: 'delete') {
         this.payload!.item.type = this.payload?.type;
         console.log(this.payload?.item)
         const dialogRef = this.dialog.open(ItemDialogComponent, {
@@ -54,6 +54,8 @@ export class ExpansionItemComponent {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log('Dialog result:', result);
+            if (result === true)
+                this.onDialogResultTrue.emit({ dialogType: type, item: this.payload?.item })
         })
     }
 }

@@ -159,7 +159,7 @@
                 "MESSAGE": "Biztosan törölni szeretné a következőt?",
                 "BUTTONYES": "Törlés",
                 "BUTTONNO": "Mégsem"
-            },            
+            },
             "USER": {
                 "USERNAME": "Felhasználónév"
             },
@@ -168,8 +168,12 @@
                 "USERID": "Létrehozta"
             },
             "REVIEW": {
-                "USER": "Létrehozta"                
+                "USER": "Létrehozta"
             }
+        },
+        "SNACKBAR": {
+            "DELETED": "Törlés sikeres",
+            "CLOSE": "Bezárás"
         }
     },
     "FOOTER": {

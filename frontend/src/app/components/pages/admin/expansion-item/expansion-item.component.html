@@ -18,9 +18,15 @@
                     <mat-icon class="mx-auto">edit</mat-icon>
                 </button>
                 }
+                @if(this.payload?.item.role === 'admin'){
+                <button mat-mini-fab class="admin" (click)="$event.stopPropagation();" disabled>
+                    <mat-icon class="mx-auto">stars</mat-icon>
+                </button>
+                }@else {
                 <button mat-mini-fab class="delete" (click)="$event.stopPropagation(); this.openDialog('delete')">
                     <mat-icon class="mx-auto">delete</mat-icon>
                 </button>
+                }
             </div>
 
             <ng-container [ngSwitch]="this.payload?.type">
@@ -31,8 +37,8 @@
                         <mat-panel-title> {{ this.payload?.item.username }}</mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-4">
-                        <mat-panel-description>{{ 'ADMIN.ITEM.USER.ROLE' | translate }}: {{ this.payload?.item.role
-                            }}</mat-panel-description>
+                        <mat-panel-description>{{ 'ADMIN.ITEM.USER.ROLE' | translate }}:
+                            <mat-chip class="ms-2">{{ this.payload?.item.role }}</mat-chip></mat-panel-description>
                     </div>
                 </ng-container>
 

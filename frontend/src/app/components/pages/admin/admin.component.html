@@ -50,7 +50,8 @@
                 [pageIndex]="this.currentPageIndex" (pageChanged)="this.changePage($event)" />
             <mat-accordion [@onChange]="this.animate">
                 @for (item of this.currentArrayInPaginator; track $index) {
-                <expansion-item [payload]="{ type: this.itemType, item : item}"></expansion-item>
+                <expansion-item [payload]="{ type: this.itemType, item : item}"
+                    (onDialogResultTrue)="this.handleDialogRequest($event)"/>
                 }
             </mat-accordion>
         </div>

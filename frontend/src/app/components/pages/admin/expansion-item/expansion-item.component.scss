@@ -38,6 +38,7 @@ body {
 
 button.save {
     background-color: #4CAF50;
+
     mat-icon {
         color: white;
     }
@@ -45,6 +46,7 @@ button.save {
 
 button.edit {
     background-color: #2196F3;
+
     mat-icon {
         color: white;
     }
@@ -63,5 +65,13 @@ button.promote-demote {
 
     mat-icon {
         color: black;
+    }
+}
+
+button.admin:disabled {
+    background-color: #7C4DFF;
+
+    mat-icon {
+        color: white;
     }
 }

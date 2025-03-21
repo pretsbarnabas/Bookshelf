@@ -170,6 +170,10 @@
             "REVIEW": {
                 "USER": "Created by"                
             }
+        },
+        "SNACKBAR": {
+            "DELETED": "Deletion successful",
+            "CLOSE": "Close"
         }
     },
     "FOOTER": {
