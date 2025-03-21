@@ -1,4 +1,4 @@
-import { Component, inject, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild, ViewEncapsulation } from '@angular/core';
 import { BookService } from '../../../services/page/book.service';
 import { ReviewService } from '../../../services/page/review.service';
 import { Book } from '../../../models/Book';
@@ -13,6 +13,7 @@ import { ExpansionItemComponent } from './expansion-item/expansion-item.componen
 import { TranslatePipe } from '@ngx-translate/core';
 import { CustomPaginatorComponent } from "../../../utilities/components/custom-paginator/custom-paginator.component";
 import { animate, style, transition, trigger } from '@angular/animations';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-admin',
@@ -55,6 +56,10 @@ export class AdminComponent {
     reviews: Review[] = [];
     pageSize: number = 10;
 
+    errorMessages: HttpErrorResponse[] = [];
+    @ViewChild('errorAlert', { static: false }) errorAlert!: ElementRef;
+
+
     constructor() {
 
     }
@@ -64,6 +69,7 @@ export class AdminComponent {
     }
 
     changePaginatedArray(_array: 'users' | 'books' | 'reviews') {
+        this.errorMessages = [];
         if (this.disabledButton != _array)
             this.currentPageIndex = 0;
         this.disabledButton = _array;
@@ -81,6 +87,13 @@ export class AdminComponent {
         this.animate = !this.animate;
     }
 
+    private onError(_error: HttpErrorResponse) {
+        this.errorMessages.push(_error);
+        setTimeout(() => {
+            this.errorAlert.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+
     getUsers() {
         this.userService.getAllUser(this.pageSize, this.currentPageIndex).subscribe({
             next: (data) => {
@@ -91,7 +104,7 @@ export class AdminComponent {
                 this.currentArrayInPaginator = this.users;
             },
             error: (err) => {
-                console.error('Error fetching users', err);
+                this.onError(err);
             }
         });
     }
@@ -105,7 +118,7 @@ export class AdminComponent {
                 this.currentArrayInPaginator = this.books;
             },
             error: (err) => {
-                console.error('Error fetching books', err);
+                this.onError(err);
             }
         });
     }
@@ -119,7 +132,7 @@ export class AdminComponent {
                 this.currentArrayInPaginator = this.reviews;
             },
             error: (err) => {
-                console.error('Error fetching reviews', err);
+                this.onError(err);                
             }
         });
     }

@@ -24,7 +24,6 @@ import { Review } from '../../../../models/Review';
         CommonModule,
         TranslatePipe,
         MatCardModule,
-        ItemDialogComponent
     ],
     providers: [DatePipe],
     templateUrl: './expansion-item.component.html',
@@ -43,7 +42,7 @@ export class ExpansionItemComponent {
     }
 
     openDialog(type: string) {
-        this.payload!.item.type = this.payload?.type;        
+        this.payload!.item.type = this.payload?.type;
         console.log(this.payload?.item)
         const dialogRef = this.dialog.open(ItemDialogComponent, {
             data: {

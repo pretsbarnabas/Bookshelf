@@ -1,5 +1,27 @@
 <div class="wrapper">
     <div class="wrapper-content">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+            @if (errorMessages.length > 0) {
+            <div class="alert alert-danger row mt-3" role="alert" #errorAlert>
+                <div class="col-10">
+                    <ul class="m-0">
+                        @for (error of errorMessages; track $index) {
+                        @if (error.error === "UNEXPECTED") {
+                        <li>{{ 'AUTH.EMSG.UNEXPECTED' | translate }}</li>
+                        } @else if (error.status === 0) {
+                        <li>{{ 'AUTH.EMSG.HTTPERRORRESPONSE' | translate }}</li>
+                        } @else{
+                        <li>{{ error.status }}: {{ error.error.error }}</li>
+                        }
+                        }
+                    </ul>
+                </div>
+                <div class="col-2 justify-content-center align-items-center d-flex">
+                    <mat-icon>error_outline</mat-icon>
+                </div>
+            </div>
+            }
+        </div>
         <div class="my-3 mx-auto w-100 d-flex justify-content-center row">
             <div class="col-12 col-sm-4 mt-1">
                 <button mat-fab extended (click)="changePaginatedArray('users')"
@@ -24,13 +46,8 @@
             </div>
         </div>
         <div class="mx-3 mb-5">
-            <custom-paginator
-                [pageSizeOptions]="[5, 10, 25]"
-                [totalPages]="this.maxPages"
-                [pageSize]="this.pageSize"
-                [pageIndex]="this.currentPageIndex"
-                (pageChanged)="this.changePage($event)"
-                />
+            <custom-paginator [pageSizeOptions]="[5, 10, 25]" [totalPages]="this.maxPages" [pageSize]="this.pageSize"
+                [pageIndex]="this.currentPageIndex" (pageChanged)="this.changePage($event)" />
             <mat-accordion [@onChange]="this.animate">
                 @for (item of this.currentArrayInPaginator; track $index) {
                 <expansion-item [payload]="{ type: this.itemType, item : item}"></expansion-item>
