@@ -157,8 +157,8 @@
             "DELETE": {
                 "HEADER": "Delete",
                 "MESSAGE": " Would you like to delete the following?",
-                "BUTTONYES": "Yes",
-                "BUTTONNO": "No"
+                "BUTTONYES": "Delete",
+                "BUTTONNO": "Cancel"
             },            
             "USER": {
                 "USERNAME": "Username"

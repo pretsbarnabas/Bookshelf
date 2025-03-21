@@ -19,7 +19,7 @@
     }
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-raised-button (click)="emitResult(false)">{{ 'ADMIN.DIALOG.DELETE.BUTTONNO' | translate }}</button>
-    <button mat-raised-button (click)="emitResult(true)">{{ 'ADMIN.DIALOG.DELETE.BUTTONYES' | translate }}</button>
+    <button id="cancel" mat-raised-button (click)="emitResult(false)">{{ 'ADMIN.DIALOG.DELETE.BUTTONNO' | translate }}</button>
+    <button id="delete" mat-raised-button (click)="emitResult(true)">{{ 'ADMIN.DIALOG.DELETE.BUTTONYES' | translate }}</button>
 </mat-dialog-actions>
 }

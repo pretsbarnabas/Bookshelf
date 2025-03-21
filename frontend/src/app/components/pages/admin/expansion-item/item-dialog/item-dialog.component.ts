@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { UserModel } from '../../../../../models/User';
@@ -16,7 +16,8 @@ import { TranslatePipe } from '@ngx-translate/core';
         TranslatePipe
     ],
     templateUrl: './item-dialog.component.html',
-    styleUrl: './item-dialog.component.scss'
+    styleUrl: './item-dialog.component.scss',
+    encapsulation: ViewEncapsulation.None
 })
 export class ItemDialogComponent {
     data = inject(MAT_DIALOG_DATA)

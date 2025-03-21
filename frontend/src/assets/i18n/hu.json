@@ -157,8 +157,8 @@
             "DELETE": {
                 "HEADER": "Törlés",
                 "MESSAGE": "Biztosan törölni szeretné a következőt?",
-                "BUTTONYES": "Igen",
-                "BUTTONNO": "Nem"
+                "BUTTONYES": "Törlés",
+                "BUTTONNO": "Mégsem"
             },            
             "USER": {
                 "USERNAME": "Felhasználónév"
