@@ -1,0 +1,16 @@
+@if(this.data.type === 'delete'){
+<h2 mat-dialog-title>{{ 'ADMIN.DIALOG.DELETE.HEADER' | translate }}</h2>
+<mat-dialog-content>
+    {{ 'ADMIN.DIALOG.DELETE.MESSAGE' | translate }}
+</mat-dialog-content>
+@if( this.data.item?.type === 'user' ){
+<mat-dialog-content>
+    <div><b>Id: </b>{{ this.data.item?._id }}</div>
+    <div><b>{{ 'ADMIN.DIALOG.USER.USERNAME' | translate }}: </b>{{ this.data.item?.username }}</div>
+</mat-dialog-content>
+}
+<mat-dialog-actions>
+    <button mat-button (click)="emitResult(false)">{{ 'ADMIN.DIALOG.DELETE.BUTTONNO' | translate }}</button>
+    <button mat-button (click)="emitResult(true)">{{ 'ADMIN.DIALOG.DELETE.BUTTONYES' | translate }}</button>
+</mat-dialog-actions>
+}

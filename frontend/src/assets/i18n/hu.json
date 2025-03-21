@@ -152,6 +152,17 @@
                 "AUTHOR": "Szerző",
                 "DESC": "Leírás"
             }
+        },
+        "DIALOG": {
+            "DELETE": {
+                "HEADER": "Törlés",
+                "MESSAGE": "Biztosan törölni szeretné a következőt?",
+                "BUTTONYES": "Igen",
+                "BUTTONNO": "Nem"
+            },            
+            "USER": {
+                "USERNAME": "Felhasználónév"
+            }
         }
     },
     "FOOTER": {

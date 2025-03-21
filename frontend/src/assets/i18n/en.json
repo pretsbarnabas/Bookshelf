@@ -152,6 +152,17 @@
                 "AUTHOR": "Author",
                 "DESC": "Description"
             }
+        },
+        "DIALOG": {
+            "DELETE": {
+                "HEADER": "Delete",
+                "MESSAGE": " Would you like to delete the following?",
+                "BUTTONYES": "Yes",
+                "BUTTONNO": "No"
+            },            
+            "USER": {
+                "USERNAME": "Username"
+            }
         }
     },
     "FOOTER": {
