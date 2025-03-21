@@ -3,9 +3,9 @@
         <div class="d-flex flex-column">
             <div id="Searchbar" class="d-flex justify-content-center">
                 <mat-form-field class="w-50 m-5">
-                    <input matInput type="search">
+                    <input matInput type="search" [(ngModel)]="searchTerm" (input)="filterBooks()">
                 </mat-form-field>
-                <button mat-fab extended class="m-5">
+                <button mat-fab extended class="m-5" (click)="filterBooks()">
                     <mat-icon>search</mat-icon>
                     Search
                 </button>
@@ -26,7 +26,7 @@
             </div>
             <div id="Books" class="d-flex flex-column justify-content-center">
                 <div class="book-cards row w-100">
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4" *ngFor="let book of books">
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4" *ngFor="let book of filteredBooks">
                         <mat-card class="book-card" (click)="navigateToBook(book._id)">
                             <mat-card-header>
                                 <mat-card-title class="title">{{ book.title }}</mat-card-title>

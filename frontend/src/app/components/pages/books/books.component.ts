@@ -10,6 +10,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BookService } from '../../../services/page/book.service';
 import { CommonModule, DatePipe } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
 import { Book } from '../../../models/Book';
 import { CustomPaginatorComponent } from '../../../utilities/components/custom-paginator/custom-paginator.component';
 
@@ -26,7 +29,8 @@ import { CustomPaginatorComponent } from '../../../utilities/components/custom-p
         MatButtonModule,
         MatIconModule,
         CommonModule,
-        CustomPaginatorComponent
+        CustomPaginatorComponent,
+        FormsModule
     ],
     templateUrl: './books.component.html',
     styleUrls: ['./books.component.scss'],
@@ -40,38 +44,47 @@ export class BooksComponent implements OnInit {
     maxPages: number = 0;
     currentPageIndex = 0;
     pageSize = 10;
-
+    
     books: Book[] = [];
-
-    constructor(private renderer: Renderer2, private bookService: BookService, private datePipe: DatePipe, private router: Router) { }
-
+    filteredBooks: Book[] = [];
+    searchTerm: string = '';
+    
+    constructor(private bookService: BookService, private datePipe: DatePipe, private router: Router){}
+    
     ngOnInit() {
         this.getBooks();
     }
-
+    
+    filterBooks(): void {
+        this.filteredBooks = this.books.filter(book => 
+            book.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+        );
+    }
+    
     getBooks() {
         this.bookService.getAllBooks(this.pageSize, this.currentPageIndex).subscribe({
             next: (data) => {
                 this.books = data.data;
+                this.filteredBooks = this.books;
                 console.log(this.books)
-                this.maxPages = data.pages;                ;
+                this.maxPages = data.pages;
             },
             error: (err) => {
                 console.error('Error fetching books', err);
             }
         });
     }
-
+    
     changePage(changes: { pageIndex: number; pageSize: number }) {
         this.currentPageIndex = changes.pageIndex;
         this.pageSize = changes.pageSize;
         this.getBooks();
     }
-
+    
     navigateToBook(bookId: string) {
         this.router.navigate(['/book-item', bookId]);
     }
-
+    
     formatDate(date: any) {
         return this.datePipe.transform(date, 'yyyy');
     }
