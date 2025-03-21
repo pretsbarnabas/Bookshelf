@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "devstart": "node devstart.js",
+    "start": "npm run devstart && ng serve",
     "build": "ng build --configuration=production && npm run postbuild",
     "postbuild": "node postbuild.js",
     "watch": "ng build --watch --configuration development",
