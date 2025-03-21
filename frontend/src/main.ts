@@ -1,5 +1,3 @@
-/// <reference types="@angular/localize" />
-
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/components/layout/app.component';
 import { appConfig } from './app/app.config';

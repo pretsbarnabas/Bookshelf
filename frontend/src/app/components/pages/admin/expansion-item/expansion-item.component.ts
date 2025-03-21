@@ -12,7 +12,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ItemDialogComponent } from './item-dialog/item-dialog.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { RelativeTimePipe } from '../../../../pipes/relative-time.pipe';
-import { TimeagoPipe } from '@rxap/ngx-timeago';
 
 @Component({
     selector: 'expansion-item',
@@ -27,7 +26,7 @@ import { TimeagoPipe } from '@rxap/ngx-timeago';
         MatChipsModule,
         RelativeTimePipe
     ],
-    providers: [DatePipe, TimeagoPipe],
+    providers: [DatePipe],
     templateUrl: './expansion-item.component.html',
     styleUrl: './expansion-item.component.scss',
     encapsulation: ViewEncapsulation.None
