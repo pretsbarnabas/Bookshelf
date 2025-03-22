@@ -28,8 +28,8 @@ export class CrudService {
         return this.http.post<T>(`${this.apiUrl}/${_endpoint}`, _item);
     }
 
-    update<T>(_endpoint: string, _id: number | string, _item: Partial<T>): Observable<T> {
-        return this.http.put<T>(`${this.apiUrl}/${_endpoint}/${_id}`, _item);
+    update<T>(_endpoint: string, _item: Partial<T>): Observable<T> {
+        return this.http.put<T>(`${this.apiUrl}/${_endpoint}/${(_item as any)._id}`, _item);
     }
 
     patch<T>(_endpoint: string, _id: number | string, _item: Partial<T>): Observable<T> {

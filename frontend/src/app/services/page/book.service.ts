@@ -30,7 +30,11 @@ export class BookService {
         return this.http.post<ReviewModel>(`${this.configService.get('API_URL')}/reviews`, newReview);
     }
 
-    deleteBook(_id: number | string) {
+    deleteBook(_id: number | string): Observable<any>  {
         return this.crudService.delete('books', _id)
+    }
+
+    updateBook(data: Book): Observable<any>  {
+        return this.crudService.update('books', data);
     }
 }

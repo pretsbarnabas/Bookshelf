@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { CrudService } from '../global/crud.service';
 import { Observable } from 'rxjs';
-import { CommentRoot } from '../../models/Comment';
+import { CommentModel, CommentRoot } from '../../models/Comment';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +15,11 @@ export class CommentService {
         return this.crudService.getAll<CommentRoot>(`comments?limit=${pageSize}&page=${pageIndex}`);
     }
 
-    deleteComments(_id: number | string) {
+    deleteComment(_id: number | string): Observable<any>  {
         return this.crudService.delete('comments', _id)
+    }
+
+    updateComment(data: CommentModel): Observable<any>  {
+        return this.crudService.update('comments', data);
     }
 }

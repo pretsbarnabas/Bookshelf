@@ -123,7 +123,26 @@ export class AdminComponent implements OnInit {
             paginatorKey: 'summaries' as const
         },
         comment: {
-            fn: (id: string) => this.commentService.deleteComments(id),
+            fn: (id: string) => this.commentService.deleteComment(id),
+            paginatorKey: 'comments' as const
+        }
+    };
+
+    private updateMapping = {
+        book: {
+            fn: (item: Book) => this.bookService.updateBook(item),
+            paginatorKey: 'books' as const
+        },
+        review: {
+            fn: (item: ReviewModel) => this.reviewService.updateReview(item),
+            paginatorKey: 'reviews' as const
+        },
+        summary: {
+            fn: (item: SummaryModel) => this.summaryService.updateSummary(item),
+            paginatorKey: 'summaries' as const
+        },
+        comment: {
+            fn: (item: CommentModel) => this.commentService.updateComment(item),
             paginatorKey: 'comments' as const
         }
     };
@@ -147,7 +166,6 @@ export class AdminComponent implements OnInit {
     private fetchItems(arrayKey: 'users' | 'books' | 'reviews' | 'summaries' | 'comments'): void {
         this.fetchMapping[arrayKey].fn().subscribe({
             next: (data: any) => {
-                console.log(data.data);
                 if (arrayKey === 'users') {
                     this.users = data.data;
                     this.currentArrayInPaginator = this.users;
@@ -190,26 +208,39 @@ export class AdminComponent implements OnInit {
         this.changePaginatedArray(this.disabledButton);
     }
 
-    async handleDialogRequest(requestParams: { dialogType: 'delete'; item: { type: 'user' | 'book' | 'review' | 'summary' | 'comment'; _id: string } }): Promise<void> {
-        if (requestParams.dialogType !== 'delete') {
-            return;
-        }
-        const mapping = this.deleteMapping[requestParams.item.type];
-        if (!mapping) {
-            return;
-        }
-        mapping.fn((requestParams.item as any)._id).subscribe({
-            next: async (response: { message: string }) => {
-                console.log(response.message);
-                await this.showDialogSnackbar('ADMIN.SNACKBAR.DELETED');
-                setTimeout(() => {
-                    this.changePaginatedArray(mapping.paginatorKey);
-                }, 250);
-            },
-            error: (err: HttpErrorResponse) => {
-                this.onError(err);
+    async handleDialogRequest(requestParams: { dialogType: 'delete' | 'edit'; item: { type: 'user' | 'book' | 'review' | 'summary' | 'comment'; _id: string }, modifiedItem?: any }): Promise<void> {
+        if (requestParams.dialogType === 'delete') {
+            if (!requestParams.item?.type)
+                return;
+            const mapping = this.deleteMapping[requestParams.item.type];
+            if (!mapping) {
+                return;
             }
-        });
+            mapping.fn(requestParams.item as any).subscribe({
+                next: async (response: { message: string }) => {
+                    await this.showDialogSnackbar('ADMIN.SNACKBAR.DELETED');
+                    setTimeout(() => {
+                        this.changePaginatedArray(mapping.paginatorKey);
+                    }, 250);
+                },
+                error: (err: HttpErrorResponse) => this.onError(err)               
+            });
+        }
+        if (requestParams.dialogType === 'edit' && requestParams.modifiedItem && requestParams.item?.type !== 'user') {
+            const mapping = this.updateMapping[requestParams.item.type];
+            if (!mapping) {
+                return;
+            }
+            mapping.fn(requestParams.item as any).subscribe({
+                next: async (response) => {
+                    await this.showDialogSnackbar('ADMIN.SNACKBAR.UPDATED');
+                    setTimeout(() => {
+                        this.changePaginatedArray(mapping.paginatorKey);
+                    }, 250);
+                },
+                error: (err: HttpErrorResponse) => this.onError(err)
+            });
+        }
     }
 
     async showDialogSnackbar(snackbarLabel: string): Promise<void> {

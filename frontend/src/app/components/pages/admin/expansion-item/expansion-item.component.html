@@ -16,7 +16,7 @@
                     </ng-container>
                 </ng-container>
                 <ng-template #nonUserButtons>
-                    <button mat-mini-fab class="edit me-1" (click)="$event.stopPropagation()">
+                    <button mat-mini-fab class="edit me-1" (click)="$event.stopPropagation(); openDialog('edit')">
                         <mat-icon class="mx-auto">edit</mat-icon>
                     </button>
                 </ng-template>
@@ -197,7 +197,7 @@
 
         <ng-container *ngSwitchCase="'summary'">
             <h5 class="text-center mt-3">
-                {{ 'ADMIN.ITEM.SUMMARY.HEADERS.SUMMARY' | translate }}
+                {{ 'ADMIN.ITEM.SUMMARY.HEADERS.RECORD' | translate }}
             </h5>
             <mat-card appearance="raised">
                 <mat-card-content>

@@ -19,7 +19,38 @@
     }
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button id="cancel" mat-raised-button (click)="emitResult(false)">{{ 'ADMIN.DIALOG.DELETE.BUTTONNO' | translate }}</button>
-    <button id="delete" mat-raised-button (click)="emitResult(true)">{{ 'ADMIN.DIALOG.DELETE.BUTTONYES' | translate }}</button>
+    <button id="cancel" mat-raised-button (click)="emitResult(false)">{{ 'ADMIN.DIALOG.DELETE.BUTTONNO' | translate
+        }}</button>
+    <button id="delete" mat-raised-button (click)="emitResult(true)">{{ 'ADMIN.DIALOG.DELETE.BUTTONYES' | translate
+        }}</button>
+</mat-dialog-actions>
+}
+@if(this.data.type === 'edit') {
+<h2 mat-dialog-title>Edit Item</h2>
+<mat-dialog-content [formGroup]="form" id="edit-dialog">
+    <div *ngFor="let field of config">
+        <mat-form-field appearance="outline" class="my-2 w-100">
+            <mat-label>{{ field.label }}</mat-label>
+            <ng-container [ngSwitch]="field.type">
+                <input *ngSwitchCase="'text'" matInput [formControlName]="field.name" />
+                <input *ngSwitchCase="'number'" matInput type="number" [formControlName]="field.name" />
+                <input *ngSwitchCase="'date'" matInput type="date" [formControlName]="field.name" />
+                <textarea class="edit-dialog-textarea" *ngSwitchCase="'textarea'" matInput
+                    [formControlName]="field.name"></textarea>
+                <mat-select *ngSwitchCase="'select'" [formControlName]="field.name">
+                    <mat-option *ngFor="let option of field.options" [value]="option">
+                        {{ option }}
+                    </mat-option>
+                </mat-select>
+            </ng-container>
+            <mat-error *ngFor="let errorKey of getErrorKeys(field.name)">
+                {{ field.errorMessages![errorKey] }}
+            </mat-error>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button id="cancel" (click)="this.emitResult(false)">Cancel</button>
+    <button mat-button id="save" color="primary" (click)="this.saveModification()">Save</button>
 </mat-dialog-actions>
 }

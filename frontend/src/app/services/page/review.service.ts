@@ -15,7 +15,11 @@ export class ReviewService {
         return this.crudService.getAll<ReviewRoot>(`reviews?limit=${pageSize}&page=${pageIndex}`);
     }
 
-    deleteReview(_id: number | string) {
+    deleteReview(_id: number | string): Observable<any>  {
         return this.crudService.delete('reviews', _id)
+    }
+
+    updateReview(data: ReviewModel): Observable<any>  {
+        return this.crudService.update('reviews', data);
     }
 }

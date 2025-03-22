@@ -10,4 +10,24 @@ mat-dialog-actions {
         background-color: #9e9e9e;
         color: white;
     }
+
+    button#save {
+        background-color: #4CAF50;
+        color: white;
+    }
+}
+
+#edit-dialog {
+    min-height: 215px;
+}
+
+@media (min-width: 767px) {
+    #edit-dialog {
+        min-width: 400px;
+    }
+}
+
+.edit-dialog-textarea {
+    min-height: 150px;
+    scrollbar-width: thin;
 }

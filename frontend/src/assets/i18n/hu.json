@@ -81,7 +81,7 @@
         },
         "SUBMIT": {
             "LOGIN": "Bejelentkezés",
-            "NO_ACCOUNT": "Nincs fiókom",
+            "NO_ACCOUNT": "Még nincs fiókom",
             "BACK": "Vissza a bejelentkezésre",
             "REGISTER": "Regisztrálás"
         },
@@ -212,6 +212,7 @@
         },
         "SNACKBAR": {
             "DELETED": "Törlés sikeres",
+            "UPDATED": "Módosíés sikeres",
             "CLOSE": "Bezárás"
         }
     },

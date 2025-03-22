@@ -211,7 +211,8 @@
             }
         },
         "SNACKBAR": {
-            "DELETED": "Deletion successful",
+            "DELETED": "Deletion successful",            
+            "UPDATED": "Update successful",
             "CLOSE": "Close"
         }
     },
