@@ -430,9 +430,9 @@ components:
           type: string
         content:
           type: string
-        example:
-          review_id: required
-          content: required
+      example:
+        review_id: required
+        content: required
     commentput:
       type: object
       required:
@@ -440,8 +440,8 @@ components:
       properties:
         content:
           type: string
-        example:
-          content: required
+      example:
+        content: required
     summary:
       type: object
       required:
@@ -452,9 +452,9 @@ components:
           type: string
         content:
           type: string
-        example:
-          book_id: required
-          content: required
+      example:
+        book_id: required
+        content: required
     summaryput:
       type: object
       required:
@@ -462,8 +462,8 @@ components:
       properties:
         content:
           type: string
-        example:
-          content: required
+      example:
+        content: required
 
   securitySchemes:
     ApiKeyAuth:
