@@ -199,6 +199,28 @@
                 "BUTTONYES": "Törlés",
                 "BUTTONNO": "Mégsem"
             },
+            "EDIT": {
+                "HEADER": "Elem módosítása",
+                "BUTTONYES": "Változások mentése",
+                "BUTTONNO": "Mégsem",
+                "BOOK": {
+                    "TITLE": "Cím",
+                    "AUTHOR": "Szerző",
+                    "RELEASE": "Kiadás dátuma",
+                    "GENRE": "Műfaj",
+                    "DESC": "Leírás"
+                },
+                "REVIEW": {
+                    "SCORE": "Pontszám"
+                },
+                "CONTENT": "Tartalom",
+                "ERRORS": {
+                    "REQUIRED": "Mező kitöltése kötelező",
+                    "MAXDATE": "A dátum nem lehet a mainál nagyobb",
+                    "SCOREMIN": "Pontszám nem lehet negatív",
+                    "SCOREMAX": "Pontszám maximum 10 lehet"
+                }
+            },
             "USER": {
                 "USERNAME": "Felhasználónév"
             },

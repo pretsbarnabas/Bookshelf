@@ -11,7 +11,7 @@
                         } @else if (error.status === 0) {
                         <li>{{ 'AUTH.EMSG.HTTPERRORRESPONSE' | translate }}</li>
                         } @else{
-                        <li>{{ error.status }}: {{ error.error.error }}</li>
+                        <li>{{ error.status }}: {{ error.error.message }}</li>
                         }
                         }
                     </ul>

@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use "sass:color";
 
 mat-dialog-actions {
     button#delete {
@@ -14,6 +15,10 @@ mat-dialog-actions {
     button#save {
         background-color: #4CAF50;
         color: white;
+    }
+    button#save:disabled {
+        background-color: color.adjust(#4CAF50, $lightness: -20%);        
+        color: color.adjust(white, $lightness: -20%);
     }
 }
 

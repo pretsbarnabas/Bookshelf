@@ -199,6 +199,28 @@
                 "BUTTONYES": "Delete",
                 "BUTTONNO": "Cancel"
             },
+            "EDIT": {
+                "HEADER": "Edit item",                
+                "BUTTONYES": "Save changes",
+                "BUTTONNO": "Cancel",
+                "BOOK": {
+                    "TITLE": "Title",
+                    "AUTHOR": "Author",
+                    "RELEASE": "Release date",
+                    "GENRE": "Genre",
+                    "DESC": "Description"
+                },
+                "REVIEW": {
+                    "SCORE": "Score"
+                },
+                "CONTENT": "Content",
+                "ERRORS": {
+                    "REQUIRED": "This field is required",
+                    "MAXDATE": "Release date cannot be later than today",
+                    "SCOREMIN": "Score cannot be negative",
+                    "SCOREMAX": "Maximum score is 10"
+                }
+            },
             "USER": {
                 "USERNAME": "Username"
             },

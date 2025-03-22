@@ -156,6 +156,67 @@ export class FormService {
             },
         ];
     }
+
+    async getEditDialogFormConfigMapping(): Promise<{ [key: string]: EditDialogFieldConfig[] }> {
+        return {
+            book: [
+                { name: 'title', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.BOOK.TITLE')), type: 'text', validators: [] },
+                { name: 'author', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.BOOK.AUTHOR')), type: 'text', validators: [] },
+                {
+                    name: 'release', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.BOOK.RELEASE')), type: 'date', validators: [
+                        maxDateValidator(new Date())
+                    ],
+                    errorMessages: {
+                        maxDate: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.ERRORS.MAXDATE'))
+                    },
+                    transformInput(value: any): any {
+                        if (typeof value === 'string' && value.includes('T')) {
+                            const date = new Date(value);
+                            return date.toISOString().split('T')[0];
+                        }
+                        return value;
+                    },
+                    transformOutput: (value: Date) => value ? value.toISOString() : null
+                },
+                { name: 'genre', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.BOOK.GENRE')), type: 'text', validators: [] },
+                { name: 'description', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.BOOK.DESC')), type: 'textarea', validators: [] },
+                // { name: 'image', label: 'Image', type: 'text', validators: [] },
+            ],
+            review: [
+                {
+                    name: 'score', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.REVIEW.SCORE')), type: 'number', validators: [
+                        Validators.min(0),
+                        Validators.max(10)
+                    ],
+                    errorMessages: {
+                        min: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.ERRORS.SCOREMIN')),
+                        max: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.ERRORS.SCOREMAX'))
+                    }
+                },
+                { name: 'content', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.CONTENT')), type: 'textarea', validators: [] },
+            ],
+            summary: [
+                {
+                    name: 'content', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.CONTENT')), type: 'textarea', validators: [
+                        Validators.required
+                    ],
+                    errorMessages: {
+                        required: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.ERRORS.REQUIRED'))
+                    }
+                },
+            ],
+            comment: [
+                {
+                    name: 'content', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.CONTENT')), type: 'textarea', validators: [
+                        Validators.required
+                    ],
+                    errorMessages: {
+                        required: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.ERRORS.REQUIRED'))
+                    }
+                },
+            ]
+        };
+    }
 }
 
 export function maxDateValidator(maxDate: Date): ValidatorFn {
@@ -180,62 +241,3 @@ export interface EditDialogFieldConfig {
     transformInput?: any;
     transformOutput?: any;
 }
-
-export const editDialogFormConfigMapping: { [key: string]: EditDialogFieldConfig[] } = {
-    book: [
-        { name: 'title', label: 'Title', type: 'text', validators: [] },
-        { name: 'author', label: 'Author', type: 'text', validators: [] },
-        {
-            name: 'release', label: 'Release Date', type: 'date', validators: [
-                maxDateValidator(new Date())
-            ],
-            errorMessages: {
-                maxDate: "The date cannot be later than today."
-            },
-            transformInput(value: any): any {
-                if (typeof value === 'string' && value.includes('T')) {
-                    const date = new Date(value);
-                    return date.toISOString().split('T')[0];
-                }
-                return value;
-            },
-            transformOutput: (value: Date) => value ? value.toISOString() : null
-        },
-        { name: 'genre', label: 'Genre', type: 'text', validators: [] },
-        { name: 'description', label: 'Description', type: 'textarea', validators: [] },
-        // { name: 'image', label: 'Image', type: 'text', validators: [] },
-    ],
-    review: [
-        {
-            name: 'score', label: 'Score', type: 'number', validators: [
-                Validators.min(0),
-                Validators.max(10)
-            ],
-            errorMessages: {
-                min: "value > 0",
-                max: "value < 10"
-            }
-        },
-        { name: 'content', label: 'Content', type: 'textarea', validators: [] },
-    ],
-    summary: [
-        {
-            name: 'content', label: 'Content', type: 'textarea', validators: [
-                Validators.required
-            ],
-            errorMessages: {
-                required: "required"
-            }
-        },
-    ],
-    comment: [
-        {
-            name: 'content', label: 'Content', type: 'textarea', validators: [
-                Validators.required
-            ],
-            errorMessages: {
-                required: "required"
-            }
-        },
-    ]
-};

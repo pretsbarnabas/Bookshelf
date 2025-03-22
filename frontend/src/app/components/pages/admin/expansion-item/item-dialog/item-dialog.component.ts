@@ -1,17 +1,14 @@
 import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { UserModel } from '../../../../../models/User';
-import { Book } from '../../../../../models/Book';
-import { ReviewModel } from '../../../../../models/Review';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
-import { EditDialogFieldConfig, editDialogFormConfigMapping } from '../../../../../services/page/form.service';
+import { EditDialogFieldConfig, FormService } from '../../../../../services/page/form.service';
 
 @Component({
     selector: 'app-item-dialog',
@@ -33,15 +30,19 @@ import { EditDialogFieldConfig, editDialogFormConfigMapping } from '../../../../
 })
 export class ItemDialogComponent {
     data = inject(MAT_DIALOG_DATA)
+    private formService = inject(FormService);
     private dialogRef = inject(MatDialogRef<ItemDialogComponent>)
     private fb = inject(FormBuilder);
 
     form: FormGroup = new FormGroup({});
     config?: EditDialogFieldConfig[];
 
-    ngOnInit() {
+    async ngOnInit() {
         const itemType = this.data.item.type;
-        this.config = editDialogFormConfigMapping[itemType] || [];
+        const allConfigs = await this.formService.getEditDialogFormConfigMapping();
+
+        this.config = allConfigs[itemType] || [];
+
         this.form = this.fb.group({});
 
         this.config.forEach(field => {

@@ -26,7 +26,7 @@
 </mat-dialog-actions>
 }
 @if(this.data.type === 'edit') {
-<h2 mat-dialog-title>Edit Item</h2>
+<h2 mat-dialog-title>{{ 'ADMIN.DIALOG.EDIT.HEADER' | translate}}</h2>
 <mat-dialog-content [formGroup]="form" id="edit-dialog">
     <div *ngFor="let field of config">
         <mat-form-field appearance="outline" class="my-3 w-100">
@@ -50,7 +50,8 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button id="cancel" (click)="this.emitResult(false)">Cancel</button>
-    <button mat-button id="save" color="primary" (click)="this.saveModification()" [disabled]="!this.form.valid">Save</button>
+    <button mat-button id="cancel" (click)="this.emitResult(false)">{{ 'ADMIN.DIALOG.EDIT.BUTTONNO' | translate}}</button>
+    <button mat-button id="save" color="primary" (click)="this.saveModification()" [disabled]="!this.form.valid">{{
+        'ADMIN.DIALOG.EDIT.BUTTONYES' | translate}}</button>
 </mat-dialog-actions>
 }
