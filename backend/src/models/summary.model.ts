@@ -14,7 +14,7 @@ const summarySchema = new Schema({
         type: String,
         minLength: 1
     },
-    added_at:{
+    created_at:{
         required: true,
         type: Date,
         default: Date.now
