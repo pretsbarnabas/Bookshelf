@@ -267,7 +267,7 @@ export class UserController{
             }
             user._updateContext = "update"
             await user.save()
-            return res.status(200).json({user:user})
+            return res.status(200).json({user})
         }
         catch(error:any){
             ErrorHandler.HandleMongooseErrors(error,res)

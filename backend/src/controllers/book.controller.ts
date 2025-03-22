@@ -237,7 +237,7 @@ export class BookController{
             }
             await book.save()
             Logger.info(`Book saved: ${book._id}`)
-            return res.status(200).json({book:book})
+            return res.status(200).json({book})
         }
         catch(error:any){
             ErrorHandler.HandleMongooseErrors(error,res)

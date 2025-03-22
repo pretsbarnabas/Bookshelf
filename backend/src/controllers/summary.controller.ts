@@ -280,7 +280,7 @@ export class SummaryController{
             summary.content = content
 
             await summary.save()
-            return res.status(200).json({summary:summary})
+            return res.status(200).json({summary})
         }
         catch(error:any){
             ErrorHandler.HandleMongooseErrors(error,res)
