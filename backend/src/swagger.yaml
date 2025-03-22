@@ -364,6 +364,37 @@ components:
         release: nullable, default null
         genre: optional, default None
         description: optional, default No description added
+        image: nullable
+
+    bookput:
+      type: object
+      required:
+        - title
+        - author
+        - release
+        - genre
+        - description
+        - image
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        release:
+          type: string
+        genre:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+      example:
+        title: optional
+        author: optional
+        release: optiona
+        genre: optional
+        description: optional
+        image: optional
 
     userput:
       type: object
@@ -963,11 +994,10 @@ paths:
             type: string
       requestBody:
         required: true
-        description: NOT ALL FIELDS REQUIRED
         content:
           application/json:
             schema:
-              $ref: '#/components/requestBodies/book'
+              $ref: '#/components/requestBodies/bookput'
       security:
         - ApiKeyAuth: []
       responses:
