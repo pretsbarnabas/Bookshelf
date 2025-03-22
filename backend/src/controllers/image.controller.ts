@@ -1,100 +1,71 @@
-import fs from "fs"
-import path from "path"
-import * as validators from "../tools/validators"
-import { Logger } from "../tools/logger";
+import {v2 as cloudinary} from "cloudinary"
 
 export class ImageController{
 
-    static currentUrl = "https://bookshelf.koyeb.app/api"
-
-
-    static uploadImage(req:any, res:any) {
-        const { imageData, imageName } = req.body;
-    
-        if (!imageData || !imageName) {
-            return res.status(400).json({ message: 'Base64 image or image name missing' });
-        }
-    
-        // Extract the extension from the Base64 string
-        const match = imageData.match(/^data:image\/(\w+);base64,/);
-        if (!match) {
-            res.status(400).json({ message: 'Invalid image format' });
-            return false
-        }
-        const extension = match[1];
-
-        if (extension.toLowerCase() === 'svg') {
-            res.status(400).json({ message: 'SVG format is not supported' });
-            return false
-        }
-    
-        // Ensure the imageName has the correct extension
-        const finalImageName = imageName.includes('.') ? imageName : `${imageName}.${extension}`;
-    
-        // Strip out the base64 prefix
-        const base64Data = imageData.replace(/^data:image\/\w+;base64,/, '');
-    
-        if (!validators.isValidBase64(base64Data)) {
-            Logger.info(`Invalid base64 data sent: ${base64Data}`);
-            res.status(400).json({ message: 'Image data incorrect' });
-            return false
-        }
-    
-        // Convert base64 string to a buffer
-        const imageBuffer = Buffer.from(base64Data, 'base64');
-    
-        // Define the path where you want to store the image
-        const imagePath = path.join(__dirname, '../../images', finalImageName);
-    
-        // Ensure the images directory exists
-        fs.mkdirSync(path.join(__dirname, '../../images'), { recursive: true });
-    
-        // Write the image to the filesystem
-        fs.writeFile(imagePath, imageBuffer, (err) => {
-            if (err) {
-                res.status(500).json({ message: 'Failed to save image', error: err });
-                return false
-            }
-        });
-        Logger.info(`New image created: ${finalImageName}`)
-        return finalImageName
+    static setup(){
+        cloudinary.config({
+            cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+            api_key: process.env.CLOUDINARY_API_KEY,
+            api_secret: process.env.CLOUDINARY_API_SECRET
+        })
     }
 
-    
 
-    static getImage(req:any,res:any){
+    static async uploadToCloudinary(base64Data: string) {
         try {
-            const {imageName} = req.params
-            const imagePath = path.join(__dirname, "../../images",imageName)
-
-            return res.sendFile(imagePath,(err:any)=>{
-                if(err){
-                    res.status(404).send("Image not found")
-                }
-            })
-
+          // Validate base64 format
+          if (!base64Data.startsWith('data:image/')) {
+            throw new Error('Invalid base64 image format');
+          }
+      
+          // Extract MIME type and data
+          const matches = base64Data.match(/^data:(.+);base64,(.+)$/);
+          if (!matches || matches.length !== 3) {
+            throw new Error('Invalid base64 string');
+          }
+      
+          const mimeType = matches[1];
+          const imageBuffer = Buffer.from(matches[2], 'base64');
+      
+          // Validate allowed types
+          const allowedTypes = ['image/jpeg', 'image/png'];
+          if (!allowedTypes.some(type => mimeType.includes(type))) {
+            throw new Error('Only JPEG/PNG images allowed');
+          }
+      
+          // Upload to Cloudinary
+          const result = await cloudinary.uploader.upload(
+            `data:${mimeType};base64,${imageBuffer.toString('base64')}`, 
+            { folder: "images" }
+          );
+      
+          return result.secure_url;
         } catch (error) {
-            return res.status(500).json({ message: error });
+          throw error; // Re-throw for controller handling
         }
-    }
+      }
 
-
-    static deleteImage(imageName: string) {
+      static async deleteCloudinaryImage(imageUrl: string): Promise<boolean> {
         try {
-            if (!imageName) {
-                Logger.warn("Image name is required when deleting")
-            }
-    
-            const imagePath = path.join(__dirname, "../../images", imageName);
-    
-            if (!fs.existsSync(imagePath)) {
-                Logger.warn(`File not found: ${imagePath}`)
-            }
-    
-            fs.unlinkSync(imagePath);
-            Logger.info(`Deleted image: ${imageName}`);
+          // Extract public ID from Cloudinary URL
+          const publicId = ImageController.extractPublicIdFromUrl(imageUrl);
+          
+          if (!publicId) {
+            throw new Error('Invalid Cloudinary URL');
+          }
+      
+          const result = await cloudinary.uploader.destroy(publicId);
+          
+          return result.result === 'ok';
         } catch (error) {
-            Logger.error(`Error deleting image: ${JSON.stringify(error)}`);
+          console.error('Error deleting image:', error);
+          return false;
         }
-    }
+      }
+      
+      static extractPublicIdFromUrl(url: string): string | null {
+        const regex = /upload\/(?:v\d+\/)?(.+?)(?:\..+)?$/;
+        const match = url.match(regex);
+        return match ? match[1] : null;
+      }
 }

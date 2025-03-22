@@ -12,8 +12,6 @@ export const router = express.Router()
 
 router.post("/login",Authenticator.login)
 
-router.get("/image/:imageName",ImageController.getImage)
-
 // User routes
 
 router.get("/users/",UserController.getAllUsers)

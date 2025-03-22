@@ -5,6 +5,7 @@ const swaggerJsdoc = require("swagger-jsdoc")
 const swaggerUi = require("swagger-ui-express");
 import YAML from "yamljs"
 import { Logger } from "./tools/logger"
+import { ImageController } from "./controllers/image.controller";
 const cors = require("cors")
 
 
@@ -46,5 +47,7 @@ app.use("/api/swagger",swaggerUi.serve,swaggerUi.setup(specs))
 app.listen(3000,()=>{
     Logger.info("Server started")
 })
+
+ImageController.setup()
 
 module.exports = app

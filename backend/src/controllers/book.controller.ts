@@ -146,16 +146,16 @@ export class BookController{
                 release: release,
                 user_id: new Types.ObjectId(req.user.id as string)
             })
-            await newBook.save()
             if(image){
-                req.body.imageName = `book-${newBook._id}`
-                req.body.imageData = image
-                const newImageName = ImageController.uploadImage(req,res)
-                if(!newImageName) return
-                const newImageUrl = `${ImageController.currentUrl}/image/${newImageName}`
-                newBook.imageUrl = newImageUrl
-                await newBook.save()
+                try {
+                    newBook.imageUrl = await ImageController.uploadToCloudinary(req.body.image);
+                  } catch (uploadError) {
+                    return res.status(400).json({ 
+                      message: uploadError instanceof Error ? uploadError.message : 'Image upload failed'
+                    });
+                  }
             }
+            await newBook.save()
             Logger.info(`New book created: ${newBook._id}`)
             res.status(201).json(newBook)
         }
@@ -179,7 +179,7 @@ export class BookController{
             const data = await BookModel.findByIdAndDelete(id)
             if(data){
                 res.status(200).json({message:"Book deleted"})
-                if(data.imageUrl) ImageController.deleteImage(data.imageUrl.split("/").pop())
+                if(data.imageUrl) ImageController.deleteCloudinaryImage(data.imageUrl)
             }
             else{
                 res.status(404).json({message:"Book not found"})
@@ -223,12 +223,13 @@ export class BookController{
                     }
                 }
                 if(key === "image"){
-                    req.body.imageName = `book-${book._id}`
-                    req.body.imageData = updates["image"]
-                    const newImageName = ImageController.uploadImage(req,res)
-                    if(!newImageName) return
-                    const newImageUrl = `${ImageController.currentUrl}/image/${newImageName}`
-                    book["imageUrl"] = newImageUrl
+                    try {
+                        book.imageUrl = await ImageController.uploadToCloudinary(req.body.image);
+                      } catch (uploadError) {
+                        return res.status(400).json({ 
+                          message: uploadError instanceof Error ? uploadError.message : 'Image upload failed'
+                        });
+                      }
                 }
                 else{
                     book[key] = updates[key];

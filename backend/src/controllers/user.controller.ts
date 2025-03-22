@@ -172,13 +172,13 @@ export class UserController{
                 role: role
             })
             if(image){
-                req.body.imageName = `user-${newUser._id}`
-                req.body.imageData = image
-                const newImageName = ImageController.uploadImage(req,res)
-                if(!newImageName) return
-                const newImageUrl = `${ImageController.currentUrl}/image/${newImageName}`
-                newUser.imageUrl = newImageUrl
-                await newUser.save()
+                try {
+                    newUser.imageUrl = await ImageController.uploadToCloudinary(req.body.image);
+                  } catch (uploadError) {
+                    return res.status(400).json({ 
+                      message: uploadError instanceof Error ? uploadError.message : 'Image upload failed'
+                    });
+                  }
             }
             await newUser.save()
             Logger.info(`New user created: ${newUser._id}`)
@@ -213,7 +213,7 @@ export class UserController{
                 const deletedComments = await CommentModel.deleteMany({user_id: id})
                 if(deletedComments.deletedCount) Logger.info(`Deleted ${deletedComments.deletedCount} comments of user: ${id}`)
 
-                if(data.imageUrl) ImageController.deleteImage(data.imageUrl.split("/").pop())
+                if(data.imageUrl) ImageController.deleteCloudinaryImage(data.imageUrl)
             }
             
         }
@@ -249,12 +249,13 @@ export class UserController{
                     }
                 } 
                 if(key === "image"){
-                    req.body.imageName = `user-${user._id}`
-                    req.body.imageData = updates["image"]
-                    const newImageName = ImageController.uploadImage(req,res)
-                    if(!newImageName) return
-                    const newImageUrl = `${ImageController.currentUrl}/image/${newImageName}`
-                    user["imageUrl"] = newImageUrl
+                    try {
+                        user.imageUrl = await ImageController.uploadToCloudinary(req.body.image);
+                      } catch (uploadError) {
+                        return res.status(400).json({ 
+                          message: uploadError instanceof Error ? uploadError.message : 'Image upload failed'
+                        });
+                      }
                 }
                 else if (key === "password") {
                     const newPassHash = await Authenticator.hashPassword(updates[key]);
