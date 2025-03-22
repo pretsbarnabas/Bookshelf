@@ -1410,7 +1410,7 @@ paths:
         description: Comma-separated list of fields to include in the response
         schema:
           type: string
-          example: "content,added_at,updated_at,book.title,book._id,book.author,book.imageUrl,user._id,user.username,user.imageUrl,user.role"
+          example: "_id,content,created_at,updated_at,book.title,book._id,book.author,book.imageUrl,user._id,user.username,user.imageUrl,user.role"
       - in: query
         name: book_id
         schema:
@@ -1425,12 +1425,12 @@ paths:
         name: minCreate
         schema:
           type: string
-        description: Filter by minimum creation date (added_at)
+        description: Filter by minimum creation date (created_at)
       - in: query
         name: maxCreate
         schema:
           type: string
-        description: Filter by maximum creation date (added_at)
+        description: Filter by maximum creation date (created_at)
       - in: query
         name: minUpdate
         schema:

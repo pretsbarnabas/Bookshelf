@@ -10,7 +10,7 @@ const mongoose = require("mongoose")
 
 export class SummaryController{
     
-    private static allowedFields = ["content","added_at","updated_at","book.title","book._id","book.author","book.imageUrl","user._id", "user.username","user.imageUrl","user.role"]
+    private static allowedFields = ["_id","content","added_at","updated_at","book.title","book._id","book.author","book.imageUrl","user._id", "user.username","user.imageUrl","user.role"]
 
     static async getAllSummaries(req:any,res:any){
         try{
