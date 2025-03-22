@@ -59,7 +59,7 @@
                             <p>
                                 {{review.content}}
                             </p>
-                            <p>{{formatDate(review.added_at)}}</p>
+                            <p>{{formatDate(review.created_at)}}</p>
                             <hr>
                         </div>
                         <mat-paginator [length]="reviews.length" [pageSize]="pageSize" [pageSizeOptions]="[10, 15, 20]" (page)="onPageChange($event)">

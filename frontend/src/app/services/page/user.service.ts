@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CrudService } from '../global/crud.service';
-import { UserModel, UserRoot } from '../../models/User';
+import { UserRoot } from '../../models/User';
 
 @Injectable({
     providedIn: 'root'

@@ -132,7 +132,9 @@
         "BUTTONS": {
             "USERS": "Felhasználók",
             "BOOKS": "Könyvek",
-            "REVIEWS": "Vélemények"
+            "REVIEWS": "Vélemények",
+            "SUMMARIES": "Összefoglalók",
+            "COMMENTS": "Kommentek"
         },
         "ITEM": {
             "USER": {
@@ -155,6 +157,39 @@
                 "GENRE": "Műfaj",
                 "AUTHOR": "Szerző",
                 "DESC": "Leírás"
+            },
+            "REVIEW": {
+                "HEADERS": {
+                    "RECORD": "Rekord adatai",
+                    "REVIEW": "Vélemény adatai"
+                },
+                "ADDED": "Létrehozva",
+                "UPDATED": "Módosítva",
+                "USERNAME": "Felhasználónév",
+                "USERID": "UserId",
+                "SCORE": "Pontszám",
+                "CONTENT": "Tartalom"
+            },
+            "SUMMARY": {
+                "HEADERS": {
+                    "RECORD": "Rekord adatai",
+                    "SUMMARY": "Összefoglaló adatai"
+                },
+                "BOOKID": "BookId",
+                "UPDATED": "Módosítva",
+                "USERNAME": "Felhasználónév",
+                "USERID": "UserId",
+                "CONTENT": "Tartalom"
+            },
+            "COMMENT": {
+                "HEADERS": {
+                    "RECORD": "Rekord adatai",
+                    "COMMENT": "Komment adatai"
+                },
+                "ADDED": "Létrehozva",
+                "UPDATED": "Módosítva",
+                "REVIEWID": "ReviewId",
+                "CONTENT": "Tartalom"
             }
         },
         "DIALOG": {

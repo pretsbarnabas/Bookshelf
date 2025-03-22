@@ -2,84 +2,104 @@
     <mat-expansion-panel-header class="py-3">
         <div class="row w-100">
             <div class="d-flex justify-content-end align-item-center">
-                @if(this.payload?.type === 'user'){
-                @if(this.payload?.item.role === 'user'){
-                <button mat-mini-fab class="promote-demote me-1" (click)="$event.stopPropagation()">
-                    <mat-icon class="mx-auto">vertical_align_top</mat-icon>
-                </button>
-                }
-                @if(this.payload?.item.role === 'editor') {
-                <button mat-mini-fab class="promote-demote me-1" (click)="$event.stopPropagation()">
-                    <mat-icon class="mx-auto">vertical_align_bottom</mat-icon>
-                </button>
-                }
-                } @else {
-                <button mat-mini-fab class="edit me-1" (click)="$event.stopPropagation()">
-                    <mat-icon class="mx-auto">edit</mat-icon>
-                </button>
-                }
-                @if(this.payload?.item.role === 'admin'){
-                <button mat-mini-fab class="admin" (click)="$event.stopPropagation();" disabled>
-                    <mat-icon class="mx-auto">stars</mat-icon>
-                </button>
-                }@else {
-                <button mat-mini-fab class="delete" (click)="$event.stopPropagation(); this.openDialog('delete')">
-                    <mat-icon class="mx-auto">delete</mat-icon>
-                </button>
-                }
+
+                <ng-container *ngIf="payload?.type === 'user'; else nonUserButtons">
+                    <ng-container *ngIf="payload?.item.role === 'user'">
+                        <button mat-mini-fab class="promote-demote me-1" (click)="$event.stopPropagation()">
+                            <mat-icon class="mx-auto">vertical_align_top</mat-icon>
+                        </button>
+                    </ng-container>
+                    <ng-container *ngIf="payload?.item.role === 'editor'">
+                        <button mat-mini-fab class="promote-demote me-1" (click)="$event.stopPropagation()">
+                            <mat-icon class="mx-auto">vertical_align_bottom</mat-icon>
+                        </button>
+                    </ng-container>
+                </ng-container>
+                <ng-template #nonUserButtons>
+                    <button mat-mini-fab class="edit me-1" (click)="$event.stopPropagation()">
+                        <mat-icon class="mx-auto">edit</mat-icon>
+                    </button>
+                </ng-template>
+
+                <ng-container *ngIf="payload?.item.role === 'admin'; else deleteButton">
+                    <button mat-mini-fab class="admin" (click)="$event.stopPropagation()" disabled>
+                        <mat-icon class="mx-auto">stars</mat-icon>
+                    </button>
+                </ng-container>
+                <ng-template #deleteButton>
+                    <button mat-mini-fab class="delete" (click)="$event.stopPropagation(); openDialog('delete')">
+                        <mat-icon class="mx-auto">delete</mat-icon>
+                    </button>
+                </ng-template>
             </div>
 
-            <ng-container [ngSwitch]="this.payload?.type">
+            <ng-container [ngSwitch]="payload?.type">
                 <ng-container *ngSwitchCase="'user'">
                     <div class="col-12 col-sm-4 d-flex">
-                        <img [src]="this.payload?.item.imageUrl ?? this.payload?.item.profile_image" alt="Profile Image"
-                            class="avatar-image my-auto me-2">
-                        <mat-panel-title> {{ this.payload?.item.username }}</mat-panel-title>
+                        <img [src]="payload?.item.imageUrl || payload?.item.profile_image" alt="Profile Image"
+                            class="avatar-image my-auto me-2" />
+                        <mat-panel-title>{{ payload?.item.username }}</mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-4">
-                        <mat-panel-description>{{ 'ADMIN.ITEM.USER.ROLE' | translate }}:
-                            <mat-chip class="ms-2">{{ this.payload?.item.role }}</mat-chip></mat-panel-description>
+                        <mat-panel-description>
+                            {{ 'ADMIN.ITEM.USER.ROLE' | translate }}:
+                            <mat-chip class="ms-2">{{ payload?.item.role }}</mat-chip>
+                        </mat-panel-description>
                     </div>
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'book'">
                     <div class="col-12 col-sm-4">
-                        <mat-panel-title>{{ this.payload?.item.title }}</mat-panel-title>
+                        <mat-panel-title>{{ payload?.item.title }}</mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-4">
-                        <mat-panel-description>Id: {{ this.payload?.item._id }}</mat-panel-description>
+                        <mat-panel-description>Id: {{ payload?.item._id }}</mat-panel-description>
                     </div>
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'review'">
                     <div class="col-12 col-sm-4">
-                        <mat-panel-title>{{ this.payload?.item.user.username }}</mat-panel-title>
+                        <mat-panel-title>
+                            {{ 'ADMIN.ITEM.REVIEW.SCORE' | translate }}: {{ payload?.item.score }}
+                        </mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-4">
-                        <mat-panel-description>{{ this.payload?.item.score }}</mat-panel-description>
+                        <mat-panel-description>Id: {{ payload?.item._id }}</mat-panel-description>
                     </div>
                 </ng-container>
 
-            </ng-container>
+                <ng-container *ngSwitchCase="'summary'">
+                    <div class="col-12 col-sm-4">
+                        <mat-panel-description>Id: {{ payload?.item._id }}</mat-panel-description>
+                    </div>
+                </ng-container>
 
+                <ng-container *ngSwitchCase="'comment'">
+                    <div class="col-12 col-sm-4">
+                        <mat-panel-description>Id: {{ payload?.item._id }}</mat-panel-description>
+                    </div>
+                </ng-container>
+            </ng-container>
         </div>
     </mat-expansion-panel-header>
 
-    <div [ngSwitch]="this.payload?.type">
+    <ng-template #dateDisplay let-label="label" let-date="date">
+        <div class="col-12 col-sm-6 col-lg-4 mx-auto">
+            <b>{{ label | translate }}: </b>
+            <i>{{ date | localizedDate }}</i>
+            <p><i>({{ date | relativeTime }})</i></p>
+        </div>
+    </ng-template>
+
+    <div [ngSwitch]="payload?.type">
         <ng-container *ngSwitchCase="'user'">
             <div class="row text-center">
-                <div class="col-12 col-sm-6 col-lg-3"><b>{{ 'ADMIN.ITEM.USER.CREATED' | translate }}: </b><i>{{
-                        this.payload?.item.created_at | localizedDate }}</i>
-                    <p><i>({{ this.payload?.item.created_at | relativeTime }})</i></p>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-3"><b>{{ 'ADMIN.ITEM.USER.UPDATED' | translate }}: </b><i>{{
-                        this.payload?.item.updated_at | localizedDate }}</i>
-                    <p><i>({{ this.payload?.item.updated_at | relativeTime }})</i></p>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-3"><b>{{ 'ADMIN.ITEM.USER.LAST' | translate }}: </b><i>{{
-                        this.payload?.item.last_login | localizedDate }}</i>
-                    <p><i>({{ this.payload?.item.last_login | relativeTime }})</i></p>
-                </div>
+                <ng-container
+                    *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.USER.CREATED', date: payload?.item.created_at }"></ng-container>
+                <ng-container
+                    *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.USER.UPDATED', date: payload?.item.updated_at }"></ng-container>
+                <ng-container
+                    *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.USER.LAST', date: payload?.item.last_login }"></ng-container>
             </div>
         </ng-container>
 
@@ -87,25 +107,21 @@
             <h5 class="text-center mt-3">
                 {{ 'ADMIN.ITEM.BOOK.HEADERS.RECORD' | translate }}
             </h5>
-
             <mat-card appearance="raised">
                 <mat-card-content>
                     <div class="row text-center">
-                        <div class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.ADDED' | translate }}: </b><i>{{
-                                this.payload?.item.added_at | localizedDate }}</i>
-                            <p><i>({{ this.payload?.item.added_at | relativeTime }})</i></p>
-                        </div>
-                        <div class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.UPDATED' | translate }}: </b><i>{{
-                                this.payload?.item.updated_at | localizedDate }}</i>
-                            <p><i>({{ this.payload?.item.added_at | relativeTime }})</i></p>
-                        </div>
-                        <div class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.USERID' | translate }}: </b><i>{{
-                                this.payload?.item.user_id }}</i>
-                            <p><i>({{ this.payload?.item.added_at | relativeTime }})</i></p>
+                        <ng-container
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.BOOK.ADDED', date: payload?.item.added_at }"></ng-container>
+                        <ng-container
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.BOOK.UPDATED', date: payload?.item.updated_at }"></ng-container>
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <b>{{ 'ADMIN.ITEM.BOOK.USERID' | translate }}: </b>
+                            <i>{{ payload?.item.user_id }}</i>
                         </div>
                     </div>
                 </mat-card-content>
             </mat-card>
+
             <h5 class="text-center mt-3">
                 {{ 'ADMIN.ITEM.BOOK.HEADERS.BOOK' | translate }}
             </h5>
@@ -114,22 +130,25 @@
                     <div class="row">
                         <div class="col-12 col-sm-4 col-md-3 d-flex mb-2 p-3">
                             <img src="./assets/images/no-cover.svg" alt="Book Cover Image"
-                                class="w-100 my-auto book-cover">
+                                class="w-100 my-auto book-cover" />
                         </div>
                         <div class="col-12 col-sm-8 col-md-9">
                             <div class="row text-center">
-                                <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.RELEASE' | translate }}:
-                                    </b><i>{{
-                                        this.payload?.item.release | localizedDate }}</i></p>
-                                <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.GENRE' | translate }}:
-                                    </b><i>{{
-                                        this.payload?.item.genre }}</i></p>
-                                <p class="col-12 col-sm-6 col-lg-4"><b>{{ 'ADMIN.ITEM.BOOK.AUTHOR' | translate }}:
-                                    </b><i>{{
-                                        this.payload?.item.author }}</i></p>
-                                <p><b>{{ 'ADMIN.ITEM.BOOK.DESC' | translate }}</b></p>
-                                <hr class="m-0">
-                                <p class="desc mt-1">{{ this.payload?.item.description }}</p>
+                                <div class="col-12 col-sm-6 col-lg-4">
+                                    <b>{{ 'ADMIN.ITEM.BOOK.RELEASE' | translate }}: </b>
+                                    <i>{{ payload?.item.release | localizedDate }}</i>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-4">
+                                    <b>{{ 'ADMIN.ITEM.BOOK.GENRE' | translate }}: </b>
+                                    <i>{{ payload?.item.genre }}</i>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-4">
+                                    <b>{{ 'ADMIN.ITEM.BOOK.AUTHOR' | translate }}: </b>
+                                    <i>{{ payload?.item.author }}</i>
+                                </div>
+                                <p class="col-12"><b>{{ 'ADMIN.ITEM.BOOK.DESC' | translate }}</b></p>
+                                <hr class="m-0" />
+                                <p class="desc mt-1">{{ payload?.item.description }}</p>
                             </div>
                         </div>
                     </div>
@@ -137,6 +156,107 @@
             </mat-card>
         </ng-container>
 
-        <p *ngSwitchCase="'review'">{{ this.payload?.item.content }}</p>
+        <ng-container *ngSwitchCase="'review'">
+            <h5 class="text-center mt-3">
+                {{ 'ADMIN.ITEM.REVIEW.HEADERS.RECORD' | translate }}
+            </h5>
+            <mat-card appearance="raised">
+                <mat-card-content>
+                    <div class="row text-center">
+                        <ng-container
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.REVIEW.ADDED', date: payload?.item.created_at }"></ng-container>
+                        <ng-container
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.REVIEW.UPDATED', date: payload?.item.updated_at }"></ng-container>
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto">
+                            <b>{{ 'ADMIN.ITEM.REVIEW.USERNAME' | translate }}: </b>
+                            <i>{{ payload?.item.user.username }}</i>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto">
+                            <b>{{ 'ADMIN.ITEM.REVIEW.USERID' | translate }}: </b>
+                            <i>{{ payload?.item.user._id }}</i>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <h5 class="text-center mt-3">
+                {{ 'ADMIN.ITEM.REVIEW.HEADERS.REVIEW' | translate }}
+            </h5>
+            <mat-card appearance="raised">
+                <mat-card-content>
+                    <div class="row text-center">
+                        <p><b>{{ 'ADMIN.ITEM.REVIEW.CONTENT' | translate }}</b></p>
+                        <hr class="m-0" />
+                        <p class="desc mt-1">{{ payload?.item.content }}</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'summary'">
+            <h5 class="text-center mt-3">
+                {{ 'ADMIN.ITEM.SUMMARY.HEADERS.SUMMARY' | translate }}
+            </h5>
+            <mat-card appearance="raised">
+                <mat-card-content>
+                    <div class="row text-center">
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto">
+                            <b>{{ 'ADMIN.ITEM.SUMMARY.BOOKID' | translate }}: </b>
+                            <i>{{ payload?.item.book._id }}</i>
+                        </div>
+                        <ng-container
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.SUMMARY.UPDATED', date: payload?.item.updated_at }"></ng-container>
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto">
+                            <b>{{ 'ADMIN.ITEM.SUMMARY.USERNAME' | translate }}: </b>
+                            <i>{{ payload?.item.user.username }}</i>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto">
+                            <b>{{ 'ADMIN.ITEM.SUMMARY.USERID' | translate }}: </b>
+                            <i>{{ payload?.item.user._id }}</i>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <h5 class="text-center mt-3">
+                {{ 'ADMIN.ITEM.SUMMARY.HEADERS.SUMMARY' | translate }}
+            </h5>
+            <mat-card appearance="raised">
+                <mat-card-content>
+                    <div class="row text-center">
+                        <p><b>{{ 'ADMIN.ITEM.SUMMARY.CONTENT' | translate }}</b></p>
+                        <hr class="m-0" />
+                        <p class="desc mt-1">{{ payload?.item.content }}</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
+
+        <!-- Comment Details -->
+        <ng-container *ngSwitchCase="'comment'">
+            <h5 class="text-center mt-3">
+                {{ 'ADMIN.ITEM.COMMENT.HEADERS.COMMENT' | translate }}
+            </h5>
+            <mat-card appearance="raised">
+                <mat-card-content>
+                    <div class="row text-center">
+                        <ng-container
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.COMMENT.UPDATED', date: payload?.item.created_at }"></ng-container>
+                        <ng-container
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.COMMENT.UPDATED', date: payload?.item.updated_at }"></ng-container>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <h5 class="text-center mt-3">
+                {{ 'ADMIN.ITEM.COMMENT.HEADERS.COMMENT' | translate }}
+            </h5>
+            <mat-card appearance="raised">
+                <mat-card-content>
+                    <div class="row text-center">
+                        <p><b>{{ 'ADMIN.ITEM.COMMENT.CONTENT' | translate }}</b></p>
+                        <hr class="m-0" />
+                        <p class="desc mt-1">{{ payload?.item.content }}</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
     </div>
 </mat-expansion-panel>

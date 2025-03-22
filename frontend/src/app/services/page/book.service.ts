@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ConfigService } from '../global/config.service';
 import { Book, BookRoot } from '../../models/Book';
 import { CrudService } from '../global/crud.service';
-import { Review } from '../../models/Review';
+import { ReviewModel } from '../../models/Review';
 @Injectable({
     providedIn: 'root'
 })
@@ -26,7 +26,11 @@ export class BookService {
     getReviewsByBook(book_id: string, pageSize: number): Observable<any> {
         return this.http.get<any>(`${this.configService.get('API_URL')}/reviews?book_id=${book_id}&limit=${pageSize}`);
     }
-    Addreview(newReview: any): Observable<Review> {
-        return this.http.post<Review>(`${this.configService.get('API_URL')}/reviews`, newReview);
+    Addreview(newReview: any): Observable<ReviewModel> {
+        return this.http.post<ReviewModel>(`${this.configService.get('API_URL')}/reviews`, newReview);
+    }
+
+    deleteBook(_id: number | string) {
+        return this.crudService.delete('books', _id)
     }
 }

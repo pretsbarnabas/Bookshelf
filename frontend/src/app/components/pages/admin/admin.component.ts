@@ -1,8 +1,15 @@
-import { Component, ElementRef, inject, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    inject,
+    ViewChild,
+    ViewEncapsulation,
+    OnInit
+} from '@angular/core';
 import { BookService } from '../../../services/page/book.service';
 import { ReviewService } from '../../../services/page/review.service';
 import { Book } from '../../../models/Book';
-import { Review } from '../../../models/Review';
+import { ReviewModel } from '../../../models/Review';
 import { UserModel } from '../../../models/User';
 import { UserService } from '../../../services/page/user.service';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,12 +18,18 @@ import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ExpansionItemComponent } from './expansion-item/expansion-item.component';
 import { TranslatePipe } from '@ngx-translate/core';
-import { CustomPaginatorComponent } from "../../../utilities/components/custom-paginator/custom-paginator.component";
+import { CustomPaginatorComponent } from '../../../utilities/components/custom-paginator/custom-paginator.component';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslationService } from '../../../services/global/translation.service';
 import { firstValueFrom } from 'rxjs';
+import { SummaryService } from '../../../services/page/summary.service';
+import { CommentService } from '../../../services/page/comment.service';
+import { CommentModel } from '../../../models/Comment';
+import { SummaryModel } from '../../../models/Summary';
+
+type PaginatedArray = UserModel[] | Book[] | ReviewModel[] | SummaryModel[] | CommentModel[];
 
 @Component({
     selector: 'app-admin',
@@ -30,7 +43,7 @@ import { firstValueFrom } from 'rxjs';
         CustomPaginatorComponent,
     ],
     templateUrl: './admin.component.html',
-    styleUrl: './admin.component.scss',
+    styleUrls: ['./admin.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations: [
         trigger('onChange', [
@@ -41,157 +54,171 @@ import { firstValueFrom } from 'rxjs';
         ])
     ]
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit {
     private userService = inject(UserService);
     private bookService = inject(BookService);
     private reviewService = inject(ReviewService);
+    private summaryService = inject(SummaryService);
+    private commentService = inject(CommentService);
     private translationService = inject(TranslationService);
+    private snackBar = inject(MatSnackBar);
 
-    currentArrayInPaginator: UserModel[] | Book[] | Review[] = [];
-    itemType: 'user' | 'book' | 'review' = 'user';
-    disabledButton: 'users' | 'books' | 'reviews' = 'users';
+    currentArrayInPaginator: PaginatedArray = [];
+    itemType: 'user' | 'book' | 'review' | 'summary' | 'comment' = 'user';
+
+    disabledButton: 'users' | 'books' | 'reviews' | 'summaries' | 'comments' = 'users';
     animate: boolean = false;
 
     maxPages: number = 0;
     currentPageIndex = 0;
+    pageSize: number = 10;
 
     users: UserModel[] = [];
     books: Book[] = [];
-    reviews: Review[] = [];
-    pageSize: number = 10;
+    reviews: ReviewModel[] = [];
+    summaries: SummaryModel[] = [];
+    comments: CommentModel[] = [];
 
     errorMessages: HttpErrorResponse[] = [];
     @ViewChild('errorAlert', { static: false }) errorAlert!: ElementRef;
-    private snackBar = inject(MatSnackBar);
 
-    constructor() {
+    private fetchMapping = {
+        users: {
+            fn: () => this.userService.getAllUser(this.pageSize, this.currentPageIndex) as any,
+            type: 'user' as const
+        },
+        books: {
+            fn: () => this.bookService.getAllBooks(this.pageSize, this.currentPageIndex) as any,
+            type: 'book' as const
+        },
+        reviews: {
+            fn: () => this.reviewService.getAllReviews(this.pageSize, this.currentPageIndex) as any,
+            type: 'review' as const
+        },
+        summaries: {
+            fn: () => this.summaryService.getAllSummaries(this.pageSize, this.currentPageIndex) as any,
+            type: 'summary' as const
+        },
+        comments: {
+            fn: () => this.commentService.getAllcomments(this.pageSize, this.currentPageIndex) as any,
+            type: 'comment' as const
+        }
+    };
 
-    }
+    private deleteMapping = {
+        user: {
+            fn: (id: string) => this.userService.deleteUser(id),
+            paginatorKey: 'users' as const
+        },
+        book: {
+            fn: (id: string) => this.bookService.deleteBook(id),
+            paginatorKey: 'books' as const
+        },
+        review: {
+            fn: (id: string) => this.reviewService.deleteReview(id),
+            paginatorKey: 'reviews' as const
+        },
+        summary: {
+            fn: (id: string) => this.summaryService.deleteSummary(id),
+            paginatorKey: 'summaries' as const
+        },
+        comment: {
+            fn: (id: string) => this.commentService.deleteComments(id),
+            paginatorKey: 'comments' as const
+        }
+    };
+
+    constructor() { }
 
     ngOnInit() {
-        this.getUsers();
+        this.changePaginatedArray(this.disabledButton);
     }
 
-    changePaginatedArray(_array: 'users' | 'books' | 'reviews') {
+    changePaginatedArray(arrayKey: 'users' | 'books' | 'reviews' | 'summaries' | 'comments'): void {
         this.errorMessages = [];
-        if (this.disabledButton != _array)
+        if (this.disabledButton !== arrayKey) {
             this.currentPageIndex = 0;
-        this.disabledButton = _array;
-        switch (_array) {
-            case 'users':
-                this.getUsers();
-                break;
-            case 'books':
-                this.getBooks();
-                break;
-            case 'reviews':
-                this.getReviews();
-                break;
         }
+        this.disabledButton = arrayKey;
+        this.fetchItems(arrayKey);
         this.animate = !this.animate;
     }
 
-    private onError(_error: HttpErrorResponse) {
-        this.errorMessages.push(_error);
+    private fetchItems(arrayKey: 'users' | 'books' | 'reviews' | 'summaries' | 'comments'): void {
+        this.fetchMapping[arrayKey].fn().subscribe({
+            next: (data: any) => {
+                console.log(data.data);
+                if (arrayKey === 'users') {
+                    this.users = data.data;
+                    this.currentArrayInPaginator = this.users;
+                } else if (arrayKey === 'books') {
+                    this.books = data.data;
+                    this.currentArrayInPaginator = this.books;
+                } else if (arrayKey === 'reviews') {
+                    this.reviews = data.data;
+                    this.currentArrayInPaginator = this.reviews;
+                } else if (arrayKey === 'summaries') {
+                    this.summaries = data.data;
+                    this.currentArrayInPaginator = this.summaries;
+                } else if (arrayKey === 'comments') {
+                    this.comments = data.data;
+                    this.currentArrayInPaginator = this.comments;
+                }
+                this.itemType = this.fetchMapping[arrayKey].type;
+                this.maxPages = data.pages;
+            },
+            error: (err: HttpErrorResponse) => {
+                if (err.status === 404) {
+                    this.currentPageIndex = 0;
+                    return;
+                }
+                this.onError(err);
+            }
+        });
+    }
+
+    private onError(error: HttpErrorResponse): void {
+        this.errorMessages.push(error);
         setTimeout(() => {
             this.errorAlert.nativeElement.scrollIntoView({ behavior: 'smooth' });
         });
     }
 
-    getUsers() {
-        this.userService.getAllUser(this.pageSize, this.currentPageIndex).subscribe({
-            next: (data) => {
-                this.users = data.data;
-                this.itemType = 'user';
-                this.maxPages = data.pages;
-                this.currentArrayInPaginator = this.users;
-            },
-            error: (err: HttpErrorResponse) => {
-                if (err.status === 404) {
-                    this.currentPageIndex = 0;
-                }
-                this.onError(err);
-            }
-        });
-    }
-
-    getBooks() {
-        this.bookService.getAllBooks(this.pageSize, this.currentPageIndex).subscribe({
-            next: (data) => {
-                this.books = data.data;
-                this.itemType = 'book';
-                this.maxPages = data.pages;
-                this.currentArrayInPaginator = this.books;
-            },
-            error: (err) => {
-                if (err.status === 404) {
-                    this.currentPageIndex = 0;
-                }
-                this.onError(err);
-            }
-        });
-    }
-
-    getReviews() {
-        this.reviewService.getAllReviews(this.pageSize, this.currentPageIndex).subscribe({
-            next: (data) => {
-                this.reviews = data.data;
-                this.itemType = 'review';
-                this.maxPages = data.pages;
-                this.currentArrayInPaginator = this.reviews;
-            },
-            error: (err) => {
-                if (err.status === 404) {
-                    this.currentPageIndex = 0;
-                }
-                this.onError(err);
-            }
-        });
-    }
-
-    changePage(changes: { pageIndex: number; pageSize: number }) {
+    changePage(changes: { pageIndex: number; pageSize: number }): void {
         this.currentPageIndex = changes.pageIndex;
         this.pageSize = changes.pageSize;
         this.changePaginatedArray(this.disabledButton);
     }
 
-    async handleDialogRequest(requestParams: { dialogType: 'delete', item: any }) {
-        switch (requestParams.item.type) {
-            case 'user':
-                if (requestParams.dialogType === 'delete') {
-                    // console.log('delete user')
-                    this.userService.deleteUser((requestParams.item as UserModel)._id).subscribe({
-                        next: async (response: { message: string }) => {
-                            console.log(response.message);
-                            await this.showDialogSnackbar('ADMIN.SNACKBAR.DELETED')
-                            setTimeout(() => {
-                                this.changePaginatedArray('users');
-                            }, 250);
-                        },
-                        error: (err) => {
-                            this.onError(err);
-                        }
-                    });
-                }
-                break;
-            case 'book':
-                console.log('delete book');
-                break;
-            case 'review':
-                console.log('delete book');
-                break;
+    async handleDialogRequest(requestParams: { dialogType: 'delete'; item: { type: 'user' | 'book' | 'review' | 'summary' | 'comment'; _id: string } }): Promise<void> {
+        if (requestParams.dialogType !== 'delete') {
+            return;
         }
+        const mapping = this.deleteMapping[requestParams.item.type];
+        if (!mapping) {
+            return;
+        }
+        mapping.fn((requestParams.item as any)._id).subscribe({
+            next: async (response: { message: string }) => {
+                console.log(response.message);
+                await this.showDialogSnackbar('ADMIN.SNACKBAR.DELETED');
+                setTimeout(() => {
+                    this.changePaginatedArray(mapping.paginatorKey);
+                }, 250);
+            },
+            error: (err: HttpErrorResponse) => {
+                this.onError(err);
+            }
+        });
     }
 
-    async showDialogSnackbar(_snackbarLabel: string) {
-        this.snackBar.open(
-            `${await firstValueFrom(this.translationService.service.get(_snackbarLabel))}`,
-            await firstValueFrom(this.translationService.service.get('ADMIN.SNACKBAR.CLOSE')),
-            {
-                horizontalPosition: 'center',
-                verticalPosition: 'top',
-                duration: 3000
-            }
-        )
+    async showDialogSnackbar(snackbarLabel: string): Promise<void> {
+        const message = await firstValueFrom(this.translationService.service.get(snackbarLabel));
+        const action = await firstValueFrom(this.translationService.service.get('ADMIN.SNACKBAR.CLOSE'));
+        this.snackBar.open(`${message}`, action, {
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            duration: 3000
+        });
     }
 }

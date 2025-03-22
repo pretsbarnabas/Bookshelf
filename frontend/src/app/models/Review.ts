@@ -1,9 +1,11 @@
+import { UserModel } from "./User"
+
 export interface ReviewRoot {
-    data: Review[],
+    data: ReviewModel[],
     pages: number
 }
 
-export interface Review {
+export interface ReviewModel {
     type: 'review'
     _id: string
     user: UserModel
@@ -13,14 +15,3 @@ export interface Review {
     created_at: string
     updated_at: string
 }
-import { UserModel } from "./User"
-
-export interface ReviewPB {
-    _id?: string
-    book_id: string
-    user: UserModel
-    score: number
-    content: string
-    added_at?: Date
-    updated_at?: Date
-}  

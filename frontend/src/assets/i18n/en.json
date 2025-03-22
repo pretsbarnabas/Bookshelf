@@ -43,7 +43,7 @@
     },
     "AUTH": {
         "REGISTERTITLE": "Registration",
-        "LOGINTITLE": "Login",        
+        "LOGINTITLE": "Login",
         "FORM_TITLE": {
             "LOGIN": "Login",
             "REGISTER": "Registration"
@@ -90,19 +90,19 @@
             "CLOSE": "Close"
         }
     },
-    "BOOKS":{
+    "BOOKS": {
         "TITLE": "Books"
     },
     "BOOKITEM": {
         "TITLE": "Details"
     },
-    "SUMMARIES":{
+    "SUMMARIES": {
         "TITLE": "Summaries"
     },
     "SUMMARYITEM": {
         "TITLE": "Details"
     },
-    "MYLIST":{
+    "MYLIST": {
         "TITLE": "Mylist"
     },
     "PROFILE": {
@@ -132,7 +132,9 @@
         "BUTTONS": {
             "USERS": "Users",
             "BOOKS": "Books",
-            "REVIEWS": "Reviews"
+            "REVIEWS": "Reviews",
+            "SUMMARIES": "Summaries",
+            "COMMENTS": "Comments"
         },
         "ITEM": {
             "USER": {
@@ -144,7 +146,7 @@
                 "LAST": "Last login"
             },
             "BOOK": {
-                "HEADERS": {                    
+                "HEADERS": {
                     "RECORD": "Record Data",
                     "BOOK": "Book Data"
                 },
@@ -155,6 +157,39 @@
                 "GENRE": "Genre",
                 "AUTHOR": "Author",
                 "DESC": "Description"
+            },
+            "REVIEW": {
+                "HEADERS": {
+                    "RECORD": "Record Data",
+                    "REVIEW": "Review Data"
+                },
+                "ADDED": "Created on",
+                "UPDATED": "Updated on",
+                "USERNAME": "Username",
+                "USERID": "UserId",
+                "SCORE": "Score",
+                "CONTENT": "Content"
+            },
+            "SUMMARY": {
+                "HEADERS": {
+                    "RECORD": "Record Data",
+                    "SUMMARY": "Summary Data"
+                },
+                "BOOKID": "BookId",
+                "UPDATED": "Updated on",
+                "USERNAME": "Username",
+                "USERID": "UserId",
+                "CONTENT": "Content"
+            },
+            "COMMENT": {
+                "HEADERS": {
+                    "RECORD": "Record Data",
+                    "COMMENT": "Comment Data"
+                },
+                "ADDED": "Created on",
+                "UPDATED": "Updated on",
+                "REVIEWID": "ReviewId",
+                "CONTENT": "Content"
             }
         },
         "DIALOG": {
@@ -163,7 +198,7 @@
                 "MESSAGE": " Would you like to delete the following?",
                 "BUTTONYES": "Delete",
                 "BUTTONNO": "Cancel"
-            },            
+            },
             "USER": {
                 "USERNAME": "Username"
             },
@@ -172,7 +207,7 @@
                 "USERID": "Created by"
             },
             "REVIEW": {
-                "USER": "Created by"                
+                "USER": "Created by"
             }
         },
         "SNACKBAR": {

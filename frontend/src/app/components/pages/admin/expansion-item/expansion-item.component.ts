@@ -1,6 +1,6 @@
-import { Component, EventEmitter, inject, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { LocalizedDatePipe } from '../../../../pipes/date.pipe';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -33,13 +33,19 @@ import { RelativeTimePipe } from '../../../../pipes/relative-time.pipe';
 })
 export class ExpansionItemComponent {
     readonly dialog = inject(MatDialog);
-    @Input() payload?: { type: 'user' | 'book' | 'review', item: any };
+
+    @Input() payload?: { type: 'user' | 'book' | 'review' | 'summary' | 'comment', item: any };
     @Output() onDialogResultTrue = new EventEmitter<{ dialogType: 'delete', item: any }>();
+
+    @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
     animate: boolean = false;
 
     ngOnChanges() {
         if (this.payload?.item && this.payload?.type === 'user' && !this.payload.item.imageUrl) {
             this.payload.item.profile_image = createAvatar(bottts, { seed: this.payload?.item.username }).toDataUri();
+        }
+        if (this.expansionPanel && this.expansionPanel.expanded) {
+            this.expansionPanel.close();
         }
     }
 

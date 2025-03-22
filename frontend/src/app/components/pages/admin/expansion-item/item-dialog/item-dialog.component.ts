@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { UserModel } from '../../../../../models/User';
 import { Book } from '../../../../../models/Book';
-import { Review } from '../../../../../models/Review';
+import { ReviewModel } from '../../../../../models/Review';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 
