@@ -15,12 +15,12 @@ export class SummaryService {
         return this.crudService.getAll<SummaryRoot>(`summaries?limit=${pageSize}&page=${pageIndex}`);
     }
 
-    deleteSummary(_id: number | string): Observable<any>  {
+    deleteSummary(_id: number | string): Observable<any> {
         return this.crudService.delete('summaries', _id)
     }
 
-    updateSummary(data: SummaryModel): Observable<any>  {
-        return this.crudService.update('summaries', data);
+    updateSummary(_id: number | string, data: SummaryModel): Observable<any> {
+        return this.crudService.update('summaries', _id, data);
     }
 
 }

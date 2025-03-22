@@ -15,11 +15,11 @@ export class CommentService {
         return this.crudService.getAll<CommentRoot>(`comments?limit=${pageSize}&page=${pageIndex}`);
     }
 
-    deleteComment(_id: number | string): Observable<any>  {
+    deleteComment(_id: number | string): Observable<any> {
         return this.crudService.delete('comments', _id)
     }
 
-    updateComment(data: CommentModel): Observable<any>  {
-        return this.crudService.update('comments', data);
+    updateComment(_id: number | string, data: CommentModel): Observable<any> {
+        return this.crudService.update('comments', _id, data);
     }
 }

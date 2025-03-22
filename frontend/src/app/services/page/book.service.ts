@@ -34,7 +34,7 @@ export class BookService {
         return this.crudService.delete('books', _id)
     }
 
-    updateBook(data: Book): Observable<any>  {
-        return this.crudService.update('books', data);
+    updateBook(_id: number | string, data: Book): Observable<any>  {
+        return this.crudService.update('books', _id , data);
     }
 }

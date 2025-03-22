@@ -6,11 +6,11 @@ import { Book } from '../../../../../models/Book';
 import { ReviewModel } from '../../../../../models/Review';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormlyMaterialModule } from '@ngx-formly/material';
-import { MatOptionModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { EditDialogFieldConfig, editDialogFormConfigMapping } from '../../../../../services/page/form.service';
 
 @Component({
@@ -24,7 +24,8 @@ import { EditDialogFieldConfig, editDialogFormConfigMapping } from '../../../../
         MatInputModule,
         FormlyMaterialModule,
         ReactiveFormsModule,
-        MatOptionModule
+        MatOptionModule,
+        MatNativeDateModule,
     ],
     templateUrl: './item-dialog.component.html',
     styleUrl: './item-dialog.component.scss',
@@ -44,16 +45,26 @@ export class ItemDialogComponent {
         this.form = this.fb.group({});
 
         this.config.forEach(field => {
+            let initialValue = this.data.item[field.name] || '';
+
+            // if (field.transformInput) {
+            //     console.log(initialValue)
+            //     console.log(field.transformInput(initialValue))
+            //     initialValue = field.transformInput(initialValue);
+            // }
+
             this.form.addControl(
                 field.name,
-                this.fb.control(this.data.item[field.name] || '', field.validators || [])
+                this.fb.control(initialValue, field.validators || [])
             );
+            this.form.get(field.name)?.patchValue(initialValue);
         });
     }
 
     saveModification() {
         if (this.form.valid) {
-            this.emitResult({ result: true, modifiedData: { ...this.data.item, ...this.form.value } });
+            console.log(this.form)
+            this.emitResult({ result: true, modifiedData: { ...this.form.value } });
         }
         console.log({ ...this.data.item, ...this.form.value })
     }

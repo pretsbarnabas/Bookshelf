@@ -177,6 +177,8 @@ export interface EditDialogFieldConfig {
     options?: any[];
     validators?: any[];
     errorMessages?: { [key: string]: string };
+    transformInput?: any;
+    transformOutput?: any;
 }
 
 export const editDialogFormConfigMapping: { [key: string]: EditDialogFieldConfig[] } = {
@@ -189,11 +191,19 @@ export const editDialogFormConfigMapping: { [key: string]: EditDialogFieldConfig
             ],
             errorMessages: {
                 maxDate: "The date cannot be later than today."
-            }
+            },
+            transformInput(value: any): any {
+                if (typeof value === 'string' && value.includes('T')) {
+                    const date = new Date(value);
+                    return date.toISOString().split('T')[0];
+                }
+                return value;
+            },
+            transformOutput: (value: Date) => value ? value.toISOString() : null
         },
         { name: 'genre', label: 'Genre', type: 'text', validators: [] },
         { name: 'description', label: 'Description', type: 'textarea', validators: [] },
-        { name: 'image', label: 'Image', type: 'text', validators: [] },
+        // { name: 'image', label: 'Image', type: 'text', validators: [] },
     ],
     review: [
         {

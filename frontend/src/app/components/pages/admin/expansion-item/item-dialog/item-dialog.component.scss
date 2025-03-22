@@ -18,10 +18,11 @@ mat-dialog-actions {
 }
 
 #edit-dialog {
-    min-height: 215px;
+    min-height: 215px;  
+    scrollbar-width: thin;    
 }
 
-@media (min-width: 767px) {
+@media (min-width: 450px) {
     #edit-dialog {
         min-width: 400px;
     }

@@ -130,19 +130,19 @@ export class AdminComponent implements OnInit {
 
     private updateMapping = {
         book: {
-            fn: (item: Book) => this.bookService.updateBook(item),
+            fn: (id: number | string, item: Book) => this.bookService.updateBook(id, item),
             paginatorKey: 'books' as const
         },
         review: {
-            fn: (item: ReviewModel) => this.reviewService.updateReview(item),
+            fn: (id: number | string, item: ReviewModel) => this.reviewService.updateReview(id, item),
             paginatorKey: 'reviews' as const
         },
         summary: {
-            fn: (item: SummaryModel) => this.summaryService.updateSummary(item),
+            fn: (id: number | string, item: SummaryModel) => this.summaryService.updateSummary(id, item),
             paginatorKey: 'summaries' as const
         },
         comment: {
-            fn: (item: CommentModel) => this.commentService.updateComment(item),
+            fn: (id: number | string, item: CommentModel) => this.commentService.updateComment(id, item),
             paginatorKey: 'comments' as const
         }
     };
@@ -223,7 +223,7 @@ export class AdminComponent implements OnInit {
                         this.changePaginatedArray(mapping.paginatorKey);
                     }, 250);
                 },
-                error: (err: HttpErrorResponse) => this.onError(err)               
+                error: (err: HttpErrorResponse) => this.onError(err)
             });
         }
         if (requestParams.dialogType === 'edit' && requestParams.modifiedItem && requestParams.item?.type !== 'user') {
@@ -231,7 +231,9 @@ export class AdminComponent implements OnInit {
             if (!mapping) {
                 return;
             }
-            mapping.fn(requestParams.item as any).subscribe({
+            console.log(requestParams)
+            console.log(mapping)
+            mapping.fn(requestParams.item._id, (requestParams.modifiedItem as any)).subscribe({
                 next: async (response) => {
                     await this.showDialogSnackbar('ADMIN.SNACKBAR.UPDATED');
                     setTimeout(() => {
