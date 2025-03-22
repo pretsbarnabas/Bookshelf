@@ -44,10 +44,10 @@ router.delete("/comments/:id",CommentController.deleteComment)
 router.put("/comments/:id",CommentController.updateComment)
 
 // Summary routes
-router.get("/summary/",SummaryController.getAllSummaries)
-router.get("/summary/:id",SummaryController.getSummaryById)
-router.post("/summary/",SummaryController.createSummary)
-router.delete("/summary/:id",SummaryController.deleteSummary)
-router.put("/summary/:id",SummaryController.updateSummary)
+router.get("/summaries/",SummaryController.getAllSummaries)
+router.get("/summaries/:id",SummaryController.getSummaryById)
+router.post("/summaries/",SummaryController.createSummary)
+router.delete("/summaries/:id",SummaryController.deleteSummary)
+router.put("/summaries/:id",SummaryController.updateSummary)
 
 module.exports = router

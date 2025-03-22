@@ -269,6 +269,46 @@ components:
         pages:
           type: integer
           example: 10
+    summary:
+      type: object
+      properties:
+        _id:
+          type: string
+        book_id:
+          type: string
+        user_id:
+          type: string
+        content:
+          type: string
+        added_at:
+          type: string
+        updated_at:
+          type: string
+      example:
+        _id: 72bd5cfdf84d7fea96483da4
+        book_id: db0b0c1f83fb29f652cc5a2f
+        user_id: 7fdb24bfd2c9eaca400201b8
+        content: Lorem
+        created_at: 2016-04-08T15:06:21.595+00:00
+        updated_at: 2016-04-08T15:06:21.595+00:00
+    SummaryListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/summary'
+          example:
+            _id: 72bd5cfdf84d7fea96483da4
+            book_id: db0b0c1f83fb29f652cc5a2f
+            user_id: 7fdb24bfd2c9eaca400201b8
+            content: Lorem
+            created_at: 2016-04-08T15:06:21.595+00:00
+            updated_at: 2016-04-08T15:06:21.595+00:00
+        pages:
+          type: integer
+          example: 10
+        
 
   requestBodies:
     user:
@@ -394,6 +434,28 @@ components:
           review_id: required
           content: required
     commentput:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+        example:
+          content: required
+    summary:
+      type: object
+      required:
+        - book_id
+        - content
+      properties:
+        book_id:
+          type: string
+        content:
+          type: string
+        example:
+          book_id: required
+          content: required
+    summaryput:
       type: object
       required:
         - content
@@ -1326,6 +1388,169 @@ paths:
                     example: Comment deleted
         404:
           description: Comment not found
+
+/api/summaries:
+  get:
+    summary: Get all summaries
+    tags:
+      - Summaries
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+        description: Page of pagination (default 0)
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: Limit of results per page (default 10)
+      - in: query
+        name: fields
+        description: Comma-separated list of fields to include in the response
+        schema:
+          type: string
+          example: "content,added_at,updated_at,book.title,book._id,book.author,book.imageUrl,user._id,user.username,user.imageUrl,user.role"
+      - in: query
+        name: book_id
+        schema:
+          type: string
+        description: Filter summaries by book ID
+      - in: query
+        name: user_id
+        schema:
+          type: string
+        description: Filter summaries by user ID
+      - in: query
+        name: minCreate
+        schema:
+          type: string
+        description: Filter by minimum creation date (added_at)
+      - in: query
+        name: maxCreate
+        schema:
+          type: string
+        description: Filter by maximum creation date (added_at)
+      - in: query
+        name: minUpdate
+        schema:
+          type: string
+        description: Filter by minimum update date (updated_at)
+      - in: query
+        name: maxUpdate
+        schema:
+          type: string
+        description: Filter by maximum update date (updated_at)
+    responses:
+      200:
+        description: List of summaries
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SummaryListResponse'
+
+  post:
+    summary: Create a new summary
+    tags:
+      - Summaries
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/requestBodies/summary'
+    responses:
+      201:
+        description: Created summary
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/summary'
+      400:
+        description: Bad request
+      401:
+        description: Unauthorized
+    security:
+      - ApiKeyAuth: []
+
+/api/summaries/{id}:
+  get:
+    summary: Get a specific summary by ID
+    tags:
+      - Summaries
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Summary data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/summary'
+      404:
+        description: Summary not found
+
+  put:
+    summary: Update a summary by ID
+    tags:
+      - Summaries
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    security:
+      - ApiKeyAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/requestBodies/summaryput'
+    responses:
+      200:
+        description: Updated summary data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/summary'
+      400:
+        description: Bad request
+      401:
+        description: Unauthorized
+      404:
+        description: Summary not found
+
+  delete:
+    summary: Delete a summary by ID
+    tags:
+      - Summaries
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    security:
+      - ApiKeyAuth: []
+    responses:
+      200:
+        description: Summary deleted
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: Summary deleted
+      404:
+        description: Summary not found
 
 security:
   - ApiKeyAuth: []
