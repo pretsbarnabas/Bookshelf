@@ -11,16 +11,16 @@
                 </button>
             </div>
             <div id="Filters" class="d-flex justify-content-center">
-                <button mat-fab class="m-5">
+                <button id="TitleDesc" mat-fab class="m-5" (click)="sortBooks('title', 'desc')">
                     <mat-icon>filter_list</mat-icon>
                 </button>
-                <button mat-fab class="m-5">
+                <button id="TitleAsc" mat-fab class="m-5" (click)="sortBooks('title', 'asc')">
                     <mat-icon>filter_list</mat-icon>
                 </button>
-                <button mat-fab class="m-5">
+                <button id="AuthorDesc" mat-fab class="m-5" (click)="sortBooks('author', 'desc')">
                     <mat-icon>filter_list</mat-icon>
                 </button>
-                <button mat-fab class="m-5">
+                <button id="AuthorAsc" mat-fab class="m-5" (click)="sortBooks('author', 'asc')">
                     <mat-icon>filter_list</mat-icon>
                 </button>
             </div>

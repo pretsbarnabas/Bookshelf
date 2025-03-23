@@ -48,19 +48,19 @@ export class BooksComponent implements OnInit {
     books: Book[] = [];
     filteredBooks: Book[] = [];
     searchTerm: string = '';
-    
+
     constructor(private bookService: BookService, private datePipe: DatePipe, private router: Router){}
-    
+
     ngOnInit() {
         this.getBooks();
     }
-    
+
     filterBooks(): void {
         this.filteredBooks = this.books.filter(book => 
             book.title.toLowerCase().includes(this.searchTerm.toLowerCase())
         );
     }
-    
+
     getBooks() {
         this.bookService.getAllBooks(this.pageSize, this.currentPageIndex).subscribe({
             next: (data) => {
@@ -74,18 +74,25 @@ export class BooksComponent implements OnInit {
             }
         });
     }
-    
+
     changePage(changes: { pageIndex: number; pageSize: number }) {
         this.currentPageIndex = changes.pageIndex;
         this.pageSize = changes.pageSize;
         this.getBooks();
     }
-    
+
     navigateToBook(bookId: string) {
         this.router.navigate(['/book-item', bookId]);
     }
-    
+
     formatDate(date: any) {
         return this.datePipe.transform(date, 'yyyy');
+    }
+
+    sortBooks(property: keyof Book, order: 'asc' | 'desc') {
+        this.filteredBooks.sort((a, b) => {
+            const comparison = (a[property] as string).localeCompare(b[property] as string);
+            return order === 'asc' ? comparison : -comparison;
+        });
     }
 }
