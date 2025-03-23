@@ -2,7 +2,7 @@
 //     height: 80vh;
 // }
 .typewriter {
-  width: 22%;
+  width: 20%;
   margin: 0 auto; /* Center the div horizontally */
   display: flex;
   justify-content: center;
@@ -18,9 +18,23 @@
     animation: 
       typing 1.5s steps(20, end),
       blink-caret .75s step-end infinite;
-    }
+}
+#card {
+  width: 200px;
+  margin: 10px;
+}
+#title {
+  font-size: 1.5rem;
+  margin-left: 10px;
+}
 
-  
+#description {
+  font-size: 1rem;
+  margin-left: 10px;
+}
+#card-img {
+  height: 200px;
+}
   @keyframes typing {
     from { width: 0 }
     to { width: 100% }

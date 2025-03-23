@@ -66,7 +66,6 @@ export class BooksComponent implements OnInit {
             next: (data) => {
                 this.books = data.data;
                 this.filteredBooks = this.books;
-                console.log(this.books)
                 this.maxPages = data.pages;
             },
             error: (err) => {

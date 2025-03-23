@@ -3,6 +3,41 @@
         <div class="typewriter">
             <h1>bookshelf.</h1>
         </div>
-        
+        <div class="category-container d-flex flex-column w-100">
+            <h1 id="title" class="align-self-start">Latest Books</h1>
+            <p id="description">See the latest additions of our bookshelf!</p>
+            <div class="card-container d-flex flex-row flex-wrap">
+                <div id="card" *ngFor="let book of books">
+                    <mat-card  (click)="navigateToBook(book._id)">
+                        <mat-card-header>
+                            <mat-card-title class="title">{{ book.title }}</mat-card-title>
+                            <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                        </mat-card-header>
+                        <img id="card-img" mat-card-image class="book-image img-fluid" src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain" alt="{{ book.title }}">
+                        <mat-card-content>
+                            <p>{{ formatDate(book.release) }}</p>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+        <div class="category-container d-flex justify-content-center flex-column w-100">
+            <h1 id="title" class="align-self-start">Latest Books</h1>
+            <p id="description">See the latest additions of our bookshelf!</p>
+            <div class="card-container d-flex flex-row flex-wrap">
+                <div id="card" *ngFor="let book of books">
+                    <mat-card  (click)="navigateToBook(book._id)">
+                        <mat-card-header>
+                            <mat-card-title class="title">{{ book.title }}</mat-card-title>
+                            <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                        </mat-card-header>
+                        <img id="card-img" mat-card-image class="book-image img-fluid" src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain" alt="{{ book.title }}">
+                        <mat-card-content>
+                            <p>{{ formatDate(book.release) }}</p>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
