@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ItemDialogComponent } from './item-dialog/item-dialog.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { RelativeTimePipe } from '../../../../pipes/relative-time.pipe';
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'expansion-item',
@@ -24,7 +25,8 @@ import { RelativeTimePipe } from '../../../../pipes/relative-time.pipe';
         TranslatePipe,
         MatCardModule,
         MatChipsModule,
-        RelativeTimePipe
+        RelativeTimePipe,
+        RouterModule
     ],
     providers: [DatePipe],
     templateUrl: './expansion-item.component.html',
@@ -41,6 +43,7 @@ export class ExpansionItemComponent {
     animate: boolean = false;
 
     ngOnChanges() {
+        console.log(this.payload?.item)
         if (this.payload?.item && this.payload?.type === 'user' && !this.payload.item.imageUrl) {
             this.payload.item.profile_image = createAvatar(bottts, { seed: this.payload?.item.username }).toDataUri();
         }

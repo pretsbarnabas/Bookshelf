@@ -53,6 +53,14 @@ button.delete {
     }
 }
 
+button.visit {
+    background-color: #BDBDBD;
+
+    mat-icon {
+        color: black;
+    }
+}
+
 button.promote-demote {
     background-color: #FF9800;
 

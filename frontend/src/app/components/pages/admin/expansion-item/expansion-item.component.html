@@ -1,7 +1,19 @@
 <mat-expansion-panel hideToggle id="item-panel">
     <mat-expansion-panel-header class="py-3">
         <div class="row w-100">
-            <div class="d-flex justify-content-end align-item-center">
+            <div class="d-flex justify-content-end align-item-center p-0">
+
+                <ng-container *ngIf="payload?.type ==='book' || payload?.item.book ">
+                    @if(payload?.type === 'book'){
+                        <button mat-mini-fab [routerLink]="['/book-item', this.payload?.item._id]" class="visit me-1" (click)="$event.stopPropagation()">
+                            <mat-icon class="mx-auto">open_in_new</mat-icon>
+                        </button>    
+                    } @else{
+                        <button mat-mini-fab [routerLink]="['/book-item', this.payload?.item.book._id]" class="visit me-1" (click)="$event.stopPropagation()">
+                            <mat-icon class="mx-auto">open_in_new</mat-icon>
+                        </button>
+                    }
+                </ng-container>
 
                 <ng-container *ngIf="payload?.type === 'user'; else nonUserButtons">
                     <ng-container *ngIf="payload?.item.role === 'user'">
@@ -15,6 +27,7 @@
                         </button>
                     </ng-container>
                 </ng-container>
+
                 <ng-template #nonUserButtons>
                     <button mat-mini-fab class="edit me-1" (click)="$event.stopPropagation(); openDialog('edit')">
                         <mat-icon class="mx-auto">edit</mat-icon>
