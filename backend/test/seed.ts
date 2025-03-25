@@ -3,7 +3,7 @@ const Types = require("mongoose").Types
 
 
 
-async function seed(){
+export async function seed(){
     const uri = "mongodb://localhost:27017"
 
     const client = new MongoClient(uri,{})
