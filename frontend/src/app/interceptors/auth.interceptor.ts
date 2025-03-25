@@ -11,7 +11,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
     if (token) {
         try {
-            const decoded: any = jwtDecode(token);
+            const decoded: any = authService.decodeToken();
             const currentTime = Math.floor(Date.now() / 1000);
 
             if (decoded.exp && decoded.exp < currentTime) {

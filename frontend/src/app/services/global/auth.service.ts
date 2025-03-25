@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { createAvatar } from '@dicebear/core';
 import { bottts } from '@dicebear/collection';
 import { CrudService } from './crud.service';
+import * as CryptoJS from "crypto-js";
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +28,7 @@ export class AuthService {
     logIn(_user: UserLoginModel): Observable<boolean> {
         return this.crudService.create<UserLoginModel>('login', _user).pipe(
             map((result: { token: string }) => {
-                localStorage.setItem('authToken', result.token);
+                localStorage.setItem('authToken', this.encodeToken(result.token));
                 this.setLoggedInUser();
                 this.scheduleAutoLogout();
                 return true;
@@ -64,9 +65,17 @@ export class AuthService {
         return decodedToken ? decodedToken.id : undefined;
     }
 
+    encodeToken(_token: string): string {
+        return CryptoJS.AES.encrypt(_token, 'secret-key').toString();
+    }
+
     decodeToken(): any {
         const token = localStorage.getItem('authToken');
-        return token ? jwtDecode(token) : undefined;
+        if(token){
+            const semiDecoded = CryptoJS.AES.decrypt(token, 'secret-key').toString(CryptoJS.enc.Utf8);
+            return semiDecoded ? jwtDecode(semiDecoded) : undefined;
+        }
+        return undefined;
     }
 
     setLoggedInUser(): void {
