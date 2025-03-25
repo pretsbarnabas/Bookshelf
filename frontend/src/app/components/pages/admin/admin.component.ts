@@ -28,6 +28,9 @@ import { SummaryService } from '../../../services/page/summary.service';
 import { CommentService } from '../../../services/page/comment.service';
 import { CommentModel } from '../../../models/Comment';
 import { SummaryModel } from '../../../models/Summary';
+import { MatSortModule } from '@angular/material/sort';
+import { SortItemsComponent } from "../../../utilities/components/sort-items/sort-items.component";
+import { SortItems } from '../../../utilities/components/sort-items';
 
 type PaginatedArray = UserModel[] | Book[] | ReviewModel[] | SummaryModel[] | CommentModel[];
 
@@ -41,6 +44,8 @@ type PaginatedArray = UserModel[] | Book[] | ReviewModel[] | SummaryModel[] | Co
         ExpansionItemComponent,
         TranslatePipe,
         CustomPaginatorComponent,
+        MatSortModule,
+        SortItemsComponent
     ],
     templateUrl: './admin.component.html',
     styleUrls: ['./admin.component.scss'],
@@ -63,8 +68,10 @@ export class AdminComponent implements OnInit {
     private translationService = inject(TranslationService);
     private snackBar = inject(MatSnackBar);
 
+    fetchedArray: PaginatedArray = [];
     currentArrayInPaginator: PaginatedArray = [];
     itemType: 'user' | 'book' | 'review' | 'summary' | 'comment' = 'user';
+    currentSortSettings: { field: string, mode: 'asc' | 'desc' } = { field: '', mode: 'asc' }
 
     disabledButton: 'users' | 'books' | 'reviews' | 'summaries' | 'comments' = 'users';
     animate: boolean = false;
@@ -157,6 +164,7 @@ export class AdminComponent implements OnInit {
         this.errorMessages = [];
         if (this.disabledButton !== arrayKey) {
             this.currentPageIndex = 0;
+            this.currentSortSettings = { field: '', mode: 'asc' };
         }
         this.disabledButton = arrayKey;
         this.fetchItems(arrayKey);
@@ -168,21 +176,22 @@ export class AdminComponent implements OnInit {
             next: (data: any) => {
                 if (arrayKey === 'users') {
                     this.users = data.data;
-                    this.currentArrayInPaginator = this.users;
+                    this.fetchedArray = this.users;
                 } else if (arrayKey === 'books') {
                     this.books = data.data;
-                    this.currentArrayInPaginator = this.books;
+                    this.fetchedArray = this.books;
                 } else if (arrayKey === 'reviews') {
                     this.reviews = data.data;
-                    this.currentArrayInPaginator = this.reviews;
+                    this.fetchedArray = this.reviews;
                 } else if (arrayKey === 'summaries') {
                     this.summaries = data.data;
-                    this.currentArrayInPaginator = this.summaries;
+                    this.fetchedArray = this.summaries;
                 } else if (arrayKey === 'comments') {
                     this.comments = data.data;
-                    this.currentArrayInPaginator = this.comments;
+                    this.fetchedArray = this.comments;
                 }
                 this.itemType = this.fetchMapping[arrayKey].type;
+                this.sortItems(this.currentSortSettings)
                 this.maxPages = data.pages;
             },
             error: (err: HttpErrorResponse) => {
@@ -231,8 +240,6 @@ export class AdminComponent implements OnInit {
             if (!mapping) {
                 return;
             }
-            console.log(requestParams)
-            console.log(mapping)
             mapping.fn(requestParams.item._id, (requestParams.modifiedItem as any)).subscribe({
                 next: async (response) => {
                     await this.showDialogSnackbar('ADMIN.SNACKBAR.UPDATED');
@@ -253,5 +260,17 @@ export class AdminComponent implements OnInit {
             verticalPosition: 'top',
             duration: 3000
         });
+    }
+
+    sortItems(_settings: { field: string, mode: 'asc' | 'desc' }): void {
+        if (_settings.field === '') {
+            this.currentArrayInPaginator = structuredClone(this.fetchedArray);
+            return;
+        }
+        this.currentSortSettings = _settings;
+        this.currentArrayInPaginator = structuredClone(this.fetchedArray);
+        this.currentArrayInPaginator = SortItems.generalizedSort(this.currentArrayInPaginator as any[], _settings.field, _settings.mode);
+        console.log(this.currentArrayInPaginator, this.fetchedArray);
+        
     }
 }

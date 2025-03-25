@@ -1,0 +1,15 @@
+<div>
+    <mat-form-field>
+        <mat-label>Sort by:</mat-label>
+        <mat-select [(ngModel)]="this.selectedField" (selectionChange)="this.emitChangedValue()">
+            <mat-option value="">---</mat-option>
+            @for (field of this.sortedFields; track $index) {
+            <mat-option [value]="field">{{ field }}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>    
+    <mat-radio-group [(ngModel)]="this.mode" (change)="this.emitChangedValue()">
+        <mat-radio-button value="asc">Asc</mat-radio-button>
+        <mat-radio-button value="desc">Desc</mat-radio-button>
+    </mat-radio-group>
+</div>

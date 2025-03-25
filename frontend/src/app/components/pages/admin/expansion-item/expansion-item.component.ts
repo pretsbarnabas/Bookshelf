@@ -43,7 +43,6 @@ export class ExpansionItemComponent {
     animate: boolean = false;
 
     ngOnChanges() {
-        console.log(this.payload?.item)
         if (this.payload?.item && this.payload?.type === 'user' && !this.payload.item.imageUrl) {
             this.payload.item.profile_image = createAvatar(bottts, { seed: this.payload?.item.username }).toDataUri();
         }
@@ -54,7 +53,6 @@ export class ExpansionItemComponent {
 
     openDialog(type: 'delete' | 'edit') {
         this.payload!.item.type = this.payload?.type;
-        console.log(this.payload?.item)
         const dialogRef = this.dialog.open(ItemDialogComponent, {
             data: {
                 type: type,
@@ -64,7 +62,6 @@ export class ExpansionItemComponent {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log('Dialog result:', result);
             if (result === true)
                 this.onDialogResultTrue.emit({ dialogType: type, item: this.payload?.item })
             if (result.result === true)
