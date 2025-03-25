@@ -69,9 +69,17 @@ export class AuthService {
         return CryptoJS.AES.encrypt(_token, 'secret-key').toString();
     }
 
+    decodeToJWT() {
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            return CryptoJS.AES.decrypt(token, 'secret-key').toString(CryptoJS.enc.Utf8);
+        }
+        return undefined;
+    }
+
     decodeToken(): any {
         const token = localStorage.getItem('authToken');
-        if(token){
+        if (token) {
             const semiDecoded = CryptoJS.AES.decrypt(token, 'secret-key').toString(CryptoJS.enc.Utf8);
             return semiDecoded ? jwtDecode(semiDecoded) : undefined;
         }
@@ -84,7 +92,7 @@ export class AuthService {
             this.loggedInUserSubject.next(null);
             return;
         }
-    
+
         this.getUserFromToken(tokenId).subscribe({
             next: (result: any) => {
                 result.profile_image = createAvatar(bottts, { seed: result.username }).toDataUri();

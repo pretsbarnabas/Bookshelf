@@ -1,5 +1,4 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { jwtDecode } from 'jwt-decode';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/global/auth.service';
@@ -12,6 +11,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     if (token) {
         try {
             const decoded: any = authService.decodeToken();
+            
             const currentTime = Math.floor(Date.now() / 1000);
 
             if (decoded.exp && decoded.exp < currentTime) {
@@ -21,7 +21,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
             }
 
             const clonedRequest = req.clone({
-                setHeaders: { Authorization: `Bearer ${token}` }
+                setHeaders: { Authorization: `Bearer ${authService.decodeToJWT()}` }
             });
 
             return next(clonedRequest);
