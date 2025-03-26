@@ -19,22 +19,6 @@
       typing 1.5s steps(20, end),
       blink-caret .75s step-end infinite;
 }
-#card {
-  width: 200px;
-  margin: 10px;
-}
-#title {
-  font-size: 1.5rem;
-  margin-left: 10px;
-}
-
-#description {
-  font-size: 1rem;
-  margin-left: 10px;
-}
-#card-img {
-  height: 200px;
-}
   @keyframes typing {
     from { width: 0 }
     to { width: 100% }
@@ -44,3 +28,43 @@
     from, to { border-color: transparent }
     50% { border-color: orange; }
   }
+#card-top5 {
+  width: 200px;
+  margin: 10px;
+}
+#card-top5-title {
+  font-size: 1.5rem;
+  margin-left: 22%;
+}
+
+#card-top5-description {
+  font-size: 1rem;
+  margin-left: 22%;
+}
+#card-top5-img {
+  height: 200px;
+}
+.right{
+  margin-left: 0.5%  !important;
+}
+.gradient {
+  background: linear-gradient(to left, transparent 22%, rgba(179, 235, 242, 0.5) 82%, transparent 92%);
+
+}
+.gradient-right {
+  background: linear-gradient(to right, transparent 20%, rgba(179, 235, 242, 0.5)  80%, transparent 90%);
+
+}
+.category-container {
+  margin: 5% 40% 0 0%;
+  border-radius: 5%;
+}
+
+.category-container-right {
+  margin: 5% 0% 0 40%;
+  border-radius: 5%;
+}
+.w-90{
+  width: 85%;
+  margin: 0 7.5% 0 7.5%;
+}
