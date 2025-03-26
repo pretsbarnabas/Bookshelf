@@ -1,21 +1,38 @@
 // h1  {
-//     height: 80vh;
-// }
-
-.Bookshelf {
-  width: 20%;
+  //     height: 80vh;
+  // }
+  
+  .Bookshelf {
+    width: 20%;
   margin: 0 auto; /* Center the div horizontally */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .Bookshelf h1 {
-    overflow: hidden;
+  overflow: hidden;
     font-size: 4rem;
     white-space: nowrap; 
     margin: 0 auto; 
     letter-spacing: .15em;
     
+  }
+.gradient {
+  background: linear-gradient(to left, transparent 22%, rgba(179, 235, 242, 0.5) 82%, transparent 92%);
+  margin-top: 5%;
+}
+.gradient-right {
+  margin-top: 2.5%;
+  background: linear-gradient(to right, transparent 20%, rgba(179, 235, 242, 0.5)  80%, transparent 90%);
+}
+  .category-container {
+  margin: 5% 40% 0 0%;
+  max-width: 100%;
+}
+  
+.category-container-right {
+  margin: 0 auto;
+  max-width: 100%;
 }
 .card-container {
   display: flex;
@@ -31,7 +48,7 @@
   justify-content: flex-start; /* Align cards to the left */
 }
 #card-top5 {
-  max-width: 200px; /* Limit the maximum width of each card */
+  width: 200px; 
   box-sizing: border-box; /* Include padding and border in width calculation */
 }
 
@@ -61,24 +78,6 @@
 .right{
   margin-left: 0.5% ;
 }
-.gradient {
-  background: linear-gradient(to left, transparent 22%, rgba(179, 235, 242, 0.5) 82%, transparent 92%);
-
-}
-.gradient-right {
-  background: linear-gradient(to right, transparent 20%, rgba(179, 235, 242, 0.5)  80%, transparent 90%);
-
-}
-.category-container {
-  margin: 0 auto;
-  margin: 5% 40% 0 0%;
-  max-width: 100%;
-}
-
-.category-container-right {
-  margin: 0 auto;
-  max-width: 100%;
-}
 .w-90{
   width: 85%;
   margin: 0 7.5% 0 7.5%;
@@ -86,6 +85,17 @@
 .gradient,
 .gradient-right {
   overflow: hidden; /* Prevent content overflow */
+}
+.loginSegment{
+  margin: 5%;
+  background: linear-gradient(to right, transparent 0%, rgba(179, 235, 242, 0.5)  50%, transparent 100%);
+  
+}
+.loginSegment-button{
+  margin-left: 2.5%;
+  margin-top: 2.5%;
+  margin-bottom: 3%;
+
 }
 @media (min-width: 1200px) {
 

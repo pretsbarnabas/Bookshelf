@@ -43,12 +43,22 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex justify-content-center align-items-center vh-100">
+        <div *ngIf="!isLoggedIn" class="loginSegment d-flex justify-content-center align-items-center">
             <div class="text-center w-100">
-                <p>Welcome to Bookshelf! Please log in or register to continue.</p>
+                <h1>Welcome to Bookshelf! Please log in or register to continue.</h1>
+                <p class="w-75 mx-auto">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic odit maxime fuga ipsa molestiae quod nostrum distinctio id nam quia, similique, cupiditate, ut praesentium repellendus eveniet. Sed sequi est atque?
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic odit maxime fuga ipsa molestiae quod nostrum distinctio id nam quia, similique, cupiditate, ut praesentium repellendus eveniet. Sed sequi est atque?
+                </p>
                 <div class="d-flex justify-content-center gap-3">
-                    <button mat-raised-button color="primary">Login</button>
-                    <button mat-raised-button color="accent">Register</button>
+                    <button class="loginSegment-button" mat-fab extended (click)="navigateTo('auth/register')">
+                        <mat-icon >person_add</mat-icon>
+                        Register
+                      </button>
+                      <button class="loginSegment-button" mat-fab extended (click)="navigateTo('auth/login')">
+                        <mat-icon>login</mat-icon>
+                        Login
+                      </button>
                 </div>
             </div>
         </div>
