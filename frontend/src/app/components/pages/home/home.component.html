@@ -3,18 +3,18 @@
         <div class="typewriter">
             <h1>bookshelf.</h1>
         </div>
-        <div class="gradient w-100">
+        <div class="gradient w-100 overflow-hidden">
             <div class="category-container align-items-end d-flex flex-column">
                 <h1 id="card-top5-title" class="align-self-start">Latest Books</h1>
                 <p id="card-top5-description" class="align-self-start">See the latest additions of our bookshelf!</p>
-                <div class="card-container d-flex flex-row flex-wrap">
-                    <div id="card-top5" *ngFor="let book of books">
-                        <mat-card  (click)="navigateToBook(book._id)">
+                <div class="card-container d-flex flex-row flex-wrap justify-content-start">
+                    <div id="card-top5" class="flex-shrink-0" *ngFor="let book of books">
+                        <mat-card (click)="navigateToBook(book._id)">
                             <mat-card-header>
                                 <mat-card-title class="title">{{ book.title }}</mat-card-title>
                                 <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
                             </mat-card-header>
-                            <img id="card-top5-img" mat-card-image class="w-90 book-image  img-fluid" src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain" alt="{{ book.title }}">
+                            <img id="card-top5-img" mat-card-image class="w-90 book-image img-fluid" src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain" alt="{{ book.title }}">
                             <mat-card-content>
                                 <p>{{ formatDate(book.release) }}</p>
                             </mat-card-content>
@@ -23,13 +23,13 @@
                 </div>
             </div>
         </div>
-        <div class="gradient-right w-80">
-            <div class="category-container-right  d-flex flex-column w-100">
+        <div class="gradient-right w-100 overflow-hidden">
+            <div class="category-container-right d-flex flex-column w-100">
                 <h1 id="card-top5-title" class="right">Popular Books</h1>
                 <p id="card-top5-description" class="right">Take a look at the most popular items of our selection!</p>
-                <div class="card-container d-flex flex-row flex-wrap">
-                    <div id="card-top5" *ngFor="let book of books">
-                        <mat-card  (click)="navigateToBook(book._id)">
+                <div class="card-container d-flex flex-row flex-wrap justify-content-start">
+                    <div id="card-top5" class="flex-shrink-0 card-top5-rightsided" *ngFor="let book of books">
+                        <mat-card (click)="navigateToBook(book._id)">
                             <mat-card-header>
                                 <mat-card-title class="title">{{ book.title }}</mat-card-title>
                                 <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
