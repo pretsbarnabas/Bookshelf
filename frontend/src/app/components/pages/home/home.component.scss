@@ -2,43 +2,37 @@
 //     height: 80vh;
 // }
 
-.typewriter {
+.Bookshelf {
   width: 20%;
   margin: 0 auto; /* Center the div horizontally */
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.typewriter h1 {
+.Bookshelf h1 {
     overflow: hidden;
     font-size: 4rem;
-    border-right: .15em solid orange; 
     white-space: nowrap; 
     margin: 0 auto; 
     letter-spacing: .15em;
-    animation: 
-      typing 1.5s steps(20, end),
-      blink-caret .75s step-end infinite;
-}
-  @keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-  }
-  
-  @keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: orange; }
-  }
-#card-top5 {
-  flex: 1 1 calc(25% - 15px); /* Responsive card width with spacing */
-  max-width: 200px; /* Limit the maximum width of each card */
-  box-sizing: border-box; /* Include padding and border in width calculation */
+    
 }
 .card-container {
   display: flex;
   flex-wrap: wrap; /* Allow cards to wrap to the next line */
   gap: 15px; /* Add spacing between cards */
   justify-content: flex-start; /* Align cards to the left */
+  margin-left: 22%;
+}
+.card-container-right {
+  display: flex;
+  flex-wrap: wrap; /* Allow cards to wrap to the next line */
+  gap: 15px; /* Add spacing between cards */
+  justify-content: flex-start; /* Align cards to the left */
+}
+#card-top5 {
+  max-width: 200px; /* Limit the maximum width of each card */
+  box-sizing: border-box; /* Include padding and border in width calculation */
 }
 
 #card-top5-title {
@@ -46,16 +40,26 @@
   margin-left: 22%;
 }
 
+#card-top5-title-right {
+  font-size: 1.5rem;
+  margin-left: 0.5%;
+}
+
 #card-top5-description {
   font-size: 1rem;
   margin-left: 22%;
+}
+
+#card-top5-description-right {
+  font-size: 1rem;
+  margin-left: 0.5%;
 }
 #card-top5-img {
   height: 200px;
   object-fit: cover; /* Ensure images fit nicely within the card */
 }
 .right{
-  margin-left: 0.5%  !important;
+  margin-left: 0.5% ;
 }
 .gradient {
   background: linear-gradient(to left, transparent 22%, rgba(179, 235, 242, 0.5) 82%, transparent 92%);
@@ -66,13 +70,14 @@
 
 }
 .category-container {
-  border-radius: 5%;
   margin: 0 auto;
+  margin: 5% 40% 0 0%;
+  max-width: 100%;
 }
 
 .category-container-right {
-  border-radius: 5%;
   margin: 0 auto;
+  max-width: 100%;
 }
 .w-90{
   width: 85%;
@@ -82,17 +87,8 @@
 .gradient-right {
   overflow: hidden; /* Prevent content overflow */
 }
-
-.category-container,
-.category-container-right {
-  max-width: 100%; /* Prevent the container from exceeding the viewport width */
-}
 @media (min-width: 1200px) {
-  .category-container {
-    margin: 5% 40% 0 0%;
-    border-radius: 5%;
-  }
-  
+
   .category-container-right {
     margin: 5% 0% 0 40%;
     border-radius: 5%;
@@ -110,6 +106,17 @@
   .category-container-right {
     margin: 0 auto;
     border-radius: 5%;
+  }
+  .card-container-right {
+    margin-left: 22%;
+  }
+
+  #card-top5-title-right {
+    margin-left: 22%;
+  }
+  
+  #card-top5-description-right {
+    margin-left: 22%;
   }
   .gradient-right {
     background: linear-gradient(to left, transparent 22%, rgba(179, 235, 242, 0.5) 97%, transparent 99%,);

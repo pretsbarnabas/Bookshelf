@@ -1,10 +1,10 @@
 <div class="wrapper">
     <div class="wrapper-content">
-        <div class="typewriter">
+        <div class="Bookshelf">
             <h1>bookshelf.</h1>
         </div>
         <div class="gradient w-100 overflow-hidden">
-            <div class="category-container align-items-end d-flex flex-column">
+            <div class="category-container w-100 d-flex flex-column">
                 <h1 id="card-top5-title" class="align-self-start">Latest Books</h1>
                 <p id="card-top5-description" class="align-self-start">See the latest additions of our bookshelf!</p>
                 <div class="card-container d-flex flex-row flex-wrap justify-content-start">
@@ -25,9 +25,9 @@
         </div>
         <div class="gradient-right w-100 overflow-hidden">
             <div class="category-container-right d-flex flex-column w-100">
-                <h1 id="card-top5-title" class="right">Popular Books</h1>
-                <p id="card-top5-description" class="right">Take a look at the most popular items of our selection!</p>
-                <div class="card-container d-flex flex-row flex-wrap justify-content-start">
+                <h1 id="card-top5-title-right" class="">Popular Books</h1>
+                <p id="card-top5-description-right" class="">Take a look at the most popular items of our selection!</p>
+                <div class="card-container-right d-flex flex-row flex-wrap justify-content-start">
                     <div id="card-top5" class="flex-shrink-0 card-top5-rightsided" *ngFor="let book of books">
                         <mat-card (click)="navigateToBook(book._id)">
                             <mat-card-header>
@@ -40,6 +40,15 @@
                             </mat-card-content>
                         </mat-card>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center align-items-center vh-100">
+            <div class="text-center w-100">
+                <p>Welcome to Bookshelf! Please log in or register to continue.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <button mat-raised-button color="primary">Login</button>
+                    <button mat-raised-button color="accent">Register</button>
                 </div>
             </div>
         </div>
