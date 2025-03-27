@@ -12,7 +12,7 @@ export class CommentService {
     constructor() { }
 
     getAllcomments(pageSize: number, pageIndex: number, userId?: number | string): Observable<CommentRoot> {
-        return this.crudService.getAll<CommentRoot>(`comments?limit=${pageSize}&page=${pageIndex} + ${userId ? `user_id=${userId}`: ''}`);
+        return this.crudService.getAll<CommentRoot>(`comments?limit=${pageSize}&page=${pageIndex} + ${userId ? `&user_id=${userId}`: ''}`);
     }
 
     deleteComment(_id: number | string): Observable<any> {

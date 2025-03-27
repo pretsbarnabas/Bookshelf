@@ -58,46 +58,53 @@
                         <mat-tab-group (selectedTabChange)="this.onTabChange($event)">
                             @if(this.loggedInUser?.role === 'editor' || 'admin'){
                             <mat-tab label="Books" id="books">
-                                @if(this.currentArrayInPaginator.length > 0){
-                                @for (item of this.currentArrayInPaginator; track $index) {
-                                <expansion-item [payload]="{ type: this.itemType, item : item}"
-                                    (onDialogResultTrue)="this.handleDialogRequest($event)" />
-                                }
-                                } @else {
-                                <h1>No items yet</h1>
-                                }
+                                <mat-accordion>
+                                    @if(this.currentArrayInPaginator.length > 0){
+                                    @for (item of this.currentArrayInPaginator; track $index) {
+                                    <expansion-item [payload]="{ type: this.itemType, item : item}"
+                                        (onDialogResultTrue)="this.handleDialogRequest($event)" />
+                                    }
+                                    } @else {
+                                    <h1>No items yet</h1>
+                                    }
+                                </mat-accordion>
                             </mat-tab>
                             <mat-tab label="Summaries" id="summaries">
-                                @if(this.currentArrayInPaginator.length > 0){
-                                @for (item of this.currentArrayInPaginator; track $index) {
-                                <expansion-item [payload]="{ type: this.itemType, item : item}"
-                                    (onDialogResultTrue)="this.handleDialogRequest($event)" />
-                                }
-                                } @else {
-                                <h1>No items yet</h1>
-                                }
+                                <mat-accordion>
+                                    @if(this.currentArrayInPaginator.length > 0){
+                                    @for (item of this.currentArrayInPaginator; track $index) {
+                                    <expansion-item [payload]="{ type: this.itemType, item : item}"
+                                        (onDialogResultTrue)="this.handleDialogRequest($event)" />
+                                    }
+                                    } @else {
+                                    <h1>No items yet</h1>
+                                    }
+                                </mat-accordion>
                             </mat-tab>
                             }
                             <mat-tab label="Comments" id="comments">
-                                @if(this.currentArrayInPaginator.length > 0){
-                                @for (item of this.currentArrayInPaginator; track $index) {
-                                <expansion-item [payload]="{ type: this.itemType, item : item}"
-                                    (onDialogResultTrue)="this.handleDialogRequest($event)" />
-                                }
-                                } @else {
-                                <h1>No items yet</h1>
-                                }
+                                <mat-accordion>
+                                    @if(this.currentArrayInPaginator.length > 0){
+                                    @for (item of this.currentArrayInPaginator; track $index) {
+                                    <expansion-item [payload]="{ type: this.itemType, item : item}"
+                                        (onDialogResultTrue)="this.handleDialogRequest($event)" />
+                                    }
+                                    } @else {
+                                    <h1>No items yet</h1>
+                                    }
+                                </mat-accordion>
                             </mat-tab>
                             <mat-tab label="Reviews" id="reviews">
-                                @if(this.currentArrayInPaginator.length > 0){
-                                @for (item of this.currentArrayInPaginator; track $index) {
-                                <expansion-item [payload]="{ type: this.itemType, item : item}"
-                                    (onDialogResultTrue)="this.handleDialogRequest($event)" />
-                                }
-                                } @else {
-                                <h1>No items yet</h1>
-                                }
-
+                                <mat-accordion>
+                                    @if(this.currentArrayInPaginator.length > 0){
+                                    @for (item of this.currentArrayInPaginator; track $index) {
+                                    <expansion-item [payload]="{ type: this.itemType, item : item}"
+                                        (onDialogResultTrue)="this.handleDialogRequest($event)" />
+                                    }
+                                    } @else {
+                                    <h1>No items yet</h1>
+                                    }
+                                </mat-accordion>
                             </mat-tab>
                         </mat-tab-group>
                     </div>

@@ -12,7 +12,7 @@ export class SummaryService {
     constructor() { }
 
     getAllSummaries(pageSize: number, pageIndex: number, userId?: number | string): Observable<SummaryRoot> {
-        return this.crudService.getAll<SummaryRoot>(`summaries?limit=${pageSize}&page=${pageIndex}, userId?: number | string`);
+        return this.crudService.getAll<SummaryRoot>(`summaries?limit=${pageSize}&page=${pageIndex} + ${userId ? `&user_id=${userId}` : ''}`);
     }
 
     deleteSummary(_id: number | string): Observable<any> {

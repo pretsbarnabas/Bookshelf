@@ -19,6 +19,7 @@ import { CommentService } from '../../../services/page/comment.service';
 import { ExpansionItemComponent } from '../admin/expansion-item/expansion-item.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SortItems } from '../../../utilities/components/sort-items';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
     selector: 'app-profile',
@@ -33,7 +34,8 @@ import { SortItems } from '../../../utilities/components/sort-items';
         MatButtonModule,
         MatTabsModule,
         CustomPaginatorComponent,
-        ExpansionItemComponent
+        ExpansionItemComponent,
+        MatExpansionModule
     ],
     providers: [DatePipe],
     templateUrl: './profile.component.html',
@@ -72,23 +74,23 @@ export class ProfileComponent {
         this.authService.loggedInUser$.subscribe(user => {
             this.loggedInUser = user;
             this.roleDataHead = `PROFILE.PROFILECARD.ROLETABLE.${user?.role.toLocaleUpperCase()}`;
-        });
+        });        
     }
     private fetchMapping = {
         0: {
-            fn: () => this.bookService.getAllBooks(this.pageSize, this.currentPageIndex) as any,
+            fn: () => this.bookService.getAllBooks(this.pageSize, this.currentPageIndex, this.loggedInUser?._id) as any,
             type: 'book' as const
         },
-        1: {
-            fn: () => this.reviewService.getAllReviews(this.pageSize, this.currentPageIndex) as any,
+        3: {
+            fn: () => this.reviewService.getAllReviews(this.pageSize, this.currentPageIndex, this.loggedInUser?._id) as any,
             type: 'review' as const
         },
-        2: {
-            fn: () => this.summaryService.getAllSummaries(this.pageSize, this.currentPageIndex) as any,
+        1: {
+            fn: () => this.summaryService.getAllSummaries(this.pageSize, this.currentPageIndex, this.loggedInUser?._id) as any,
             type: 'summary' as const
         },
-        3: {
-            fn: () => this.commentService.getAllcomments(this.pageSize, this.currentPageIndex) as any,
+        2: {
+            fn: () => this.commentService.getAllcomments(this.pageSize, this.currentPageIndex, this.loggedInUser?._id) as any,
             type: 'comment' as const
         }
     };
@@ -122,7 +124,6 @@ export class ProfileComponent {
 
     onTabChange(event: MatTabChangeEvent) {
         this.fetchItems((event.index.toString() as '0' | '1' | '2' | '3'))
-        console.log(this.fetchedArray)
     }
 
     changePage(changes: { pageIndex: number; pageSize: number }): void {
