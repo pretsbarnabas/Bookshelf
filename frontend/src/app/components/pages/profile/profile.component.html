@@ -3,7 +3,7 @@
         <mat-card appearance="raised" class="profile-card  p-0">
             <mat-card-content>
                 <div class="row">
-                    <div class="col-12 col-md-4 col-lg-3 text-center">
+                    <div class="col-12 col-lg-3 text-center">
                         <mat-card appearance="outlined" class="p-2">
                             <div class="profile-wrapper mx-auto w-50">
                                 <img [src]="this.loggedInUser?.profile_image" alt="Profile Picture">
@@ -29,7 +29,7 @@
                             </button>
                         </mat-card>
                     </div>
-                    <div class="col-12 col-md-8 col-lg-9">
+                    <div class="col-12 col-lg-9">
                         @if (errorMessages.length > 0) {
                         <div class="alert alert-danger row mt-3" role="alert" #errorAlert>
                             <div class="col-10">

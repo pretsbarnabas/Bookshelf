@@ -96,8 +96,10 @@ export class ProfileComponent {
     };
 
     private fetchItems(arrayKey: '0' | '1' | '2' | '3'): void {
+        this.errorMessages = [];
+        this.currentArrayInPaginator = [];
         this.fetchMapping[arrayKey].fn().subscribe({
-            next: (data: any) => {
+            next: (data: any) => {                          
                 this.fetchedArray = data.data
                 this.itemType = this.fetchMapping[arrayKey].type;
                 this.sortItems(this.currentSortSettings)
