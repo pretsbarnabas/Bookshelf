@@ -30,6 +30,7 @@
 }
 
 .mat-mdc-menu-panel {
+    will-change: auto;
     &.settings {
         min-width: 170px;
     }

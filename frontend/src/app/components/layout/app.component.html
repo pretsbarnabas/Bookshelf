@@ -44,9 +44,9 @@
                             <mat-panel-title>
                                 <div class="avatar-wrapper me-1">
                                     <img [src]="this.loggedInUser.profile_image" alt="Profile Picture"
-                                        class="rounded-circle">
+                                    class="rounded-circle">
                                 </div>
-                                <span>{{ this.loggedInUser.username | truncate }}</span>
+                                <span>{{ this.loggedInUser.username | truncate }} - {{ this.displayRemainingTime() }}</span>                                
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                         <router-button
