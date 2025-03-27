@@ -225,7 +225,7 @@ export class AdminComponent implements OnInit {
             if (!mapping) {
                 return;
             }
-            mapping.fn(requestParams.item as any).subscribe({
+            mapping.fn(requestParams.item._id as any).subscribe({
                 next: async (response: { message: string }) => {
                     await this.showDialogSnackbar('ADMIN.SNACKBAR.DELETED');
                     setTimeout(() => {
