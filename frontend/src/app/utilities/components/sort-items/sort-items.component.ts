@@ -17,7 +17,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class SortItemsComponent {
     @Input() type: 'user' | 'book' | 'review' | 'summary' | 'comment' = 'user';
-    @Output() sortItems = new EventEmitter<{ field: string, mode: 'asc' | 'desc' }>();
+    @Output() onSortingChanged = new EventEmitter<{ field: string, mode: 'asc' | 'desc' }>();
 
     sortedFields: string[] = [];
     selectedField = '';
@@ -39,7 +39,7 @@ export class SortItemsComponent {
     };
 
     emitChangedValue() {
-        this.sortItems.emit({ field: this.selectedField, mode: this.mode })
+        this.onSortingChanged.emit({ field: this.selectedField, mode: this.mode })
     }
 
 }
