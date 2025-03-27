@@ -39,7 +39,9 @@
             </mat-accordion>
         </mat-tab>
         }
-        @if(this.loggedInUser?.role === 'editor' || 'admin'){
+        @if(this.loggedInUser?.role === 'editor' ||
+        this.loggedInUser?.role === 'admin'
+        ){
         <mat-tab id="books" aria-label="books">
             <ng-template mat-tab-label>
                 <mat-icon class="me-2">library_books</mat-icon>
