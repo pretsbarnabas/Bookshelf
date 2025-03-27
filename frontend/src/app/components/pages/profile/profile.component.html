@@ -1,6 +1,6 @@
 <div class="wrapper">
-    <div class="wrapper-content">
-        <mat-card appearance="raised" class="profile-card my-1 p-0">
+    <div class="wrapper-content" id="profile-container">
+        <mat-card appearance="raised" class="profile-card  p-0">
             <mat-card-content>
                 <div class="row">
                     <div class="col-12 col-md-4 col-lg-3 text-center">
@@ -13,9 +13,11 @@
                             <mat-card-subtitle class="mt-2">{{ this.loggedInUser?.email }}</mat-card-subtitle>
                             <mat-card-subtitle class="mt-2">{{ 'PROFILE.PROFILECARD.ROLE' | translate }}:
                                 {{ this.roleDataHead | translate }}</mat-card-subtitle>
-                            <mat-card-subtitle class="mt-2">{{ 'PROFILE.PROFILECARD.CREATED' | translate }}:</mat-card-subtitle>
+                            <mat-card-subtitle class="mt-2">{{ 'PROFILE.PROFILECARD.CREATED' | translate
+                                }}:</mat-card-subtitle>
                             {{ this.loggedInUser?.created_at! | localizedDate }}
-                            <mat-card-subtitle class="mt-2">{{ 'PROFILE.PROFILECARD.UPDATED' | translate }}:</mat-card-subtitle>
+                            <mat-card-subtitle class="mt-2">{{ 'PROFILE.PROFILECARD.UPDATED' | translate
+                                }}:</mat-card-subtitle>
                             {{ this.loggedInUser?.updated_at! | localizedDate }}
                             <button mat-fab extended class="w-75 mx-auto my-1 mt-3" id="edit-button">
                                 <mat-icon>edit</mat-icon>
@@ -28,6 +30,76 @@
                         </mat-card>
                     </div>
                     <div class="col-12 col-md-8 col-lg-9">
+                        @if (errorMessages.length > 0) {
+                        <div class="alert alert-danger row mt-3" role="alert" #errorAlert>
+                            <div class="col-10">
+                                <ul class="m-0">
+                                    @for (error of errorMessages; track $index) {
+                                    @if (error.error === "UNEXPECTED") {
+                                    <li>{{ 'AUTH.EMSG.UNEXPECTED' | translate }}</li>
+                                    } @else if (error.status === 0) {
+                                    <li>{{ 'AUTH.EMSG.HTTPERRORRESPONSE' | translate }}</li>
+                                    } @else{
+                                    <li>{{ error.status }}: {{ error.error.message }}</li>
+                                    }
+                                    }
+                                </ul>
+                            </div>
+                            <div class="col-2 justify-content-center align-items-center d-flex">
+                                <mat-icon>error_outline</mat-icon>
+                            </div>
+                        </div>
+                        }
+                        <h1 class="text-center">Your timeline</h1>
+                        <custom-paginator [pageSizeOptions]="[5, 10, 25, 50]" [totalPages]="this.maxPages"
+                            [pageSize]="this.pageSize" [pageIndex]="this.currentPageIndex" [itemType]="this.itemType"
+                            [showSortingMenu]="true" (pageChanged)="this.changePage($event)"
+                            (sortingChanged)="this.sortItems($event)" />
+                        <mat-tab-group (selectedTabChange)="this.onTabChange($event)">
+                            @if(this.loggedInUser?.role === 'editor' || 'admin'){
+                            <mat-tab label="Books" id="books">
+                                @if(this.currentArrayInPaginator.length > 0){
+                                @for (item of this.currentArrayInPaginator; track $index) {
+                                <expansion-item [payload]="{ type: this.itemType, item : item}"
+                                    (onDialogResultTrue)="this.handleDialogRequest($event)" />
+                                }
+                                } @else {
+                                <h1>No items yet</h1>
+                                }
+                            </mat-tab>
+                            <mat-tab label="Summaries" id="summaries">
+                                @if(this.currentArrayInPaginator.length > 0){
+                                @for (item of this.currentArrayInPaginator; track $index) {
+                                <expansion-item [payload]="{ type: this.itemType, item : item}"
+                                    (onDialogResultTrue)="this.handleDialogRequest($event)" />
+                                }
+                                } @else {
+                                <h1>No items yet</h1>
+                                }
+                            </mat-tab>
+                            }
+                            <mat-tab label="Comments" id="comments">
+                                @if(this.currentArrayInPaginator.length > 0){
+                                @for (item of this.currentArrayInPaginator; track $index) {
+                                <expansion-item [payload]="{ type: this.itemType, item : item}"
+                                    (onDialogResultTrue)="this.handleDialogRequest($event)" />
+                                }
+                                } @else {
+                                <h1>No items yet</h1>
+                                }
+                            </mat-tab>
+                            <mat-tab label="Reviews" id="reviews">
+                                @if(this.currentArrayInPaginator.length > 0){
+                                @for (item of this.currentArrayInPaginator; track $index) {
+                                <expansion-item [payload]="{ type: this.itemType, item : item}"
+                                    (onDialogResultTrue)="this.handleDialogRequest($event)" />
+                                }
+                                } @else {
+                                <h1>No items yet</h1>
+                                }
+
+                            </mat-tab>
+                        </mat-tab-group>
                     </div>
                 </div>
             </mat-card-content>

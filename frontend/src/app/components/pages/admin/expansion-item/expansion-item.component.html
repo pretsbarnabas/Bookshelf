@@ -49,7 +49,7 @@
             <ng-container [ngSwitch]="payload?.type">
                 <ng-container *ngSwitchCase="'user'">
                     <div class="col-12 col-sm-3 d-flex">
-                        <img [src]="payload?.item.imageUrl || payload?.item.profile_image" alt="Profile Image"
+                        <img [src]="payload?.item.imageUrl ?? payload?.item.profile_image" alt="Profile Image"
                             class="avatar-image my-auto me-2" />
                         <mat-panel-title>{{ payload?.item.username }}</mat-panel-title>
                     </div>

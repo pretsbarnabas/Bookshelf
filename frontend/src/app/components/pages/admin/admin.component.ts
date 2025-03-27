@@ -8,9 +8,8 @@ import {
 } from '@angular/core';
 import { BookService } from '../../../services/page/book.service';
 import { ReviewService } from '../../../services/page/review.service';
-import { Book } from '../../../models/Book';
+import { BookModel } from '../../../models/Book';
 import { ReviewModel } from '../../../models/Review';
-import { UserModel } from '../../../models/User';
 import { UserService } from '../../../services/page/user.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,10 +28,8 @@ import { CommentService } from '../../../services/page/comment.service';
 import { CommentModel } from '../../../models/Comment';
 import { SummaryModel } from '../../../models/Summary';
 import { MatSortModule } from '@angular/material/sort';
-import { SortItemsComponent } from "../../../utilities/components/sort-items/sort-items.component";
 import { SortItems } from '../../../utilities/components/sort-items';
-
-type PaginatedArray = UserModel[] | Book[] | ReviewModel[] | SummaryModel[] | CommentModel[];
+import { PaginatedArray } from '../../../models/PaginatedArray';
 
 @Component({
     selector: 'app-admin',
@@ -44,8 +41,7 @@ type PaginatedArray = UserModel[] | Book[] | ReviewModel[] | SummaryModel[] | Co
         ExpansionItemComponent,
         TranslatePipe,
         CustomPaginatorComponent,
-        MatSortModule,
-        SortItemsComponent
+        MatSortModule
     ],
     templateUrl: './admin.component.html',
     styleUrls: ['./admin.component.scss'],
@@ -79,12 +75,6 @@ export class AdminComponent implements OnInit {
     maxPages: number = 0;
     currentPageIndex = 0;
     pageSize: number = 10;
-
-    users: UserModel[] = [];
-    books: Book[] = [];
-    reviews: ReviewModel[] = [];
-    summaries: SummaryModel[] = [];
-    comments: CommentModel[] = [];
 
     errorMessages: HttpErrorResponse[] = [];
     @ViewChild('errorAlert', { static: false }) errorAlert!: ElementRef;
@@ -137,7 +127,7 @@ export class AdminComponent implements OnInit {
 
     private updateMapping = {
         book: {
-            fn: (id: number | string, item: Book) => this.bookService.updateBook(id, item),
+            fn: (id: number | string, item: BookModel) => this.bookService.updateBook(id, item),
             paginatorKey: 'books' as const
         },
         review: {
@@ -174,22 +164,7 @@ export class AdminComponent implements OnInit {
     private fetchItems(arrayKey: 'users' | 'books' | 'reviews' | 'summaries' | 'comments'): void {
         this.fetchMapping[arrayKey].fn().subscribe({
             next: (data: any) => {
-                if (arrayKey === 'users') {
-                    this.users = data.data;
-                    this.fetchedArray = this.users;
-                } else if (arrayKey === 'books') {
-                    this.books = data.data;
-                    this.fetchedArray = this.books;
-                } else if (arrayKey === 'reviews') {
-                    this.reviews = data.data;
-                    this.fetchedArray = this.reviews;
-                } else if (arrayKey === 'summaries') {
-                    this.summaries = data.data;
-                    this.fetchedArray = this.summaries;
-                } else if (arrayKey === 'comments') {
-                    this.comments = data.data;
-                    this.fetchedArray = this.comments;
-                }
+                this.fetchedArray = data.data;
                 this.itemType = this.fetchMapping[arrayKey].type;
                 this.sortItems(this.currentSortSettings)
                 this.maxPages = data.pages;

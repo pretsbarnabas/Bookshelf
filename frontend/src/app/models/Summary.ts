@@ -1,4 +1,4 @@
-import { Book } from "./Book"
+import { BookModel } from "./Book"
 import { UserModel } from "./User"
 
 export interface SummaryRoot {
@@ -11,5 +11,5 @@ export interface SummaryModel {
     content: string
     updated_at: string
     user: UserModel
-    book: Book
+    book: BookModel
 }

@@ -1,11 +1,11 @@
 import { UserModel } from "./User"
 
 export interface BookRoot {
-    data: Book[],
+    data: BookModel[],
     pages: number
 }
 
-export interface Book {
+export interface BookModel {
     type: 'book'
     _id: string
     title: string

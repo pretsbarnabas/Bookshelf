@@ -1,11 +1,16 @@
 @use '@angular/material' as mat;
 
 .profile-card {
-    position: relative;
+    position: relative;    
+    height: 100%;
     padding-top: 60px;
     @include mat.card-overrides((
         elevated-container-shape: None,
   ));
+}
+
+#profile-container{
+    height: 100%;
 }
 
 #edit-button {
