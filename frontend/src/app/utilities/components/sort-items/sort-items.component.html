@@ -1,15 +1,16 @@
 <div>
     <mat-form-field>
-        <mat-label>Sort by:</mat-label>
+        <mat-label>{{ 'SORTITEMS.HEADER' | translate }}:</mat-label>
         <mat-select [(ngModel)]="this.selectedField" (selectionChange)="this.emitChangedValue()">
             <mat-option value="">---</mat-option>
             @for (field of this.sortedFields; track $index) {
-            <mat-option [value]="field">{{ field }}</mat-option>
+            <mat-option [value]="field">{{ `SORTITEMS.FIELDS.${field.replaceAll('_', '').toLocaleUpperCase()}` |
+                translate }}</mat-option>
             }
         </mat-select>
-    </mat-form-field>    
+    </mat-form-field>
     <mat-radio-group [(ngModel)]="this.mode" (change)="this.emitChangedValue()">
-        <mat-radio-button value="asc">Asc</mat-radio-button>
-        <mat-radio-button value="desc">Desc</mat-radio-button>
+        <mat-radio-button value="asc">{{ 'SORTITEMS.ASC' | translate }}</mat-radio-button>
+        <mat-radio-button value="desc">{{ 'SORTITEMS.DESC' | translate }}</mat-radio-button>
     </mat-radio-group>
 </div>

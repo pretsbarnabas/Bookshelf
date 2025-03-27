@@ -238,6 +238,28 @@
             "CLOSE": "Bezárás"
         }
     },
+    "SORTITEMS": {
+        "HEADER": "Rendezés",
+        "ASC": "Növekvő",
+        "DESC": "Csökkenő",
+        "FIELDS": {
+            "ID": "Azonosító",
+            "USERNAME": "Felhasználónév",
+            "ROLE": "Szerep",
+            "CREATEDAT": "Létrehozás dátuma",
+            "UPDATEDAT": "Utolsó frissítés",
+            "LASTLOGIN": "Utolsó bejelentkezés",
+            "USERID": "Felhasználó ID",
+            "TITLE": "Cím",
+            "AUTHOR": "Szerző",
+            "RELEASE": "Megjelenés dátuma",
+            "GENRE": "Műfaj",
+            "ADDEDAT": "Létrehozás dátuma",
+            "SCORE": "Pontszám",
+            "USER.USERNAME": "Felhasználó neve",
+            "USER.ID": "Felhasználó ID"
+        }
+    },
     "FOOTER": {
         "QUOTES": {
             "G": "A szoba könyvek nélkül olyan, mint a test lélek nélkül.",

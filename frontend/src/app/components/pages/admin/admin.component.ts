@@ -269,8 +269,6 @@ export class AdminComponent implements OnInit {
         }
         this.currentSortSettings = _settings;
         this.currentArrayInPaginator = structuredClone(this.fetchedArray);
-        this.currentArrayInPaginator = SortItems.generalizedSort(this.currentArrayInPaginator as any[], _settings.field, _settings.mode);
-        console.log(this.currentArrayInPaginator, this.fetchedArray);
-        
+        this.currentArrayInPaginator = SortItems.generalizedSort(this.currentArrayInPaginator as any[], _settings.field, _settings.mode);                
     }
 }

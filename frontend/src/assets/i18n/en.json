@@ -238,6 +238,28 @@
             "CLOSE": "Close"
         }
     },
+    "SORTITEMS": {
+        "HEADER": "Sort by",
+        "ASC": "Ascending",
+        "DESC": "Descending",
+        "FIELDS": {
+            "ID": "Id",
+            "USERNAME": "Username",
+            "ROLE": "Role",
+            "CREATEDAT": "Creation date",
+            "UPDATEDAT": "Last update",
+            "LASTLOGIN": "Last login",
+            "USERID": "UserId",
+            "TITLE" : "Title",
+            "AUTHOR": "Author",
+            "RELEASE": "Release date",
+            "GENRE": "Genre",
+            "ADDEDAT": "Creation date",
+            "SCORE": "Score",
+            "USER.USERNAME": "User's name",
+            "USER.ID": "UserId"
+        }
+    },
     "FOOTER": {
         "QUOTES": {
             "G": "A room without books is like a body without a soul.",

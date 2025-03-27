@@ -64,7 +64,7 @@
                 <sort-items [type]="this.itemType" (sortItems)="this.sortItems($event)"/>
             </div>
             <custom-paginator [pageSizeOptions]="[5, 10, 25, 50]" [totalPages]="this.maxPages" [pageSize]="this.pageSize"
-                [pageIndex]="this.currentPageIndex" (pageChanged)="this.changePage($event)" />
+            [pageIndex]="this.currentPageIndex" (pageChanged)="this.changePage($event)" />
             <mat-accordion [@onChange]="this.animate">
                 @for (item of this.currentArrayInPaginator; track $index) {
                 <expansion-item [payload]="{ type: this.itemType, item : item}"
