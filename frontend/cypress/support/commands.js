@@ -35,3 +35,14 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.add("defineInterceptors",()=>{
+    cy.intercept({method: "POST",url: "/api/users*"},{statusCode: 201}).as("register")
+    cy.intercept({method: "POST",url: "/api/login*"},{statusCode: 200, body:{token:Cypress.env("exampleToken")}}).as("login")
+    cy.intercept({method: "GET",url: "/api/users*"},{statusCode: 200, body:{}}).as("getUser")
+    cy.intercept({method: "GET",url: "/api/users/*"},{statusCode: 200, body:{username: Cypress.env("username")}}).as("getUser")
+})
+
+Cypress.env("exampleToken","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJhcm5pIiwicm9sZSI6InVzZXIiLCJpZCI6IjY3ZTUwNDk4OTY4YjM3YTAwNWQ4NTc5YSIsImlhdCI6MTc0MzA2MjE5MSwiZXhwIjoxNzQzMDY1NzkxfQ.NVbT1cSd_mWSKzsvaFCM465zDrAPLq_93uO_Jn4CQ1k")
+Cypress.env("username","barni")
+Cypress.env("host","http://localhost:4200")
