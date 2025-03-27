@@ -58,7 +58,7 @@
                     </div>
                     <div class="col-12 col-sm-3">
                         <mat-panel-description>
-                            {{ 'ADMIN.ITEM.USER.ROLE' | translate }}:
+                            {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.USER.ROLE' | translate }}:
                             <mat-chip class="ms-2">{{ payload?.item.role }}</mat-chip>
                         </mat-panel-description>
                     </div>
@@ -76,7 +76,7 @@
                 <ng-container *ngSwitchCase="'review'">
                     <div class="col-12 col-sm-4">
                         <mat-panel-title>
-                            {{ 'ADMIN.ITEM.REVIEW.SCORE' | translate }}: {{ payload?.item.score }}
+                            {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.SCORE' | translate }}: {{ payload?.item.score }}
                         </mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-4">
@@ -87,7 +87,7 @@
                 <ng-container *ngSwitchCase="'summary'">
                     <div class="col-12 col-sm-4">
                         <mat-panel-description>Id: {{ payload?.item._id }}</mat-panel-description>
-                    </div>
+                    </div>                    
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'comment'">
@@ -111,27 +111,27 @@
         <ng-container *ngSwitchCase="'user'">
             <div class="row text-center">
                 <ng-container
-                    *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.USER.CREATED', date: payload?.item.created_at }"></ng-container>
+                    *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.USER.CREATED', date: payload?.item.created_at }"></ng-container>
                 <ng-container
-                    *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.USER.UPDATED', date: payload?.item.updated_at }"></ng-container>
+                    *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.USER.UPDATED', date: payload?.item.updated_at }"></ng-container>
                 <ng-container
-                    *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.USER.LAST', date: payload?.item.last_login }"></ng-container>
+                    *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.USER.LAST', date: payload?.item.last_login }"></ng-container>
             </div>
         </ng-container>
 
         <ng-container *ngSwitchCase="'book'">
             <h5 class="text-center mt-3">
-                {{ 'ADMIN.ITEM.BOOK.HEADERS.RECORD' | translate }}
+                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.HEADERS.RECORD' | translate }}
             </h5>
             <mat-card appearance="raised">
                 <mat-card-content>
                     <div class="row text-center">
                         <ng-container
-                            *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.BOOK.ADDED', date: payload?.item.added_at }"></ng-container>
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.ADDED', date: payload?.item.added_at }"></ng-container>
                         <ng-container
-                            *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.BOOK.UPDATED', date: payload?.item.updated_at }"></ng-container>
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.UPDATED', date: payload?.item.updated_at }"></ng-container>
                         <div class="col-12 col-sm-6 col-lg-4">
-                            <b>{{ 'ADMIN.ITEM.BOOK.USERID' | translate }}: </b>
+                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.USERID' | translate }}: </b>
                             <i>{{ payload?.item.user_id }}</i>
                         </div>
                     </div>
@@ -139,7 +139,7 @@
             </mat-card>
 
             <h5 class="text-center mt-3">
-                {{ 'ADMIN.ITEM.BOOK.HEADERS.BOOK' | translate }}
+                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.HEADERS.BOOK' | translate }}
             </h5>
             <mat-card appearance="raised">
                 <mat-card-content>
@@ -151,18 +151,18 @@
                         <div class="col-12 col-sm-8 col-md-9">
                             <div class="row text-center">
                                 <div class="col-12 col-sm-6 col-lg-4">
-                                    <b>{{ 'ADMIN.ITEM.BOOK.RELEASE' | translate }}: </b>
+                                    <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.RELEASE' | translate }}: </b>
                                     <i>{{ payload?.item.release | localizedDate }}</i>
                                 </div>
                                 <div class="col-12 col-sm-6 col-lg-4">
-                                    <b>{{ 'ADMIN.ITEM.BOOK.GENRE' | translate }}: </b>
+                                    <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.GENRE' | translate }}: </b>
                                     <i>{{ payload?.item.genre }}</i>
                                 </div>
                                 <div class="col-12 col-sm-6 col-lg-4">
-                                    <b>{{ 'ADMIN.ITEM.BOOK.AUTHOR' | translate }}: </b>
+                                    <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.AUTHOR' | translate }}: </b>
                                     <i>{{ payload?.item.author }}</i>
                                 </div>
-                                <p class="col-12"><b>{{ 'ADMIN.ITEM.BOOK.DESC' | translate }}</b></p>
+                                <p class="col-12"><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.DESC' | translate }}</b></p>
                                 <hr class="m-0" />
                                 <p class="desc mt-1">{{ payload?.item.description }}</p>
                             </div>
@@ -174,33 +174,33 @@
 
         <ng-container *ngSwitchCase="'review'">
             <h5 class="text-center mt-3">
-                {{ 'ADMIN.ITEM.REVIEW.HEADERS.RECORD' | translate }}
+                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.HEADERS.RECORD' | translate }}
             </h5>
             <mat-card appearance="raised">
                 <mat-card-content>
                     <div class="row text-center">
                         <ng-container
-                            *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.REVIEW.ADDED', date: payload?.item.created_at }"></ng-container>
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.ADDED', date: payload?.item.created_at }"></ng-container>
                         <ng-container
-                            *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.REVIEW.UPDATED', date: payload?.item.updated_at }"></ng-container>
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.UPDATED', date: payload?.item.updated_at }"></ng-container>
                         <div class="col-12 col-sm-6 col-lg-4 mx-auto">
-                            <b>{{ 'ADMIN.ITEM.REVIEW.USERNAME' | translate }}: </b>
+                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.USERNAME' | translate }}: </b>
                             <i>{{ payload?.item.user.username }}</i>
                         </div>
                         <div class="col-12 col-sm-6 col-lg-4 mx-auto">
-                            <b>{{ 'ADMIN.ITEM.REVIEW.USERID' | translate }}: </b>
+                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.USERID' | translate }}: </b>
                             <i>{{ payload?.item.user._id }}</i>
                         </div>
                     </div>
                 </mat-card-content>
             </mat-card>
             <h5 class="text-center mt-3">
-                {{ 'ADMIN.ITEM.REVIEW.HEADERS.REVIEW' | translate }}
+                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.HEADERS.REVIEW' | translate }}
             </h5>
             <mat-card appearance="raised">
                 <mat-card-content>
                     <div class="row text-center">
-                        <p><b>{{ 'ADMIN.ITEM.REVIEW.CONTENT' | translate }}</b></p>
+                        <p><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.CONTENT' | translate }}</b></p>
                         <hr class="m-0" />
                         <p class="desc mt-1">{{ payload?.item.content }}</p>
                     </div>
@@ -210,35 +210,35 @@
 
         <ng-container *ngSwitchCase="'summary'">
             <h5 class="text-center mt-3">
-                {{ 'ADMIN.ITEM.SUMMARY.HEADERS.RECORD' | translate }}
+                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.HEADERS.RECORD' | translate }}
             </h5>
             <mat-card appearance="raised">
                 <mat-card-content>
                     <div class="row text-center">
                         <div class="col-12 col-sm-6 col-lg-4 mx-auto">
-                            <b>{{ 'ADMIN.ITEM.SUMMARY.BOOKID' | translate }}: </b>
+                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.BOOKID' | translate }}: </b>
                             <i>{{ payload?.item.book._id }}</i>
                         </div>
                         <ng-container
-                            *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.SUMMARY.UPDATED', date: payload?.item.updated_at }"></ng-container>
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.UPDATED', date: payload?.item.updated_at }"></ng-container>
                         <div class="col-12 col-sm-6 col-lg-4 mx-auto">
-                            <b>{{ 'ADMIN.ITEM.SUMMARY.USERNAME' | translate }}: </b>
+                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.USERNAME' | translate }}: </b>
                             <i>{{ payload?.item.user.username }}</i>
                         </div>
                         <div class="col-12 col-sm-6 col-lg-4 mx-auto">
-                            <b>{{ 'ADMIN.ITEM.SUMMARY.USERID' | translate }}: </b>
+                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.USERID' | translate }}: </b>
                             <i>{{ payload?.item.user._id }}</i>
                         </div>
                     </div>
                 </mat-card-content>
             </mat-card>
             <h5 class="text-center mt-3">
-                {{ 'ADMIN.ITEM.SUMMARY.HEADERS.SUMMARY' | translate }}
+                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.HEADERS.SUMMARY' | translate }}
             </h5>
             <mat-card appearance="raised">
                 <mat-card-content>
                     <div class="row text-center">
-                        <p><b>{{ 'ADMIN.ITEM.SUMMARY.CONTENT' | translate }}</b></p>
+                        <p><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.CONTENT' | translate }}</b></p>
                         <hr class="m-0" />
                         <p class="desc mt-1">{{ payload?.item.content }}</p>
                     </div>
@@ -249,25 +249,25 @@
         <!-- Comment Details -->
         <ng-container *ngSwitchCase="'comment'">
             <h5 class="text-center mt-3">
-                {{ 'ADMIN.ITEM.COMMENT.HEADERS.COMMENT' | translate }}
+                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.HEADERS.COMMENT' | translate }}
             </h5>
             <mat-card appearance="raised">
                 <mat-card-content>
                     <div class="row text-center">
                         <ng-container
-                            *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.COMMENT.UPDATED', date: payload?.item.created_at }"></ng-container>
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.UPDATED', date: payload?.item.created_at }"></ng-container>
                         <ng-container
-                            *ngTemplateOutlet="dateDisplay; context: { label: 'ADMIN.ITEM.COMMENT.UPDATED', date: payload?.item.updated_at }"></ng-container>
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.UPDATED', date: payload?.item.updated_at }"></ng-container>
                     </div>
                 </mat-card-content>
             </mat-card>
             <h5 class="text-center mt-3">
-                {{ 'ADMIN.ITEM.COMMENT.HEADERS.COMMENT' | translate }}
+                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.HEADERS.COMMENT' | translate }}
             </h5>
             <mat-card appearance="raised">
                 <mat-card-content>
                     <div class="row text-center">
-                        <p><b>{{ 'ADMIN.ITEM.COMMENT.CONTENT' | translate }}</b></p>
+                        <p><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.CONTENT' | translate }}</b></p>
                         <hr class="m-0" />
                         <p class="desc mt-1">{{ payload?.item.content }}</p>
                     </div>

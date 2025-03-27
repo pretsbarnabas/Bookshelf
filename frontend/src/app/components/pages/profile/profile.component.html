@@ -29,84 +29,9 @@
                             </button>
                         </mat-card>
                     </div>
-                    <div class="col-12 col-lg-9">
-                        @if (errorMessages.length > 0) {
-                        <div class="alert alert-danger row mt-3" role="alert" #errorAlert>
-                            <div class="col-10">
-                                <ul class="m-0">
-                                    @for (error of errorMessages; track $index) {
-                                    @if (error.error === "UNEXPECTED") {
-                                    <li>{{ 'AUTH.EMSG.UNEXPECTED' | translate }}</li>
-                                    } @else if (error.status === 0) {
-                                    <li>{{ 'AUTH.EMSG.HTTPERRORRESPONSE' | translate }}</li>
-                                    } @else{
-                                    <li>{{ error.status }}: {{ error.error.message }}</li>
-                                    }
-                                    }
-                                </ul>
-                            </div>
-                            <div class="col-2 justify-content-center align-items-center d-flex">
-                                <mat-icon>error_outline</mat-icon>
-                            </div>
-                        </div>
-                        }
-                        <h1 class="text-center">Your timeline</h1>
-                        <custom-paginator [pageSizeOptions]="[5, 10, 25, 50]" [totalPages]="this.maxPages"
-                            [pageSize]="this.pageSize" [pageIndex]="this.currentPageIndex" [itemType]="this.itemType"
-                            [showSortingMenu]="true" (pageChanged)="this.changePage($event)"
-                            (sortingChanged)="this.sortItems($event)" />
-                        <mat-tab-group (selectedTabChange)="this.onTabChange($event)">
-                            @if(this.loggedInUser?.role === 'editor' || 'admin'){
-                            <mat-tab label="Books" id="books">
-                                <mat-accordion>
-                                    @if(this.currentArrayInPaginator.length > 0){
-                                    @for (item of this.currentArrayInPaginator; track $index) {
-                                    <expansion-item [payload]="{ type: this.itemType, item : item}"
-                                        (onDialogResultTrue)="this.handleDialogRequest($event)" />
-                                    }
-                                    } @else {
-                                    <h1>No items yet</h1>
-                                    }
-                                </mat-accordion>
-                            </mat-tab>
-                            <mat-tab label="Summaries" id="summaries">
-                                <mat-accordion>
-                                    @if(this.currentArrayInPaginator.length > 0){
-                                    @for (item of this.currentArrayInPaginator; track $index) {
-                                    <expansion-item [payload]="{ type: this.itemType, item : item}"
-                                        (onDialogResultTrue)="this.handleDialogRequest($event)" />
-                                    }
-                                    } @else {
-                                    <h1>No items yet</h1>
-                                    }
-                                </mat-accordion>
-                            </mat-tab>
-                            }
-                            <mat-tab label="Comments" id="comments">
-                                <mat-accordion>
-                                    @if(this.currentArrayInPaginator.length > 0){
-                                    @for (item of this.currentArrayInPaginator; track $index) {
-                                    <expansion-item [payload]="{ type: this.itemType, item : item}"
-                                        (onDialogResultTrue)="this.handleDialogRequest($event)" />
-                                    }
-                                    } @else {
-                                    <h1>No items yet</h1>
-                                    }
-                                </mat-accordion>
-                            </mat-tab>
-                            <mat-tab label="Reviews" id="reviews">
-                                <mat-accordion>
-                                    @if(this.currentArrayInPaginator.length > 0){
-                                    @for (item of this.currentArrayInPaginator; track $index) {
-                                    <expansion-item [payload]="{ type: this.itemType, item : item}"
-                                        (onDialogResultTrue)="this.handleDialogRequest($event)" />
-                                    }
-                                    } @else {
-                                    <h1>No items yet</h1>
-                                    }
-                                </mat-accordion>
-                            </mat-tab>
-                        </mat-tab-group>
+                    <div class="col-12 col-lg-9">                        
+                        <h1 class="text-center">{{ 'PROFILE.LIST.HEADER' | translate }}</h1>
+                        <all-type-display/>
                     </div>
                 </div>
             </mat-card-content>

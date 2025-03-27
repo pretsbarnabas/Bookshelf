@@ -8,6 +8,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { FormlyModule } from '@ngx-formly/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { spinnerInterceptor } from './interceptors/spinner.interceptor';
@@ -16,6 +17,10 @@ import { CustomTitleStrategy } from './utilities/custom.title.strategy';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
+function isMobile(): boolean {
+    return window.innerWidth < 400;
 }
 
 export const appConfig: ApplicationConfig = {
@@ -43,6 +48,6 @@ export const appConfig: ApplicationConfig = {
             ReactiveFormsModule,
             NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })
         ),
-        provideAnimationsAsync(),
+        isMobile() ? provideNoopAnimations() : provideAnimationsAsync()
     ]
 };

@@ -120,123 +120,13 @@
                 "EDIT": "Edit",
                 "DELETE": "Delete"
             }
+        },
+        "LIST":{
+            "HEADER": "Your timeline"
         }
     },
     "ADMIN": {
-        "TITLE": "Admin",
-        "PAGINATOR": {
-            "PAGESIZES": "Page sizes",
-            "PAGEINDEX": "Page",
-            "MAXPAGES": "Max"
-        },
-        "BUTTONS": {
-            "USERS": "Users",
-            "BOOKS": "Books",
-            "REVIEWS": "Reviews",
-            "SUMMARIES": "Summaries",
-            "COMMENTS": "Comments"
-        },
-        "ITEM": {
-            "USER": {
-                "NAME": "Username",
-                "EMAIL": "Email",
-                "ROLE": "Role",
-                "CREATED": "Created on",
-                "UPDATED": "Updated on",
-                "LAST": "Last login"
-            },
-            "BOOK": {
-                "HEADERS": {
-                    "RECORD": "Record Data",
-                    "BOOK": "Book Data"
-                },
-                "ADDED": "Created on",
-                "UPDATED": "Updated on",
-                "USERID": "UserId",
-                "RELEASE": "Release date",
-                "GENRE": "Genre",
-                "AUTHOR": "Author",
-                "DESC": "Description"
-            },
-            "REVIEW": {
-                "HEADERS": {
-                    "RECORD": "Record Data",
-                    "REVIEW": "Review Data"
-                },
-                "ADDED": "Created on",
-                "UPDATED": "Updated on",
-                "USERNAME": "Username",
-                "USERID": "UserId",
-                "SCORE": "Score",
-                "CONTENT": "Content"
-            },
-            "SUMMARY": {
-                "HEADERS": {
-                    "RECORD": "Record Data",
-                    "SUMMARY": "Summary Data"
-                },
-                "BOOKID": "BookId",
-                "UPDATED": "Updated on",
-                "USERNAME": "Username",
-                "USERID": "UserId",
-                "CONTENT": "Content"
-            },
-            "COMMENT": {
-                "HEADERS": {
-                    "RECORD": "Record Data",
-                    "COMMENT": "Comment Data"
-                },
-                "ADDED": "Created on",
-                "UPDATED": "Updated on",
-                "REVIEWID": "ReviewId",
-                "CONTENT": "Content"
-            }
-        },
-        "DIALOG": {
-            "DELETE": {
-                "HEADER": "Delete",
-                "MESSAGE": " Would you like to delete the following?",
-                "BUTTONYES": "Delete",
-                "BUTTONNO": "Cancel"
-            },
-            "EDIT": {
-                "HEADER": "Edit item",                
-                "BUTTONYES": "Save changes",
-                "BUTTONNO": "Cancel",
-                "BOOK": {
-                    "TITLE": "Title",
-                    "AUTHOR": "Author",
-                    "RELEASE": "Release date",
-                    "GENRE": "Genre",
-                    "DESC": "Description"
-                },
-                "REVIEW": {
-                    "SCORE": "Score"
-                },
-                "CONTENT": "Content",
-                "ERRORS": {
-                    "REQUIRED": "This field is required",
-                    "MAXDATE": "Release date cannot be later than today",
-                    "SCOREMIN": "Score cannot be negative",
-                    "SCOREMAX": "Maximum score is 10"
-                }
-            },
-            "USER": {
-                "USERNAME": "Username"
-            },
-            "BOOK": {
-                "TITLE": "Title",
-                "USERID": "Created by"
-            },
-            "REVIEW": {
-                "USER": "Created by"
-            }
-        },
-        "SNACKBAR": {
-            "DELETED": "Deletion successful",            
-            "UPDATED": "Update successful",
-            "CLOSE": "Close"
-        }
+        "TITLE": "Admin"
     },
     "SORTITEMS": {
         "HEADER": "Sort by",
@@ -250,7 +140,7 @@
             "UPDATEDAT": "Last update",
             "LASTLOGIN": "Last login",
             "USERID": "UserId",
-            "TITLE" : "Title",
+            "TITLE": "Title",
             "AUTHOR": "Author",
             "RELEASE": "Release date",
             "GENRE": "Genre",
@@ -281,5 +171,124 @@
         "TITLE": "404!",
         "MESSAGE": "This is not the page you are looking for...",
         "REDIRECT": "Redirecting to home page in:"
+    },
+    "STANDALONECOMPONENTS": {
+        "ALLDISPLAY":{
+            "TABS": {
+                "USERS": "Users",
+                "BOOKS": "Books",
+                "REVIEWS": "Reviews",
+                "SUMMARIES": "Summaries",
+                "COMMENTS": "Comments"
+            }
+        },
+        "PAGINATOR": {
+            "PAGESIZES": "Page sizes",
+            "PAGEINDEX": "Page",
+            "MAXPAGES": "Max"
+        },
+        "EXPANSIONITEM": {
+            "ITEM": {
+                "USER": {
+                    "NAME": "Username",
+                    "EMAIL": "Email",
+                    "ROLE": "Role",
+                    "CREATED": "Created on",
+                    "UPDATED": "Updated on",
+                    "LAST": "Last login"
+                },
+                "BOOK": {
+                    "HEADERS": {
+                        "RECORD": "Record Data",
+                        "BOOK": "Book Data"
+                    },
+                    "ADDED": "Created on",
+                    "UPDATED": "Updated on",
+                    "USERID": "UserId",
+                    "RELEASE": "Release date",
+                    "GENRE": "Genre",
+                    "AUTHOR": "Author",
+                    "DESC": "Description"
+                },
+                "REVIEW": {
+                    "HEADERS": {
+                        "RECORD": "Record Data",
+                        "REVIEW": "Review Data"
+                    },
+                    "ADDED": "Created on",
+                    "UPDATED": "Updated on",
+                    "USERNAME": "Username",
+                    "USERID": "UserId",
+                    "SCORE": "Score",
+                    "CONTENT": "Content"
+                },
+                "SUMMARY": {
+                    "HEADERS": {
+                        "RECORD": "Record Data",
+                        "SUMMARY": "Summary Data"
+                    },
+                    "BOOKID": "BookId",
+                    "UPDATED": "Updated on",
+                    "USERNAME": "Username",
+                    "USERID": "UserId",
+                    "CONTENT": "Content"
+                },
+                "COMMENT": {
+                    "HEADERS": {
+                        "RECORD": "Record Data",
+                        "COMMENT": "Comment Data"
+                    },
+                    "ADDED": "Created on",
+                    "UPDATED": "Updated on",
+                    "REVIEWID": "ReviewId",
+                    "CONTENT": "Content"
+                }
+            },
+            "DIALOG": {
+                "DELETE": {
+                    "HEADER": "Delete",
+                    "MESSAGE": " Would you like to delete the following?",
+                    "BUTTONYES": "Delete",
+                    "BUTTONNO": "Cancel"
+                },
+                "EDIT": {
+                    "HEADER": "Edit item",
+                    "BUTTONYES": "Save changes",
+                    "BUTTONNO": "Cancel",
+                    "BOOK": {
+                        "TITLE": "Title",
+                        "AUTHOR": "Author",
+                        "RELEASE": "Release date",
+                        "GENRE": "Genre",
+                        "DESC": "Description"
+                    },
+                    "REVIEW": {
+                        "SCORE": "Score"
+                    },
+                    "CONTENT": "Content",
+                    "ERRORS": {
+                        "REQUIRED": "This field is required",
+                        "MAXDATE": "Release date cannot be later than today",
+                        "SCOREMIN": "Score cannot be negative",
+                        "SCOREMAX": "Maximum score is 10"
+                    }
+                },
+                "USER": {
+                    "USERNAME": "Username"
+                },
+                "BOOK": {
+                    "TITLE": "Title",
+                    "USERID": "Created by"
+                },
+                "REVIEW": {
+                    "USER": "Created by"
+                }
+            },
+            "SNACKBAR": {
+                "DELETED": "Deletion successful",
+                "UPDATED": "Update successful",
+                "CLOSE": "Close"
+            }
+        }
     }
 }

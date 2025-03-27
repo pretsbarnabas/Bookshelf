@@ -11,7 +11,7 @@
                     </mat-menu>
                 }
                 <mat-form-field id="page-size-select">
-                    <mat-label>{{ 'ADMIN.PAGINATOR.PAGESIZES' | translate }}</mat-label>
+                    <mat-label>{{ 'STANDALONECOMPONENTS.PAGINATOR.PAGESIZES' | translate }}</mat-label>
                     <mat-select [(value)]="this.pageSize" (valueChange)="this.onPageSizeChange()">
                         @for (pageSizeOption of this.pageSizeOptions; track $index) {
                         <mat-option [value]="pageSizeOption">{{ pageSizeOption }}</mat-option>
@@ -35,9 +35,9 @@
                 </button>
             </div>
             <div class="col-12 col-md-3 d-flex justify-content-center" id="display-pages">
-                {{ 'ADMIN.PAGINATOR.PAGEINDEX' | translate }}:
+                {{ 'STANDALONECOMPONENTS.PAGINATOR.PAGEINDEX' | translate }}:
                 {{ this.pageIndex + 1 }}
-                {{ 'ADMIN.PAGINATOR.MAXPAGES' | translate }}:
+                {{ 'STANDALONECOMPONENTS.PAGINATOR.MAXPAGES' | translate }}:
                 {{ this.totalPages}}
             </div>
             <div class="col-12 col-md-1 d-flex justify-content-center">

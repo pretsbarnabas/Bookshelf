@@ -36,7 +36,7 @@ import { RouterModule } from '@angular/router';
 export class ExpansionItemComponent {
     readonly dialog = inject(MatDialog);
 
-    @Input() payload?: { type: 'user' | 'book' | 'review' | 'summary' | 'comment', item: any };
+    @Input() payload?: { type: 'user' | 'book' | 'review' | 'summary' | 'comment', item: any, isAdminPage?: boolean };
     @Output() onDialogResultTrue = new EventEmitter<{ dialogType: 'delete' | 'edit', item: any, modifiedItem?: any }>();
 
     @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;

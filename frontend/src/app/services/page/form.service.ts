@@ -160,14 +160,14 @@ export class FormService {
     async getEditDialogFormConfigMapping(): Promise<{ [key: string]: EditDialogFieldConfig[] }> {
         return {
             book: [
-                { name: 'title', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.BOOK.TITLE')), type: 'text', validators: [] },
-                { name: 'author', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.BOOK.AUTHOR')), type: 'text', validators: [] },
+                { name: 'title', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.TITLE')), type: 'text', validators: [] },
+                { name: 'author', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.AUTHOR')), type: 'text', validators: [] },
                 {
-                    name: 'release', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.BOOK.RELEASE')), type: 'date', validators: [
+                    name: 'release', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.RELEASE')), type: 'date', validators: [
                         maxDateValidator(new Date())
                     ],
                     errorMessages: {
-                        maxDate: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.ERRORS.MAXDATE'))
+                        maxDate: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.ERRORS.MAXDATE'))
                     },
                     transformInput(value: any): any {
                         if (typeof value === 'string' && value.includes('T')) {
@@ -178,40 +178,40 @@ export class FormService {
                     },
                     transformOutput: (value: Date) => value ? value.toISOString() : null
                 },
-                { name: 'genre', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.BOOK.GENRE')), type: 'text', validators: [] },
-                { name: 'description', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.BOOK.DESC')), type: 'textarea', validators: [] },
+                { name: 'genre', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.GENRE')), type: 'text', validators: [] },
+                { name: 'description', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.DESC')), type: 'textarea', validators: [] },
                 // { name: 'image', label: 'Image', type: 'text', validators: [] },
             ],
             review: [
                 {
-                    name: 'score', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.REVIEW.SCORE')), type: 'number', validators: [
+                    name: 'score', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.REVIEW.SCORE')), type: 'number', validators: [
                         Validators.min(0),
                         Validators.max(10)
                     ],
                     errorMessages: {
-                        min: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.ERRORS.SCOREMIN')),
-                        max: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.ERRORS.SCOREMAX'))
+                        min: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.ERRORS.SCOREMIN')),
+                        max: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.ERRORS.SCOREMAX'))
                     }
                 },
-                { name: 'content', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.CONTENT')), type: 'textarea', validators: [] },
+                { name: 'content', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.CONTENT')), type: 'textarea', validators: [] },
             ],
             summary: [
                 {
-                    name: 'content', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.CONTENT')), type: 'textarea', validators: [
+                    name: 'content', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.CONTENT')), type: 'textarea', validators: [
                         Validators.required
                     ],
                     errorMessages: {
-                        required: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.ERRORS.REQUIRED'))
+                        required: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.ERRORS.REQUIRED'))
                     }
                 },
             ],
             comment: [
                 {
-                    name: 'content', label: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.CONTENT')), type: 'textarea', validators: [
+                    name: 'content', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.CONTENT')), type: 'textarea', validators: [
                         Validators.required
                     ],
                     errorMessages: {
-                        required: await firstValueFrom(this.translationService.service.get('ADMIN.DIALOG.EDIT.ERRORS.REQUIRED'))
+                        required: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.ERRORS.REQUIRED'))
                     }
                 },
             ]

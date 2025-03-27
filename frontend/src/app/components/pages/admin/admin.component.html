@@ -1,6 +1,6 @@
 <div class="wrapper">
     <div class="wrapper-content">
-        <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+        <!-- <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
             @if (errorMessages.length > 0) {
             <div class="alert alert-danger row mt-3" role="alert" #errorAlert>
                 <div class="col-10">
@@ -22,8 +22,11 @@
             </div>
             }
         </div>
-        <div class="my-3 mx-auto w-100 d-flex justify-content-center row">
-            <div class="col-12 col-sm-4  mt-1">
+        <div class="my-3 mx-auto w-100 d-flex justify-content-center row"> -->
+        <all-type-display [isAdmin]="true" />
+    </div>
+    <!-- </div> -->
+    <!-- <div class="col-12 col-sm-4  mt-1">
                 <button mat-fab extended (click)="changePaginatedArray('users')"
                     [disabled]="this.disabledButton === 'users'" class="w-100">
                     <mat-icon>person</mat-icon>
@@ -64,10 +67,9 @@
             [pageIndex]="this.currentPageIndex" [itemType]="this.itemType" [showSortingMenu]="true" (pageChanged)="this.changePage($event)" (sortingChanged)="this.sortItems($event)"/>
             <mat-accordion [@onChange]="this.animate">
                 @for (item of this.currentArrayInPaginator; track $index) {
-                <expansion-item [payload]="{ type: this.itemType, item : item}"
+                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: true}"
                     (onDialogResultTrue)="this.handleDialogRequest($event)" />
                 }
             </mat-accordion>
-        </div>
-    </div>
+        </div> -->
 </div>

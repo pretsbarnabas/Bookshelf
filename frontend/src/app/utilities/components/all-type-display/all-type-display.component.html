@@ -1,0 +1,100 @@
+<mat-card>
+    @if (errorMessages.length > 0) {
+    <div class="alert alert-danger row mt-3" role="alert" #errorAlert>
+        <div class="col-10">
+            <ul class="m-0">
+                @for (error of errorMessages; track $index) {
+                @if (error.error === "UNEXPECTED") {
+                <li>{{ 'AUTH.EMSG.UNEXPECTED' | translate }}</li>
+                } @else if (error.status === 0) {
+                <li>{{ 'AUTH.EMSG.HTTPERRORRESPONSE' | translate }}</li>
+                } @else{
+                <li>{{ error.status }}: {{ error.error.message }}</li>
+                }
+                }
+            </ul>
+        </div>
+        <div class="col-2 justify-content-center align-items-center d-flex">
+            <mat-icon>error_outline</mat-icon>
+        </div>
+    </div>
+    }
+    <custom-paginator [pageSizeOptions]="[5, 10, 25, 50]" [totalPages]="this.maxPages" [pageSize]="this.pageSize"
+        [pageIndex]="this.currentPageIndex" [itemType]="this.itemType" [showSortingMenu]="true"
+        (pageChanged)="this.changePage($event)" (sortingChanged)="this.sortItems($event)" />
+    <mat-tab-group (selectedTabChange)="this.onTabChange($event)">
+        @if(this.isAdmin){
+        <mat-tab id="users" aria-label="users">
+            <ng-template mat-tab-label>
+                <mat-icon class="me-2">person</mat-icon>
+                {{ 'STANDALONECOMPONENTS.ALLDISPLAY.TABS.USERS' | translate }}
+            </ng-template>
+            <mat-accordion>
+                @if(this.currentArrayInPaginator.length > 0){
+                @for (item of this.currentArrayInPaginator; track $index) {
+                <expansion-item [payload]="{ type: this.itemType, item : item}"
+                    (onDialogResultTrue)="this.handleDialogRequest($event)" />
+                }
+                }
+            </mat-accordion>
+        </mat-tab>
+        }
+        @if(this.loggedInUser?.role === 'editor' || 'admin'){
+        <mat-tab id="books" aria-label="books">
+            <ng-template mat-tab-label>
+                <mat-icon class="me-2">library_books</mat-icon>
+                {{ 'STANDALONECOMPONENTS.ALLDISPLAY.TABS.BOOKS' | translate }}
+            </ng-template>
+            <mat-accordion>
+                @if(this.currentArrayInPaginator.length > 0){
+                @for (item of this.currentArrayInPaginator; track $index) {
+                <expansion-item [payload]="{ type: this.itemType, item : item}"
+                    (onDialogResultTrue)="this.handleDialogRequest($event)" />
+                }
+                }
+            </mat-accordion>
+        </mat-tab>
+        <mat-tab id="summaries" aria-label="summaries">
+            <ng-template mat-tab-label>
+                <mat-icon class="me-2">notes</mat-icon>
+                {{ 'STANDALONECOMPONENTS.ALLDISPLAY.TABS.SUMMARIES' | translate }}
+            </ng-template>
+            <mat-accordion>
+                @if(this.currentArrayInPaginator.length > 0){
+                @for (item of this.currentArrayInPaginator; track $index) {
+                <expansion-item [payload]="{ type: this.itemType, item : item}"
+                    (onDialogResultTrue)="this.handleDialogRequest($event)" />
+                }
+                }
+            </mat-accordion>
+        </mat-tab>
+        }
+        <mat-tab id="comments" aria-label="comments">
+            <ng-template mat-tab-label>
+                <mat-icon class="me-2">comment</mat-icon>
+                {{ 'STANDALONECOMPONENTS.ALLDISPLAY.TABS.COMMENTS' | translate }}
+            </ng-template>
+            <mat-accordion>
+                @if(this.currentArrayInPaginator.length > 0){
+                @for (item of this.currentArrayInPaginator; track $index) {
+                <expansion-item [payload]="{ type: this.itemType, item : item}"
+                    (onDialogResultTrue)="this.handleDialogRequest($event)" />
+                }
+                }
+            </mat-accordion>
+        </mat-tab>
+        <mat-tab id="reviews" aria-label="reviews">
+            <ng-template mat-tab-label>
+                <mat-icon class="me-2">rate_review</mat-icon>
+                {{ 'STANDALONECOMPONENTS.ALLDISPLAY.TABS.REVIEWS' | translate }}
+            </ng-template>
+            <mat-accordion>
+                @if(this.currentArrayInPaginator.length > 0){
+                @for (item of this.currentArrayInPaginator; track $index) {
+                <expansion-item [payload]="{ type: this.itemType, item : item}"
+                    (onDialogResultTrue)="this.handleDialogRequest($event)" />
+                }}
+            </mat-accordion>
+        </mat-tab>
+    </mat-tab-group>
+</mat-card>
