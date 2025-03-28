@@ -29,6 +29,7 @@ export class CustomPaginatorComponent {
     @Input() pageSizeOptions: number[] = [5, 10, 20];
     @Input() itemType: 'user' | 'book' | 'review' | 'summary' | 'comment' = 'user';
     @Input() showSortingMenu?: boolean;
+    @Input() isAdmin: boolean = false;
     
     prevPageSize: number = 10;
 

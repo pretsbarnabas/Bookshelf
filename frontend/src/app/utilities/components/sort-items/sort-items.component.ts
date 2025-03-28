@@ -17,6 +17,8 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class SortItemsComponent {
     @Input() type: 'user' | 'book' | 'review' | 'summary' | 'comment' = 'user';
+    @Input() isAdmin: boolean = false;
+    
     @Output() onSortingChanged = new EventEmitter<{ field: string, mode: 'asc' | 'desc' }>();
 
     sortedFields: string[] = [];
@@ -27,15 +29,26 @@ export class SortItemsComponent {
 
     ngOnChanges() {
         this.selectedField = '';
-        this.sortedFields = this.sortedFieldsMapping[this.type];
+        if(this.isAdmin)
+            this.sortedFields = this.sortedFieldsMappingAdmin[this.type];
+        else
+            this.sortedFields = this.sortedFieldsMappingCommon[this.type];
     }
 
-    private sortedFieldsMapping = {
+    private sortedFieldsMappingAdmin = {
         user: ['_id', 'username', 'role', 'created_at', 'updated_at', 'last_login'],
         book: ['_id', 'user_id' , 'title', 'author', 'release', 'genre', 'added_at', 'updated_at'],
         review: ['_id', 'user._id', 'score', 'created_at', 'updated_at'],
         summary: ['_id', 'updated_at', 'user.username', 'user._id'],
         comment: ['_id', 'updated_at', 'created_at', 'user.username', 'user._id']
+    };
+
+    private sortedFieldsMappingCommon = {
+        user: [],        
+        book: ['title', 'author', 'release', 'genre', 'added_at', 'updated_at'],
+        review: ['score', 'created_at', 'updated_at'],
+        summary: ['updated_at',],
+        comment: ['updated_at', 'created_at']
     };
 
     emitChangedValue() {

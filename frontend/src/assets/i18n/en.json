@@ -247,9 +247,17 @@
             "DIALOG": {
                 "DELETE": {
                     "HEADER": "Delete",
-                    "MESSAGE": " Would you like to delete the following?",
+                    "MESSAGE": "Would you like to delete the following",
+                    "MESSAGEHEADERONLY": "Would you like to delete this",
                     "BUTTONYES": "Delete",
-                    "BUTTONNO": "Cancel"
+                    "BUTTONNO": "Cancel",
+                    "SUBJECT": {
+                        "USER": "user",
+                        "BOOK": "book",
+                        "REVIEW": "review",
+                        "SUMMARY":"summary",
+                        "COMMENT":"comment"
+                    }
                 },
                 "EDIT": {
                     "HEADER": "Edit item",

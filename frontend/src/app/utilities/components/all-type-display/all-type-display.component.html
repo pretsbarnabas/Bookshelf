@@ -20,7 +20,7 @@
     </div>
     }
     <custom-paginator [pageSizeOptions]="[5, 10, 25, 50]" [totalPages]="this.maxPages" [pageSize]="this.pageSize"
-        [pageIndex]="this.currentPageIndex" [itemType]="this.itemType" [showSortingMenu]="true"
+        [pageIndex]="this.currentPageIndex" [itemType]="this.itemType" [showSortingMenu]="true" [isAdmin]="this.isAdmin"
         (pageChanged)="this.changePage($event)" (sortingChanged)="this.sortItems($event)" />
     <mat-tab-group (selectedTabChange)="this.onTabChange($event)">
         @if(this.isAdmin){

@@ -56,7 +56,8 @@ export class ExpansionItemComponent {
         const dialogRef = this.dialog.open(ItemDialogComponent, {
             data: {
                 type: type,
-                item: this.payload?.item
+                item: this.payload?.item,
+                isAdmin: this.payload?.isAdminPage ?? false
             },
             disableClose: true
         });

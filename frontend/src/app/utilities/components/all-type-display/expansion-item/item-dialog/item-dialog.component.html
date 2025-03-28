@@ -1,27 +1,39 @@
 @if(this.data.type === 'delete'){
 <h2 mat-dialog-title>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.HEADER' | translate }}?</h2>
+
 <mat-dialog-content>
-    {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.MESSAGE' | translate }}
+    <span *ngIf="this.data.isAdmin">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.MESSAGE' | translate }} </span>
+    <span *ngIf="!this.data.isAdmin">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.MESSAGEHEADERONLY' | translate }} </span>
+    <span><b>{{ `STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.SUBJECT.${this.data.item.type.toLocaleUpperCase()}` | translate
+    }}</b>?</span>
 </mat-dialog-content>
-<mat-dialog-content>
+
+<mat-dialog-content *ngIf="this.data.isAdmin">
     <div><b>Id: </b>{{ this.data.item?._id }}</div>
     @if( this.data.item?.type === 'user' ){
-    <div><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.USER.USERNAME' | translate }}: </b>{{ this.data.item?.username }}</div>
+    <div><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.USER.USERNAME' | translate }}: </b>{{ this.data.item?.username
+        }}</div>
     }
     @if( this.data.item?.type === 'book' ){
-    <div><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.BOOK.TITLE' | translate }}: </b>{{ this.data.item?.title }}</div>
-    <div><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.BOOK.USERID' | translate }}: </b>{{ this.data.item?.user_id }}</div>
+    <div><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.BOOK.TITLE' | translate }}: </b>{{ this.data.item?.title }}
+    </div>
+    <div><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.BOOK.USERID' | translate }}: </b>{{ this.data.item?.user_id }}
+    </div>
 
     }
     @if( this.data.item?.type === 'review' ){
-    <div><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.REVIEW.USER' | translate }}: </b>{{ this.data.item?.user.username }}</div>
+    <div><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.REVIEW.USER' | translate }}: </b>{{
+        this.data.item?.user.username }}</div>
     <div><b>UserId: </b>{{ this.data.item?.user._id }}</div>
     }
 </mat-dialog-content>
+
 <mat-dialog-actions>
-    <button id="cancel" mat-raised-button (click)="emitResult(false)">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.BUTTONNO' | translate
+    <button id="cancel" mat-raised-button (click)="emitResult(false)">{{
+        'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.BUTTONNO' | translate
         }}</button>
-    <button id="delete" mat-raised-button (click)="emitResult(true)">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.BUTTONYES' | translate
+    <button id="delete" mat-raised-button (click)="emitResult(true)">{{
+        'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.BUTTONYES' | translate
         }}</button>
 </mat-dialog-actions>
 }
@@ -50,7 +62,8 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button id="cancel" (click)="this.emitResult(false)">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BUTTONNO' | translate}}</button>
+    <button mat-button id="cancel" (click)="this.emitResult(false)">{{
+        'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BUTTONNO' | translate}}</button>
     <button mat-button id="save" color="primary" (click)="this.saveModification()" [disabled]="!this.form.valid">{{
         'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BUTTONYES' | translate}}</button>
 </mat-dialog-actions>

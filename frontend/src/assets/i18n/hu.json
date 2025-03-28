@@ -247,9 +247,17 @@
             "DIALOG": {
                 "DELETE": {
                     "HEADER": "Törlés",
-                    "MESSAGE": "Biztosan törölni szeretné a következőt?",
+                    "MESSAGE": "Biztosan törölni szeretné a következő",
+                    "MESSAGEHEADERONLY": "Biztosan törölni szeretné ezt a(z)",
                     "BUTTONYES": "Törlés",
-                    "BUTTONNO": "Mégsem"
+                    "BUTTONNO": "Mégsem",
+                    "SUBJECT": {
+                        "USER": "felhasználót",
+                        "BOOK": "könyvet",
+                        "REVIEW": "véleményt",
+                        "SUMMARY": "összefoglalót",
+                        "COMMENT": "kommentet"
+                    }
                 },
                 "EDIT": {
                     "HEADER": "Elem módosítása",

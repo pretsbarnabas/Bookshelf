@@ -7,7 +7,7 @@
                         <mat-icon>swap_vert</mat-icon>
                     </button>
                     <mat-menu class="p-1" id="sorting-menu" #sorting="matMenu" [xPosition]="'before'" [yPosition]="'below'"                >
-                        <sort-items [type]="this.itemType" (onSortingChanged)="this.emitSortingChanged($event)"/>
+                        <sort-items [type]="this.itemType" [isAdmin]="this.isAdmin" (onSortingChanged)="this.emitSortingChanged($event)"/>
                     </mat-menu>
                 }
                 <mat-form-field id="page-size-select">
