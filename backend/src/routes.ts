@@ -4,13 +4,13 @@ import { BookController } from "./controllers/book.controller"
 import { ReviewController } from "./controllers/review.controller"
 import { CommentController } from "./controllers/comment.controller"
 import { SummaryController } from "./controllers/summary.controller"
-import { ImageController } from "./controllers/image.controller"
 import { Authenticator } from "./controllers/auth.controller"
 
 
 export const router = express.Router()
 
 router.post("/login",Authenticator.login)
+router.post("/refreshToken",Authenticator.refreshToken)
 
 // User routes
 

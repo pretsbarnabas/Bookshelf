@@ -503,10 +503,8 @@ components:
       name: Authorization
 
 tags:
-  - name: login
-    description: Login feature
-  - name: Image
-    description: Get Images from server
+  - name: Login
+    description: Login features
   - name: Users
     description: Routes managing users
   - name: Reviews
@@ -519,7 +517,7 @@ paths:
     post:
       summary: Login for a user
       tags:
-        - login
+        - Login
       requestBody:
         required: true
         content:
@@ -553,23 +551,37 @@ paths:
                   token:
                     type: string
                     example: Invalid username or password
-
-  /api/image/{imageName}:
-    get:
-      summary: Retrieve an image
+  /api/refreshToken:
+    post:
+      summary: Refresh a valid token
       tags:
-        - Image
-      parameters:
-        - name: imageName
-          in: path
-          required: true
-          schema:
-            type: string
+        - Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+            example:
+              token: optional, if token sent in header
       responses:
         200:
-          description: Image retrieved successfully
-        404:
-          description: Image not found
+          description: New token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        400:
+          description: Bad request
+      security:
+        - ApiKeyAuth: []
+
 
   /api/users:
     get:
@@ -637,6 +649,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/UserListResponse'
+      security:
+        - ApiKeyAuth: []
+
 
     post:
       summary: Create a new user

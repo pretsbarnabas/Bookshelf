@@ -28,6 +28,9 @@ export class UserController{
             }
 
             const allowedFields = ["_id","username","role","created_at","updated_at","booklist","last_login","imageUrl"]
+            if(Authenticator.verifyUser(req)){
+                allowedFields.push("email")
+            }
 
             let filters: {username?:RegExp,email?:RegExp,role?:string} = {}
 
@@ -234,10 +237,13 @@ export class UserController{
                 return res.status(400).json({message: "id is required"})
             }
             if(!Authenticator.verifyUser(req,id)) return res.status(401).json({message: "Unauthorized"})
-            
+                
             const user = await UserModel.findById(id)
             const updates = req.body
+
             const allowedFields = ["username","password","email","booklist","image"]
+            if(req.user.role == "admin") allowedFields.push("role")
+
             if(!user) return res.status(404).json({message: "User not found"})
             for (const key of Object.keys(updates)) {
                 if (!allowedFields.includes(key)) {

@@ -22,13 +22,43 @@ export class Authenticator{
         const user = await UserModel.findOne({username:username})
         if(!user) return res.status(403).json({error: "Invalid user or password"})
         if(await Authenticator.checkPassword(password,user.password_hashed)){
-            const token = jwt.sign({username:username,role:user.role,id: user._id},process.env.JWT_SECRET as Secret, {expiresIn: '1h'})
+            const token = jwt.sign({username:username,role:user.role,id: user._id},process.env.JWT_SECRET as Secret, {expiresIn: "7d"})
             user._updateContext = "login"
             await user.save()            
             return res.status(200).json({token:token})
         }
         else{
             return res.status(403).json({error: "Invalid user or password"})
+        }
+    }
+
+    static async refreshToken(req:any,res:any){
+        try {
+            let {token} = req.body
+            if(!token) token = req.headers["authorization"].split(" ").pop()
+            if(!token) throw new Error("No tokent sent in request")
+            
+            let verifiedToken = false
+            jwt.verify(token, process.env.JWT_SECRET as Secret,(err:any,decoded:any)=>{
+                if(err){
+                    throw new Error("Incorrect token")
+                }
+                if(decoded){
+                    req.user = decoded
+                    verifiedToken = true
+                }
+            })
+            if(verifiedToken){
+                const newToken = jwt.sign({username: req.user.username, role:req.user.role,id: req.user._id},process.env.JWT_SECRET as Secret,{expiresIn: "7d"})
+                const user = await UserModel.findOne({username:req.user.username})
+                user._updateContext = "login"
+                await user.save()
+                return res.status(200).json({token:newToken})
+            }
+            
+        } catch (error:any) {
+            Logger.error(error)
+            res.status(400).json(error)
         }
     }
 
@@ -52,7 +82,6 @@ export class Authenticator{
 
     static verifyUser(req:any, userid: string = "",allowedRoles:string[] = ["user","editor"],){
         if(!Authenticator.verifyToken(req)) return false
-        Logger.debug("after verifyToken")
         if(req.user.role === "admin") return true
         if(userid){
             if(req.user.id != userid) return false
