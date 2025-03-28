@@ -16,15 +16,16 @@ mat-dialog-actions {
         background-color: #4CAF50;
         color: white;
     }
+
     button#save:disabled {
-        background-color: color.adjust(#4CAF50, $lightness: -20%);        
+        background-color: color.adjust(#4CAF50, $lightness: -20%);
         color: color.adjust(white, $lightness: -20%);
     }
 }
 
 #edit-dialog {
-    min-height: 215px;  
-    scrollbar-width: thin;    
+    min-height: 215px;
+    scrollbar-width: thin;
 }
 
 @media (min-width: 450px) {

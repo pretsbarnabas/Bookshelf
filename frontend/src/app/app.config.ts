@@ -14,6 +14,7 @@ import { authInterceptor } from './interceptors/auth.interceptor';
 import { spinnerInterceptor } from './interceptors/spinner.interceptor';
 import { cacheInterceptor } from './interceptors/cache.interceptor';
 import { CustomTitleStrategy } from './utilities/custom.title.strategy';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -46,8 +47,9 @@ export const appConfig: ApplicationConfig = {
             }),
             FormlyModule.forRoot(),
             ReactiveFormsModule,
-            NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })
+            NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })            
         ),
+        provideNativeDateAdapter(),
         isMobile() ? provideNoopAnimations() : provideAnimationsAsync()
     ]
 };

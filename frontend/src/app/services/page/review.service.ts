@@ -20,7 +20,6 @@ export class ReviewService {
     }
 
     updateReview(_id: number | string, data: ReviewModel): Observable<any> {
-        console.log(data)
         return this.crudService.update('reviews', _id, data);
     }
 }

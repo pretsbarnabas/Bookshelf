@@ -3,9 +3,11 @@
 
 <mat-dialog-content>
     <span *ngIf="this.data.isAdmin">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.MESSAGE' | translate }} </span>
-    <span *ngIf="!this.data.isAdmin">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.MESSAGEHEADERONLY' | translate }} </span>
-    <span><b>{{ `STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.SUBJECT.${this.data.item.type.toLocaleUpperCase()}` | translate
-    }}</b>?</span>
+    <span *ngIf="!this.data.isAdmin">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.MESSAGEHEADERONLY' | translate
+        }} </span>
+    <span><b>{{ `STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.SUBJECT.${this.data.item.type.toLocaleUpperCase()}` |
+            translate
+            }}</b>?</span>
 </mat-dialog-content>
 
 <mat-dialog-content *ngIf="this.data.isAdmin">
@@ -41,24 +43,43 @@
 <h2 mat-dialog-title>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.HEADER' | translate}}</h2>
 <mat-dialog-content [formGroup]="form" id="edit-dialog">
     <div *ngFor="let field of config">
-        <mat-form-field appearance="outline" class="my-3 w-100">
-            <mat-label>{{ field.label }}</mat-label>
-            <ng-container [ngSwitch]="field.type">
-                <input *ngSwitchCase="'text'" matInput [formControlName]="field.name" />
-                <input *ngSwitchCase="'number'" matInput type="number" [formControlName]="field.name" />
-                <input class="py-1" *ngSwitchCase="'date'" matInput type="datetime" [formControlName]="field.name" />
-                <textarea class="edit-dialog-textarea" *ngSwitchCase="'textarea'" matInput
-                    [formControlName]="field.name"></textarea>
-                <mat-select *ngSwitchCase="'select'" [formControlName]="field.name">
-                    <mat-option *ngFor="let option of field.options" [value]="option">
-                        {{ option }}
-                    </mat-option>
-                </mat-select>
-            </ng-container>
+
+        <ng-container *ngIf="field.name === 'image'; else defaultField">
+            <label class="mat-body-1">{{ field.label }}</label><br>
+            <div class="mt-2">
+                <input id="fileInput" type="file" (change)="onFileSelected($event)" accept="image/*" hidden />
+                <button mat-flat-button type="button" class="me-2" (click)="triggerFileInput()">Choose Image</button>
+                <span class="file-name">{{ selectedFileName || "No file selected" }}</span>
+            </div>
             <mat-error *ngFor="let errorKey of getErrorKeys(field.name)">
                 {{ field.errorMessages![errorKey] }}
             </mat-error>
-        </mat-form-field>
+        </ng-container>
+        <ng-template #defaultField>
+            <mat-form-field appearance="outline" class="my-3 w-100">
+                <mat-label>{{ field.label }}</mat-label>
+                <ng-container [ngSwitch]="field.type">
+                    <input *ngSwitchCase="'text'" matInput [formControlName]="field.name" />
+                    <input *ngSwitchCase="'number'" matInput type="number" [formControlName]="field.name" />
+                    <ng-container *ngSwitchCase="'date'" class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <input class="w-75" matInput [matDatepicker]="picker" [formControlName]="field.name" />
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </div>
+                    </ng-container>
+                    <textarea *ngSwitchCase="'textarea'" matInput [formControlName]="field.name"></textarea>
+                    <mat-select *ngSwitchCase="'select'" [formControlName]="field.name">
+                        <mat-option *ngFor="let option of field.options" [value]="option">
+                            {{ option }}
+                        </mat-option>
+                    </mat-select>
+                </ng-container>
+                <mat-error *ngFor="let errorKey of getErrorKeys(field.name)">
+                    {{ field.errorMessages![errorKey] }}
+                </mat-error>
+            </mat-form-field>
+        </ng-template>
     </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

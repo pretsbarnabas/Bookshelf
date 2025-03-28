@@ -176,7 +176,10 @@ export class FormService {
                         }
                         return value;
                     },
-                    transformOutput: (value: Date) => value ? value.toISOString() : null
+                    transformOutput: (value: Date) => {
+                        if (!value) return null;
+                        return value.toISOString();
+                    }
                 },
                 { name: 'genre', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.GENRE')), type: 'text', validators: [] },
                 { name: 'description', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.DESC')), type: 'textarea', validators: [] },
