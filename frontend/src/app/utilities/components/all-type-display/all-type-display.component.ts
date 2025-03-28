@@ -184,6 +184,8 @@ export class AllTypeDisplayComponent {
     private fetchItems(arrayKey: 'users' | 'books' | 'reviews' | 'summaries' | 'comments'): void {
         this.fetchMapping[arrayKey].fn().subscribe({
             next: (data: any) => {
+                console.log(data.data);
+                
                 this.fetchedArray = data.data;
                 this.itemType = this.fetchMapping[arrayKey].type;
                 this.sortItems(this.currentSortSettings)

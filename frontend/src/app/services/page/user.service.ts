@@ -15,7 +15,11 @@ export class UserService {
         return this.crudService.getAll<UserRoot>(`users?limit=${pageSize}&page=${pageIndex}`);
     }
 
-    deleteUser(_id: number | string): Observable<any>  {
+    deleteUser(_id: number | string): Observable<any> {
         return this.crudService.delete('users', _id);
-    }    
+    }
+
+    updateUser(_id: number | string, data: UserModel): Observable<any> {
+        return this.crudService.update('users', _id, data);
+    }
 }

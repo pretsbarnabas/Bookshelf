@@ -85,6 +85,28 @@
             "BACK": "Back to login",
             "REGISTER": "Register"
         },
+        "STEPPER": {
+            "HEADINGS": {
+                "DATA": "Fill out your data",
+                "IMAGE": "Profile Image",
+                "OPTIONAL": "Optional",
+                "DONE": "Done"
+            },
+            "BUTTONS": {
+                "BACK": "Back",
+                "NEXT": "Next",
+                "SKIP": "Skip",
+                "CLEAR": "Clear image",
+                "RESET": "Reset"
+            },
+            "IMAGE": {
+                "UPLOAD": "Upload a profile picture",
+                "CHOOSE": "Choose Image",
+                "NOSELECTED": "No file selected",
+                "SELECTED": "Selected picture"
+            },
+            "DONE": "Everything seems to be in order"
+        },
         "SNACKBAR": {
             "WELCOME": "Welcome",
             "CLOSE": "Close"
@@ -268,7 +290,10 @@
                         "AUTHOR": "Author",
                         "RELEASE": "Release date",
                         "GENRE": "Genre",
-                        "DESC": "Description"
+                        "DESC": "Description",
+                        "IMAGE": "Cover",
+                        "CHOOSE": "Choose Image",
+                        "NOSELECTED": "No file selected"
                     },
                     "REVIEW": {
                         "SCORE": "Score"

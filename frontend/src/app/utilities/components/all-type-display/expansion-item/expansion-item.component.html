@@ -151,7 +151,7 @@
                 <mat-card-content>
                     <div class="row">
                         <div class="col-12 col-sm-4 col-md-3 d-flex mb-2 p-3">
-                            <img src="./assets/images/no-cover.svg" alt="Book Cover Image"
+                            <img [src]="payload?.item.imageUrl ?? './assets/images/no-cover.svg'" alt="Book Cover Image"
                                 class="mx-auto my-auto book-cover" />
                         </div>
                         <div class="col-12 col-sm-8 col-md-9">

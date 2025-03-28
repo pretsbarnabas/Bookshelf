@@ -48,8 +48,11 @@
             <label class="mat-body-1">{{ field.label }}</label><br>
             <div class="mt-2">
                 <input id="fileInput" type="file" (change)="onFileSelected($event)" accept="image/*" hidden />
-                <button mat-flat-button type="button" class="me-2" (click)="triggerFileInput()">Choose Image</button>
-                <span class="file-name">{{ selectedFileName || "No file selected" }}</span>
+                <button mat-flat-button type="button" class="me-2" (click)="triggerFileInput()">
+                    {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.BOOK.CHOOSE' | translate }}
+                </button>
+                <span *ngIf="this.selectedFile">{{ selectedFileName }}</span>
+                <span *ngIf="!this.selectedFile">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.BOOK.NOSELECTED' | translate }}</span>
             </div>
             <mat-error *ngFor="let errorKey of getErrorKeys(field.name)">
                 {{ field.errorMessages![errorKey] }}

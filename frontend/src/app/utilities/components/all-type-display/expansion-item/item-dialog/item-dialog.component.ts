@@ -46,7 +46,7 @@ export class ItemDialogComponent {
     @Inject(MAT_DATE_LOCALE) private locale: string = 'en';
 
     constructor() {
-        this.translationService.currentLanguage$.subscribe((lang)=>{
+        this.translationService.currentLanguage$.subscribe((lang) => {
             this.dateAdapter.setLocale(lang);
         })
     }
@@ -103,19 +103,27 @@ export class ItemDialogComponent {
         if (this.form.valid) {
 
             const releaseFieldConfig = this.config!.find(field => field.name === 'release');
-            if (releaseFieldConfig && releaseFieldConfig.transformOutput) {              
-                this.form.controls['release'].setValue(releaseFieldConfig.transformOutput(this.form.controls['release'].value));              
+            if (releaseFieldConfig && releaseFieldConfig.transformOutput) {
+                this.form.controls['release'].setValue(releaseFieldConfig.transformOutput(this.form.controls['release'].value));
             }
 
             const formData = new FormData();
-            Object.keys(this.form.value).forEach((key) => {
-                formData.append(key, this.form.value[key]);
+
+            console.log(this.selectedFile)
+            const formValues = { ...this.form.value };
+            delete formValues['image'];
+
+            Object.keys(formValues).forEach((key) => {
+                if (key !== 'image') {
+                    formData.append(key, this.form.value[key]);
+                }
             });
 
             if (this.selectedFile) {
                 formData.append('imageFile', this.selectedFile);
-            }          
-            this.emitResult({ result: true, modifiedData: { ...this.form.value } });
+            }
+            console.log(this.form)
+            this.emitResult({ result: true, modifiedData: { ...formValues } });
         }
         // console.log(this.form.controls)
         // console.log({ ...this.data.item, ...this.form.value })

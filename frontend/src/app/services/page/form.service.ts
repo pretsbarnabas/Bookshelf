@@ -178,12 +178,12 @@ export class FormService {
                     },
                     transformOutput: (value: Date) => {
                         if (!value) return null;
-                        return value.toISOString();
+                        return new Date(value).toISOString();
                     }
                 },
                 { name: 'genre', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.GENRE')), type: 'text', validators: [] },
                 { name: 'description', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.DESC')), type: 'textarea', validators: [] },
-                // { name: 'image', label: 'Image', type: 'text', validators: [] },
+                { name: 'image', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.IMAGE')), type: 'text', validators: [] },
             ],
             review: [
                 {

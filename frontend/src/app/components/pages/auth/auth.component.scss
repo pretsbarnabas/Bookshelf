@@ -1,10 +1,25 @@
 @media (max-width: 767px) {
     #form-card {
-      background-color: transparent;
-      border: none;
-      box-shadow: none;
-      mat-card-title {
-        font-size: 2.5rem;
-      }
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+
+        mat-card-title {
+            font-size: 2.5rem;
+        }
     }
-  }
+}
+mat-stepper {
+    background-color: transparent !important;
+    min-height: 470px;
+}
+
+div.stepper-content {
+    min-height: 330px;
+}
+
+#selected-profile{
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 50%;
+}

@@ -18,6 +18,12 @@ import { AuthService } from '../../../services/global/auth.service';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatStepperModule } from '@angular/material/stepper';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map } from 'rxjs/internal/operators/map';
+import { shareReplay } from 'rxjs/internal/operators/shareReplay';
+import { CommonModule } from '@angular/common';
+import { UserService } from '../../../services/page/user.service';
 
 @Component({
     selector: 'app-auth',
@@ -30,13 +36,17 @@ import { HttpErrorResponse } from '@angular/common/http';
         FormlyMaterialModule,
         ReactiveFormsModule,
         MatButtonModule,
-        MatIconModule
+        MatIconModule,
+        MatStepperModule,
+        CommonModule
     ],
     templateUrl: './auth.component.html',
     styleUrl: './auth.component.scss',
     encapsulation: ViewEncapsulation.None
 })
 export class AuthComponent {
+    private breakpointObserver = inject(BreakpointObserver);
+    private userService = inject(UserService);
 
     constructor(
         private translationService: TranslationService,
@@ -56,6 +66,16 @@ export class AuthComponent {
 
     errorMessages: HttpErrorResponse[] = [];
     @ViewChild('errorAlert', { static: false }) errorAlert!: ElementRef;
+
+    isMobile$ = this.breakpointObserver.observe([Breakpoints.Handset])
+        .pipe(
+            map(result => result.matches),
+            shareReplay()
+        );
+
+    selectedFile?: File;
+    imgBase64?: string | ArrayBuffer | null;
+    selectedFileName: string = '';
 
     async ngOnInit() {
         this.route.url.subscribe((segments) => {
@@ -78,12 +98,13 @@ export class AuthComponent {
                 this.logIn(this.model as UserLoginModel);
             }
             else if (this.mode === 'register') {
-                const user = this.model as UserRegistrationFormModel;
+                const user = this.model as UserRegistrationModel;
                 this.register({
                     username: user.username,
                     email: user.email,
-                    password: user.passwordGroup.password,
-                    role: 'user'
+                    password: (this.model as UserRegistrationFormModel).passwordGroup.password,
+                    role: 'user',
+                    image: this.imgBase64 as string || ''
                 })
             }
         }
@@ -131,7 +152,7 @@ export class AuthComponent {
     async register(_model: UserRegistrationModel) {
         this.authService.register(_model).subscribe({
             next: async (model: any) => {
-                this.logIn({ username: _model.username, password: _model.password });
+                this.logIn({ username: _model.username, password: _model.password });             
             },
             error: async (err: HttpErrorResponse) => {
                 this.onError(err);
@@ -139,8 +160,38 @@ export class AuthComponent {
         });
     }
 
+    touchForm() {
+        if (!this.form.valid)
+            this.form.markAllAsTouched();
+    }
+
+    clearImage(){
+        this.selectedFile = undefined;
+        this.imgBase64 = undefined;
+    }
+
+    triggerFileInput() {
+        const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+        fileInput.click();
+    }
+
+    onFileSelected(event: Event) {
+        const input = event.target as HTMLInputElement;
+        if (input.files && input.files.length > 0) {
+            this.selectedFile = input.files[0];
+            this.selectedFileName = this.selectedFile.name;
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                this.imgBase64 = reader.result;
+            }
+            reader.readAsDataURL(this.selectedFile);
+        }
+    }
+
     private onError(_error: HttpErrorResponse) {
         this.errorMessages.push(_error);
+        console.log(_error)
         setTimeout(() => {
             this.errorAlert.nativeElement.scrollIntoView({ behavior: 'smooth' });
         });

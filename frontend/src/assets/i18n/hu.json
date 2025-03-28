@@ -85,6 +85,28 @@
             "BACK": "Vissza a bejelentkezésre",
             "REGISTER": "Regisztrálás"
         },
+        "STEPPER": {
+            "HEADINGS": {
+                "DATA": "Töltse ki adatait",
+                "IMAGE": "Profilkép",
+                "OPTIONAL": "Opciónális",
+                "DONE": "Kész"
+            },
+            "BUTTONS": {
+                "BACK": "Vissza",
+                "NEXT": "Következő",
+                "SKIP": "Kihagyás",
+                "CLEAR": "Kép törlése",
+                "RESET": "Újrakezdés"
+            },
+            "IMAGE": {
+                "UPLOAD": "Töltsön fel egy profilképet",
+                "CHOOSE": "Válasszon képet",
+                "NOSELECTED": "Nincs fájl kiválasztva",
+                "SELECTED": "Választott kép"
+            },
+            "DONE": "Minden jónak tűnik"
+        },
         "SNACKBAR": {
             "WELCOME": "Üdvözöljük",
             "CLOSE": "Bezárás"
@@ -268,7 +290,10 @@
                         "AUTHOR": "Szerző",
                         "RELEASE": "Kiadás dátuma",
                         "GENRE": "Műfaj",
-                        "DESC": "Leírás"
+                        "DESC": "Leírás",
+                        "IMAGE": "Borítókép",
+                        "CHOOSE": "Válasszon képet",
+                        "NOSELECTED": "Nincs fájl kiválasztva"
                     },
                     "REVIEW": {
                         "SCORE": "Pontszám"
