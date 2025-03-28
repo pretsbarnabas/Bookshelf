@@ -188,6 +188,7 @@ export class AllTypeDisplayComponent {
                 this.itemType = this.fetchMapping[arrayKey].type;
                 this.sortItems(this.currentSortSettings)
                 this.maxPages = data.pages;
+                console.log(data.data)
             },
             error: (err: HttpErrorResponse) => {
                 if (err.status === 404) {

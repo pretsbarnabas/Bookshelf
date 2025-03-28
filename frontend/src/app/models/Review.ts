@@ -1,3 +1,4 @@
+import { BookModel } from "./Book"
 import { UserModel } from "./User"
 
 export interface ReviewRoot {
@@ -9,7 +10,7 @@ export interface ReviewModel {
     type: 'review'
     _id: string
     user: UserModel
-    book_id: string
+    book: BookModel
     score: number
     content: string
     created_at: string

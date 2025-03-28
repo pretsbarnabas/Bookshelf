@@ -68,7 +68,7 @@
                     <div class="col-12 col-sm-4">
                         <mat-panel-title>{{ payload?.item.title }}</mat-panel-title>
                     </div>
-                    <div class="col-12 col-sm-4">
+                    <div class="col-12 col-sm-4" *ngIf="this.payload?.isAdminPage">
                         <mat-panel-description>Id: {{ payload?.item._id }}</mat-panel-description>
                     </div>
                 </ng-container>
@@ -80,21 +80,27 @@
                         </mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-4">
-                        <mat-panel-description>Id: {{ payload?.item._id }}</mat-panel-description>
+                        <mat-panel-description *ngIf="this.payload?.isAdminPage">Id: {{ payload?.item._id }}</mat-panel-description>
+                        <mat-panel-description *ngIf="!this.payload?.isAdminPage">{{ payload?.item.book.title }}</mat-panel-description>
                     </div>
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'summary'">
-                    <div class="col-12 col-sm-4">
+                    <div class="col-12 col-sm-4" *ngIf="this.payload?.isAdminPage; else bookTitle">
                         <mat-panel-description>Id: {{ payload?.item._id }}</mat-panel-description>
                     </div>                    
-                </ng-container>
-
+                </ng-container>                
+                
                 <ng-container *ngSwitchCase="'comment'">
                     <div class="col-12 col-sm-4">
-                        <mat-panel-description>Id: {{ payload?.item._id }}</mat-panel-description>
+                        <mat-panel-description *ngIf="this.payload?.isAdminPage">Id: {{ payload?.item._id }}</mat-panel-description>
                     </div>
                 </ng-container>
+
+                <ng-template class="col-12 col-sm-4" #bookTitle>
+                    <mat-panel-description>{{ payload?.item.book.title }}</mat-panel-description>
+                </ng-template>
+
             </ng-container>
         </div>
     </mat-expansion-panel-header>
@@ -120,7 +126,7 @@
         </ng-container>
 
         <ng-container *ngSwitchCase="'book'">
-            <h5 class="text-center mt-3">
+            <h5 class="text-center mt-3" *ngIf="this.payload?.isAdminPage">
                 {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.HEADERS.RECORD' | translate }}
             </h5>
             <mat-card appearance="raised">
@@ -130,7 +136,7 @@
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.ADDED', date: payload?.item.added_at }"></ng-container>
                         <ng-container
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.UPDATED', date: payload?.item.updated_at }"></ng-container>
-                        <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="col-12 col-sm-6 col-lg-4" *ngIf="this.payload?.isAdminPage">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.USERID' | translate }}: </b>
                             <i>{{ payload?.item.user_id }}</i>
                         </div>
@@ -138,7 +144,7 @@
                 </mat-card-content>
             </mat-card>
 
-            <h5 class="text-center mt-3">
+            <h5 class="text-center mt-3" *ngIf="this.payload?.isAdminPage">
                 {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.HEADERS.BOOK' | translate }}
             </h5>
             <mat-card appearance="raised">
@@ -173,7 +179,7 @@
         </ng-container>
 
         <ng-container *ngSwitchCase="'review'">
-            <h5 class="text-center mt-3">
+            <h5 class="text-center mt-3" *ngIf="this.payload?.isAdminPage">
                 {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.HEADERS.RECORD' | translate }}
             </h5>
             <mat-card appearance="raised">
@@ -183,18 +189,18 @@
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.ADDED', date: payload?.item.created_at }"></ng-container>
                         <ng-container
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.UPDATED', date: payload?.item.updated_at }"></ng-container>
-                        <div class="col-12 col-sm-6 col-lg-4 mx-auto">
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.USERNAME' | translate }}: </b>
                             <i>{{ payload?.item.user.username }}</i>
                         </div>
-                        <div class="col-12 col-sm-6 col-lg-4 mx-auto">
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.USERID' | translate }}: </b>
                             <i>{{ payload?.item.user._id }}</i>
                         </div>
                     </div>
                 </mat-card-content>
             </mat-card>
-            <h5 class="text-center mt-3">
+            <h5 class="text-center mt-3" *ngIf="this.payload?.isAdminPage">
                 {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.HEADERS.REVIEW' | translate }}
             </h5>
             <mat-card appearance="raised">
@@ -209,30 +215,30 @@
         </ng-container>
 
         <ng-container *ngSwitchCase="'summary'">
-            <h5 class="text-center mt-3">
+            <h5 class="text-center mt-3" *ngIf="this.payload?.isAdminPage">
                 {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.HEADERS.RECORD' | translate }}
             </h5>
             <mat-card appearance="raised">
                 <mat-card-content>
                     <div class="row text-center">
-                        <div class="col-12 col-sm-6 col-lg-4 mx-auto">
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.BOOKID' | translate }}: </b>
                             <i>{{ payload?.item.book._id }}</i>
                         </div>
                         <ng-container
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.UPDATED', date: payload?.item.updated_at }"></ng-container>
-                        <div class="col-12 col-sm-6 col-lg-4 mx-auto">
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.USERNAME' | translate }}: </b>
                             <i>{{ payload?.item.user.username }}</i>
                         </div>
-                        <div class="col-12 col-sm-6 col-lg-4 mx-auto">
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.USERID' | translate }}: </b>
                             <i>{{ payload?.item.user._id }}</i>
                         </div>
                     </div>
                 </mat-card-content>
             </mat-card>
-            <h5 class="text-center mt-3">
+            <h5 class="text-center mt-3" *ngIf="this.payload?.isAdminPage">
                 {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.HEADERS.SUMMARY' | translate }}
             </h5>
             <mat-card appearance="raised">
@@ -248,7 +254,7 @@
 
         <!-- Comment Details -->
         <ng-container *ngSwitchCase="'comment'">
-            <h5 class="text-center mt-3">
+            <h5 class="text-center mt-3" *ngIf="this.payload?.isAdminPage">
                 {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.HEADERS.COMMENT' | translate }}
             </h5>
             <mat-card appearance="raised">
@@ -261,7 +267,7 @@
                     </div>
                 </mat-card-content>
             </mat-card>
-            <h5 class="text-center mt-3">
+            <h5 class="text-center mt-3" *ngIf="this.payload?.isAdminPage">
                 {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.HEADERS.COMMENT' | translate }}
             </h5>
             <mat-card appearance="raised">

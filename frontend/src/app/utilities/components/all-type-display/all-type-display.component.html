@@ -32,7 +32,7 @@
             <mat-accordion>
                 @if(this.currentArrayInPaginator.length > 0){
                 @for (item of this.currentArrayInPaginator; track $index) {
-                <expansion-item [payload]="{ type: this.itemType, item : item}"
+                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin}"
                     (onDialogResultTrue)="this.handleDialogRequest($event)" />
                 }
                 }
@@ -50,7 +50,7 @@
             <mat-accordion>
                 @if(this.currentArrayInPaginator.length > 0){
                 @for (item of this.currentArrayInPaginator; track $index) {
-                <expansion-item [payload]="{ type: this.itemType, item : item}"
+                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin}"
                     (onDialogResultTrue)="this.handleDialogRequest($event)" />
                 }
                 }
@@ -64,7 +64,7 @@
             <mat-accordion>
                 @if(this.currentArrayInPaginator.length > 0){
                 @for (item of this.currentArrayInPaginator; track $index) {
-                <expansion-item [payload]="{ type: this.itemType, item : item}"
+                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin}"
                     (onDialogResultTrue)="this.handleDialogRequest($event)" />
                 }
                 }
@@ -79,7 +79,7 @@
             <mat-accordion>
                 @if(this.currentArrayInPaginator.length > 0){
                 @for (item of this.currentArrayInPaginator; track $index) {
-                <expansion-item [payload]="{ type: this.itemType, item : item}"
+                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin}"
                     (onDialogResultTrue)="this.handleDialogRequest($event)" />
                 }
                 }
@@ -93,7 +93,7 @@
             <mat-accordion>
                 @if(this.currentArrayInPaginator.length > 0){
                 @for (item of this.currentArrayInPaginator; track $index) {
-                <expansion-item [payload]="{ type: this.itemType, item : item}"
+                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin}"
                     (onDialogResultTrue)="this.handleDialogRequest($event)" />
                 }}
             </mat-accordion>
