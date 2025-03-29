@@ -9,17 +9,24 @@
         }
     }
 }
+
 mat-stepper {
     background-color: transparent !important;
     min-height: 470px;
 }
 
 div.stepper-content {
-    min-height: 330px;
+    min-height: 320px;
 }
 
-#selected-profile{
-    max-width: 150px;
-    max-height: 150px;
+#selected-profile {
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
+    border: 4px solid #000;
+}
+
+button#register {
+    background-color: #4CAF50;
+    color: white;
 }

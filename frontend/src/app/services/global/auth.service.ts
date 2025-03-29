@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { UserModel, UserLoginModel, UserRegistrationModel } from '../../models/User';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { jwtDecode } from "jwt-decode";
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { createAvatar } from '@dicebear/core';
 import { bottts } from '@dicebear/collection';
 import { CrudService } from './crud.service';
@@ -15,7 +15,14 @@ export class AuthService {
     private crudService = inject(CrudService);
     private router = inject(Router);
 
-    constructor() { }
+    constructor() {
+        this.router.events.subscribe((event) => {
+            if (event instanceof NavigationEnd) {
+                if(this.loggedInUserSubject.value !== null && this.decodeToJWT() !== undefined)
+                    this.refreshToken();
+            }            
+        });
+    }
 
     private loggedInUserSubject = new BehaviorSubject<UserModel | null>(null);
     loggedInUser$ = this.loggedInUserSubject.asObservable();
@@ -36,11 +43,13 @@ export class AuthService {
         );
     }
 
-    refreshToken(): void {       
-        this.crudService.create<string>('refreshToken', this.decodeToJWT()!).subscribe((result: { token: string }) => {            
-            localStorage.setItem('authToken', this.encodeToken(result.token));            
-            this.scheduleAutoLogout();
-        })
+    refreshToken(): void {
+        if (this.loggedInUserSubject.value !== null) {
+            this.crudService.create<string>('refreshToken', this.decodeToJWT()!).subscribe((result: { token: string }) => {
+                localStorage.setItem('authToken', this.encodeToken(result.token));
+                this.scheduleAutoLogout();
+            })
+        }
     }
 
     scheduleAutoLogout(): void {
@@ -72,7 +81,7 @@ export class AuthService {
         return decodedToken ? decodedToken.id : undefined;
     }
 
-    encodeToken(_token: string): string {        
+    encodeToken(_token: string): string {
         return CryptoJS.AES.encrypt(_token, 'secret-key').toString();
     }
 
@@ -97,6 +106,7 @@ export class AuthService {
         const tokenId = this.getTokenId();
         if (!tokenId) {
             this.loggedInUserSubject.next(null);
+            localStorage.removeItem('authToken');
             return;
         }
 
@@ -132,9 +142,9 @@ export class AuthService {
     }
 
     logOut() {
-        localStorage.removeItem('authToken');
         this.loggedInUserSubject.next(null);
         this.remainingTimeSubject.next(0);
+        localStorage.removeItem('authToken');
         this.router.navigate(['home']);
     }
 

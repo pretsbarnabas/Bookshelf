@@ -24,22 +24,24 @@ import { map } from 'rxjs/internal/operators/map';
 import { shareReplay } from 'rxjs/internal/operators/shareReplay';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../../services/page/user.service';
+import { TruncatePipe } from "../../../pipes/truncate.pipe";
 
 @Component({
     selector: 'app-auth',
     imports: [
-        TranslatePipe,
-        FormlyModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        FormlyMaterialModule,
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatIconModule,
-        MatStepperModule,
-        CommonModule
-    ],
+    TranslatePipe,
+    FormlyModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormlyMaterialModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatStepperModule,
+    CommonModule,
+    TruncatePipe
+],
     templateUrl: './auth.component.html',
     styleUrl: './auth.component.scss',
     encapsulation: ViewEncapsulation.None
@@ -168,6 +170,10 @@ export class AuthComponent {
     clearImage(){
         this.selectedFile = undefined;
         this.imgBase64 = undefined;
+    }
+
+    clearForm() {
+        this.model = { username: '', email: '', passwordGroup: '' };
     }
 
     triggerFileInput() {

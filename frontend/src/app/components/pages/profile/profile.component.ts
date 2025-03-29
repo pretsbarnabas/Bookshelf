@@ -9,6 +9,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button'
 import { AllTypeDisplayComponent } from "../../../utilities/components/all-type-display/all-type-display.component";
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
     selector: 'app-profile',
@@ -21,7 +22,8 @@ import { AllTypeDisplayComponent } from "../../../utilities/components/all-type-
         FlexLayoutModule,
         MatIconModule,
         MatButtonModule,
-        AllTypeDisplayComponent
+        AllTypeDisplayComponent,
+        MatExpansionModule
     ],
     providers: [DatePipe],
     templateUrl: './profile.component.html',

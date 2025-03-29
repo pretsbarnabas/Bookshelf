@@ -159,6 +159,21 @@ export class FormService {
 
     async getEditDialogFormConfigMapping(): Promise<{ [key: string]: EditDialogFieldConfig[] }> {
         return {
+            user: [
+                {
+                    name: 'username', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.USER.USERNAME')), type: 'text', validators: [
+                        Validators.required,
+                        Validators.minLength(3),
+                        Validators.maxLength(24)
+                    ],
+                    errorMessages: {
+                        required: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.NAME.REQUIRED')),
+                        minLength: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.NAME.MINLENGTH')),
+                        maxlength: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.NAME.MAXLENGTH')),
+                    }
+                },
+                { name: 'image', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.USER.IMAGE')), type: 'text', validators: [] },
+            ],
             book: [
                 { name: 'title', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.TITLE')), type: 'text', validators: [] },
                 { name: 'author', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.AUTHOR')), type: 'text', validators: [] },

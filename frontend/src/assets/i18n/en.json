@@ -105,7 +105,7 @@
                 "NOSELECTED": "No file selected",
                 "SELECTED": "Selected picture"
             },
-            "DONE": "Everything seems to be in order"
+            "DONE": "Everything is set up"
         },
         "SNACKBAR": {
             "WELCOME": "Welcome",
@@ -139,6 +139,7 @@
             "CREATED": "Created on",
             "UPDATED": "Updated on",
             "BUTTONS": {
+                "OPTIONS": "Options",
                 "EDIT": "Edit",
                 "DELETE": "Delete"
             }
