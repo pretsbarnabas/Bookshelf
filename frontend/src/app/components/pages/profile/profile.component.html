@@ -24,14 +24,14 @@
                                 <mat-expansion-panel-header>
                                     {{ 'PROFILE.PROFILECARD.BUTTONS.OPTIONS' | translate }}
                                 </mat-expansion-panel-header>
-                                <button mat-fab extended class="w-75 mx-auto my-1 mt-3" id="edit-button">
+                                <button mat-fab extended class="w-75 mx-auto my-1 mt-3" id="edit-button" (click)="this.handleProfile('edit')">
                                     <mat-icon>edit</mat-icon>
                                     {{ 'PROFILE.PROFILECARD.BUTTONS.EDIT' | translate }}
                                 </button>
-                                <button mat-fab extended class="w-75 mx-auto my-1" id="delete-button">
+                                <!-- <button mat-fab extended class="w-75 mx-auto my-1" id="delete-button" (click)="this.handleProfile('delete')">
                                     <mat-icon>delete</mat-icon>
                                     {{ 'PROFILE.PROFILECARD.BUTTONS.DELETE' | translate }}
-                                </button>
+                                </button> -->
                             </mat-expansion-panel>
                         </mat-card>
                     </div>

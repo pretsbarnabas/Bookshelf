@@ -40,7 +40,10 @@
 </mat-dialog-actions>
 }
 @if(this.data.type === 'edit') {
-<h2 mat-dialog-title>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.HEADER' | translate}}</h2>
+<h2 mat-dialog-title>
+    <span *ngIf="!this.data.isProfile">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.HEADER' | translate}}</span>
+    <span *ngIf="this.data.isProfile">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.HEADERPROFILE' | translate}}</span>
+</h2>
 <mat-dialog-content [formGroup]="form" id="edit-dialog">
     <div *ngFor="let field of config">
 
@@ -49,10 +52,11 @@
             <div class="mt-2">
                 <input id="fileInput" type="file" (change)="onFileSelected($event)" accept="image/*" hidden />
                 <button mat-flat-button type="button" class="me-2" (click)="triggerFileInput()">
-                    {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.BOOK.CHOOSE' | translate }}
+                    {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.CHOOSE' | translate }}
                 </button>
                 <span *ngIf="this.selectedFile">{{ selectedFileName }}</span>
-                <span *ngIf="!this.selectedFile">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.BOOK.NOSELECTED' | translate }}</span>
+                <span *ngIf="!this.selectedFile">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.NOSELECTED' |
+                    translate }}</span>
             </div>
             <mat-error *ngFor="let errorKey of getErrorKeys(field.name)">
                 {{ field.errorMessages![errorKey] }}

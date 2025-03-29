@@ -284,8 +284,14 @@
                 },
                 "EDIT": {
                     "HEADER": "Edit item",
+                    "HEADERPROFILE": "Edit profile",
                     "BUTTONYES": "Save changes",
                     "BUTTONNO": "Cancel",
+                    "USER": {
+                        "USERNAME": "Username",
+                        "EMAIL": "Email address",
+                        "IMAGE": "Profile Image"
+                    },
                     "BOOK": {
                         "TITLE": "Title",
                         "AUTHOR": "Author",

@@ -56,6 +56,7 @@ export class ItemDialogComponent {
 
     selectedFile?: File;
     selectedFileName: string = '';
+    imgBase64: string | ArrayBuffer | null = '';
 
     async ngOnInit() {
         const itemType = this.data.item.type;
@@ -94,6 +95,7 @@ export class ItemDialogComponent {
             const reader = new FileReader();
             reader.onload = () => {
                 this.form.patchValue({ image: reader.result });
+                this.imgBase64 = reader.result;
             };
             reader.readAsDataURL(this.selectedFile);
         }
@@ -109,20 +111,19 @@ export class ItemDialogComponent {
 
             const formData = new FormData();
 
-            console.log(this.selectedFile)
             const formValues = { ...this.form.value };
-            delete formValues['image'];
-
+            
             Object.keys(formValues).forEach((key) => {
                 if (key !== 'image') {
                     formData.append(key, this.form.value[key]);
                 }
             });
-
+            
             if (this.selectedFile) {
                 formData.append('imageFile', this.selectedFile);
             }
-            console.log(this.form)
+            if(formValues['image'] === '' )
+                delete formValues['image'];            
             this.emitResult({ result: true, modifiedData: { ...formValues } });
         }
         // console.log(this.form.controls)
