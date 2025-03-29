@@ -36,6 +36,13 @@ export class AuthService {
         );
     }
 
+    refreshToken(): void {       
+        this.crudService.create<string>('refreshToken', this.decodeToJWT()!).subscribe((result: { token: string }) => {            
+            localStorage.setItem('authToken', this.encodeToken(result.token));            
+            this.scheduleAutoLogout();
+        })
+    }
+
     scheduleAutoLogout(): void {
         const decodedToken = this.decodeToken();
         if (!decodedToken || !decodedToken.exp) return;
@@ -65,7 +72,7 @@ export class AuthService {
         return decodedToken ? decodedToken.id : undefined;
     }
 
-    encodeToken(_token: string): string {
+    encodeToken(_token: string): string {        
         return CryptoJS.AES.encrypt(_token, 'secret-key').toString();
     }
 

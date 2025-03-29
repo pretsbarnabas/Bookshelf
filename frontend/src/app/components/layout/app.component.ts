@@ -44,8 +44,12 @@ export class AppComponent {
         private spinner: NgxSpinnerService
     ) {
         this.router.events.subscribe((event) => {
-            if (event instanceof NavigationStart)
+            if (event instanceof NavigationStart) {
                 this.spinner.show();
+                if (this.authService.decodeToJWT())
+                    this.authService.refreshToken();
+            }
+
             else if (
                 event instanceof NavigationEnd ||
                 event instanceof NavigationCancel ||
