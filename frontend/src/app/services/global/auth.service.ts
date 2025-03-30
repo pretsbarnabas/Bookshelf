@@ -18,8 +18,10 @@ export class AuthService {
     constructor() {
         this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
-                if(this.loggedInUserSubject.value !== null && this.decodeToJWT() !== undefined)
-                    this.refreshToken();
+                if(event.url !== '/exit'){
+                    if(this.loggedInUserSubject.value !== null && this.decodeToJWT() !== undefined)
+                        this.refreshToken();
+                }
             }            
         });
     }
