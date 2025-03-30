@@ -42,7 +42,8 @@
 @if(this.data.type === 'edit') {
 <h2 mat-dialog-title>
     <span *ngIf="!this.data.isProfile">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.HEADER' | translate}}</span>
-    <span *ngIf="this.data.isProfile">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.HEADERPROFILE' | translate}}</span>
+    <span *ngIf="this.data.isProfile">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.HEADERPROFILE' |
+        translate}}</span>
 </h2>
 <mat-dialog-content [formGroup]="form" id="edit-dialog">
     <div *ngFor="let field of config">
@@ -94,5 +95,29 @@
         'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BUTTONNO' | translate}}</button>
     <button mat-button id="save" color="primary" (click)="this.saveModification()" [disabled]="!this.form.valid">{{
         'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BUTTONYES' | translate}}</button>
+</mat-dialog-actions>
+}
+@if(this.data.type === 'roleEdit') {
+<h2 mat-dialog-title>
+    <span>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.ROLECHANGE.HEADER' | translate}}?</span>
+</h2>
+<mat-dialog-content>
+    <p>
+        {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.ROLECHANGE.CHANGE' | translate}}:
+        <b>
+            <span *ngIf="this.data.item.role === 'user'">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.ROLECHANGE.USER'
+                |
+                translate}}</span>
+            <span *ngIf="this.data.item.role === 'editor'">{{
+                'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.ROLECHANGE.EDITOR'
+                | translate}}</span>
+        </b>?        
+    </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button id="cancel" (click)="this.emitResult(false)">{{
+        'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.ROLECHANGE.BUTTONNO' | translate}}</button>
+    <button mat-button id="save" color="primary" (click)="this.changeRole()" [disabled]="!this.form.valid">{{
+        'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.ROLECHANGE.BUTTONYES' | translate}}</button>
 </mat-dialog-actions>
 }

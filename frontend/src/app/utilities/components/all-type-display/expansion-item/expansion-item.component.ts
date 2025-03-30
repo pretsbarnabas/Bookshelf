@@ -37,7 +37,7 @@ export class ExpansionItemComponent {
     readonly dialog = inject(MatDialog);
 
     @Input() payload?: { type: 'user' | 'book' | 'review' | 'summary' | 'comment', item: any, isAdminPage?: boolean };
-    @Output() onDialogResultTrue = new EventEmitter<{ dialogType: 'delete' | 'edit', item: any, modifiedItem?: any }>();
+    @Output() onDialogResultTrue = new EventEmitter<{ dialogType: 'delete' | 'edit' | 'roleEdit', item: any, modifiedItem?: any }>();
 
     @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
     animate: boolean = false;
@@ -51,7 +51,7 @@ export class ExpansionItemComponent {
         }
     }
 
-    openDialog(type: 'delete' | 'edit') {
+    openDialog(type: 'delete' | 'edit' | 'roleEdit') {
         this.payload!.item.type = this.payload?.type;
         const dialogRef = this.dialog.open(ItemDialogComponent, {
             data: {

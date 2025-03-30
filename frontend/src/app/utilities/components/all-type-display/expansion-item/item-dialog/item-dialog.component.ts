@@ -59,26 +59,28 @@ export class ItemDialogComponent {
     imgBase64: string | ArrayBuffer | null = '';
 
     async ngOnInit() {
-        const itemType = this.data.item.type;
-        const allConfigs = await this.formService.getEditDialogFormConfigMapping();
+        if (this.data.type === 'edit') {
+            const itemType = this.data.item.type;
+            const allConfigs = await this.formService.getEditDialogFormConfigMapping();
 
-        this.config = allConfigs[itemType] || [];
+            this.config = allConfigs[itemType] || [];
 
-        this.form = this.fb.group({});
+            this.form = this.fb.group({});
 
-        this.config.forEach(field => {
-            let initialValue = this.data.item[field.name] || '';
+            this.config.forEach(field => {
+                let initialValue = this.data.item[field.name] || '';
 
-            if (field.transformInput) {
-                initialValue = field.transformInput(initialValue);
-            }
+                if (field.transformInput) {
+                    initialValue = field.transformInput(initialValue);
+                }
 
-            this.form.addControl(
-                field.name,
-                this.fb.control(initialValue, field.validators || [])
-            );
-            this.form.get(field.name)?.patchValue(initialValue);
-        });
+                this.form.addControl(
+                    field.name,
+                    this.fb.control(initialValue, field.validators || [])
+                );
+                this.form.get(field.name)?.patchValue(initialValue);
+            });
+        }
     }
 
     triggerFileInput() {
@@ -112,22 +114,26 @@ export class ItemDialogComponent {
             const formData = new FormData();
 
             const formValues = { ...this.form.value };
-            
+
             Object.keys(formValues).forEach((key) => {
                 if (key !== 'image') {
                     formData.append(key, this.form.value[key]);
                 }
             });
-            
+
             if (this.selectedFile) {
                 formData.append('imageFile', this.selectedFile);
             }
-            if(formValues['image'] === '' )
-                delete formValues['image'];            
+            if (formValues['image'] === '')
+                delete formValues['image'];
             this.emitResult({ result: true, modifiedData: { ...formValues } });
         }
-        // console.log(this.form.controls)
-        // console.log({ ...this.data.item, ...this.form.value })
+    }
+
+    changeRole() {
+        if(this.data.item.role === 'admin')
+            this.emitResult(false);
+        this.emitResult({ result: true, modifiedData: { role: this.data.item.role === 'user' ? 'editor' : 'user' } });
     }
 
     emitResult(result: any) {

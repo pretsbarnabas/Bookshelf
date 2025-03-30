@@ -135,6 +135,10 @@ export class AllTypeDisplayComponent {
     };
 
     private updateMapping = {
+        user: {
+            fn: (id: number | string, item: UserModel) => this.userService.updateUser(id, item),
+            paginatorKey: 'users' as const
+        },
         book: {
             fn: (id: number | string, item: BookModel) => this.bookService.updateBook(id, item),
             paginatorKey: 'books' as const
@@ -156,8 +160,8 @@ export class AllTypeDisplayComponent {
     constructor() { }
 
     ngOnInit() {
-        if(!this.isAdmin){
-            if(this.loggedInUser?.role === 'editor' || 'admin')
+        if (!this.isAdmin) {
+            if (this.loggedInUser?.role === 'editor' || 'admin')
                 this.currentArrayType = 'books';
             else
                 this.currentArrayType = 'comments'
@@ -183,7 +187,7 @@ export class AllTypeDisplayComponent {
 
     private fetchItems(arrayKey: 'users' | 'books' | 'reviews' | 'summaries' | 'comments'): void {
         this.fetchMapping[arrayKey].fn().subscribe({
-            next: (data: any) => {           
+            next: (data: any) => {
                 this.fetchedArray = data.data;
                 this.itemType = this.fetchMapping[arrayKey].type;
                 this.sortItems(this.currentSortSettings)
@@ -212,7 +216,7 @@ export class AllTypeDisplayComponent {
         this.changePaginatedArray(this.currentArrayType);
     }
 
-    async handleDialogRequest(requestParams: { dialogType: 'delete' | 'edit'; item: { type: 'user' | 'book' | 'review' | 'summary' | 'comment'; _id: string }, modifiedItem?: any }): Promise<void> {
+    async handleDialogRequest(requestParams: { dialogType: 'delete' | 'edit' | 'roleEdit'; item: { type: 'user' | 'book' | 'review' | 'summary' | 'comment'; _id: string }, modifiedItem?: any }): Promise<void> {
         if (requestParams.dialogType === 'delete') {
             if (!requestParams.item?.type)
                 return;
@@ -245,6 +249,17 @@ export class AllTypeDisplayComponent {
                 error: (err: HttpErrorResponse) => this.onError(err)
             });
         }
+        if (requestParams.dialogType === 'roleEdit') {
+            this.updateMapping['user'].fn(requestParams.item._id, (requestParams.modifiedItem as any)).subscribe({
+                next: async (response) => {
+                    await this.showDialogSnackbar('STANDALONECOMPONENTS.EXPANSIONITEM.SNACKBAR.UPDATED');
+                    setTimeout(() => {
+                        this.changePaginatedArray('users');
+                    }, 1000);
+                },
+                error: (err: HttpErrorResponse) => this.onError(err)
+            })
+        }
     }
 
     async showDialogSnackbar(snackbarLabel: string): Promise<void> {
@@ -267,7 +282,7 @@ export class AllTypeDisplayComponent {
         this.currentArrayInPaginator = SortItems.generalizedSort(this.currentArrayInPaginator as any[], _settings.field, _settings.mode);
     }
 
-    onTabChange(event: MatTabChangeEvent) {        
+    onTabChange(event: MatTabChangeEvent) {
         this.changePaginatedArray(event.tab.ariaLabel as 'users' | 'books' | 'reviews' | 'summaries' | 'comments');
     }
 }

@@ -313,6 +313,14 @@
                         "SCOREMAX": "Maximum score is 10"
                     }
                 },
+                "ROLECHANGE": {
+                    "HEADER": "Change role",
+                    "BUTTONNO": "Cancel",
+                    "BUTTONYES": "Yes",
+                    "CHANGE": "Are you sure you want to change role to",
+                    "USER": "editor",
+                    "EDITOR": "user"
+                },
                 "USER": {
                     "USERNAME": "Username"
                 },

@@ -312,6 +312,14 @@
                         "SCOREMIN": "Pontszám nem lehet negatív",
                         "SCOREMAX": "Pontszám maximum 10 lehet"
                     }
+                },                
+                "ROLECHANGE": {
+                    "HEADER": "Szerepkör módosítása",
+                    "BUTTONNO": "Mégsem",
+                    "BUTTONYES": "Igen",
+                    "CHANGE": "Biztosan a következőre szeretné változtatni a szerepkört",
+                    "USER": "editor",
+                    "EDITOR": "user"
                 },
                 "USER": {
                     "USERNAME": "Felhasználónév"
