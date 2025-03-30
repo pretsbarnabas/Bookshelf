@@ -8,7 +8,7 @@
     "build": "ng build --configuration=production && npm run postbuild",
     "postbuild": "node postbuild.js",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test --watch=false --browsers=ChromeHeadless"
   },
   "private": true,
   "dependencies": {
