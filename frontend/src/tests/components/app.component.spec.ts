@@ -21,8 +21,7 @@ class MockAuthService {
 
 describe('AppComponent tests', () => {
     let component: AppComponent;
-    let fixture: ComponentFixture<AppComponent>;
-    let spinnerService: jasmine.SpyObj<NgxSpinnerService>;
+    let fixture: ComponentFixture<AppComponent>;    
     let authService: MockAuthService;
     let router: Router;
     const routerEventsSubject = new Subject<RouterEvent>();
@@ -51,8 +50,7 @@ describe('AppComponent tests', () => {
             schemas: [CUSTOM_ELEMENTS_SCHEMA]
         }).compileComponents();
         
-        authService = TestBed.inject(AuthService) as unknown as MockAuthService;
-        spinnerService = TestBed.inject(NgxSpinnerService) as jasmine.SpyObj<NgxSpinnerService>;
+        authService = TestBed.inject(AuthService) as unknown as MockAuthService;        
         router = TestBed.inject(Router);
         fixture = TestBed.createComponent(AppComponent);
         component = fixture.componentInstance;
