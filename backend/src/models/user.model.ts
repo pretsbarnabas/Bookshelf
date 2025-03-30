@@ -38,11 +38,24 @@ const userSchema = new Schema({
         type: String,
         enum: ["admin","user","editor"]
     },
-    booklist:{
-        required:true,
-        type: Array,
+    booklist: {
+        type: [{
+          _id: false,
+          book: { 
+            type: Schema.Types.ObjectId, 
+            ref: 'Book', 
+            required: true 
+          },
+          status: {
+            type: String,
+            required: true,
+            enum: ["to_read","has_read","is_reading","dropped","favorite"]
+          },
+          // ... other book-specific fields
+        }],
+        required: true,
         default: []
-    },
+      },
     imageUrl:{
         required:false,
         type: String

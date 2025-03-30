@@ -20,6 +20,10 @@ router.post("/users/",UserController.createUser)
 router.delete("/users/:id",UserController.deleteUser)
 router.put("/users/:id",UserController.updateUser)
 
+// Booklist routes
+router.get("/users/:id/booklist",UserController.getBooklist)
+router.put("/users/:id/booklist",UserController.modifyBooklist)
+
 
 // Book routes
 router.get("/books/",BookController.getAllBooks)

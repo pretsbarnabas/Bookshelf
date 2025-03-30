@@ -1,6 +1,7 @@
 const UserModel = require("../models/user.model")
 const ReviewModel = require("../models/review.model")
 const CommentModel = require("../models/comment.model")
+const BookModel = require("../models/book.model")
 
 import * as dates from "../tools/dates"
 import * as validators from "../tools/validators"
@@ -10,6 +11,7 @@ import { Logger } from "../tools/logger"
 import { Authenticator } from "./auth.controller"
 import { ErrorHandler } from "../tools/errorhandler"
 import { ImageController } from "./image.controller"
+import { Booklist } from "../models/booklist.model"
 
 export class UserController{
 
@@ -276,6 +278,69 @@ export class UserController{
             return res.status(200).json({user})
         }
         catch(error:any){
+            ErrorHandler.HandleMongooseErrors(error,res)
+        }
+    }
+
+    static async getBooklist(req:any,res:any){
+        try {
+            const {id} = req.params
+            if(id){
+                if(!mongoose.Types.ObjectId.isValid(id)){
+                    return res.status(400).json({message: "Invalid id format"})
+                }
+            }
+            else{
+                return res.status(400).json({message: "id is required"})
+            }
+            const data = await UserModel.findById(id).select("booklist")
+
+            if(!data) throw new Error("User not found")
+            return res.status(200).json(data.booklist)
+        } catch (error) {
+            ErrorHandler.HandleMongooseErrors(error,res)
+        }
+    }
+
+    static async modifyBooklist(req:any,res:any){
+        try {
+            const {id} = req.params
+            const updates = req.body
+            if(id){
+                if(!mongoose.Types.ObjectId.isValid(id)){
+                    return res.status(400).json({message: "Invalid id format"})
+                }
+            }
+            else{
+                return res.status(400).json({message: "id is required"})
+            }
+
+            if(!Authenticator.verifyUser(req,id)) throw new Error("Unauthorized")
+
+            const user = await UserModel.findById(id)
+            if(!user) throw new Error("User not found")
+
+                for (const key of Object.keys(updates)) {
+                    if (!mongoose.Types.ObjectId.isValid(key)) {
+                        throw new Error("Invalid ID format");
+                    }
+                    
+                    const existingIndex = user.booklist.findIndex((entry:any) => 
+                        entry.book.toString() === key
+                    );
+                
+                    if (existingIndex >= 0) {
+                        // Update existing entry
+                        user.booklist[existingIndex] = { ...user.booklist[existingIndex], ...updates[key] };
+                    } else {
+                        // Add new entry
+                        user.booklist.push({ book: key, status: updates[key] });
+                    }
+                }
+            user._updateContext = "update"
+            await user.save()
+            return res.status(200).json(user)
+        } catch (error) {
             ErrorHandler.HandleMongooseErrors(error,res)
         }
     }
