@@ -1,14 +1,15 @@
 name: Angular Unit Tests
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
-      - develop
+      - frontend
   pull_request:
     branches:
       - main
-      - develop
+      - frontend
 
 jobs:
   test:
