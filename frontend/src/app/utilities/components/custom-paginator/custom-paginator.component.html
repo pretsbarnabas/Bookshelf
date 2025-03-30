@@ -2,8 +2,16 @@
     <mat-toolbar-row id="custom-paginator-row" class="py-2 d-flex justify-content-center">
         <div class="w-100 d-flex justify-content-between align-items-center row">
             <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
+                @if(this.showSortingMenu){
+                    <button mat-mini-fab class="my-auto me-4" [matMenuTriggerFor]="sorting">
+                        <mat-icon>swap_vert</mat-icon>
+                    </button>
+                    <mat-menu class="p-1" id="sorting-menu" #sorting="matMenu" [xPosition]="'before'" [yPosition]="'below'"                >
+                        <sort-items [type]="this.itemType" [isAdmin]="this.isAdmin" (onSortingChanged)="this.emitSortingChanged($event)"/>
+                    </mat-menu>
+                }
                 <mat-form-field id="page-size-select">
-                    <mat-label>{{ 'ADMIN.PAGINATOR.PAGESIZES' | translate }}</mat-label>
+                    <mat-label>{{ 'STANDALONECOMPONENTS.PAGINATOR.PAGESIZES' | translate }}</mat-label>
                     <mat-select [(value)]="this.pageSize" (valueChange)="this.onPageSizeChange()">
                         @for (pageSizeOption of this.pageSizeOptions; track $index) {
                         <mat-option [value]="pageSizeOption">{{ pageSizeOption }}</mat-option>
@@ -26,11 +34,14 @@
                     <mat-icon>last_page</mat-icon>
                 </button>
             </div>
-            <div class="col-12 col-md-4 d-flex justify-content-center" id="display-pages">
-                {{ 'ADMIN.PAGINATOR.PAGEINDEX' | translate }}:
+            <div class="col-12 col-md-3 d-flex justify-content-center" id="display-pages">
+                {{ 'STANDALONECOMPONENTS.PAGINATOR.PAGEINDEX' | translate }}:
                 {{ this.pageIndex + 1 }}
-                {{ 'ADMIN.PAGINATOR.MAXPAGES' | translate }}:
+                {{ 'STANDALONECOMPONENTS.PAGINATOR.MAXPAGES' | translate }}:
                 {{ this.totalPages}}
+            </div>
+            <div class="col-12 col-md-1 d-flex justify-content-center">
+                
             </div>
         </div>
     </mat-toolbar-row>

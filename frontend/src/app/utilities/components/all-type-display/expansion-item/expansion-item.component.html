@@ -1,0 +1,284 @@
+<mat-expansion-panel hideToggle id="item-panel">
+    <mat-expansion-panel-header class="py-3">
+        <div class="row w-100">
+            <div class="d-flex justify-content-end align-item-center p-0">
+
+                <ng-container *ngIf="payload?.type ==='book' || payload?.item.book ">
+                    @if(payload?.type === 'book'){
+                        <button mat-mini-fab [routerLink]="['/book-item', this.payload?.item._id]" class="visit me-1" (click)="$event.stopPropagation()">
+                            <mat-icon class="mx-auto">open_in_new</mat-icon>
+                        </button>    
+                    } @else{
+                        <button mat-mini-fab [routerLink]="['/book-item', this.payload?.item.book._id]" class="visit me-1" (click)="$event.stopPropagation()">
+                            <mat-icon class="mx-auto">open_in_new</mat-icon>
+                        </button>
+                    }
+                </ng-container>
+
+                <ng-container *ngIf="payload?.type === 'user'; else nonUserButtons">
+                    <ng-container *ngIf="payload?.item.role === 'user'">
+                        <button mat-mini-fab class="promote-demote me-1" (click)="$event.stopPropagation(); this.openDialog('roleEdit')">
+                            <mat-icon class="mx-auto">vertical_align_top</mat-icon>
+                        </button>
+                    </ng-container>
+                    <ng-container *ngIf="payload?.item.role === 'editor'">
+                        <button mat-mini-fab class="promote-demote me-1" (click)="$event.stopPropagation(); this.openDialog('roleEdit')">
+                            <mat-icon class="mx-auto">vertical_align_bottom</mat-icon>
+                        </button>
+                    </ng-container>
+                </ng-container>
+
+                <ng-template #nonUserButtons>
+                    <button mat-mini-fab class="edit me-1" (click)="$event.stopPropagation(); this.openDialog('edit')">
+                        <mat-icon class="mx-auto">edit</mat-icon>
+                    </button>
+                </ng-template>
+
+                <ng-container *ngIf="payload?.item.role === 'admin'; else deleteButton">
+                    <button mat-mini-fab class="admin" (click)="$event.stopPropagation()" disabled>
+                        <mat-icon class="mx-auto">stars</mat-icon>
+                    </button>
+                </ng-container>
+                <ng-template #deleteButton>
+                    <button mat-mini-fab class="delete" (click)="$event.stopPropagation(); this.openDialog('delete')">
+                        <mat-icon class="mx-auto">delete</mat-icon>
+                    </button>
+                </ng-template>
+            </div>
+
+            <ng-container [ngSwitch]="payload?.type">
+                <ng-container *ngSwitchCase="'user'">
+                    <div class="col-12 col-sm-3 d-flex">
+                        <img [src]="payload?.item.imageUrl ?? payload?.item.profile_image" alt="Profile Image"
+                            class="avatar-image my-auto me-2" />
+                        <mat-panel-title>{{ payload?.item.username }}</mat-panel-title>
+                    </div>
+                    <div class="col-12 col-sm-3">
+                        <mat-panel-title class="ms-2">Id: {{ payload?.item._id }}</mat-panel-title>
+                    </div>
+                    <div class="col-12 col-sm-3">
+                        <mat-panel-description>
+                            {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.USER.ROLE' | translate }}:
+                            <mat-chip class="ms-2">{{ payload?.item.role }}</mat-chip>
+                        </mat-panel-description>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'book'">
+                    <div class="col-12 col-sm-4">
+                        <mat-panel-title>{{ payload?.item.title }}</mat-panel-title>
+                    </div>
+                    <div class="col-12 col-sm-4" *ngIf="this.payload?.isAdminPage">
+                        <mat-panel-description>Id: {{ payload?.item._id }}</mat-panel-description>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'review'">
+                    <div class="col-12 col-sm-4">
+                        <mat-panel-title>
+                            {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.SCORE' | translate }}: {{ payload?.item.score }}
+                        </mat-panel-title>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <mat-panel-description *ngIf="this.payload?.isAdminPage">Id: {{ payload?.item._id }}</mat-panel-description>
+                        <mat-panel-description *ngIf="!this.payload?.isAdminPage">{{ payload?.item.book.title }}</mat-panel-description>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'summary'">
+                    <div class="col-12 col-sm-4" *ngIf="this.payload?.isAdminPage; else bookTitle">
+                        <mat-panel-description>Id: {{ payload?.item._id }}</mat-panel-description>
+                    </div>                    
+                </ng-container>                
+                
+                <ng-container *ngSwitchCase="'comment'">
+                    <div class="col-12 col-sm-4">
+                        <mat-panel-description *ngIf="this.payload?.isAdminPage">Id: {{ payload?.item._id }}</mat-panel-description>
+                    </div>
+                </ng-container>
+
+                <ng-template class="col-12 col-sm-4" #bookTitle>
+                    <mat-panel-description>{{ payload?.item.book.title }}</mat-panel-description>
+                </ng-template>
+
+            </ng-container>
+        </div>
+    </mat-expansion-panel-header>
+
+    <ng-template #dateDisplay let-label="label" let-date="date">
+        <div class="col-12 col-sm-6 col-lg-4 mx-auto">
+            <b>{{ label | translate }}: </b>
+            <i>{{ date | localizedDate }}</i>
+            <p><i>({{ date | relativeTime }})</i></p>
+        </div>
+    </ng-template>
+
+    <div [ngSwitch]="payload?.type">
+        <ng-container *ngSwitchCase="'user'">
+            <div class="row text-center">
+                <ng-container
+                    *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.USER.CREATED', date: payload?.item.created_at }"></ng-container>
+                <ng-container
+                    *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.USER.UPDATED', date: payload?.item.updated_at }"></ng-container>
+                <ng-container
+                    *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.USER.LAST', date: payload?.item.last_login }"></ng-container>
+            </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'book'">
+            <h5 class="text-center mt-3" *ngIf="this.payload?.isAdminPage">
+                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.HEADERS.RECORD' | translate }}
+            </h5>
+            <mat-card appearance="raised">
+                <mat-card-content>
+                    <div class="row text-center">
+                        <ng-container
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.ADDED', date: payload?.item.added_at }"></ng-container>
+                        <ng-container
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.UPDATED', date: payload?.item.updated_at }"></ng-container>
+                        <div class="col-12 col-sm-6 col-lg-4" *ngIf="this.payload?.isAdminPage">
+                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.USERID' | translate }}: </b>
+                            <i>{{ payload?.item.user_id }}</i>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <h5 class="text-center mt-3" *ngIf="this.payload?.isAdminPage">
+                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.HEADERS.BOOK' | translate }}
+            </h5>
+            <mat-card appearance="raised">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-12 col-sm-4 col-md-3 d-flex mb-2 p-3">
+                            <img [src]="payload?.item.imageUrl ?? './assets/images/no-cover.svg'" alt="Book Cover Image"
+                                class="mx-auto my-auto book-cover" />
+                        </div>
+                        <div class="col-12 col-sm-8 col-md-9">
+                            <div class="row text-center">
+                                <div class="col-12 col-sm-6 col-lg-4">
+                                    <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.RELEASE' | translate }}: </b>
+                                    <i>{{ payload?.item.release | localizedDate }}</i>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-4">
+                                    <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.GENRE' | translate }}: </b>
+                                    <i>{{ payload?.item.genre }}</i>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-4">
+                                    <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.AUTHOR' | translate }}: </b>
+                                    <i>{{ payload?.item.author }}</i>
+                                </div>
+                                <p class="col-12"><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.DESC' | translate }}</b></p>
+                                <hr class="m-0" />
+                                <p class="desc mt-1">{{ payload?.item.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'review'">
+            <h5 class="text-center mt-3" *ngIf="this.payload?.isAdminPage">
+                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.HEADERS.RECORD' | translate }}
+            </h5>
+            <mat-card appearance="raised">
+                <mat-card-content>
+                    <div class="row text-center">
+                        <ng-container
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.ADDED', date: payload?.item.created_at }"></ng-container>
+                        <ng-container
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.UPDATED', date: payload?.item.updated_at }"></ng-container>
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
+                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.USERNAME' | translate }}: </b>
+                            <i>{{ payload?.item.user.username }}</i>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
+                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.USERID' | translate }}: </b>
+                            <i>{{ payload?.item.user._id }}</i>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <h5 class="text-center mt-3" *ngIf="this.payload?.isAdminPage">
+                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.HEADERS.REVIEW' | translate }}
+            </h5>
+            <mat-card appearance="raised">
+                <mat-card-content>
+                    <div class="row text-center">
+                        <p><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.CONTENT' | translate }}</b></p>
+                        <hr class="m-0" />
+                        <p class="desc mt-1">{{ payload?.item.content }}</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'summary'">
+            <h5 class="text-center mt-3" *ngIf="this.payload?.isAdminPage">
+                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.HEADERS.RECORD' | translate }}
+            </h5>
+            <mat-card appearance="raised">
+                <mat-card-content>
+                    <div class="row text-center">
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
+                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.BOOKID' | translate }}: </b>
+                            <i>{{ payload?.item.book._id }}</i>
+                        </div>
+                        <ng-container
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.UPDATED', date: payload?.item.updated_at }"></ng-container>
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
+                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.USERNAME' | translate }}: </b>
+                            <i>{{ payload?.item.user.username }}</i>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
+                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.USERID' | translate }}: </b>
+                            <i>{{ payload?.item.user._id }}</i>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <h5 class="text-center mt-3" *ngIf="this.payload?.isAdminPage">
+                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.HEADERS.SUMMARY' | translate }}
+            </h5>
+            <mat-card appearance="raised">
+                <mat-card-content>
+                    <div class="row text-center">
+                        <p><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.CONTENT' | translate }}</b></p>
+                        <hr class="m-0" />
+                        <p class="desc mt-1">{{ payload?.item.content }}</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
+
+        <!-- Comment Details -->
+        <ng-container *ngSwitchCase="'comment'">
+            <h5 class="text-center mt-3" *ngIf="this.payload?.isAdminPage">
+                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.HEADERS.COMMENT' | translate }}
+            </h5>
+            <mat-card appearance="raised">
+                <mat-card-content>
+                    <div class="row text-center">
+                        <ng-container
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.UPDATED', date: payload?.item.created_at }"></ng-container>
+                        <ng-container
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.UPDATED', date: payload?.item.updated_at }"></ng-container>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <h5 class="text-center mt-3" *ngIf="this.payload?.isAdminPage">
+                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.HEADERS.COMMENT' | translate }}
+            </h5>
+            <mat-card appearance="raised">
+                <mat-card-content>
+                    <div class="row text-center">
+                        <p><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.CONTENT' | translate }}</b></p>
+                        <hr class="m-0" />
+                        <p class="desc mt-1">{{ payload?.item.content }}</p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
+    </div>
+</mat-expansion-panel>

@@ -6,8 +6,8 @@
     <mat-drawer-container autosize hasBackdrop="true">
         <mat-drawer #drawer mode="over" (window:resize)="drawer.opened=false">
             <div class="mb-3 d-flex align-items-center">
-                <img src="./assets/favicon.ico" alt="bookshelf-icon" class="app-icon">
-                <span class="text-center">{{ 'APP.MENU.HEADER' | translate }}</span>
+                <img src="./assets/favicon.ico" alt="bookshelf-icon" class="app-icon user-select-none">
+                <span class="text-center user-select-none">{{ 'APP.MENU.HEADER' | translate }}</span>
                 <hr class="m-0">
             </div>
             <div class="sidenav-column">
@@ -43,10 +43,10 @@
                         <mat-expansion-panel-header class="ps-2">
                             <mat-panel-title>
                                 <div class="avatar-wrapper me-1">
-                                    <img [src]="this.loggedInUser.profile_image" alt="Profile Picture"
-                                        class="rounded-circle">
+                                    <img [src]="this.loggedInUser.imageUrl ?? this.loggedInUser.profile_image" alt="Profile Picture"
+                                    class="w-100 h-100 rounded-circle">
                                 </div>
-                                <span>{{ this.loggedInUser.username | truncate }}</span>
+                                <span>{{ this.loggedInUser.username | truncate }} - {{ this.displayRemainingTime() }}</span>                                
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                         <router-button

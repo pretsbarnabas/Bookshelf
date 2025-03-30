@@ -1,19 +1,19 @@
 <div class="wrapper">
     <div class="wrapper-content my-3">
         <div class="mx-auto text-center">
-            <img src="./assets/images/not-found.webp" alt="not-found" class="w-25 my-0 not-found-img" fxHide.lt-md/>
-            <img src="./assets/images/not-found.webp" alt="not-found" class="w-50 my-0 not-found-img" fxHide.gt-sm/>
+            <img src="./assets/images/not-found.webp" alt="not-found" class="w-25 my-0 not-found-img user-select-none" fxHide.lt-md/>
+            <img src="./assets/images/not-found.webp" alt="not-found" class="w-50 my-0 not-found-img user-select-none" fxHide.gt-sm/>
             <hr class="mt-0 w-25 mx-auto" />
-            <h1 class="display-1">404!</h1>
-            <p id="not-found-quote"><i>{{ '404.MESSAGE' | translate }}</i></p>
-            <p id="redirect">{{ '404.REDIRECT' | translate }}</p>
-            <div class="spinner-wrapper">
+            <h1 class="display-1 user-select-none">404!</h1>
+            <p id="not-found-quote" class="user-select-none"><i>{{ '404.MESSAGE' | translate }}</i></p>
+            <p id="redirect" class="user-select-none">{{ '404.REDIRECT' | translate }}</p>
+            <div class="spinner-wrapper user-select-none">
                 <mat-progress-spinner
                   [mode]="'determinate'"
                   [value]="this.spinnerValue"
                   strokeWidth="10"
                 ></mat-progress-spinner>
-                <div class="spinner-label">
+                <div class="spinner-label user-select-none">
                   {{ this.currentTime }}
                 </div>
               </div>

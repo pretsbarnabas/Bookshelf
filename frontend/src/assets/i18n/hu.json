@@ -1,5 +1,6 @@
 {
     "APP": {
+        "TITLE": "Bookshelf",
         "MENU": {
             "HEADER": "Navigáció",
             "HOME": "Főoldal",
@@ -8,7 +9,7 @@
             "MYLIST": "Listám",
             "LOGIN": "Bejelentkezés",
             "REGISTER": "Regisztráció",
-            "ADMIN" : "Admin",
+            "ADMIN": "Admin",
             "SETTINGS": {
                 "THEME": "Téma",
                 "LANG": "Nyelv",
@@ -33,13 +34,16 @@
         "SNACKBAR": {
             "LABEL": "Jelenleg aktív színvakság szűrő:",
             "CLEAR": "Szűrő törlése",
-            "CLOSE" : "Bezárás"
+            "CLOSE": "Bezárás"
         }
     },
     "HOME": {
+        "TITLE": "Főoldal",
         "TEST": "Főoldal"
     },
     "AUTH": {
+        "REGISTERTITLE": "Regisztráció",
+        "LOGINTITLE": "Bejelentkezés",
         "FORM_TITLE": {
             "LOGIN": "Bejelentkezés",
             "REGISTER": "Regisztráció"
@@ -77,61 +81,96 @@
         },
         "SUBMIT": {
             "LOGIN": "Bejelentkezés",
-            "NO_ACCOUNT": "Nincs fiókom",
+            "NO_ACCOUNT": "Még nincs fiókom",
             "BACK": "Vissza a bejelentkezésre",
             "REGISTER": "Regisztrálás"
+        },
+        "STEPPER": {
+            "HEADINGS": {
+                "DATA": "Töltse ki adatait",
+                "IMAGE": "Profilkép",
+                "OPTIONAL": "Opciónális",
+                "DONE": "Kész"
+            },
+            "BUTTONS": {
+                "BACK": "Vissza",
+                "NEXT": "Következő",
+                "SKIP": "Kihagyás",
+                "CLEAR": "Kép törlése",
+                "RESET": "Újrakezdés"
+            },
+            "IMAGE": {
+                "UPLOAD": "Töltsön fel egy profilképet",
+                "CHOOSE": "Válasszon képet",
+                "NOSELECTED": "Nincs fájl kiválasztva",
+                "SELECTED": "Választott kép"
+            },
+            "DONE": "Minden Készen áll"
         },
         "SNACKBAR": {
             "WELCOME": "Üdvözöljük",
             "CLOSE": "Bezárás"
         }
     },
-    "USER": "User",
-    "PROFILE":{
-        "PROFILECARD":{
-            "ROLE" : "Szerepkör",
-            "ROLETABLE":{
+    "BOOKS": {
+        "TITLE": "Könyvek"
+    },
+    "BOOKITEM": {
+        "TITLE": "Részletek"
+    },
+    "SUMMARIES": {
+        "TITLE": "Összefoglalók"
+    },
+    "SUMMARYITEM": {
+        "TITLE": "Részletek"
+    },
+    "MYLIST": {
+        "TITLE": "Listám"
+    },
+    "PROFILE": {
+        "TITLE": "Profil",
+        "PROFILECARD": {
+            "ROLE": "Szerepkör",
+            "ROLETABLE": {
                 "USER": "Felhasználó",
                 "EDITOR": "Szerkesztő",
-                "ADMIN" : "Admin"
+                "ADMIN": "Admin"
             },
             "CREATED": "Létrehozva",
             "UPDATED": "Módosítva",
             "BUTTONS": {
+                "OPTIONS": "Lehetőségek",
                 "EDIT": "Módosítás",
                 "DELETE": "Törlés"
             }
+        },
+        "LIST": {
+            "HEADER": "Az idővonalad"
         }
     },
     "ADMIN": {
-        "PAGINATOR": {
-            "PAGESIZES": "Oldal méretek",
-            "PAGEINDEX": "Oldal",
-            "MAXPAGES": "Max"
-        },
-        "BUTTONS": {
-            "USERS": "Felhasználók",
-            "BOOKS" : "Könyvek",
-            "REVIEWS": "Vélemények"
-        },
-        "ITEM": {
-            "USER": {
-                "NAME": "Felhasználónév",
-                "EMAIL": "Email cím",
-                "ROLE": "Szerepkör",
-                "CREATED": "Létrehozva",
-                "UPDATED": "Módosítva",
-                "LAST": "Utoljára bejelentkezve"
-            },
-            "BOOK": {
-                "ADDED": "Létrehozva",
-                "UPDATED": "Módosítva",
-                "USERID": "UserId",
-                "RELEASE": "Kiadás dátuma",
-                "GENRE": "Műfaj",
-                "AUTHOR": "Szerző",
-                "DESC": "Leírás"
-            }
+        "TITLE": "Admin"
+    },
+    "SORTITEMS": {
+        "HEADER": "Rendezés",
+        "ASC": "Növekvő",
+        "DESC": "Csökkenő",
+        "FIELDS": {
+            "ID": "Azonosító",
+            "USERNAME": "Felhasználónév",
+            "ROLE": "Szerep",
+            "CREATEDAT": "Létrehozás dátuma",
+            "UPDATEDAT": "Utolsó frissítés",
+            "LASTLOGIN": "Utolsó bejelentkezés",
+            "USERID": "Felhasználó ID",
+            "TITLE": "Cím",
+            "AUTHOR": "Szerző",
+            "RELEASE": "Megjelenés dátuma",
+            "GENRE": "Műfaj",
+            "ADDEDAT": "Létrehozás dátuma",
+            "SCORE": "Pontszám",
+            "USER.USERNAME": "Felhasználó neve",
+            "USER.ID": "Felhasználó ID"
         }
     },
     "FOOTER": {
@@ -152,7 +191,152 @@
         }
     },
     "404": {
+        "TITLE": "404!",
         "MESSAGE": "Nem ezt az oldalt keresed...",
         "REDIRECT": "Átirányítás a főoldalra:"
+    },
+    "STANDALONECOMPONENTS": {
+        "ALLDISPLAY": {
+            "TABS": {
+                "USERS": "Felhasználók",
+                "BOOKS": "Könyvek",
+                "SUMMARIES": "Összefoglalók",
+                "COMMENTS": "Kommentek",
+                "REVIEWS": "Vélemények"
+            }
+        },
+        "PAGINATOR": {
+            "PAGESIZES": "Oldal méretek",
+            "PAGEINDEX": "Oldal",
+            "MAXPAGES": "Max"
+        },
+        "EXPANSIONITEM": {
+            "ITEM": {
+                "USER": {
+                    "NAME": "Felhasználónév",
+                    "EMAIL": "Email cím",
+                    "ROLE": "Szerepkör",
+                    "CREATED": "Létrehozva",
+                    "UPDATED": "Módosítva",
+                    "LAST": "Utoljára bejelentkezve"
+                },
+                "BOOK": {
+                    "HEADERS": {
+                        "RECORD": "Rekord adatai",
+                        "BOOK": "Könyv adatai"
+                    },
+                    "ADDED": "Létrehozva",
+                    "UPDATED": "Módosítva",
+                    "USERID": "UserId",
+                    "RELEASE": "Kiadás dátuma",
+                    "GENRE": "Műfaj",
+                    "AUTHOR": "Szerző",
+                    "DESC": "Leírás"
+                },
+                "REVIEW": {
+                    "HEADERS": {
+                        "RECORD": "Rekord adatai",
+                        "REVIEW": "Vélemény adatai"
+                    },
+                    "ADDED": "Létrehozva",
+                    "UPDATED": "Módosítva",
+                    "USERNAME": "Felhasználónév",
+                    "USERID": "UserId",
+                    "SCORE": "Pontszám",
+                    "CONTENT": "Tartalom"
+                },
+                "SUMMARY": {
+                    "HEADERS": {
+                        "RECORD": "Rekord adatai",
+                        "SUMMARY": "Összefoglaló adatai"
+                    },
+                    "BOOKID": "BookId",
+                    "UPDATED": "Módosítva",
+                    "USERNAME": "Felhasználónév",
+                    "USERID": "UserId",
+                    "CONTENT": "Tartalom"
+                },
+                "COMMENT": {
+                    "HEADERS": {
+                        "RECORD": "Rekord adatai",
+                        "COMMENT": "Komment adatai"
+                    },
+                    "ADDED": "Létrehozva",
+                    "UPDATED": "Módosítva",
+                    "REVIEWID": "ReviewId",
+                    "CONTENT": "Tartalom"
+                }
+            },
+            "DIALOG": {
+                "DELETE": {
+                    "HEADER": "Törlés",
+                    "MESSAGE": "Biztosan törölni szeretné a következő",
+                    "MESSAGEHEADERONLY": "Biztosan törölni szeretné ezt a(z)",
+                    "BUTTONYES": "Törlés",
+                    "BUTTONNO": "Mégsem",
+                    "SUBJECT": {
+                        "USER": "felhasználót",
+                        "BOOK": "könyvet",
+                        "REVIEW": "véleményt",
+                        "SUMMARY": "összefoglalót",
+                        "COMMENT": "kommentet"
+                    }
+                },
+                "EDIT": {
+                    "HEADER": "Elem módosítása",
+                    "HEADERPROFILE": "Profil módostása",
+                    "BUTTONYES": "Változások mentése",
+                    "BUTTONNO": "Mégsem",
+                    "USER": {
+                        "USERNAME": "Felhasználónév",
+                        "EMAIL": "Email cím",
+                        "IMAGE": "Profilkép"
+                    },
+                    "BOOK": {
+                        "TITLE": "Cím",
+                        "AUTHOR": "Szerző",
+                        "RELEASE": "Kiadás dátuma",
+                        "GENRE": "Műfaj",
+                        "DESC": "Leírás",
+                        "IMAGE": "Borítókép",
+                        "CHOOSE": "Válasszon képet",
+                        "NOSELECTED": "Nincs fájl kiválasztva"
+                    },
+                    "REVIEW": {
+                        "SCORE": "Pontszám"
+                    },
+                    "CONTENT": "Tartalom",
+                    "ERRORS": {
+                        "REQUIRED": "Mező kitöltése kötelező",
+                        "MAXDATE": "A dátum nem lehet a mainál nagyobb",
+                        "SCOREMIN": "Pontszám nem lehet negatív",
+                        "SCOREMAX": "Pontszám maximum 10 lehet"
+                    }
+                },                
+                "ROLECHANGE": {
+                    "HEADER": "Szerepkör módosítása",
+                    "BUTTONNO": "Mégsem",
+                    "BUTTONYES": "Igen",
+                    "CHANGE": "Biztosan a következőre szeretné változtatni a szerepkört",
+                    "USER": "editor",
+                    "EDITOR": "user"
+                },
+                "USER": {
+                    "USERNAME": "Felhasználónév"
+                },
+                "BOOK": {
+                    "TITLE": "Cím",
+                    "USERID": "Létrehozta"
+                },
+                "REVIEW": {
+                    "USER": "Létrehozta"
+                }
+            },
+            "SNACKBAR": {
+                "DELETED": "Törlés sikeres",
+                "UPDATED": "Módosítás sikeres",
+                "CLOSE": "Bezárás"
+            }
+        }
     }
 }

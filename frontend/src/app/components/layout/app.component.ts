@@ -11,6 +11,7 @@ import { AuthService } from '../../services/global/auth.service';
 import { TruncatePipe } from "../../pipes/truncate.pipe";
 import { RouterButtonComponent } from "./router-button/router-button.component";
 import { UserModel } from '../../models/User';
+import { formatRemainingTime } from '../../utilities/formatRemainingTime';
 
 @Component({
     selector: 'app-root',
@@ -35,6 +36,7 @@ export class AppComponent {
     title = 'frontend';
 
     loggedInUser: UserModel | null = null;
+    remainingTime: number = 60000;
 
     constructor(
         public authService: AuthService,
@@ -42,21 +44,30 @@ export class AppComponent {
         private spinner: NgxSpinnerService
     ) {
         this.router.events.subscribe((event) => {
-            if (event instanceof NavigationStart)
-                this.spinner.show();
+            if (event instanceof NavigationStart) {
+                this.spinner.show();             
+            }
+
             else if (
                 event instanceof NavigationEnd ||
                 event instanceof NavigationCancel ||
                 event instanceof NavigationError
             )
-                this.spinner.hide();            
+                this.spinner.hide();
         });
         this.authService.loggedInUser$.subscribe(user => {
             this.loggedInUser = user;
         })
+        this.authService.remainingTime$.subscribe(time => {
+            this.remainingTime = time;
+        });
     }
 
     ngOnInit() {
         this.authService.setLoggedInUser();
+    }
+
+    displayRemainingTime(): string {
+        return formatRemainingTime(this.remainingTime);
     }
 }

@@ -13,7 +13,7 @@ app-footer {
 }
 
 mat-drawer {
-    min-width: fit-content;
+    min-width: max-content;
     .sidenav-column {
         display: flex;
         flex-direction: column;

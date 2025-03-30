@@ -11,7 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Review, ReviewPB } from '../../../models/Review';
+import { ReviewModel } from '../../../models/Review';
 import { UserService } from '../../../services/page/user.service';
 
 import { PageEvent } from '@angular/material/paginator';
@@ -48,8 +48,8 @@ export class BookItemComponent implements OnInit {
   bookId: any;
   private snackBarDuration: number = 2000;
   public ratingArr: any = [];
-  reviews: ReviewPB[] = [];
-  paginatedReviews: ReviewPB[] = [];
+  reviews: ReviewModel[] = [];
+  paginatedReviews: ReviewModel[] = [];
   pageSize = 10;
   uniqueIds: any = [];
   uniqueUserIds: any = [];

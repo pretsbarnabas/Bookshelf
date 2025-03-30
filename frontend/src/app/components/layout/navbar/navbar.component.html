@@ -1,10 +1,11 @@
 <mat-toolbar>
     <mat-toolbar-row>
-        <img src="./assets/favicon.ico" alt="bookshelf-icon" class="app-icon" fxHide.lt-md>
+        <img src="./assets/favicon.ico" alt="bookshelf-icon" class="app-icon user-select-none" fxHide.lt-md>
         <button class="text-center" mat-button fxHide.gt-sm (click)="toggleSideNav()">
             <mat-icon class="menu-icon mx-auto">menu</mat-icon>
         </button>
-        <span>Bookshelf</span>
+        <span class="user-select-none">Bookshelf</span>
+        
         <span class="spacer"></span>
         <div fxHide.lt-md>
             <router-button [payload]="{ route: 'home', localReference: 'HOME' }"></router-button>
@@ -25,9 +26,9 @@
             } @else {
             <button mat-button [matMenuTriggerFor]="profile" (window:resize)="profile.closed.emit()">
                 <div class="d-inline-flex align-items-center">
-                    <span>{{ this.formatRemainingTime() }} - {{ this.loggedInUser.username }}</span>
-                    <div class="avatar-wrapper ms-2">
-                        <img [src]="this.loggedInUser.profile_image" alt="Profile Picture" class="rounded-circle">
+                    <span>{{ this.displayRemainingTime() }} - {{ this.loggedInUser.username }}</span>
+                    <div class="avatar-wrapper ms-2 p-0">
+                        <img [src]="this.loggedInUser.imageUrl ?? this.loggedInUser.profile_image" alt="Profile Picture" class="w-100 h-100 rounded-circle">
                     </div>
                 </div>
             </button>

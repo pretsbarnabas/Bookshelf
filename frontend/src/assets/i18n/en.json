@@ -1,5 +1,6 @@
 {
     "APP": {
+        "TITLE": "Bookshelf",
         "MENU": {
             "HEADER": "Navigation",
             "HOME": "Home",
@@ -37,9 +38,12 @@
         }
     },
     "HOME": {
+        "TITLE": "Home",
         "TEST": "Home page"
     },
     "AUTH": {
+        "REGISTERTITLE": "Registration",
+        "LOGINTITLE": "Login",
         "FORM_TITLE": {
             "LOGIN": "Login",
             "REGISTER": "Registration"
@@ -81,12 +85,50 @@
             "BACK": "Back to login",
             "REGISTER": "Register"
         },
+        "STEPPER": {
+            "HEADINGS": {
+                "DATA": "Fill out your data",
+                "IMAGE": "Profile Image",
+                "OPTIONAL": "Optional",
+                "DONE": "Done"
+            },
+            "BUTTONS": {
+                "BACK": "Back",
+                "NEXT": "Next",
+                "SKIP": "Skip",
+                "CLEAR": "Clear image",
+                "RESET": "Reset"
+            },
+            "IMAGE": {
+                "UPLOAD": "Upload a profile picture",
+                "CHOOSE": "Choose Image",
+                "NOSELECTED": "No file selected",
+                "SELECTED": "Selected picture"
+            },
+            "DONE": "Everything is set up"
+        },
         "SNACKBAR": {
             "WELCOME": "Welcome",
             "CLOSE": "Close"
         }
     },
+    "BOOKS": {
+        "TITLE": "Books"
+    },
+    "BOOKITEM": {
+        "TITLE": "Details"
+    },
+    "SUMMARIES": {
+        "TITLE": "Summaries"
+    },
+    "SUMMARYITEM": {
+        "TITLE": "Details"
+    },
+    "MYLIST": {
+        "TITLE": "Mylist"
+    },
     "PROFILE": {
+        "TITLE": "Profile",
         "PROFILECARD": {
             "ROLE": "Role",
             "ROLETABLE": {
@@ -97,40 +139,38 @@
             "CREATED": "Created on",
             "UPDATED": "Updated on",
             "BUTTONS": {
+                "OPTIONS": "Options",
                 "EDIT": "Edit",
                 "DELETE": "Delete"
             }
+        },
+        "LIST":{
+            "HEADER": "Your timeline"
         }
     },
     "ADMIN": {
-        "PAGINATOR": {
-            "PAGESIZES": "Page sizes",
-            "PAGEINDEX": "Page",
-            "MAXPAGES": "Max"
-        },
-        "BUTTONS": {
-            "USERS": "Users",
-            "BOOKS": "Books",
-            "REVIEWS": "Reviews"
-        },
-        "ITEM": {
-            "USER": {
-                "NAME": "Username",
-                "EMAIL": "Email",
-                "ROLE": "Role",
-                "CREATED": "Created on",
-                "UPDATED": "Updated on",
-                "LAST": "Last login"
-            },
-            "BOOK": {
-                "ADDED": "Created on",
-                "UPDATED": "Updated on",
-                "USERID": "UserId",
-                "RELEASE": "Release date",
-                "GENRE": "Genre",
-                "AUTHOR": "Author",
-                "DESC": "Description"
-            }
+        "TITLE": "Admin"
+    },
+    "SORTITEMS": {
+        "HEADER": "Sort by",
+        "ASC": "Ascending",
+        "DESC": "Descending",
+        "FIELDS": {
+            "ID": "Id",
+            "USERNAME": "Username",
+            "ROLE": "Role",
+            "CREATEDAT": "Creation date",
+            "UPDATEDAT": "Last update",
+            "LASTLOGIN": "Last login",
+            "USERID": "UserId",
+            "TITLE": "Title",
+            "AUTHOR": "Author",
+            "RELEASE": "Release date",
+            "GENRE": "Genre",
+            "ADDEDAT": "Creation date",
+            "SCORE": "Score",
+            "USER.USERNAME": "User's name",
+            "USER.ID": "UserId"
         }
     },
     "FOOTER": {
@@ -151,7 +191,152 @@
         }
     },
     "404": {
+        "TITLE": "404!",
         "MESSAGE": "This is not the page you are looking for...",
         "REDIRECT": "Redirecting to home page in:"
+    },
+    "STANDALONECOMPONENTS": {
+        "ALLDISPLAY":{
+            "TABS": {
+                "USERS": "Users",
+                "BOOKS": "Books",
+                "REVIEWS": "Reviews",
+                "SUMMARIES": "Summaries",
+                "COMMENTS": "Comments"
+            }
+        },
+        "PAGINATOR": {
+            "PAGESIZES": "Page sizes",
+            "PAGEINDEX": "Page",
+            "MAXPAGES": "Max"
+        },
+        "EXPANSIONITEM": {
+            "ITEM": {
+                "USER": {
+                    "NAME": "Username",
+                    "EMAIL": "Email",
+                    "ROLE": "Role",
+                    "CREATED": "Created on",
+                    "UPDATED": "Updated on",
+                    "LAST": "Last login"
+                },
+                "BOOK": {
+                    "HEADERS": {
+                        "RECORD": "Record Data",
+                        "BOOK": "Book Data"
+                    },
+                    "ADDED": "Created on",
+                    "UPDATED": "Updated on",
+                    "USERID": "UserId",
+                    "RELEASE": "Release date",
+                    "GENRE": "Genre",
+                    "AUTHOR": "Author",
+                    "DESC": "Description"
+                },
+                "REVIEW": {
+                    "HEADERS": {
+                        "RECORD": "Record Data",
+                        "REVIEW": "Review Data"
+                    },
+                    "ADDED": "Created on",
+                    "UPDATED": "Updated on",
+                    "USERNAME": "Username",
+                    "USERID": "UserId",
+                    "SCORE": "Score",
+                    "CONTENT": "Content"
+                },
+                "SUMMARY": {
+                    "HEADERS": {
+                        "RECORD": "Record Data",
+                        "SUMMARY": "Summary Data"
+                    },
+                    "BOOKID": "BookId",
+                    "UPDATED": "Updated on",
+                    "USERNAME": "Username",
+                    "USERID": "UserId",
+                    "CONTENT": "Content"
+                },
+                "COMMENT": {
+                    "HEADERS": {
+                        "RECORD": "Record Data",
+                        "COMMENT": "Comment Data"
+                    },
+                    "ADDED": "Created on",
+                    "UPDATED": "Updated on",
+                    "REVIEWID": "ReviewId",
+                    "CONTENT": "Content"
+                }
+            },
+            "DIALOG": {
+                "DELETE": {
+                    "HEADER": "Delete",
+                    "MESSAGE": "Would you like to delete the following",
+                    "MESSAGEHEADERONLY": "Would you like to delete this",
+                    "BUTTONYES": "Delete",
+                    "BUTTONNO": "Cancel",
+                    "SUBJECT": {
+                        "USER": "user",
+                        "BOOK": "book",
+                        "REVIEW": "review",
+                        "SUMMARY":"summary",
+                        "COMMENT":"comment"
+                    }
+                },
+                "EDIT": {
+                    "HEADER": "Edit item",
+                    "HEADERPROFILE": "Edit profile",
+                    "BUTTONYES": "Save changes",
+                    "BUTTONNO": "Cancel",
+                    "USER": {
+                        "USERNAME": "Username",
+                        "EMAIL": "Email address",
+                        "IMAGE": "Profile Image"
+                    },
+                    "BOOK": {
+                        "TITLE": "Title",
+                        "AUTHOR": "Author",
+                        "RELEASE": "Release date",
+                        "GENRE": "Genre",
+                        "DESC": "Description",
+                        "IMAGE": "Cover",
+                        "CHOOSE": "Choose Image",
+                        "NOSELECTED": "No file selected"
+                    },
+                    "REVIEW": {
+                        "SCORE": "Score"
+                    },
+                    "CONTENT": "Content",
+                    "ERRORS": {
+                        "REQUIRED": "This field is required",
+                        "MAXDATE": "Release date cannot be later than today",
+                        "SCOREMIN": "Score cannot be negative",
+                        "SCOREMAX": "Maximum score is 10"
+                    }
+                },
+                "ROLECHANGE": {
+                    "HEADER": "Change role",
+                    "BUTTONNO": "Cancel",
+                    "BUTTONYES": "Yes",
+                    "CHANGE": "Are you sure you want to change role to",
+                    "USER": "editor",
+                    "EDITOR": "user"
+                },
+                "USER": {
+                    "USERNAME": "Username"
+                },
+                "BOOK": {
+                    "TITLE": "Title",
+                    "USERID": "Created by"
+                },
+                "REVIEW": {
+                    "USER": "Created by"
+                }
+            },
+            "SNACKBAR": {
+                "DELETED": "Deletion successful",
+                "UPDATED": "Update successful",
+                "CLOSE": "Close"
+            }
+        }
     }
 }
