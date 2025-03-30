@@ -324,18 +324,25 @@ export class UserController{
                     if (!mongoose.Types.ObjectId.isValid(key)) {
                         throw new Error("Invalid ID format");
                     }
+                    console.log(1)
                     
-                    const existingIndex = user.booklist.findIndex((entry:any) => 
-                        entry.book.toString() === key
+                    const existingIndex = await user.booklist.findIndex((entry:any) => 
+                        entry.book_id.toString() === key
                     );
-                
                     if (existingIndex >= 0) {
                         // Update existing entry
-                        user.booklist[existingIndex] = { ...user.booklist[existingIndex], ...updates[key] };
+                        if(updates[key]==="delete"){
+                            delete user.booklist[existingIndex]
+                        }
+                        else{
+                            user.booklist[existingIndex].read_status = updates[key]
+                        }
                     } else {
                         // Add new entry
-                        user.booklist.push({ book: key, status: updates[key] });
+                        user.booklist.push({ book_id: key, read_status: updates[key] });
                     }
+                    console.log(3)
+
                 }
             user._updateContext = "update"
             await user.save()

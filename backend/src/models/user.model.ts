@@ -41,19 +41,19 @@ const userSchema = new Schema({
     booklist: {
         type: [{
           _id: false,
-          book: { 
+          book_id: { 
             type: Schema.Types.ObjectId, 
             ref: 'Book', 
-            required: true 
+            required: false 
           },
-          status: {
+          read_status: {
             type: String,
-            required: true,
+            required: false,
             enum: ["to_read","has_read","is_reading","dropped","favorite"]
           },
           // ... other book-specific fields
         }],
-        required: true,
+        required: false,
         default: []
       },
     imageUrl:{
