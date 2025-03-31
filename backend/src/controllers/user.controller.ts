@@ -29,7 +29,7 @@ export class UserController{
                 return res.status(400).json({error:"Invalid page or limit"})
             }
 
-            const allowedFields = ["_id","username","role","created_at","updated_at","booklist","last_login","imageUrl"]
+            const allowedFields = ["_id","username","role","created_at","updated_at","last_login","imageUrl","booklist.read_status", "booklist.book.title", "booklist.book._id", "booklist.book.imageUrl", "booklist.book.author"]
             if(Authenticator.verifyUser(req)){
                 allowedFields.push("email")
             }
@@ -72,37 +72,51 @@ export class UserController{
 
 
             const users = await UserModel.aggregate([
-                {$match: filters},
                 {
-                    $match: {
-                      $and: [
-                        {
-                          $expr: {
-                            $gte: ["$created_at", new Date(minCreate)]
-                          }
-                        },
-                        {
-                          $expr: {
-                            $lte: ["$created_at", new Date(maxCreate)]
-                          }
-                        },
-                        {
-                          $expr: {
-                            $gte: ["$updated_at", new Date(minUpdate)]
-                          }
-                        },
-                        {
-                          $expr: {
-                            $lte: ["$updated_at", new Date(maxUpdate)]
-                          }
-                        }
+                  $match: {
+                    $and: [
+                      filters,
+                      {
+                        created_at: { $gte: new Date(minCreate), $lte: new Date(maxCreate) },
+                        updated_at: { $gte: new Date(minUpdate), $lte: new Date(maxUpdate) }
+                      }
+                    ]
+                  }
+                },
+                
+                { $unwind: "$booklist" },
+                {
+                  $lookup: {
+                    from: "books",
+                    localField: "booklist.book_id",
+                    foreignField: "_id",
+                    as: "booklist.book"
+                  }
+                },
+                { $unwind: "$booklist.book" },
+                
+                {
+                  $group: {
+                    _id: "$_id",
+                    root: { $first: "$$ROOT" },
+                    booklist: { $push: "$booklist" }
+                  }
+                },
+                {
+                  $replaceRoot: {
+                    newRoot: {
+                      $mergeObjects: [
+                        "$root",
+                        { booklist: "$booklist" }
                       ]
                     }
+                  }
                 },
+                
                 {$project: projection},
-                {$skip: page*limit},
-                {$limit: limit}
-            ])
+                { $skip: page * limit },
+                { $limit: limit }
+              ]);
             if(users.length){
                 Logger.info("Request handled")
                 const pages = Math.ceil(await UserModel.estimatedDocumentCount() / limit)
@@ -121,7 +135,8 @@ export class UserController{
         try{
             const {id} = req.params
             const {fields} = req.query
-            let allowedFields = ["_id","username","created_at","updated_at","last_login","role","booklist","imageUrl"]
+            let allowedFields = ["_id","username","role","created_at","updated_at","last_login","imageUrl","booklist.read_status", "booklist.book.title", "booklist.book._id", "booklist.book.imageUrl", "booklist.book.author"]
+
             
             if(Authenticator.verifyUser(req,id)){
                 allowedFields.push("email")
@@ -139,8 +154,44 @@ export class UserController{
             
             if(!validFields.includes("_id")) validFields.push("-_id")
 
-            const data = await UserModel.findById(id).select(validFields)
-            if(data){
+            const projection: Projection = validFields.reduce((acc: Projection,field)=>{
+                acc[field] = 1
+                return acc
+            }, {"_id": 0} as Projection)
+
+            const data = await UserModel.aggregate([                    
+                { $unwind: "$booklist" },
+                {
+                  $lookup: {
+                    from: "books",
+                    localField: "booklist.book_id",
+                    foreignField: "_id",
+                    as: "booklist.book"
+                  }
+                },
+                { $unwind: "$booklist.book" },
+                
+                {
+                  $group: {
+                    _id: "$_id",
+                    root: { $first: "$$ROOT" },
+                    booklist: { $push: "$booklist" }
+                  }
+                },
+                {
+                  $replaceRoot: {
+                    newRoot: {
+                      $mergeObjects: [
+                        "$root",
+                        { booklist: "$booklist" }
+                      ]
+                    }
+                  }
+                },
+                
+                {$project: projection},
+              ]);
+            if(data.length){
                 Logger.info("Request handled")
                 res.status(200).json(data)
             }
@@ -293,10 +344,41 @@ export class UserController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            const data = await UserModel.findById(id).select("booklist")
+            const data = await UserModel.aggregate([
+                { $match: { _id: new mongoose.Types.ObjectId(id as string) } },
+                { $unwind: "$booklist" },
+                {
+                    $lookup: {
+                        from: "books",
+                        localField: "booklist.book_id",
+                        foreignField: "_id",
+                        as: "book"
+                    }
+                },
+                { $unwind: "$book" },
+                {
+                    $project: {
+                        _id: 0,
+                        book: "$book",
+                        read_status: "$booklist.read_status"
+                    }
+                },
+                {
+                    $group: {
+                        _id: null,
+                        booklist: {
+                            $push: {
+                                book: "$book",
+                                read_status: "$read_status"
+                            }
+                        }
+                    }
+                },
+                { $project: { _id: 0,"booklist.read_status": 1,  "booklist.book.title": 1, "booklist.book._id": 1, "booklist.book.imageUrl": 1, "booklist.book.author": 1 } }
+            ]);
 
             if(!data) throw new Error("User not found")
-            return res.status(200).json(data.booklist)
+            return res.status(200).json(data[0].booklist)
         } catch (error) {
             ErrorHandler.HandleMongooseErrors(error,res)
         }
@@ -320,33 +402,33 @@ export class UserController{
             const user = await UserModel.findById(id)
             if(!user) throw new Error("User not found")
 
-                for (const key of Object.keys(updates)) {
-                    if (!mongoose.Types.ObjectId.isValid(key)) {
-                        throw new Error("Invalid ID format");
+            for (const key of Object.keys(updates)) {
+                if (!mongoose.Types.ObjectId.isValid(key)) {
+                    throw new Error("Invalid ID format");
+                }
+                if(!await BookModel.findById(key)) throw new Error(`Book doesnt exist with id: ${key}`)
+
+                const existingIndex = await user.booklist.findIndex((entry:any) => 
+                    entry.book_id.toString() === key
+                );
+                if (existingIndex >= 0) {
+                    // Update existing entry
+                    if(updates[key]==="delete"){
+                        user.booklist.splice(existingIndex,1)
                     }
-                    console.log(1)
-                    
-                    const existingIndex = await user.booklist.findIndex((entry:any) => 
-                        entry.book_id.toString() === key
-                    );
-                    if (existingIndex >= 0) {
-                        // Update existing entry
-                        if(updates[key]==="delete"){
-                            delete user.booklist[existingIndex]
-                        }
-                        else{
-                            user.booklist[existingIndex].read_status = updates[key]
-                        }
-                    } else {
-                        // Add new entry
+                    else{
+                        user.booklist[existingIndex].read_status = updates[key]
+                    }
+                } else {
+                    if(updates[key]!="delete"){
                         user.booklist.push({ book_id: key, read_status: updates[key] });
                     }
-                    console.log(3)
-
                 }
+
+            }
             user._updateContext = "update"
             await user.save()
-            return res.status(200).json(user)
+            return UserController.getBooklist(req,res)
         } catch (error) {
             ErrorHandler.HandleMongooseErrors(error,res)
         }

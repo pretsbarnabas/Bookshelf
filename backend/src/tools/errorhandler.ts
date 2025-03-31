@@ -18,8 +18,8 @@ export class ErrorHandler{
             }
             return res.status(400).json({ errors });
         }
-        Logger.error(JSON.stringify(error))
-        return res.status(500).json({message:error})
+        Logger.error(error.message)
+        return res.status(400).json({message:error.message})
     }
 
 }
