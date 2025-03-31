@@ -1,1 +1,59 @@
-<p>mylist works!</p>
+<div class="wrapper">
+    <div class="wrapper-content">
+        <mat-tab-group>
+            <!-- To Read Tab -->
+            <mat-tab label="To Read">
+                <div class="card-container d-flex flex-row flex-wrap justify-content-start">
+                    <div class="card-item" *ngFor="let book of toReadBooks">
+                        <mat-card class="book-card">
+                            <mat-card-header>
+                                <mat-card-title>{{ book.title }}</mat-card-title>
+                                <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                            </mat-card-header>
+                            <img mat-card-image [src]="book.image" alt="{{ book.title }}">
+                            <mat-card-content>
+                                <p>{{ book.description }}</p>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <!-- Reading Tab -->
+            <mat-tab label="Reading">
+                <div class="card-container d-flex flex-row flex-wrap justify-content-start">
+                    <div class="card-item" *ngFor="let book of readingBooks">
+                        <mat-card class="book-card">
+                            <mat-card-header>
+                                <mat-card-title>{{ book.title }}</mat-card-title>
+                                <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                            </mat-card-header>
+                            <img mat-card-image [src]="book.image" alt="{{ book.title }}">
+                            <mat-card-content>
+                                <p>{{ book.description }}</p>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <!-- Stopped Reading Tab -->
+            <mat-tab label="Stopped Reading">
+                <div class="card-container d-flex flex-row flex-wrap justify-content-start">
+                    <div class="card-item" *ngFor="let book of stoppedReadingBooks">
+                        <mat-card class="book-card">
+                            <mat-card-header>
+                                <mat-card-title>{{ book.title }}</mat-card-title>
+                                <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                            </mat-card-header>
+                            <img mat-card-image [src]="book.image" alt="{{ book.title }}">
+                            <mat-card-content>
+                                <p>{{ book.description }}</p>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>
