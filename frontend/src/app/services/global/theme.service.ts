@@ -53,10 +53,10 @@ export class ThemeService {
         const colorBlindnessMode: string = localStorage.getItem('colorBlindnessMode') ?? "none";
 
         if (colorBlindnessMode) {
-            this.changeColorBlindessMode(colorBlindnessMode);
+            this.changeColorBlindnessMode(colorBlindnessMode);
             return colorBlindnessMode;
         }
-        this.changeColorBlindessMode(colorBlindnessMode);
+        this.changeColorBlindnessMode(colorBlindnessMode);
         sessionStorage.setItem('colorBlindnessMode', colorBlindnessMode);
         return colorBlindnessMode;
     }
@@ -85,7 +85,7 @@ export class ThemeService {
         }
     }
 
-    changeColorBlindessMode(type: string) {
+    changeColorBlindnessMode(type: string) {
         this.removeColorOverlays();
         switch (type) {
             case "red-green":

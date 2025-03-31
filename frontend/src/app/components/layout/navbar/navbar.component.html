@@ -15,14 +15,14 @@
             <router-button [payload]="{ route: 'mylist', localReference: 'MYLIST' }"></router-button>
             }
             @if(this.loggedInUser && this.loggedInUser.role === 'admin'){
-            <router-button [payload]="{ route: 'admin', localReference: 'ADMIN' }"></router-button>
+            <router-button data-test="admin-button" [payload]="{ route: 'admin', localReference: 'ADMIN' }"></router-button>
             }
         </div>
         <span class="spacer-center"></span>
         <div fxHide.lt-md>
             @if(!this.loggedInUser){
-            <router-button [payload]="{ route: 'auth/login', localReference: 'LOGIN' }"></router-button>
-            <router-button [payload]="{ route: 'auth/register', localReference: 'REGISTER' }"></router-button>
+            <router-button data-test="login-button" [payload]="{ route: 'auth/login', localReference: 'LOGIN' }"></router-button>
+            <router-button data-test="register-button" [payload]="{ route: 'auth/register', localReference: 'REGISTER' }"></router-button>
             } @else {
             <button mat-button [matMenuTriggerFor]="profile" (window:resize)="profile.closed.emit()">
                 <div class="d-inline-flex align-items-center">

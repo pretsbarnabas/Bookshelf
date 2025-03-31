@@ -143,7 +143,7 @@ export class NavbarComponent {
             this.colorBlindnessMode = "none";
         else
             this.colorBlindnessMode = type as "red-green" | "blue-yellow" | "monochrome" | "none";
-        this.themeService.changeColorBlindessMode(this.colorBlindnessMode);
+        this.themeService.changeColorBlindnessMode(this.colorBlindnessMode);
     }
 
     displayRemainingTime(): string{
