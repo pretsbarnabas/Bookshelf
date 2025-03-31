@@ -14,12 +14,7 @@ import { Router, RouterEvent } from '@angular/router';
 import { Subject } from 'rxjs';
 import { UserModel } from '../../app/models/User';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-class MockAuthService {
-    loggedInUser$ = new Subject<UserModel | null>();
-    remainingTime$ = new Subject<number>();
-    logOut = jasmine.createSpy('logOut');
-}
+import MockAuthService from '../mocks/MockAuthService';
 
 class MockThemeService {
     changeEyeSaveMode = jasmine.createSpy('changeEyeSaveMode');

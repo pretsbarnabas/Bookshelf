@@ -11,13 +11,7 @@ import { UserModel } from '../../app/models/User';
 import { AppComponent } from '../../app/components/layout/app.component';
 import { AuthService } from '../../app/services/global/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-class MockAuthService {
-    loggedInUser$ = new Subject<UserModel | null>();
-    remainingTime$ = new Subject<number>();
-    setLoggedInUser = jasmine.createSpy('setLoggedInUser');
-    logOut = jasmine.createSpy('logOut');
-}
+import MockAuthService from '../mocks/MockAuthService';
 
 describe('AppComponent tests', () => {
     let component: AppComponent;
