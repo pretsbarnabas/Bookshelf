@@ -69,7 +69,7 @@
                         <mat-panel-title>{{ payload?.item.title }}</mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-4" *ngIf="this.payload?.isAdminPage">
-                        <mat-panel-description>Id: {{ payload?.item._id }}</mat-panel-description>
+                        <mat-panel-description data-test="mat-panel-desc-bookid">Id: {{ payload?.item._id }}</mat-panel-description>
                     </div>
                 </ng-container>
 

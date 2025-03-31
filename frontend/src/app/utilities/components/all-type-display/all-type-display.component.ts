@@ -203,7 +203,7 @@ export class AllTypeDisplayComponent {
         });
     }
 
-    private onError(error: HttpErrorResponse): void {
+    onError(error: HttpErrorResponse): void {
         this.errorMessages.push(error);
         setTimeout(() => {
             this.errorAlert.nativeElement.scrollIntoView({ behavior: 'smooth' });

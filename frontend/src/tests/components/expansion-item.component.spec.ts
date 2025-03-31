@@ -47,19 +47,6 @@ describe('ExpansionItemComponent', () => {
         expect(component.payload.item.profile_image).toBeDefined();
     }));
 
-    // it('Should close panel on changes', fakeAsync(() => {
-    //     spyOn(MatExpansionPanel.prototype, 'open').and.callThrough();
-    //     component.payload = {
-    //         type: 'user', item: {
-    //             _id: 'testId',
-    //             username: 'testUser'
-    //         }
-    //     };
-    //     component.ngOnChanges();
-    //     tick();
-    //     fixture.detectChanges();
-    //     expect(component.expansionPanel.closed).toBeTrue();
-    // }));
     it('Should render different button on differing types', fakeAsync(() => {
         component.payload = {
             type: 'user', item: {
