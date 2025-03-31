@@ -40,7 +40,7 @@ describe('RouterButtonComponent', () => {
         fixture.detectChanges();
     });
 
-    it('Should create', () => {
+    it('Should create the component', () => {
         expect(component).toBeTruthy();
     });
 

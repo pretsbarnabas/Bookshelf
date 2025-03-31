@@ -1,23 +1,32 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SortItemsComponent } from '../../app/utilities/components/sort-items/sort-items.component';
+import { TranslateModule } from '@ngx-translate/core';
 
-// import { SortItemsComponent } from './sort-items.component';
 
-// describe('SortItemsComponent', () => {
-//   let component: SortItemsComponent;
-//   let fixture: ComponentFixture<SortItemsComponent>;
 
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       imports: [SortItemsComponent]
-//     })
-//     .compileComponents();
+describe('SortItemsComponent', () => {
+    let component: SortItemsComponent;
+    let fixture: ComponentFixture<SortItemsComponent>;
 
-//     fixture = TestBed.createComponent(SortItemsComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [
+                SortItemsComponent,
+                TranslateModule.forRoot(),
+            ]
+        })
+            .compileComponents();
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+        fixture = TestBed.createComponent(SortItemsComponent);
+        component = fixture.componentInstance;
+        component.type = 'user';
+        component.isAdmin = false;
+        fixture.detectChanges();
+    });
+
+    it('Should create the component', () => {
+        expect(component).toBeTruthy();
+    });
+
+    
+});
