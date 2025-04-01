@@ -49,7 +49,7 @@ export class Authenticator{
                 }
             })
             if(verifiedToken){
-                const newToken = jwt.sign({username: req.user.username, role:req.user.role,id: req.user._id},process.env.JWT_SECRET as Secret,{expiresIn: "7d"})
+                const newToken = jwt.sign({username: req.user.username, role:req.user.role,id: req.user.id},process.env.JWT_SECRET as Secret,{expiresIn: "7d"})
                 const user = await UserModel.findOne({username:req.user.username})
                 user._updateContext = "login"
                 await user.save()
