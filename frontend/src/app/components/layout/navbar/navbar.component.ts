@@ -147,6 +147,6 @@ export class NavbarComponent {
     }
 
     displayRemainingTime(): string{
-        return formatRemainingTime(this.remainingTime);
+        return formatRemainingTime(this.remainingTime, this.localizationToggleValue);
     }    
 }

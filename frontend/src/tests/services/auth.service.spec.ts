@@ -135,7 +135,7 @@ describe('AuthService', () => {
 
     it('Should decode token correctly', () => {
         const decodedTokenMock = { username: 'testUser', exp: Math.floor(Date.now() / 1000) + 10 };
-        spyOn(localStorage, 'getItem').and.returnValue('mockEncryptedToken');
+        spyOn(localStorage, 'getItem').and.returnValue('encryptedToken');
         spyOn(service, 'decodeToken').and.returnValue(decodedTokenMock);
 
         const decodedToken = service.decodeToken();
@@ -143,7 +143,7 @@ describe('AuthService', () => {
 
     });
 
-    it('Should return null if token is invalid', () => {
+    it('Should return undefined if token is invalid', () => {
         spyOn(localStorage, 'getItem').and.returnValue(null);
 
         const decodedToken = service.decodeToken();
