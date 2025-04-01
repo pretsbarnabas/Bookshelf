@@ -24,6 +24,14 @@ router.put("/users/:id",UserController.updateUser)
 router.get("/users/:id/booklist",UserController.getBooklist)
 router.put("/users/:id/booklist",UserController.modifyBooklist)
 
+// Likes and Dislikes
+router.get("/reviews/:id/likedby",ReviewController.getLikedBy)
+router.get("/reviews/:id/dislikedby",ReviewController.getDislikedBy)
+router.put("/reviews/:id/like",ReviewController.putLike)
+router.get("/comments/:id/likedby",CommentController.getLikedBy)
+router.get("/comments/:id/dislikedby",CommentController.getDislikedBy)
+router.put("/comments/:id/like",CommentController.putLike)
+
 
 // Book routes
 router.get("/books/",BookController.getAllBooks)

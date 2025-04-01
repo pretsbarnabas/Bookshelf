@@ -306,4 +306,126 @@ export class CommentController{
             ErrorHandler.HandleMongooseErrors(error,res)
         }
     }
+
+    
+    static async getLikedBy(req:any,res:any){
+        try {
+            const {id} = req.params
+            if(id){
+                if(!mongoose.Types.ObjectId.isValid(id)){
+                    return res.status(400).json({message: "Invalid id format"})
+                }
+            }
+            else{
+                return res.status(400).json({message: "id is required"})
+            }
+            const potentialLikedBy = await CommentModel.findById(id).select(["liked_by","-_id"])
+            if(!potentialLikedBy.liked_by.length) return res.status(200).json([])
+            const data = await CommentModel.aggregate([
+                { $match: { _id: new mongoose.Types.ObjectId(id as string) } },
+                {$lookup:{
+                    from: "users",
+                    localField: "liked_by",
+                    foreignField: "_id",
+                    as: "liked_by"
+                }},
+                {$project: {"liked_by._id": 1, "liked_by.username": 1, "liked_by.imageUrl": 1}}
+            ]);
+
+            if(!data) throw new Error("Comment not found")
+            return res.status(200).json(data[0].liked_by)
+        } catch (error) {
+            ErrorHandler.HandleMongooseErrors(error,res)
+        }
+    }
+
+    static async getDislikedBy(req:any,res:any){
+        try {
+            const {id} = req.params
+            if(id){
+                if(!mongoose.Types.ObjectId.isValid(id)){
+                    return res.status(400).json({message: "Invalid id format"})
+                }
+            }
+            else{
+                return res.status(400).json({message: "id is required"})
+            }
+            const potentialDislikedBy = await CommentModel.findById(id).select(["disliked_by","-_id"])
+            if(!potentialDislikedBy.disliked_by.length) return res.status(200).json([])
+            const data = await CommentModel.aggregate([
+                { $match: { _id: new mongoose.Types.ObjectId(id as string) } },
+                {$lookup:{
+                    from: "users",
+                    localField: "disliked_by",
+                    foreignField: "_id",
+                    as: "disliked_by"
+                }},
+                {$project: {"disliked_by._id": 1, "disliked_by.username": 1, "disliked_by.imageUrl": 1}}
+            ]);
+
+            if(!data) throw new Error("Comment not found")
+            return res.status(200).json(data[0].disliked_by)
+        } catch (error) {
+            ErrorHandler.HandleMongooseErrors(error,res)
+        }
+    }
+
+    static async putLike(req:any,res:any){
+        try {
+            const {id} = req.params
+            const {action} = req.body
+            if(id){
+                if(!mongoose.Types.ObjectId.isValid(id)){
+                    return res.status(400).json({message: "Invalid id format"})
+                }
+            }
+            else{
+                return res.status(400).json({message: "id is required"})
+            }
+            if(!Authenticator.verifyUser(req,id)) throw new Error("Unauthorized")
+
+            const comment = await CommentModel.findById(id)
+            if(!comment) throw new Error("Review not found")
+            const likeIndex = await comment.liked_by.findIndex((entry:any) => 
+                    entry.toString() === req.user.id
+            );
+            const dislikeIndex = await comment.disliked_by.findIndex((entry:any) => 
+                entry.toString() === req.user.id
+            );
+            switch (action) {
+                case "like":
+                    if(dislikeIndex>=0){
+                        comment.disliked_by.splice(dislikeIndex,1)
+                    }
+                    if(likeIndex<0){
+                        comment.liked_by.push(new Types.ObjectId(req.user.id as string))
+                    }
+                    break;
+                case "dislike":
+                    if(likeIndex>=0){
+                        comment.liked_by.splice(likeIndex,1)
+                    }
+                    if(dislikeIndex<0){
+                        comment.disliked_by.push(new Types.ObjectId(req.user.id as string))
+                    }
+                    break;
+                case "delete":
+                    if(likeIndex>=0){
+                        comment.liked_by.splice(likeIndex,1)
+                    }
+                    if(dislikeIndex>=0){
+                        comment.disliked_by.splice(dislikeIndex,1)
+                    }
+                    break;
+                default:
+                    throw new Error("Wrong action used")
+                    break;
+            }
+            await comment.save()
+            return res.status(200).json()
+            
+        } catch (error) {
+            ErrorHandler.HandleMongooseErrors(error,res)
+        }
+    }
 }

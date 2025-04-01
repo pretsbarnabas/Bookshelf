@@ -1,4 +1,4 @@
-import {Schema, model}  from "mongoose"
+import {Schema, model, Types}  from "mongoose"
 import { Logger } from "../tools/logger";
 
 const commentSchema = new Schema({
@@ -25,11 +25,27 @@ const commentSchema = new Schema({
         required: true,
         type: Date,
         default: Date.now
+    },
+    liked_by:{
+        required: true,
+        type: [Types.ObjectId],
+        default: []
+    },
+    disliked_by:{
+        required: true,
+        type: [Types.ObjectId],
+        default: []
+    },
+    like_score:{
+        required: true,
+        default: 0,
+        type: Number
     }
 },{versionKey: false})
 
 commentSchema.pre("save",function(next){
     this.updated_at = new Date()
+    this.like_score = this.liked_by.length - this.disliked_by.length
     next();
 })
 

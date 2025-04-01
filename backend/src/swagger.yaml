@@ -513,6 +513,8 @@ tags:
     description: Routes managing books
   - name: Booklist
     description: Routes managing users' booklists
+  - name: Likes and Dislikes
+    description: Routes managing the like features
 
 paths:
   /api/login:
@@ -584,6 +586,184 @@ paths:
       security:
         - ApiKeyAuth: []
 
+  /api/reviews/{id}/likedby:
+    get:
+      summary: Get list of users that liked the given review
+      tags:
+        - Likes and Dislikes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    _id:
+                      type: string
+                    username:
+                      type: string
+                    imageUrl:
+                      type: string
+        400:
+          description: Bad requests
+      security:
+        - ApiKeyAuth: []
+  /api/reviews/{id}/dislikedby:
+      get:
+        summary: Get list of users that disliked the given review
+        tags:
+          - Likes and Dislikes
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          200:
+            description: The list of users
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    properties:
+                      _id:
+                        type: string
+                      username:
+                        type: string
+                      imageUrl:
+                        type: string
+          400:
+            description: Bad requests
+        security:
+          - ApiKeyAuth: []
+  /api/reviews/{id}/like:
+    put:
+      summary: Post a like or dislike on the given review
+      tags:
+        - Likes and Dislikes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+            example:
+              action: like || dislike || delete
+      responses:
+        200:
+          description: Action done
+        400:
+          description: Bad requests
+      security:
+        - ApiKeyAuth: []
+  /api/comments/{id}/likedby:
+      get:
+        summary: Get list of users that liked the given comment
+        tags:
+          - Likes and Dislikes
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          200:
+            description: The list of users
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    properties:
+                      _id:
+                        type: string
+                      username:
+                        type: string
+                      imageUrl:
+                        type: string
+          400:
+            description: Bad requests
+        security:
+          - ApiKeyAuth: []
+  /api/comments/{id}/dislikedby:
+      get:
+        summary: Get list of users that disliked the given comment
+        tags:
+          - Likes and Dislikes
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          200:
+            description: The list of users
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    properties:
+                      _id:
+                        type: string
+                      username:
+                        type: string
+                      imageUrl:
+                        type: string
+          400:
+            description: Bad requests
+        security:
+          - ApiKeyAuth: []
+  /api/comments/{id}/like:
+    put:
+      summary: Post a like or dislike on the given review
+      tags:
+        - Likes and Dislikes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+            example:
+              action: like || dislike || delete
+      responses:
+        200:
+          description: Action done
+        400:
+          description: Bad requests
+      security:
+        - ApiKeyAuth: []
   /api/users/{id}/booklist:
     get:
       summary: Get booklist of a user
@@ -616,8 +796,8 @@ paths:
                       example: to_read
         400:
           description: Bad requests
-    post:
-      summary: Get booklist of a user
+    put:
+      summary: Modify booklist of a user
       tags:
         - Booklist
       parameters:

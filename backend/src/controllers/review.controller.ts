@@ -6,6 +6,7 @@ import * as validators from "../tools/validators"
 import { Authenticator } from "./auth.controller"
 import { ErrorHandler } from "../tools/errorhandler"
 import { Logger } from "../tools/logger"
+import { Types } from "mongoose"
 
 export class ReviewController{
 
@@ -306,6 +307,127 @@ export class ReviewController{
             return res.status(200).json({review})
         }
         catch(error:any){
+            ErrorHandler.HandleMongooseErrors(error,res)
+        }
+    }
+
+    static async getLikedBy(req:any,res:any){
+        try {
+            const {id} = req.params
+            if(id){
+                if(!mongoose.Types.ObjectId.isValid(id)){
+                    return res.status(400).json({message: "Invalid id format"})
+                }
+            }
+            else{
+                return res.status(400).json({message: "id is required"})
+            }
+            const potentialLikedBy = await ReviewModel.findById(id).select(["liked_by","-_id"])
+            if(!potentialLikedBy.liked_by.length) return res.status(200).json([])
+            const data = await ReviewModel.aggregate([
+                { $match: { _id: new mongoose.Types.ObjectId(id as string) } },
+                {$lookup:{
+                    from: "users",
+                    localField: "liked_by",
+                    foreignField: "_id",
+                    as: "liked_by"
+                }},
+                {$project: {"liked_by._id": 1, "liked_by.username": 1, "liked_by.imageUrl": 1}}
+            ]);
+
+            if(!data) throw new Error("Review not found")
+            return res.status(200).json(data[0].liked_by)
+        } catch (error) {
+            ErrorHandler.HandleMongooseErrors(error,res)
+        }
+    }
+
+    static async getDislikedBy(req:any,res:any){
+        try {
+            const {id} = req.params
+            if(id){
+                if(!mongoose.Types.ObjectId.isValid(id)){
+                    return res.status(400).json({message: "Invalid id format"})
+                }
+            }
+            else{
+                return res.status(400).json({message: "id is required"})
+            }
+            const potentialDislikedBy = await ReviewModel.findById(id).select(["disliked_by","-_id"])
+            if(!potentialDislikedBy.disliked_by.length) return res.status(200).json([])
+            const data = await ReviewModel.aggregate([
+                { $match: { _id: new mongoose.Types.ObjectId(id as string) } },
+                {$lookup:{
+                    from: "users",
+                    localField: "disliked_by",
+                    foreignField: "_id",
+                    as: "disliked_by"
+                }},
+                {$project: {"disliked_by._id": 1, "disliked_by.username": 1, "disliked_by.imageUrl": 1}}
+            ]);
+
+            if(!data) throw new Error("Review not found")
+            return res.status(200).json(data[0].disliked_by)
+        } catch (error) {
+            ErrorHandler.HandleMongooseErrors(error,res)
+        }
+    }
+
+    static async putLike(req:any,res:any){
+        try {
+            const {id} = req.params
+            const {action} = req.body
+            if(id){
+                if(!mongoose.Types.ObjectId.isValid(id)){
+                    return res.status(400).json({message: "Invalid id format"})
+                }
+            }
+            else{
+                return res.status(400).json({message: "id is required"})
+            }
+            if(!Authenticator.verifyUser(req,id)) throw new Error("Unauthorized")
+
+            const review = await ReviewModel.findById(id)
+            if(!review) throw new Error("Review not found")
+            const likeIndex = await review.liked_by.findIndex((entry:any) => 
+                    entry.toString() === req.user.id
+            );
+            const dislikeIndex = await review.disliked_by.findIndex((entry:any) => 
+                entry.toString() === req.user.id
+            );
+            switch (action) {
+                case "like":
+                    if(dislikeIndex>=0){
+                        review.disliked_by.splice(dislikeIndex,1)
+                    }
+                    if(likeIndex<0){
+                        review.liked_by.push(new Types.ObjectId(req.user.id as string))
+                    }
+                    break;
+                case "dislike":
+                    if(likeIndex>=0){
+                        review.liked_by.splice(likeIndex,1)
+                    }
+                    if(dislikeIndex<0){
+                        review.disliked_by.push(new Types.ObjectId(req.user.id as string))
+                    }
+                    break;
+                case "delete":
+                    if(likeIndex>=0){
+                        review.liked_by.splice(likeIndex,1)
+                    }
+                    if(dislikeIndex>=0){
+                        review.disliked_by.splice(dislikeIndex,1)
+                    }
+                    break;
+                default:
+                    throw new Error("Wrong action used")
+                    break;
+            }
+            await review.save()
+            return res.status(200).json()
+            
+        } catch (error) {
             ErrorHandler.HandleMongooseErrors(error,res)
         }
     }
