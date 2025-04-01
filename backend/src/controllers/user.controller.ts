@@ -11,7 +11,6 @@ import { Logger } from "../tools/logger"
 import { Authenticator } from "./auth.controller"
 import { ErrorHandler } from "../tools/errorhandler"
 import { ImageController } from "./image.controller"
-import { Booklist } from "../models/booklist.model"
 
 export class UserController{
 
@@ -131,7 +130,7 @@ export class UserController{
 
 
             const potUser = await UserModel.findById(id).select(projection)
-            if(!potUser.booklist.length){
+            if(!potUser.booklist ||!potUser.booklist.length){
                 return res.status(200).json(potUser)
             }
             const data = await UserModel.aggregate([                    
@@ -166,8 +165,7 @@ export class UserController{
                 
                 {$project: projection},
               ]);
-            console.log(data)
-            if(data.length){
+            if(data && data.length){
                 Logger.info("Request handled")
                 res.status(200).json(data[0])
             }
