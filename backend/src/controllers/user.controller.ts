@@ -29,7 +29,7 @@ export class UserController{
                 return res.status(400).json({error:"Invalid page or limit"})
             }
 
-            const allowedFields = ["_id","username","role","created_at","updated_at","last_login","imageUrl","booklist.read_status", "booklist.book.title", "booklist.book._id", "booklist.book.imageUrl", "booklist.book.author"]
+            const allowedFields = ["_id","username","role","created_at","updated_at","last_login","imageUrl", "booklist"]
             if(Authenticator.verifyUser(req)){
                 allowedFields.push("email")
             }
@@ -83,36 +83,6 @@ export class UserController{
                     ]
                   }
                 },
-                
-                { $unwind: "$booklist" },
-                {
-                  $lookup: {
-                    from: "books",
-                    localField: "booklist.book_id",
-                    foreignField: "_id",
-                    as: "booklist.book"
-                  }
-                },
-                { $unwind: "$booklist.book" },
-                
-                {
-                  $group: {
-                    _id: "$_id",
-                    root: { $first: "$$ROOT" },
-                    booklist: { $push: "$booklist" }
-                  }
-                },
-                {
-                  $replaceRoot: {
-                    newRoot: {
-                      $mergeObjects: [
-                        "$root",
-                        { booklist: "$booklist" }
-                      ]
-                    }
-                  }
-                },
-                
                 {$project: projection},
                 { $skip: page * limit },
                 { $limit: limit }
@@ -159,6 +129,11 @@ export class UserController{
                 return acc
             }, {"_id": 0} as Projection)
 
+
+            const potUser = await UserModel.findById(id).select(projection)
+            if(!potUser.booklist.length){
+                return res.status(200).json(potUser)
+            }
             const data = await UserModel.aggregate([                    
                 { $unwind: "$booklist" },
                 {
