@@ -1,10 +1,10 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { of } from 'rxjs';
 import { ItemDialogComponent } from '../../app/utilities/components/all-type-display/expansion-item/item-dialog/item-dialog.component';
-import { EditDialogFieldConfig, FormService } from '../../app/services/page/form.service';
+import { FormService } from '../../app/services/page/form.service';
 import { TranslationService } from '../../app/services/global/translation.service';
 import { TranslateModule } from '@ngx-translate/core';
 

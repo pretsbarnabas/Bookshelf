@@ -4,14 +4,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
-class MatDialogMock {
-    open() {
-        return {
-            afterClosed: () => of(true)
-        };
-    }
-}
-
 describe('ExpansionItemComponent', () => {
     let component: ExpansionItemComponent;
     let fixture: ComponentFixture<ExpansionItemComponent>;
