@@ -144,6 +144,10 @@ components:
           type: string
         updated_at:
           type: string
+        like_score:
+          type: integer
+        liked_by_user:
+          type: string
       example:
         - _id: a826b9febba8c411cf6d82cb
           user:
@@ -160,6 +164,8 @@ components:
           content: Lorem
           created_at: 2016-04-08T15:06:21.595Z
           updated_at: 2016-04-08T15:06:21.595Z
+          like_score: 2
+          liked_by_user: liked || disliked || none
     ReviewListResponse:
       type: object
       properties:
@@ -183,6 +189,8 @@ components:
             content: Lorem
             created_at: 2016-04-08T15:06:21.595Z
             updated_at: 2016-04-08T15:06:21.595Z
+            like_score: 2
+            liked_by_user: liked || disliked || none
         pages:
           type: integer
           example: 10
@@ -196,6 +204,10 @@ components:
         created_at:
           type: string
         updated_at:
+          type: string
+        like_score:
+          type: integer
+        liked_by_user:
           type: string
         user:
           type: object
@@ -229,6 +241,8 @@ components:
         content: "Lorem"
         created_at: "2016-04-08T15:06:21.595Z"
         updated_at: "2016-04-08T15:06:21.595Z"
+        like_score: 2
+        liked_by_user: liked || disliked || none
         user:
           _id: "db0b0c1f83fb29f652cc5a2f"
           username: "admin"
@@ -254,6 +268,8 @@ components:
             content: "Lorem"
             created_at: "2016-04-08T15:06:21.595Z"
             updated_at: "2016-04-08T15:06:21.595Z"
+            like_score: 2
+            liked_by_user: liked || disliked || none
             user:
               _id: "db0b0c1f83fb29f652cc5a2f"
               username: "admin"

@@ -29,7 +29,7 @@ export class ReviewController{
             if(Number.isNaN(limit) || Number.isNaN(page) || limit < 1 || page < 0){
                 return res.status(400).json({error:"Invalid page or limit"})
             }
-            const allowedFields = ["_id","score","content","created_at","updated_at","book.title","book._id","book.author","book.imageUrl","user._id", "user.username","user.imageUrl","user.role","user.updated_at","user.created_at","user.last_login"]
+            const allowedFields = ["_id","like_score","score","content","created_at","updated_at","book.title","book._id","book.author","book.imageUrl","user._id", "user.username","user.imageUrl","user.role","user.updated_at","user.created_at","user.last_login"]
 
             if(!minCreate) minCreate = dates.minDate()
             if(!maxCreate) maxCreate = dates.maxDate()
@@ -53,7 +53,7 @@ export class ReviewController{
             const projection: Projection = validFields.reduce((acc: Projection,field)=>{
                 acc[field] = 1
                 return acc
-            }, {"_id": 0} as Projection)
+            }, {"_id": 0,"liked_by":1,"disliked_by":1} as Projection)
 
 
             if(user_id){
@@ -126,14 +126,29 @@ export class ReviewController{
                 {$limit: limit}
             ])
 
-            if(data){
-                Logger.info("Request handled")
+            if(data.length){
                 const pages = Math.ceil(await ReviewModel.estimatedDocumentCount() / limit)
-                res.status(200).json({data: data, pages: pages})
+                await Authenticator.verifyUser(req)
+                data.forEach((review: any) => {review.liked_by_user = "none"})
+                if(req.user){
+                    const userId = new Types.ObjectId(req.user.id as string)
+                    data.forEach((review: any) => {
+                        if (review.liked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                            review.liked_by_user = "liked"
+                        }
+                        else if (review.disliked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                            review.liked_by_user = "disliked"
+                        }
+                        delete review.liked_by
+                        delete review.disliked_by
+                    });
+                }
+                Logger.info("Request handled")
+                return res.status(200).json({data: data, pages: pages})
             }
             else{
                 Logger.warn("No reviews found")
-                res.status(404).json({message: "No reviews found"})
+                return res.status(404).json({message: "No reviews found"})
             }
         }catch(error:any){
             res.status(500).json({message:error.message})
@@ -159,7 +174,7 @@ export class ReviewController{
                 return res.status(400).json({message: "id is required"})
             }
 
-            let allowedFields = ["_id","score","content","created_at","updated_at","book.title","book.author","book._id","user._id","user.username","user.imageUrl","user.role","user.updated_at","user.created_at","user.last_login"]
+            let allowedFields = ["_id","like_score","score","content","created_at","updated_at","book.title","book.author","book._id","user._id","user.username","user.imageUrl","user.role","user.updated_at","user.created_at","user.last_login"]
             
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
             const validFields: string[] = requestedFields.filter(field =>allowedFields.includes(field))
@@ -171,7 +186,7 @@ export class ReviewController{
             const projection: Projection = validFields.reduce((acc: Projection,field)=>{
                 acc[field] = 1
                 return acc
-            }, {"_id": 0} as Projection)
+            }, {"_id": 0,"liked_by":1,"disliked_by":1} as Projection)
 
     
 
@@ -200,9 +215,21 @@ export class ReviewController{
                 { $project: projection }
               ])
 
-            if(data[0]){
-                res.status(200).json(data)
-            }
+              let review = data[0]
+              if(review){
+                  review.liked_by_user = "none"
+                  await Authenticator.verifyUser(req)
+                  if(req.user){
+                      const userId = new Types.ObjectId(req.user.id as string)
+                      if (review.liked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                          review.liked_by_user = "liked"
+                      }
+                      else if (review.disliked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                          review.liked_by_user = "disliked"
+                      }
+                  }
+                  res.status(200).json(review)
+              }
             else{
                 res.status(404).json({message: "Review not found"})
             }

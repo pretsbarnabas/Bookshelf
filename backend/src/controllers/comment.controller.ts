@@ -55,7 +55,7 @@ export class CommentController{
                 return res.status(400).json({error:"Invalid update date requested"})
             }
 
-            const allowedFields = ["_id","review._id","review.content","review.score","review.user._id","review.user.username","review.user.role","review.user.imageUrl","user._id","user.username","user.role","user.imageUrl","content","created_at","updated_at"]
+            const allowedFields = ["_id","like_score","review._id","review.content","review.score","review.user._id","review.user.username","review.user.role","review.user.imageUrl","user._id","user.username","user.role","user.imageUrl","content","created_at","updated_at"]
 
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
             const validFields: string[] = requestedFields.filter(field =>allowedFields.includes(field))
@@ -70,7 +70,7 @@ export class CommentController{
             const projection: Projection = validFields.reduce((acc: Projection,field)=>{
                 acc[field] = 1
                 return acc
-            }, {"_id": 0} as Projection)
+            }, {"_id": 0,"liked_by":1,"disliked_by":1} as Projection)
 
             const comments = await CommentModel.aggregate([
                 {$match: filters},
@@ -136,6 +136,21 @@ export class CommentController{
             ])
             if(comments.length){
                 const pages = Math.ceil(await CommentModel.estimatedDocumentCount() / limit)
+                await Authenticator.verifyUser(req)
+                comments.forEach((comment: any) => {comment.liked_by_user = "none"})
+                if(req.user){
+                    const userId = new Types.ObjectId(req.user.id as string)
+                    comments.forEach((comment: any) => {
+                        if (comment.liked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                            comment.liked_by_user = "liked"
+                        }
+                        else if (comment.disliked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                            comment.liked_by_user = "disliked"
+                        }
+                        delete comment.liked_by
+                        delete comment.disliked_by
+                    });
+                }
                 Logger.info("Request handled")
                 return res.status(200).json({data: comments, pages: pages})
             }
@@ -164,7 +179,7 @@ export class CommentController{
                 return res.status(400).json({message: "id is required"})
             }
 
-            const allowedFields = ["_id","review._id","review.content","review.score","review.user._id","review.user.username","review.user.role","review.user.imageUrl","user._id","user.username","user.role","user.imageUrl","content","created_at","updated_at"]
+            const allowedFields = ["_id","like_score","review._id","review.content","review.score","review.user._id","review.user.username","review.user.role","review.user.imageUrl","user._id","user.username","user.role","user.imageUrl","content","created_at","updated_at"]
 
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
             const validFields: string[] = requestedFields.filter(field =>allowedFields.includes(field))
@@ -179,7 +194,7 @@ export class CommentController{
             const projection: Projection = validFields.reduce((acc: Projection,field)=>{
                 acc[field] = 1
                 return acc
-            }, {"_id": 0} as Projection)
+            }, {"_id": 0,"liked_by":1,"disliked_by":1} as Projection)
     
         
 
@@ -217,7 +232,21 @@ export class CommentController{
                 }},
                 { $project: projection }
               ])
-            res.status(200).json(data)
+            let comment = data[0]
+            if(comment){
+                comment.liked_by_user = "none"
+                await Authenticator.verifyUser(req)
+                if(req.user){
+                    const userId = new Types.ObjectId(req.user.id as string)
+                    if (comment.liked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                        comment.liked_by_user = "liked"
+                    }
+                    else if (comment.disliked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                        comment.liked_by_user = "disliked"
+                    }
+                }
+                res.status(200).json(comment)
+            }
         }catch(error:any){
             ErrorHandler.HandleMongooseErrors(error,res)
         }
