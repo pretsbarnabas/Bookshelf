@@ -14,7 +14,7 @@ export class BookController{
     
     static async getAllBooks(req:any,res:any){
         try{
-            let {title, author, minRelease, maxRelease, fields, genre, user_id, page = 0, limit = 10} = req.query
+            let {title, author, minRelease, maxRelease, fields, genre, user_id, page = 0, limit = 10, sort, sortType = "desc"} = req.query
 
             limit = Number.parseInt(limit)
             page = Number.parseInt(page)
@@ -89,6 +89,34 @@ export class BookController{
                 matchConditions.push({ $project: projection });
                 matchConditions.push({ $skip: page * limit });
                 matchConditions.push({ $limit: limit });
+                if(sort){
+                    switch (sortType) {
+                        case "desc":
+                            sortType = -1
+                            break;
+                        case "asc":
+                            sortType = 1
+                            break;
+                        default:
+                            throw new Error("Invalid sort type, desc / asc allowed")
+                    }
+                    switch (sort) {
+                        case "title":
+                            matchConditions.push({ $sort: {title: sortType} });
+                            break;
+                        case "added_at":
+                            matchConditions.push({ $sort: {added_at: sortType} });
+                            break;
+                        case "genre":
+                            matchConditions.push({ $sort: {genre: sortType} });
+                            break;
+                        case "release":
+                            matchConditions.push({ $sort: {release: sortType} });
+                            break;
+                        default:
+                            throw new Error("Invalid sort, title/added_at/genre/release allowed")
+                    }
+                }
                 
             const books = await BookModel.aggregate(matchConditions);
             if(books){
