@@ -258,7 +258,11 @@ export class ReviewController{
                 return res.status(400).json({message: "Invalid score, must be a number"})
             }
             if(!Authenticator.verifyUser(req)) return res.json(401).send()
-
+            
+            const existingReview = await ReviewModel.findOne({user_id: new mongoose.Types.ObjectId(req.user.id as string), book_id: new mongoose.Types.ObjectId(book_id as string)})
+            if(existingReview){
+                throw new Error("User already posted a review on book")
+            }
             const newReview = new ReviewModel({
                 user_id: new mongoose.Types.ObjectId(req.user.id as string),
                 book_id: new mongoose.Types.ObjectId(book_id as string),
