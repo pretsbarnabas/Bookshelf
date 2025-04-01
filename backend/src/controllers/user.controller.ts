@@ -166,9 +166,10 @@ export class UserController{
                 
                 {$project: projection},
               ]);
+            console.log(data)
             if(data.length){
                 Logger.info("Request handled")
-                res.status(200).json(data)
+                res.status(200).json(data[0])
             }
             else{
                 Logger.info("Requested user not found")

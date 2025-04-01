@@ -1,6 +1,7 @@
 import {Schema, model, Types}  from "mongoose"
 import { Logger } from "../tools/logger"
 const BookModel = require("./book.model")
+const CommentModel = require("./comment.model")
 
 const reviewSchema = new Schema({
     book_id:{
@@ -65,6 +66,13 @@ reviewSchema.post("save",async function(next){
     const Book = await BookModel.findById(this.book_id)
     Book.score = avgScore
     await Book.save()
+})
+
+reviewSchema.pre("deleteMany",async function (next){
+    let deleteData = await ReviewModel.find(this.getFilter()).lean()
+    deleteData.forEach(async data=>{
+        await CommentModel.deleteMany({review_id: data._id})
+    })
 })
 
 const ReviewModel = model("ReviewModel",reviewSchema,"reviews")

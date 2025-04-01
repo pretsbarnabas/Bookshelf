@@ -78,7 +78,15 @@ userSchema.pre("save", function (next) {
 });
 
 userSchema.post("save",function(next){
-    Logger.info(`${this._id} user saved`)
+    // @ts-ignore
+    if (this._updateContext === "update") {
+        Logger.info(`${this._id} user saved`)
+    }
+    
+    // @ts-ignore
+    if (this._updateContext === "login") {
+        Logger.info(`${this._id} user saved`)
+    }
 })
 
 module.exports = model("UserModel",userSchema,"users")

@@ -1,5 +1,7 @@
 import {Types} from "mongoose"
 const BookModel = require("../models/book.model")
+const ReviewModel = require("../models/review.model")
+const UserModel = require("../models/user.model")
 import * as dates from "../tools/dates"
 import * as validators from "../tools/validators"
 import { Projection } from "../models/projection.model"
@@ -175,11 +177,22 @@ export class BookController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            if(!Authenticator.verifyUser(req,"",["editor"])) return res.json(401).send()
+            if(!Authenticator.verifyUser(req,"",["editor"])) return res.status(401).send()
             const data = await BookModel.findByIdAndDelete(id)
             if(data){
                 res.status(200).json({message:"Book deleted"})
                 if(data.imageUrl) ImageController.deleteCloudinaryImage(data.imageUrl)
+                const deletedReviews = await ReviewModel.deleteMany({book_id: id})
+                const onBooklist = await UserModel.find({"booklist.book_id": new Types.ObjectId(id as string)})
+                if(onBooklist){
+                    onBooklist.forEach(async (user:any) => {
+                        const existingIndex = await user.booklist.findIndex((entry:any) => 
+                            entry.book_id.toString() === id
+                        );
+                        user.booklist.splice(existingIndex,1)
+                        await user.save()
+                    });
+                }               
             }
             else{
                 res.status(404).json({message:"Book not found"})
