@@ -11,6 +11,7 @@ describe('AuthService', () => {
     let service: AuthService;
     let crudService: CrudService;
     let configService: ConfigService
+    let router: Router;
 
     const routerEventsSubject = new Subject<RouterEvent>();
 
@@ -35,6 +36,7 @@ describe('AuthService', () => {
         crudService = TestBed.inject(CrudService);
         configService = TestBed.inject(ConfigService);
         service = TestBed.inject(AuthService);
+        router = TestBed.inject(Router);
     });
 
     it('Should be created', () => {
@@ -43,13 +45,13 @@ describe('AuthService', () => {
 
     it('Should update user observable data', () => {
         const mockUser = { username: 'testUser', password: 'password' };
-        spyOn(service, 'logIn').and.callFake((): any =>{
+        spyOn(service, 'logIn').and.callFake((): any => {
             service.loggedInUser$ = of({ username: 'testUser', password: 'password' } as any)
         });
         service.logIn(mockUser);
 
-        service.loggedInUser$.subscribe((user) => {            
-                expect(user!.username).toBe('testUser');            
+        service.loggedInUser$.subscribe((user) => {
+            expect(user!.username).toBe('testUser');
         });
 
     });
@@ -87,8 +89,64 @@ describe('AuthService', () => {
         expect(service.scheduleAutoLogout).toHaveBeenCalled();
     });
 
-    it('Should use scheduleAutoLogout correctly', () => {          
-       
+    it('Should use scheduleAutoLogout correctly', () => {
+        const decodedToken = { exp: Math.floor(Date.now() / 1000) + 10 };
+        spyOn(service, 'decodeToken').and.returnValue(decodedToken);
+        spyOn(window, 'setTimeout');
+
+        service.scheduleAutoLogout();
+        expect(window.setTimeout).toHaveBeenCalled();
+    });
+
+    it('Should logout the user', () => {
+        spyOn(localStorage, 'removeItem');
+
+        service.logOut();
+
+        expect(localStorage.removeItem).toHaveBeenCalledWith('authToken');
+        expect(router.navigate).toHaveBeenCalledWith(['home']);
+    });
+
+    it('Should return the remaining time', () => {
+        const decodedToken = { exp: Math.floor(Date.now() / 1000) + 10 };
+        spyOn(service, 'decodeToken').and.returnValue(decodedToken);
+
+        const remainingTime = service.getRemainingTime();
+        expect(remainingTime).toBeGreaterThan(0);
+    });
+
+    it('Should not show if lastLoggedInUser is the same', () => {
+        spyOn(sessionStorage, 'getItem').and.returnValue('testUser');
+        spyOn(service, 'decodeToken').and.returnValue({ username: 'testUser' });
+
+        const result = service.shouldGreetUser();
+        expect(result).toBeNull();
+    });
+
+    it('Should show if user is fershly logged in', () => {
+        spyOn(sessionStorage, 'getItem').and.returnValue('previousUser');
+        spyOn(service, 'decodeToken').and.returnValue({ username: 'testUser' });
+        spyOn(sessionStorage, 'setItem');
+
+        const result = service.shouldGreetUser();
+        expect(result).toBe('testUser');
+        expect(sessionStorage.setItem).toHaveBeenCalledWith('lastLoggedInUser', 'testUser');
+    });
+
+    it('Should decode token correctly', () => {
+        const decodedTokenMock = { username: 'testUser', exp: Math.floor(Date.now() / 1000) + 10 };
+        spyOn(localStorage, 'getItem').and.returnValue('mockEncryptedToken');
+        spyOn(service, 'decodeToken').and.returnValue(decodedTokenMock);
+
+        const decodedToken = service.decodeToken();
+        expect(decodedToken).toEqual(decodedTokenMock);
 
     });
+
+    it('Should return null if token is invalid', () => {
+        spyOn(localStorage, 'getItem').and.returnValue(null);
+
+        const decodedToken = service.decodeToken();
+        expect(decodedToken).toBeUndefined();
+    })
 });
