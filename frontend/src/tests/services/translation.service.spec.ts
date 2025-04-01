@@ -1,16 +1,20 @@
-// import { TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { TranslationService } from '../../app/services/global/translation.service';
+import { TranslateModule } from '@ngx-translate/core';
 
-// import { TranslationService } from './translation.service';
+describe('TranslationService', () => {
+    let service: TranslationService;
 
-// describe('TranslationService', () => {
-//   let service: TranslationService;
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports:[
+                TranslateModule.forRoot()
+            ]
+        }).compileComponents();
+        service = TestBed.inject(TranslationService);
+    });
 
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({});
-//     service = TestBed.inject(TranslationService);
-//   });
-
-//   it('should be created', () => {
-//     expect(service).toBeTruthy();
-//   });
-// });
+    it('Should be created', () => {
+        expect(service).toBeTruthy();
+    });
+});

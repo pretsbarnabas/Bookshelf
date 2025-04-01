@@ -1,16 +1,24 @@
-// import { TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { ConfigService, provideConfig } from '../../app/services/global/config.service';
+import { provideHttpClient } from '@angular/common/http';
+import { CrudService } from '../../app/services/global/crud.service';
 
-// import { ConfigService } from './config.service';
+describe('ConfigService', () => {
+    let service: ConfigService;
 
-// describe('ConfigService', () => {
-//   let service: ConfigService;
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            providers: [
+                provideHttpClient(),
+                provideConfig(['apiurl', 'https://testing.com']),
+                CrudService
+            ],
+        }).compileComponents();
+        TestBed.configureTestingModule({});
+        service = TestBed.inject(ConfigService);
+    });
 
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({});
-//     service = TestBed.inject(ConfigService);
-//   });
-
-//   it('should be created', () => {
-//     expect(service).toBeTruthy();
-//   });
-// });
+    it('Should be created', () => {
+        expect(service).toBeTruthy();
+    });
+});

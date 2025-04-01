@@ -1,16 +1,24 @@
-// import { TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { CommentService } from '../../app/services/page/comment.service';
+import { CrudService } from '../../app/services/global/crud.service';
+import { provideHttpClient } from '@angular/common/http';
+import { provideConfig } from '../../app/services/global/config.service';
 
-// import { CommentService } from './comment.service';
+describe('CommentService', () => {
+    let service: CommentService;
 
-// describe('CommentService', () => {
-//   let service: CommentService;
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            providers: [
+                provideHttpClient(),
+                provideConfig(['apiurl', 'https://testing.com']),
+                CrudService
+            ],
+        }).compileComponents();
+        service = TestBed.inject(CommentService);
+    });
 
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({});
-//     service = TestBed.inject(CommentService);
-//   });
-
-//   it('should be created', () => {
-//     expect(service).toBeTruthy();
-//   });
-// });
+    it('Should be created', () => {
+        expect(service).toBeTruthy();
+    });
+});

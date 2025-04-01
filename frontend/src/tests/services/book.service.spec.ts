@@ -1,16 +1,22 @@
-// import { TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { BookService } from '../../app/services/page/book.service';
+import { provideHttpClient } from '@angular/common/http';
+import { provideConfig } from '../../app/services/global/config.service';
 
-// import { BookService } from './book.service';
+describe('BookService', () => {
+    let service: BookService;
 
-// describe('BookService', () => {
-//   let service: BookService;
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            providers: [
+                provideHttpClient(),
+                provideConfig(['apiurl', 'https://testing.com']),
+            ],
+        }).compileComponents();
+        service = TestBed.inject(BookService);
+    });
 
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({});
-//     service = TestBed.inject(BookService);
-//   });
-
-//   it('should be created', () => {
-//     expect(service).toBeTruthy();
-//   });
-// });
+    it('Should be created', () => {
+        expect(service).toBeTruthy();
+    });
+});

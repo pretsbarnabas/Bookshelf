@@ -1,23 +1,40 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AuthComponent } from '../../app/components/pages/auth/auth.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { CrudService } from '../../app/services/global/crud.service';
+import { provideHttpClient } from '@angular/common/http';
+import { provideConfig } from '../../app/services/global/config.service';
+import { ActivatedRoute } from '@angular/router';
 
-// import { AuthComponent } from './auth.component';
+describe('LoginComponent', () => {
+    let component: AuthComponent;
+    let fixture: ComponentFixture<AuthComponent>;
 
-// describe('LoginComponent', () => {
-//   let component: AuthComponent;
-//   let fixture: ComponentFixture<AuthComponent>;
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [
+                AuthComponent,
+                TranslateModule.forRoot()
+            ],
+            providers: [
+                provideHttpClient(),
+                provideConfig(['apiurl', 'https://testing.com']),
+                CrudService,
+                {
+                    provide: ActivatedRoute,
+                    useValue: {
+                        snapshot: { paramMap: { get: () => '/admin' } }
+                    },
+                },
+            ]
+        }).compileComponents();
 
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       imports: [AuthComponent]
-//     })
-//     .compileComponents();
+        fixture = TestBed.createComponent(AuthComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-//     fixture = TestBed.createComponent(AuthComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
-
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+    it('Should create the component', () => {
+        expect(component).toBeTruthy();
+    });
+});
