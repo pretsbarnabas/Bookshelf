@@ -344,6 +344,8 @@ export class UserController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
+            const potentialBooklist = await UserModel.findById(id).select(["booklist","-_id"])
+            if(!potentialBooklist.booklist.length) return res.status(200).json([])
             const data = await UserModel.aggregate([
                 { $match: { _id: new mongoose.Types.ObjectId(id as string) } },
                 { $unwind: "$booklist" },
