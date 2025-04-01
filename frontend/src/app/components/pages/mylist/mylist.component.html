@@ -12,7 +12,10 @@
                             </mat-card-header>
                             <img mat-card-image [src]="book.image" alt="{{ book.title }}">
                             <mat-card-content>
-                                <p>{{ book.description }}</p>
+                                <div class="card-content d-flex flex-row align-items-center">
+                                    <button class="book-button" mat-flat-button color="primary">Start reading</button>
+                                    <button class="book-button" mat-flat-button color="primary">Stop reading</button>
+                                </div>
                             </mat-card-content>
                         </mat-card>
                     </div>
@@ -29,9 +32,6 @@
                                 <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
                             </mat-card-header>
                             <img mat-card-image [src]="book.image" alt="{{ book.title }}">
-                            <mat-card-content>
-                                <p>{{ book.description }}</p>
-                            </mat-card-content>
                         </mat-card>
                     </div>
                 </div>
@@ -47,9 +47,6 @@
                                 <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
                             </mat-card-header>
                             <img mat-card-image [src]="book.image" alt="{{ book.title }}">
-                            <mat-card-content>
-                                <p>{{ book.description }}</p>
-                            </mat-card-content>
                         </mat-card>
                     </div>
                 </div>
