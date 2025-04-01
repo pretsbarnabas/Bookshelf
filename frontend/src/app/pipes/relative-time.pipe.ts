@@ -21,11 +21,11 @@ export class RelativeTimePipe implements PipeTransform {
         });
     }
 
-    transform(value: Date | string | number): string {
+    transform(value: Date | string | number, dateNow?: Date): string {
         if (!value) return '';
 
         const date = typeof value === 'string' || typeof value === 'number' ? new Date(value) : value;
-        const now = new Date();
+        const now = dateNow ?? new Date();
         const diffInSeconds = Math.round((date.getTime() - now.getTime()) / 1000);
 
         const formatter = new Intl.RelativeTimeFormat(this.currentLang, { numeric: 'auto' });

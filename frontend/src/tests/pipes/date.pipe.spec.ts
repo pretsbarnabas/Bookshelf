@@ -2,11 +2,10 @@ import { DatePipe, registerLocaleData } from "@angular/common";
 import { LocalizedDatePipe } from "../../app/pipes/date.pipe";
 import { ChangeDetectorRef, LOCALE_ID } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
-import localeEn from '@angular/common/locales/en';
+import { TranslateModule } from "@ngx-translate/core";
 import localeHu from '@angular/common/locales/hu';
 import { TranslationService } from "../../app/services/global/translation.service";
-import { BehaviorSubject, of } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 
 describe('DatePipe', () => {
     let pipe: LocalizedDatePipe;
