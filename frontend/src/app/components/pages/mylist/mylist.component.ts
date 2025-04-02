@@ -115,4 +115,44 @@ export class MylistComponent implements OnInit {
           }
       });
   }
+  finishReading(bookId: string) {
+    if (!this.loggedInUser) return;
+
+    this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'has_read').subscribe({
+        next: () => {
+            console.log(`Book with ID ${bookId} updated to "has_read"`);
+            this.fetchUserBookList(this.loggedInUser!._id); // Refresh the categorized lists
+        },
+        error: (err) => {
+            console.error('Error updating book status to "has_read":', err);
+        }
+    });
+}
+
+dropBook(bookId: string) {
+    if (!this.loggedInUser) return;
+
+    this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'dropped').subscribe({
+        next: () => {
+            console.log(`Book with ID ${bookId} updated to "dropped"`);
+            this.fetchUserBookList(this.loggedInUser!._id); // Refresh the categorized lists
+        },
+        error: (err) => {
+            console.error('Error updating book status to "dropped":', err);
+        }
+    });
+}
+markAsFavorite(bookId: string) {
+  if (!this.loggedInUser) return;
+
+  this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'favorite').subscribe({
+      next: () => {
+          console.log(`Book with ID ${bookId} marked as "favorite"`);
+          this.fetchUserBookList(this.loggedInUser!._id); // Refresh the categorized lists
+      },
+      error: (err) => {
+          console.error('Error updating book status to "favorite":', err);
+      }
+  });
+}
 }
