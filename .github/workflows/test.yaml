@@ -30,7 +30,7 @@ jobs:
       - name: Test Backend
         run: |
           cd backend
-          npm run test:jest
+          npm run test:jest:pipe
 
       - name: Publish Test Report
         uses: ctrf-io/github-test-reporter@v1
