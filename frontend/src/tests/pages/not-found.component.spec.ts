@@ -29,16 +29,30 @@ describe('NotFoundComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('Should initialize with the correct data', ()=>{
+    it('Should initialize with the correct data', () => {
         expect(component.currentTime).toEqual(20);
         expect(component.spinnerValue).toEqual(100);
         expect(component.exchangeRate).toEqual(5);
     });
 
-    it('Should start countdown', fakeAsync(()=>{        
+    it('Should start countdown', fakeAsync(() => {
         component.startCountDown();
         tick(5000);
+        expect(component.currentTime).toEqual(15);
 
-        expect(component.currentTime).toEqual(15);                
+        tick(5000);
+        expect(component.currentTime).toEqual(10);
+    }));
+
+    it('should navigate to home when countdown reaches zero', fakeAsync(() => {
+        spyOn(router, 'navigate');
+
+        component.ngOnInit();
+        fixture.detectChanges();
+        component.startCountDown();
+        tick(20000);
+
+        expect(component.currentTime).toBe(0);
+        expect(router.navigate).toHaveBeenCalledWith(['/home']);
     }));
 });
