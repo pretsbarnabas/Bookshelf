@@ -83,6 +83,7 @@ async function seed(){
         })
 
         console.log("Seeder: Seeded")
+        await mongoose.disconnect();
     } catch (error) {
         console.log(error)
     }
