@@ -20,7 +20,7 @@ import { UserModel } from '../../../models/User'; // Import UserModel
   encapsulation: ViewEncapsulation.None,
 })
 export class MylistComponent implements OnInit {
-  bookList: BookList | null = null;
+  bookList: BookList[] | null = null;
   toReadBooks: any[] = [];
   hasReadBooks: any[] = [];
   readingBooks: any[] = [];
@@ -34,28 +34,85 @@ export class MylistComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Subscribe to the loggedInUser$ observable to get the actual logged-in user
     this.authService.loggedInUser$.subscribe((user) => {
-      this.loggedInUser = user;
-      if (this.loggedInUser) {
-        this.fetchUserBookList(this.loggedInUser._id);
-      }
+        this.loggedInUser = user;
+        if (this.loggedInUser) {
+            this.fetchUserBookList(this.loggedInUser._id);
+
+        }
     });
   }
 
   fetchUserBookList(userId: string) {
-    this.booklistService.getUserBookList(userId).subscribe((data) => {
-      this.bookList = data;
-      console.log('Book List:', this.bookList);
-      this.categorizeBooks(data.books);
+    this.booklistService.getUserBookList(userId).subscribe({
+      next: (data) => {
+          this.bookList = data;
+          console.log(this.bookList)
+          this.CategorizeBooks();
+      },
+      error: (err) => {
+        console.error('Error fetching user book list:', err);
+        this.bookList = [];
+      }
+    });
+  }
+  CategorizeBooks() {  
+    this.toReadBooks = [];
+    this.hasReadBooks = [];
+    this.readingBooks = [];
+    this.droppedBooks = [];
+    this.favoriteBooks = [];
+  
+    // Categorize books based on read_status
+    this.bookList!.forEach(item => {
+      const book = item.book; // Access the book object
+      switch (item.read_status) {
+        case 'to_read':
+          this.toReadBooks.push(book);
+          break;
+        case 'has_read':
+          this.hasReadBooks.push(book);
+          break;
+        case 'is_reading':
+          this.readingBooks.push(book);
+          break;
+        case 'dropped':
+          this.droppedBooks.push(book);
+          break;
+        case 'favorite':
+          this.favoriteBooks.push(book);
+          this.hasReadBooks.push(book); // Add to hasReadBooks if it's also a favorite
+          break;
+        default:
+          console.warn(`Unknown read_status: ${item.read_status}`);
+      }
+    });
+  }
+  startReading(bookId: string) {
+    if (!this.loggedInUser) return;
+
+    this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'is_reading').subscribe({
+        next: () => {
+            console.log(`Book with ID ${bookId} updated to "is_reading"`);
+            this.fetchUserBookList(this.loggedInUser!._id);
+        },
+        error: (err) => {
+            console.error('Error updating book status:', err);
+        }
     });
   }
 
-  categorizeBooks(books: any[]) {
-    this.toReadBooks = books.filter(book => book.read_status === 'to_read');
-    this.hasReadBooks = books.filter(book => book.read_status === 'has_read');
-    this.readingBooks = books.filter(book => book.read_status === 'is_reading');
-    this.droppedBooks = books.filter(book => book.read_status === 'dropped');
-    this.favoriteBooks = books.filter(book => book.read_status === 'favorite');
+  deleteBook(bookId: string) {
+      if (!this.loggedInUser) return;
+
+      this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'deleted').subscribe({
+          next: () => {
+              console.log(`Book with ID ${bookId} marked as "deleted"`);
+              
+          },
+          error: (err) => {
+              console.error('Error deleting book:', err);
+          }
+      });
   }
 }

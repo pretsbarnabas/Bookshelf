@@ -16,7 +16,12 @@ export class BooklistService {
 
   constructor() { }
 
-  getUserBookList(userId: string): Observable<BookList> {
-    return this.http.get<BookList>(`${this.configService.get('API_URL')}/users/${userId}/booklist`);
+  getUserBookList(userId: string): Observable<BookList[]> {
+    return this.http.get<BookList[]>(`${this.configService.get('API_URL')}/users/${userId}/booklist`);
+  }
+  updateBookStatus(userId: string, bookId: string, status: string): Observable<any> {
+    return this.http.put(`${this.configService.get('API_URL')}/users/${userId}/booklist`, {
+      [bookId]: status
+    });
 }
 }

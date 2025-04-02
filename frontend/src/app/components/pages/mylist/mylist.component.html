@@ -6,10 +6,14 @@
                 <div class="card-container row g-3">
                     <div class="col-6 col-md-3 col-lg-2" *ngFor="let book of toReadBooks">
                         <div class="card shadow-sm h-100">
-                            <img [src]="book.image" class="card-img-top" alt="{{ book.title }}">
+                            <img [src]="book.imageUrl" class="card-img-top" alt="{{ book.title }}">
                             <div class="card-body d-flex flex-column">
                                 <h6 class="card-title text-truncate">{{ book.title }}</h6>
                                 <p class="card-subtitle text-muted text-truncate">{{ book.author }}</p>
+                                <div class="mt-auto d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-sm" (click)="startReading(book._id)">Start Reading</button>
+                                    <button class="btn btn-danger btn-sm" (click)="deleteBook(book._id)">Delete</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -21,7 +25,7 @@
                 <div class="card-container row g-3">
                     <div class="col-6 col-md-3 col-lg-2" *ngFor="let book of hasReadBooks">
                         <div class="card shadow-sm h-100">
-                            <img [src]="book.image" class="card-img-top" alt="{{ book.title }}">
+                            <img [src]="" class="card-img-top" alt="{{ book.title }}">
                             <div class="card-body d-flex flex-column">
                                 <h6 class="card-title text-truncate">{{ book.title }}</h6>
                                 <p class="card-subtitle text-muted text-truncate">{{ book.author }}</p>
@@ -36,7 +40,7 @@
                 <div class="card-container row g-3">
                     <div class="col-6 col-md-3 col-lg-2" *ngFor="let book of readingBooks">
                         <div class="card shadow-sm h-100">
-                            <img [src]="book.image" class="card-img-top" alt="{{ book.title }}">
+                            <img [src]="" class="card-img-top" alt="{{ book.title }}">
                             <div class="card-body d-flex flex-column">
                                 <h6 class="card-title text-truncate">{{ book.title }}</h6>
                                 <p class="card-subtitle text-muted text-truncate">{{ book.author }}</p>
@@ -51,7 +55,7 @@
                 <div class="card-container row g-3">
                     <div class="col-6 col-md-3 col-lg-2" *ngFor="let book of droppedBooks">
                         <div class="card shadow-sm h-100">
-                            <img [src]="book.image" class="card-img-top" alt="{{ book.title }}">
+                            <img [src]="" class="card-img-top" alt="{{ book.title }}">
                             <div class="card-body d-flex flex-column">
                                 <h6 class="card-title text-truncate">{{ book.title }}</h6>
                                 <p class="card-subtitle text-muted text-truncate">{{ book.author }}</p>
@@ -66,10 +70,10 @@
                 <div class="card-container row g-3">
                     <div class="col-6 col-md-3 col-lg-2" *ngFor="let book of favoriteBooks">
                         <div class="card shadow-sm h-100">
-                            <img [src]="book.image" class="card-img-top" alt="{{ book.title }}">
+                            <img [src]="" class="card-img-top" alt="asd">
                             <div class="card-body d-flex flex-column">
-                                <h6 class="card-title text-truncate">{{ book.title }}</h6>
-                                <p class="card-subtitle text-muted text-truncate">{{ book.author }}</p>
+                                <h6 class="card-title text-truncate">{{ book.book.title }}</h6>
+                                <p class="card-subtitle text-muted text-truncate">{{ book.book.author }}</p>
                             </div>
                         </div>
                     </div>
