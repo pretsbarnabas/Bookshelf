@@ -47,9 +47,14 @@ export class AuthService {
 
     refreshToken(): void {
         if (this.loggedInUserSubject.value !== null) {
-            this.crudService.create<string>('refreshToken', this.decodeToJWT()!).subscribe((result: { token: string }) => {
-                localStorage.setItem('authToken', this.encodeToken(result.token));
-                this.scheduleAutoLogout();
+            this.crudService.create<string>('refreshToken', this.decodeToJWT()!).subscribe({
+                next: (result: { token: string })=>{
+                    localStorage.setItem('authToken', this.encodeToken(result.token));
+                    this.scheduleAutoLogout();
+                },
+                error: ()=>{
+                    this.logOut();
+                }
             })
         }
     }

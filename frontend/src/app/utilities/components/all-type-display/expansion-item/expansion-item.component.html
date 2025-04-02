@@ -5,24 +5,28 @@
 
                 <ng-container *ngIf="payload?.type ==='book' || payload?.item.book ">
                     @if(payload?.type === 'book'){
-                        <button mat-mini-fab [routerLink]="['/book-item', this.payload?.item._id]" class="visit me-1" (click)="$event.stopPropagation()">
-                            <mat-icon class="mx-auto">open_in_new</mat-icon>
-                        </button>    
+                    <button mat-mini-fab [routerLink]="['/book-item', this.payload?.item._id]" class="visit me-1"
+                        (click)="$event.stopPropagation()">
+                        <mat-icon class="mx-auto">open_in_new</mat-icon>
+                    </button>
                     } @else{
-                        <button mat-mini-fab [routerLink]="['/book-item', this.payload?.item.book._id]" class="visit me-1" (click)="$event.stopPropagation()">
-                            <mat-icon class="mx-auto">open_in_new</mat-icon>
-                        </button>
+                    <button mat-mini-fab [routerLink]="['/book-item', this.payload?.item.book._id]" class="visit me-1"
+                        (click)="$event.stopPropagation()">
+                        <mat-icon class="mx-auto">open_in_new</mat-icon>
+                    </button>
                     }
                 </ng-container>
 
                 <ng-container *ngIf="payload?.type === 'user'; else nonUserButtons">
                     <ng-container *ngIf="payload?.item.role === 'user'">
-                        <button mat-mini-fab class="promote-demote me-1" (click)="$event.stopPropagation(); this.openDialog('roleEdit')">
+                        <button mat-mini-fab class="promote-demote me-1"
+                            (click)="$event.stopPropagation(); this.openDialog('roleEdit')">
                             <mat-icon class="mx-auto">vertical_align_top</mat-icon>
                         </button>
                     </ng-container>
                     <ng-container *ngIf="payload?.item.role === 'editor'">
-                        <button mat-mini-fab class="promote-demote me-1" (click)="$event.stopPropagation(); this.openDialog('roleEdit')">
+                        <button mat-mini-fab class="promote-demote me-1"
+                            (click)="$event.stopPropagation(); this.openDialog('roleEdit')">
                             <mat-icon class="mx-auto">vertical_align_bottom</mat-icon>
                         </button>
                     </ng-container>
@@ -69,31 +73,36 @@
                         <mat-panel-title>{{ payload?.item.title }}</mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-4" *ngIf="this.payload?.isAdminPage">
-                        <mat-panel-description data-test="mat-panel-desc-bookid">Id: {{ payload?.item._id }}</mat-panel-description>
+                        <mat-panel-description data-test="mat-panel-desc-bookid">Id: {{ payload?.item._id
+                            }}</mat-panel-description>
                     </div>
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'review'">
                     <div class="col-12 col-sm-4">
                         <mat-panel-title>
-                            {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.SCORE' | translate }}: {{ payload?.item.score }}
+                            {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.SCORE' | translate }}: {{
+                            payload?.item.score }}
                         </mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-4">
-                        <mat-panel-description *ngIf="this.payload?.isAdminPage">Id: {{ payload?.item._id }}</mat-panel-description>
-                        <mat-panel-description *ngIf="!this.payload?.isAdminPage">{{ payload?.item.book.title }}</mat-panel-description>
+                        <mat-panel-description *ngIf="this.payload?.isAdminPage">Id: {{ payload?.item._id
+                            }}</mat-panel-description>
+                        <mat-panel-description *ngIf="!this.payload?.isAdminPage">{{ payload?.item.book.title
+                            }}</mat-panel-description>
                     </div>
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'summary'">
                     <div class="col-12 col-sm-4" *ngIf="this.payload?.isAdminPage; else bookTitle">
                         <mat-panel-description>Id: {{ payload?.item._id }}</mat-panel-description>
-                    </div>                    
-                </ng-container>                
-                
+                    </div>
+                </ng-container>
+
                 <ng-container *ngSwitchCase="'comment'">
                     <div class="col-12 col-sm-4">
-                        <mat-panel-description *ngIf="this.payload?.isAdminPage">Id: {{ payload?.item._id }}</mat-panel-description>
+                        <mat-panel-description *ngIf="this.payload?.isAdminPage">Id: {{ payload?.item._id
+                            }}</mat-panel-description>
                     </div>
                 </ng-container>
 
@@ -106,7 +115,7 @@
     </mat-expansion-panel-header>
 
     <ng-template #dateDisplay let-label="label" let-date="date">
-        <div class="col-12 col-sm-6 col-lg-4 mx-auto">
+        <div class="col-12 col-sm-6 col-lg-3 mx-auto">
             <b>{{ label | translate }}: </b>
             <i>{{ date | localizedDate }}</i>
             <p><i>({{ date | relativeTime }})</i></p>
@@ -116,12 +125,16 @@
     <div [ngSwitch]="payload?.type">
         <ng-container *ngSwitchCase="'user'">
             <div class="row text-center">
+                <div class="col-12 col-sm-6 col-lg-3 mx-auto">
+                    <b>Email: </b> {{ this.payload?.item.email }}
+                </div>
                 <ng-container
                     *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.USER.CREATED', date: payload?.item.created_at }"></ng-container>
                 <ng-container
                     *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.USER.UPDATED', date: payload?.item.updated_at }"></ng-container>
                 <ng-container
                     *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.USER.LAST', date: payload?.item.last_login }"></ng-container>
+
             </div>
         </ng-container>
 
@@ -168,7 +181,8 @@
                                     <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.AUTHOR' | translate }}: </b>
                                     <i>{{ payload?.item.author }}</i>
                                 </div>
-                                <p class="col-12"><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.DESC' | translate }}</b></p>
+                                <p class="col-12"><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.DESC' | translate
+                                        }}</b></p>
                                 <hr class="m-0" />
                                 <p class="desc mt-1">{{ payload?.item.description }}</p>
                             </div>

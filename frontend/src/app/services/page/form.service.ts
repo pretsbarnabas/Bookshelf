@@ -161,16 +161,18 @@ export class FormService {
         return {
             user: [
                 {
-                    // name: 'username', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.USER.USERNAME')), type: 'text', validators: [
-                    //     Validators.required,
-                    //     Validators.minLength(3),
-                    //     Validators.maxLength(24)
-                    // ],
-                    // errorMessages: {
-                    //     required: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.NAME.REQUIRED')),
-                    //     minLength: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.NAME.MINLENGTH')),
-                    //     maxlength: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.NAME.MAXLENGTH')),
-                    // }
+                    name: 'username', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.USER.USERNAME')), type: 'text', validators: [
+                        Validators.required,
+                        Validators.minLength(3),
+                        Validators.maxLength(24)
+                    ],
+                    errorMessages: {
+                        required: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.NAME.REQUIRED')),
+                        minLength: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.NAME.MINLENGTH')),
+                        maxlength: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.NAME.MAXLENGTH')),
+                    }
+                },
+                {
                     name: 'email', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.USER.EMAIL')), type: 'text', validators: [
                         Validators.required,
                         function email (control: AbstractControl) {
