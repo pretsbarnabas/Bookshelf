@@ -1,4 +1,6 @@
 /node_modules
 .env
 /images
-/test/mongolog*
+/src/test/mongolog*
+/src/test/testreport.html
+/src/test/jest-html-reporters-attach

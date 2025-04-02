@@ -37,7 +37,7 @@ database.once("connected",()=>{
 
 const specs = swaggerJsdoc(YAML.load("./src/swagger.yaml"))
 
-const app = express()
+export const app = express()
 app.use(cors())
 app.use(express.json({limit:"10mb"}))
 app.use("/api",routes)

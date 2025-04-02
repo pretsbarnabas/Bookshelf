@@ -1,9 +1,9 @@
-const MongoClient = require("mongodb").MongoClient;
+const MongoClient = require("mongodb").MongoClient
 const Types = require("mongoose").Types
 
 
 
-export async function seed(){
+async function seed(){
     const uri = "mongodb://localhost:27017"
 
     const client = new MongoClient(uri,{})
@@ -90,3 +90,4 @@ export async function seed(){
 
 }
 seed()
+module.exports = {seed}

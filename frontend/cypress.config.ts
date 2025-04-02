@@ -1,6 +1,6 @@
 import { defineConfig } from "cypress";
 
-import {seed} from "../backend/test/seed"
+import {seed} from "../backend/src/test/seed"
 
 export default defineConfig({
   e2e: {
