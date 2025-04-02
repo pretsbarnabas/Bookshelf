@@ -39,7 +39,20 @@
     },
     "HOME": {
         "TITLE": "Főoldal",
-        "TEST": "Főoldal"
+        "LATEST": {
+            "HEADER": "Legújabb Könyvek",
+            "CONTENT": "Tekintsd meg a könyvespolcunk legújabb kiegészítéseit!"
+        },
+        "POPULAR": {
+            "HEADER": "Népszerű Könyvek",
+            "CONTENT": "Nézd meg válogatásunk legnépszerűbb darabjait!"
+        },
+        "NEWCOMERS": {
+            "GREETING": "Üdvözlünk a Bookshelf oldalán! Kérlek, jelentkezz be vagy regisztrálj a folytatáshoz.",
+            "DESC": "A Bookshelf hisz abban, hogy minden könyv megérdemli a saját hangját. Platformunk lehetővé teszi, hogy értékeld, véleményezd és felfedezd a könyvek összefoglalóit, segítve az olvasókat rejtett kincsek megtalálásában. Csatlakozz közösségünkhöz, hogy megoszthasd gondolataidat, megtaláld következő kedvenc olvasmányodat, és alakítsd az irodalom világát – egy véleménycikk egyszerre!",
+            "LOGIN": "Bejelentkezés",
+            "REGISTER": "Regisztráció"
+        }
     },
     "AUTH": {
         "REGISTERTITLE": "Regisztráció",
@@ -113,10 +126,26 @@
         }
     },
     "BOOKS": {
-        "TITLE": "Könyvek"
+        "TITLE": "Könyvek",
+        "SEARCHBAR": {
+            "BUTTON": "Keresés"
+        }
     },
     "BOOKITEM": {
-        "TITLE": "Részletek"
+        "TITLE": "Részletek",
+        "BOOKCARD": {
+            "CONTENT": "Tartalom",
+            "RATED": "Értékelésed",
+            "SUBMIT": "Beküldés"
+        },
+        "REVIEWS": "Vélemények",
+        "NOREVIEWS": "Még nincs vélemény, de bármikor megírhatod a sajátodat!",
+        "SNACKBAR": {
+            "RATED": "Értékelésed",
+            "SUBMITTED": "Vélemény sikeresen beküldve",
+            "ALREADYSUBMITTED": "Már beküldtél egy véleményt"
+        },
+        "BACK": "Vissza"
     },
     "SUMMARIES": {
         "TITLE": "Összefoglalók"
@@ -125,7 +154,31 @@
         "TITLE": "Részletek"
     },
     "MYLIST": {
-        "TITLE": "Listám"
+        "TITLE": "Listám",
+        "TABS": {
+            "TOREAD": {
+                "LABEL": "Elolvasandó",
+                "START": "Olvasás elkezdése"
+            },
+            "ISREADING": {
+                "LABEL": "Folyamatban",
+                "FINISH": "Olvasás befejezése",
+                "DROP": "Félbehagyás"
+            },
+            "HASREAD": {
+                "LABEL": "Elolvasva",
+                "FAVOURITE": "Kedvencekhez"
+            },
+            "DROPPED": {
+                "LABEL": "Félbehagyott",
+                "START": "Olvasás folytatása"
+            },
+            "FAVOURITE": {
+                "LABEL": "Kedvencek",
+                "DELETE": "Eltávolítás a kedvencek közül"
+            },
+            "DELETE": "Törlés"
+        }
     },
     "PROFILE": {
         "TITLE": "Profil",
@@ -312,7 +365,7 @@
                         "SCOREMIN": "Pontszám nem lehet negatív",
                         "SCOREMAX": "Pontszám maximum 10 lehet"
                     }
-                },                
+                },
                 "ROLECHANGE": {
                     "HEADER": "Szerepkör módosítása",
                     "BUTTONNO": "Mégsem",

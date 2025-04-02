@@ -1,53 +1,67 @@
-
-  .Bookshelf {
-  width: fit-content; 
-  margin: 0 auto; /* Center the div horizontally */
+.Bookshelf {
+  width: fit-content;
+  margin: 0 auto;
+  /* Center the div horizontally */
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .Bookshelf h1 {
-    font-size: 4rem;
-    margin: 0 auto; 
-    letter-spacing: .15em;
-    
-  }
+  font-size: 4rem;
+  margin: 0 auto;
+  letter-spacing: .15em;
+
+}
+
 .gradient {
   background: linear-gradient(to left, transparent 22%, rgba(179, 235, 242, 0.5) 82%, transparent 92%);
   margin-top: 5%;
 }
+
 .gradient-right {
   margin-top: 2.5%;
-  background: linear-gradient(to right, transparent 20%, rgba(179, 235, 242, 0.5)  80%, transparent 90%);
+  background: linear-gradient(to right, transparent 20%, rgba(179, 235, 242, 0.5) 80%, transparent 90%);
 }
-  .category-container {
+
+.category-container {
   margin: 5% 40% 0 0%;
   max-width: 100%;
 }
-  
+
 .category-container-right {
   margin: 0 auto;
   max-width: 100%;
 }
+
 .card-container {
   display: flex;
-  flex-wrap: wrap; /* Allow cards to wrap to the next line */
-  gap: 15px; /* Add spacing between cards */
-  justify-content: flex-start; /* Align cards to the left */
+  flex-wrap: wrap;
+  /* Allow cards to wrap to the next line */
+  gap: 15px;
+  /* Add spacing between cards */
+  justify-content: flex-start;
+  /* Align cards to the left */
   margin-left: 22%;
   margin-bottom: 2%;
 }
+
 .card-container-right {
   display: flex;
-  flex-wrap: wrap; /* Allow cards to wrap to the next line */
-  gap: 15px; /* Add spacing between cards */
-  justify-content: flex-start; /* Align cards to the left */
+  flex-wrap: wrap;
+  /* Allow cards to wrap to the next line */
+  gap: 15px;
+  /* Add spacing between cards */
+  justify-content: flex-start;
+  /* Align cards to the left */
   margin-bottom: 2%;
 
 }
+
 #card-top5 {
-  width: 200px; 
-  box-sizing: border-box; /* Include padding and border in width calculation */
+  width: 200px;
+  box-sizing: border-box;
+  /* Include padding and border in width calculation */
 }
 
 #card-top5-title {
@@ -69,32 +83,41 @@
   font-size: 1rem;
   margin-left: 0.5%;
 }
+
 #card-top5-img {
   height: 200px;
-  object-fit: cover; /* Ensure images fit nicely within the card */
+  object-fit: cover;
+  /* Ensure images fit nicely within the card */
 }
-.right{
-  margin-left: 0.5% ;
+
+.right {
+  margin-left: 0.5%;
 }
-.w-90{
+
+.w-90 {
   width: 85%;
   margin: 0 7.5% 0 7.5%;
 }
+
 .gradient,
 .gradient-right {
-  overflow: hidden; /* Prevent content overflow */
+  overflow: hidden;
+  /* Prevent content overflow */
 }
-.loginSegment{
+
+.loginSegment {
   margin: 5%;
-  background: linear-gradient(to right, transparent 0%, rgba(179, 235, 242, 0.5)  50%, transparent 100%);
-  
+  background: linear-gradient(to right, transparent 0%, rgba(179, 235, 242, 0.5) 50%, transparent 100%);
+
 }
-.loginSegment-button{
+
+.loginSegment-button {
   margin-left: 2.5%;
   margin-top: 2.5%;
   margin-bottom: 3%;
 
 }
+
 @media (min-width: 1200px) {
 
   .category-container-right {
@@ -102,19 +125,23 @@
     border-radius: 5%;
   }
 }
+
 @media (min-width: 1530px) {
   .gradient {
-    background: linear-gradient(to left, transparent 22%, rgba(179, 235, 242, 0.5) 97%, transparent 99%,);
+    background: linear-gradient(to left, transparent 22%, rgba(179, 235, 242, 0.5) 97%, transparent 99%, );
   }
+
   .gradient-right {
-    background: linear-gradient(to right, transparent 20%, rgba(179, 235, 242, 0.5)  97%, transparent 99%);  
+    background: linear-gradient(to right, transparent 20%, rgba(179, 235, 242, 0.5) 97%, transparent 99%);
   }
 }
+
 @media (max-width: 1530px) {
   .category-container-right {
     margin: 0 auto;
     border-radius: 5%;
   }
+
   .card-container-right {
     margin-left: 22%;
   }
@@ -122,11 +149,12 @@
   #card-top5-title-right {
     margin-left: 22%;
   }
-  
+
   #card-top5-description-right {
     margin-left: 22%;
   }
+
   .gradient-right {
-    background: linear-gradient(to left, transparent 22%, rgba(179, 235, 242, 0.5) 97%, transparent 99%,);
+    background: linear-gradient(to left, transparent 22%, rgba(179, 235, 242, 0.5) 97%, transparent 99%, );
   }
 }

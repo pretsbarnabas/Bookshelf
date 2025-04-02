@@ -39,7 +39,20 @@
     },
     "HOME": {
         "TITLE": "Home",
-        "TEST": "Home page"
+        "LATEST": {
+            "HEADER": "Latest Books",
+            "CONTENT": "See the latest additions of our bookshelf!"
+        },
+        "POPULAR": {
+            "HEADER": "Popular Books",
+            "CONTENT": "Take a look at the most popular items of our selection!"
+        },
+        "NEWCOMERS": {
+            "GREETING": "Welcome to Bookshelf! Please log in or register to continue.",
+            "DESC": "At Bookshelf, we believe every book deserves a voice. Our platform lets you rate, review, and explore book summaries, helping readers discover hidden gems. Join our community to share insights, find your next great read, and shape the world of literature—one review at a time!",
+            "LOGIN": "Login",
+            "REGISTER": "Register"
+        }
     },
     "AUTH": {
         "REGISTERTITLE": "Registration",
@@ -113,10 +126,26 @@
         }
     },
     "BOOKS": {
-        "TITLE": "Books"
+        "TITLE": "Books",
+        "SEARCHBAR": {
+            "BUTTON": "Search"
+        }
     },
     "BOOKITEM": {
-        "TITLE": "Details"
+        "TITLE": "Details",
+        "BOOKCARD": {
+            "CONTENT": "Content",
+            "RATED": "You rated",
+            "SUBMIT": "Submit"
+        },
+        "REVIEWS": "Reviews",
+        "NOREVIEWS": "No reviews yet, but you can write yours anytime!",
+        "SNACKBAR": {
+            "RATED": "You rated",
+            "SUBMITTED": "Review submitted successfully",
+            "ALREADYSUBMITTED": "You have already submitted a review"
+        },
+        "BACK": "Back"
     },
     "SUMMARIES": {
         "TITLE": "Summaries"
@@ -125,7 +154,31 @@
         "TITLE": "Details"
     },
     "MYLIST": {
-        "TITLE": "Mylist"
+        "TITLE": "Mylist",
+        "TABS": {
+            "TOREAD": {
+                "LABEL": "To Read",
+                "START": "Start Reading"
+            },
+            "ISREADING": {
+                "LABEL": "Is Reading",
+                "FINISH": "Finish Reading",
+                "DROP": "Drop"
+            },
+            "HASREAD": {
+                "LABEL": "Has Read",
+                "FAVOURITE": "Favorite"
+            },
+            "DROPPED": {
+                "LABEL": "Dropped",
+                "START": "Start Reading"
+            },
+            "FAVOURITE": {
+                "LABEL": "Favorite",
+                "DELETE": "Delete from Favorites"
+            },
+            "DELETE": "Delete"
+        }
     },
     "PROFILE": {
         "TITLE": "Profile",
@@ -144,7 +197,7 @@
                 "DELETE": "Delete"
             }
         },
-        "LIST":{
+        "LIST": {
             "HEADER": "Your timeline"
         }
     },
@@ -196,7 +249,7 @@
         "REDIRECT": "Redirecting to home page in:"
     },
     "STANDALONECOMPONENTS": {
-        "ALLDISPLAY":{
+        "ALLDISPLAY": {
             "TABS": {
                 "USERS": "Users",
                 "BOOKS": "Books",
@@ -278,8 +331,8 @@
                         "USER": "user",
                         "BOOK": "book",
                         "REVIEW": "review",
-                        "SUMMARY":"summary",
-                        "COMMENT":"comment"
+                        "SUMMARY": "summary",
+                        "COMMENT": "comment"
                     }
                 },
                 "EDIT": {

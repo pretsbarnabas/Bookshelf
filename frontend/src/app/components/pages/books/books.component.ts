@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { BookModel } from '../../../models/Book';
 
 import { CustomPaginatorComponent } from '../../../utilities/components/custom-paginator/custom-paginator.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-books',
@@ -31,7 +32,8 @@ import { CustomPaginatorComponent } from '../../../utilities/components/custom-p
         MatIconModule,
         CommonModule,
         CustomPaginatorComponent,
-        FormsModule
+        FormsModule,
+        TranslatePipe
     ],
     templateUrl: './books.component.html',
     styleUrls: ['./books.component.scss'],
@@ -45,19 +47,19 @@ export class BooksComponent implements OnInit {
     maxPages: number = 0;
     currentPageIndex = 0;
     pageSize = 10;
-    
-    books: BookModel[] = [];
-    filteredBooks: Book[] = [];
-    searchTerm: string = '';  
 
-    constructor(private bookService: BookService, private datePipe: DatePipe, private router: Router){}
+    books: BookModel[] = [];
+    filteredBooks: BookModel[] = [];
+    searchTerm: string = '';
+
+    constructor(private bookService: BookService, private datePipe: DatePipe, private router: Router) { }
 
     ngOnInit() {
         this.getBooks();
     }
 
     filterBooks(): void {
-        this.filteredBooks = this.books.filter(book => 
+        this.filteredBooks = this.books.filter(book =>
             book.title.toLowerCase().includes(this.searchTerm.toLowerCase())
         );
     }
@@ -89,7 +91,7 @@ export class BooksComponent implements OnInit {
         return this.datePipe.transform(date, 'yyyy');
     }
 
-    sortBooks(property: keyof Book, order: 'asc' | 'desc') {
+    sortBooks(property: keyof BookModel, order: 'asc' | 'desc') {
         this.filteredBooks.sort((a, b) => {
             const comparison = (a[property] as string).localeCompare(b[property] as string);
             return order === 'asc' ? comparison : -comparison;

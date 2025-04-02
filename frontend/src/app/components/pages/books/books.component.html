@@ -7,7 +7,7 @@
                 </mat-form-field>
                 <button mat-fab extended class="m-5" (click)="filterBooks()">
                     <mat-icon>search</mat-icon>
-                    Search
+                    {{ 'BOOKS.SEARCHBAR.BUTTON' | translate }}
                 </button>
             </div>
             <div id="Filters" class="d-flex justify-content-center">
@@ -32,20 +32,18 @@
                                 <mat-card-title class="title">{{ book.title }}</mat-card-title>
                                 <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
                             </mat-card-header>
-                            <img mat-card-image class="book-image img-fluid" src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain" alt="{{ book.title }}">
+                            <img mat-card-image class="book-image img-fluid"
+                                src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain"
+                                alt="{{ book.title }}">
                             <mat-card-content>
                                 <p>{{ formatDate(book.release) }}</p>
                             </mat-card-content>
                         </mat-card>
                     </div>
                 </div>
-                <custom-paginator
-                [pageSizeOptions]="[5, 10, 25]"
-                [totalPages]="this.maxPages"
-                [pageSize]="this.pageSize"
-                [pageIndex]="this.currentPageIndex"
-                (pageChanged)="this.changePage($event)"
-                />
+                <custom-paginator [pageSizeOptions]="[5, 10, 25]" [totalPages]="this.maxPages"
+                    [pageSize]="this.pageSize" [pageIndex]="this.currentPageIndex"
+                    (pageChanged)="this.changePage($event)" />
             </div>
         </div>
     </div>
