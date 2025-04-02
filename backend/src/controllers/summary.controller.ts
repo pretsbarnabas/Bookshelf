@@ -185,7 +185,7 @@ export class SummaryController{
               ])
 
             if(data.length){
-                res.status(200).json(data)
+                res.status(200).json(data[0])
             }
             else{
                 res.status(404).json({message: "Summary not found"})
@@ -280,7 +280,7 @@ export class SummaryController{
             summary.content = content
 
             await summary.save()
-            return res.status(200).json({summary})
+            return res.status(200).json(summary)
         }
         catch(error:any){
             ErrorHandler.HandleMongooseErrors(error,res)

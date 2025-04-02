@@ -20,7 +20,7 @@ export class Authenticator{
         const {username, password} = req.body
         if(!username || !password) return res.status(400).json({error: "Bad request body, missing either username or password"})
         const user = await UserModel.findOne({username:username})
-        if(!user) return res.status(403).json({error: "Invalid user or password"})
+        if(!user) return res.status(403).json({message: "Invalid username or password"})
         if(await Authenticator.checkPassword(password,user.password_hashed)){
             const token = jwt.sign({username:username,role:user.role,id: user._id},process.env.JWT_SECRET as Secret, {expiresIn: "7d"})
             user._updateContext = "login"
@@ -28,7 +28,7 @@ export class Authenticator{
             return res.status(200).json({token:token})
         }
         else{
-            return res.status(403).json({error: "Invalid user or password"})
+            return res.status(403).json({message: "Invalid username or password"})
         }
     }
 

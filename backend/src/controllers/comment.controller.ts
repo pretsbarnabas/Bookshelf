@@ -329,7 +329,7 @@ export class CommentController{
 
             comment.content = content
             await comment.save()
-            return res.status(200).json({comment})
+            return res.status(200).json(comment)
         }
         catch(error:any){
             ErrorHandler.HandleMongooseErrors(error,res)

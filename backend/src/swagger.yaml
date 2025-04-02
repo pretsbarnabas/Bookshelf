@@ -568,7 +568,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  token:
+                  message:
                     type: string
                     example: Invalid username or password
   /api/refreshToken:

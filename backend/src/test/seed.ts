@@ -42,6 +42,23 @@ async function seed(){
             ]
         })
 
+        await usersCollection.insertOne({
+            "_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2e"),
+            "username": "b",
+            "password_hashed": "$2b$10$2ticgdLvmAs4b5epdj3rZeyf1.04UBUbxR7m/kk/HAYhhGVLAort.",
+            "email": "b@email.com",
+            "created_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z"),
+            "last_login": new Date("2016-04-08T15:06:21.595Z"),
+            "role": "user",
+            "booklist": [
+                {
+                    "book_id": new mongoose.Types.ObjectId("7fdb24bfd2c9eaca400201b8"),
+                    "read_status": "to_read"
+                }
+            ]
+        })
+
         await booksCollection.insertOne({
             "_id": new mongoose.Types.ObjectId("7fdb24bfd2c9eaca400201b8"),
             "title": "Lorem",

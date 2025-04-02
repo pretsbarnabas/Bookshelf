@@ -338,7 +338,7 @@ export class ReviewController{
                 review[key] = updates[key];
             }
             await review.save()
-            return res.status(200).json({review})
+            return res.status(200).json(review)
         }
         catch(error:any){
             ErrorHandler.HandleMongooseErrors(error,res)

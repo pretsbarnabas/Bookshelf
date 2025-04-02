@@ -118,7 +118,7 @@ export class UserController{
             
             if(validFields.length === 0){
                 Logger.info("Invalid fields requested")
-                return res.status(400).json({error:"Invalid fields requested"})
+                return res.status(400).json({message:"Invalid fields requested"})
             }
             
             if(!validFields.includes("_id")) validFields.push("-_id")
@@ -130,6 +130,9 @@ export class UserController{
 
 
             const potUser = await UserModel.findById(id).select(projection)
+            if(!potUser){
+                return res.status(404).json({message: "User not found"})
+            }
             if(!potUser.booklist ||!potUser.booklist.length){
                 return res.status(200).json(potUser)
             }
@@ -229,7 +232,7 @@ export class UserController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            if(!Authenticator.verifyUser(req,id)) return res.json(401).send()
+            if(!Authenticator.verifyUser(req,id)) return res.status(401).json({message: "Unauthorized"})
             const data = await UserModel.findByIdAndDelete(id)
             if(!data){
                 res.status(404).json({message:"User not found"})
@@ -300,7 +303,7 @@ export class UserController{
             }
             user._updateContext = "update"
             await user.save()
-            return res.status(200).json({user})
+            return res.status(200).json(user)
         }
         catch(error:any){
             ErrorHandler.HandleMongooseErrors(error,res)
