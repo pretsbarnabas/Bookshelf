@@ -1,0 +1,58 @@
+---
+name: Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - backend
+
+jobs:
+  Tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test Backend
+        run: |
+          cd backend
+          npm run test:jest
+
+      - name: Publish Test Report
+        uses: ctrf-io/github-test-reporter@v1
+        with:
+          report-path: "**/*.testreport.json"
+          template-path: "./templates/custom-summary.hbs"
+
+          # Enable reports to show failed suites/tests
+          summary-report: true
+          failed-report: true # Lists failed tests grouped by suite
+          suite-folded-report: true # Shows suites with collapsed test details
+          annotate: true # Include error messages in annotations
+
+          # Disable unnecessary reports
+          github-report: false
+          test-report: false
+          test-list-report: false
+          # ... keep other reports as 'false' unless needed
+
+          # Group results by test suite
+          group-by: "suite" # Group tests by their suite instead of file path
+
+          # Other configurations
+          summary: true
+          pull-request: false
+          status-check: false
+          # ... rest of the configurations remain unchanged

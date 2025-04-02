@@ -19,6 +19,13 @@ module.exports = {
   reporters: [
     "default",
     [
+      "jest-ctrf-json-reporter",
+      {
+        outputFile: "backend.testreport.json",
+        outputDir: "./src/test/report",
+      },
+    ],
+    [
       "jest-html-reporters",
       {
         publicPath: "./src/test/report",
