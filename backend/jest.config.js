@@ -1,6 +1,29 @@
+const { pathsToModuleNameMapper } = require("ts-jest");
+const { compilerOptions } = require("./tsconfig.json");
+
+/** @type {import('ts-jest').JestConfigWithTsJest} **/
 module.exports = {
-  preset: "ts-jest",                // Use TypeScript with Jest
-  testEnvironment: "node",          // Use Node environment for tests
-  extensionsToTreatAsEsm: [".ts"],  // Treat .js and .ts files as ES modules
-  transform: {},                    // Disable other transformations
+  preset: "ts-jest",
+  testEnvironment: "node",
+  transform: {
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        // Ensure `ts-jest` uses your `tsconfig.json` paths
+        tsconfig: "tsconfig.json",
+      },
+    ],
+  },
+  testMatch: ["**/*.test.ts", "**/*.spec.ts"],
+  moduleFileExtensions: ["ts", "js", "json", "node"],
+  reporters: [
+    "default",
+    [
+      "jest-html-reporters",
+      {
+        publicPath: "./src/test/report",
+        filename: "index.html",
+      },
+    ],
+  ],
 };

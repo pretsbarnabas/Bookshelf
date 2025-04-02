@@ -2,5 +2,4 @@
 .env
 /images
 /src/test/mongolog*
-/src/test/testreport.html
-/src/test/jest-html-reporters-attach
+/src/test/report

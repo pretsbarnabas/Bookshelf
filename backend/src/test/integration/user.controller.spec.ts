@@ -1,6 +1,6 @@
 process.argv.push("test")
-const app = require("../../main")
-const request = require("supertest")
+import app from "../../main"
+import request from "supertest"
 
 describe("User Controller Integration Tests",()=>{
 

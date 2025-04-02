@@ -37,7 +37,7 @@ database.once("connected",()=>{
 
 const specs = swaggerJsdoc(YAML.load("./src/swagger.yaml"))
 
-export const app = express()
+const app = express()
 app.use(cors())
 app.use(express.json({limit:"10mb"}))
 app.use("/api",routes)
@@ -50,4 +50,4 @@ app.listen(3000,()=>{
 
 ImageController.setup()
 
-module.exports = app
+export default app
