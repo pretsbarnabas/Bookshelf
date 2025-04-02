@@ -1,0 +1,40 @@
+@use '@angular/material' as mat;
+@use "sass:color";
+
+mat-dialog-actions {
+    button#delete {
+        background-color: #F44336;
+        color: white;
+    }
+
+    button#cancel {
+        background-color: #9e9e9e;
+        color: white;
+    }
+
+    button#save {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    button#save:disabled {
+        background-color: color.adjust(#4CAF50, $lightness: -20%);
+        color: color.adjust(white, $lightness: -20%);
+    }
+}
+
+#edit-dialog {
+    min-height: 215px;
+    scrollbar-width: thin;
+}
+
+@media (min-width: 450px) {
+    #edit-dialog {
+        min-width: 400px;
+    }
+}
+
+.edit-dialog-textarea {
+    min-height: 150px;
+    scrollbar-width: thin;
+}

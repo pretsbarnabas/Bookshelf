@@ -8,7 +8,8 @@ export interface UserRegistrationModel {
     username: string,
     password: string,
     email: string,
-    role: 'user'
+    role: 'user',
+    image?: string
 }
 
 export interface UserLoginModel {

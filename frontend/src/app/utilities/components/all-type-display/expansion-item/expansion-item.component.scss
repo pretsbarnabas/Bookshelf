@@ -1,0 +1,80 @@
+.avatar-image {
+    width: 25px;
+    height: 25px;
+    border-radius: 20%;
+}
+
+#item-panel mat-expansion-panel-header {
+    height: fit-content !important;
+}
+
+body {
+    #item-panel {
+        will-change: auto;
+        border-bottom: 1px solid rgb(0, 0, 0);
+    }
+
+    .book-cover {
+        border: 4px ridge rgb(0, 0, 0);
+        max-height: 200px;
+    }
+
+    &.darkMode {
+        #item-panel {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .book-cover {
+            border: 4px ridge rgba(255, 255, 255, 0.5);
+        }
+    }
+
+
+}
+
+.desc {
+    text-align: justify;
+    max-height: 150px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+button.edit {
+    background-color: #2196F3;
+
+    mat-icon {
+        color: white;
+    }
+}
+
+button.delete {
+    background-color: #F44336;
+
+    mat-icon {
+        color: white;
+    }
+}
+
+button.visit {
+    background-color: #BDBDBD;
+
+    mat-icon {
+        color: black;
+    }
+}
+
+button.promote-demote {
+    background-color: #FF9800;
+
+    mat-icon {
+        color: black;
+    }
+}
+
+button.admin:disabled {
+    background-color: #7C4DFF;
+
+    mat-icon {
+        color: white;
+    }
+}

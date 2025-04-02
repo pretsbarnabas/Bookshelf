@@ -20,6 +20,7 @@ import { ThemeService } from '../../../services/global/theme.service';
 import { MatBadgeModule } from '@angular/material/badge';
 import { CommonModule } from '@angular/common';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { formatRemainingTime } from '../../../utilities/formatRemainingTime';
 
 
 @Component({
@@ -142,19 +143,10 @@ export class NavbarComponent {
             this.colorBlindnessMode = "none";
         else
             this.colorBlindnessMode = type as "red-green" | "blue-yellow" | "monochrome" | "none";
-        this.themeService.changeColorBlindessMode(this.colorBlindnessMode);
+        this.themeService.changeColorBlindnessMode(this.colorBlindnessMode);
     }
 
-    formatRemainingTime(): string {
-        if (this.remainingTime <= 0) return 'Token expired';
-
-        const minutes = String(
-            Math.floor(this.remainingTime / 60000)
-        ).padStart(2, '0');
-        const seconds = String(
-            Math.floor((this.remainingTime % 60000) / 1000)
-        ).padStart(2, '0');
-
-        return `${minutes} : ${seconds}`;
-    }
+    displayRemainingTime(): string{
+        return formatRemainingTime(this.remainingTime, this.localizationToggleValue);
+    }    
 }

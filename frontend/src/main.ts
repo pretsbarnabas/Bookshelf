@@ -4,6 +4,7 @@ import { appConfig } from './app/app.config';
 import { provideConfig } from './app/services/global/config.service';
 import { registerLocaleData } from '@angular/common';
 import localeHu from '@angular/common/locales/hu';
+import { LOCALE_ID } from '@angular/core';
 
 registerLocaleData(localeHu, 'hu');
 
@@ -19,6 +20,7 @@ fetch('./assets/config.json')
       providers: [
         ...appConfig.providers,
         provideConfig(config),
+        { provide: LOCALE_ID, useValue: 'en' }
       ]
     }).catch((err) => console.error(err));
   })

@@ -10,10 +10,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BookService } from '../../../services/page/book.service';
 import { CommonModule, DatePipe } from '@angular/common';
+
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BookModel } from '../../../models/Book';
 
-import { Book } from '../../../models/Book';
 import { CustomPaginatorComponent } from '../../../utilities/components/custom-paginator/custom-paginator.component';
 
 @Component({
@@ -45,9 +46,9 @@ export class BooksComponent implements OnInit {
     currentPageIndex = 0;
     pageSize = 10;
     
-    books: Book[] = [];
+    books: BookModel[] = [];
     filteredBooks: Book[] = [];
-    searchTerm: string = '';
+    searchTerm: string = '';  
 
     constructor(private bookService: BookService, private datePipe: DatePipe, private router: Router){}
 

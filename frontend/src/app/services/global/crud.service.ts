@@ -36,7 +36,7 @@ export class CrudService {
         return this.http.patch<T>(`${this.apiUrl}/${_endpoint}/${_id}`, _item);
     }
 
-    delete(_endpoint: string, _id: number | string): Observable<void> {
+    delete(_endpoint: string, _id: number | string): Observable<any> {
         return this.http.delete<void>(`${this.apiUrl}/${_endpoint}/${_id}`);
     }
 }
