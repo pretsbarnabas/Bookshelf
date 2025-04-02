@@ -12,7 +12,7 @@ export class ReviewService {
     constructor() { }
 
     getAllReviews(pageSize: number, pageIndex: number, userId?: number | string): Observable<ReviewRoot> {
-        return this.crudService.getAll<ReviewRoot>(`reviews?limit=${pageSize}&page=${pageIndex} + ${userId ? `&user_id=${userId}`: ''}`);
+        return this.crudService.getAll<ReviewRoot>(`reviews?limit=${pageSize}&page=${pageIndex}${userId ? `&user_id=${userId}`: ''}`);
     }
 
     deleteReview(_id: number | string): Observable<any> {
