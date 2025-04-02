@@ -853,6 +853,8 @@ paths:
                       example: to_read
         400:
           description: Bad requests
+      security:
+        - ApiKeyAuth: []
 
   /api/users:
     get:
