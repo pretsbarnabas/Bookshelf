@@ -1,17 +1,16 @@
 <div class="wrapper">
-    <div class="wrapper-content">
-        <div class="">
-            <div id="Searchbar" class="row w-100">
-                <mat-form-field class="col-10 col-sm-8 col-lg-6 my-5 mx-auto">
-                    <input matInput type="search" [(ngModel)]="searchTerm" (input)="filterBooks()"
-                        placeholder="{{ 'BOOKS.SEARCHBAR.BUTTON' | translate }}">
-                </mat-form-field>
-                <!-- <button mat-fab extended class="m-5" (click)="filterBooks()">
+    <div class="w-100 h-100 d-flex flex-column justify-content-between">
+        <div id="Searchbar" class="row w-100">
+            <mat-form-field class="col-10 col-sm-8 col-lg-6 my-5 mx-auto">
+                <input matInput type="search" [(ngModel)]="searchTerm" (input)="filterBooks()"
+                    placeholder="{{ 'BOOKS.SEARCHBAR.BUTTON' | translate }}">
+            </mat-form-field>
+            <!-- <button mat-fab extended class="m-5" (click)="filterBooks()">
                     <mat-icon>search</mat-icon>
                     {{ 'BOOKS.SEARCHBAR.BUTTON' | translate }}
                 </button> -->
-            </div>
-            <!-- <div id="Filters" class="d-flex justify-content-center">
+        </div>
+        <!-- <div id="Filters" class="d-flex justify-content-center">
                 <button id="TitleDesc" mat-fab class="m-5" (click)="sortBooks('title', 'desc')">
                     <mat-icon>filter_list</mat-icon>
                 </button>
@@ -25,26 +24,25 @@
                     <mat-icon>filter_list</mat-icon>
                 </button>
             </div> -->
-            <div id="Books" class="d-flex flex-column justify-content-center align-items-center">
-                <div class="book-cards row w-100">
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" *ngFor="let book of filteredBooks">
-                        <mat-card class="book-card w-75" (click)="navigateToBook(book._id)">
-                            <img mat-card-image class="book-image w-100"
-                                src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain"
-                                alt="{{ book.title }}">
-                            <!-- <mat-card-header class="w-100 text-center"> -->
-                                <mat-card-title class="text-center">{{ book.title }}</mat-card-title>
-                                <mat-card-subtitle class="text-center">{{ book.author }}</mat-card-subtitle>
-                            <!-- </mat-card-header> -->
-                            <mat-card-content class="text-center">
-                                <p>{{ formatDate(book.release) }}</p>
-                            </mat-card-content>
-                        </mat-card>
-                    </div>
+        <div id="Books" class="d-flex flex-column justify-content-center align-items-center">
+            <div class="book-cards row w-100">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" *ngFor="let book of filteredBooks">
+                    <mat-card class="book-card w-75" (click)="navigateToBook(book._id)">
+                        <img mat-card-image class="book-image w-100"
+                            src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain"
+                            alt="{{ book.title }}">
+                        <!-- <mat-card-header class="w-100 text-center"> -->
+                        <mat-card-title class="text-center">{{ book.title }}</mat-card-title>
+                        <mat-card-subtitle class="text-center">{{ book.author }}</mat-card-subtitle>
+                        <!-- </mat-card-header> -->
+                        <mat-card-content class="text-center">
+                            <p>{{ formatDate(book.release) }}</p>
+                        </mat-card-content>
+                    </mat-card>
                 </div>
             </div>
-            <custom-paginator [pageSizeOptions]="[5, 10, 25]" [totalPages]="this.maxPages" [pageSize]="this.pageSize"
-                [pageIndex]="this.currentPageIndex" (pageChanged)="this.changePage($event)" />
         </div>
+        <custom-paginator [pageSizeOptions]="[5, 10, 25]" [totalPages]="this.maxPages" [pageSize]="this.pageSize"
+            [pageIndex]="this.currentPageIndex" (pageChanged)="this.changePage($event)" />
     </div>
 </div>
