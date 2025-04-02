@@ -71,7 +71,7 @@ export class ProfileComponent {
             if (result === true) {
                 const userId: string | number = this.loggedInUser!._id
                 this.authService.logOut();
-                this.userService.deleteUser(userId).subscribe({
+                this.userService.deleteUser(userId)?.subscribe({
                     next: async (response) => {
                         console.log(response)
                     },
@@ -79,7 +79,7 @@ export class ProfileComponent {
                 });
             }
             if (result.result === true) {
-                this.userService.updateUser(this.loggedInUser!._id, result.modifiedData).subscribe({
+                this.userService.updateUser(this.loggedInUser!._id, result.modifiedData)?.subscribe({
                     next: async (response) => {                                          
                         window.location.reload();                        
                     },
