@@ -18,7 +18,7 @@ export class BookService {
     constructor() { }
 
     getAllBooks(pageSize: number, pageIndex: number, userId?: number | string): Observable<BookRoot> {
-        return this.crudService.getAll<BookRoot>(`books?limit=${pageSize}&page=${pageIndex} + ${userId ? `&user_id=${userId}`: ''}`);
+        return this.crudService.getAll<BookRoot>(`books?limit=${pageSize}&page=${pageIndex}${userId ? `&user_id=${userId}`: ''}`);
     }
     getBookById(id: string): Observable<any> {
         return this.http.get<BookModel>(`${this.configService.get('API_URL')}/books/${id}`);
