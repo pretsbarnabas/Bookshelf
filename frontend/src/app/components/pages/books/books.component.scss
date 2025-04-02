@@ -9,19 +9,24 @@
     width: 100%;
 }
 
-.book-cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
+// .book-cards {
+//     // display: flex;
+//     // flex-wrap: wrap;
+//     // justify-content: space-between;
+// }
 
 .book-card {
-    margin: 10px;
-    max-width: 20vw;
-    min-width: 20vw;
+    // margin: 10px;
+    // max-width: 20vw;
+    // min-width: 20vw;        
     justify-self: center;
     font-size: calc(1vw + 1vh);
+
     /* Adjust font size based on viewport width and height */
+    img {        
+        max-height: 200px;
+        object-fit: contain;
+    }
 }
 
 .title {

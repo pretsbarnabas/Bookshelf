@@ -60,8 +60,8 @@ export class BooksComponent implements OnInit {
 
     filterBooks(): void {
         this.filteredBooks = this.books.filter(book =>
-            book.title.toLowerCase().includes(this.searchTerm.toLowerCase())
-        );
+            book.title.toLowerCase().startsWith(this.searchTerm.toLowerCase())
+        );        
     }
 
     getBooks() {
@@ -91,10 +91,10 @@ export class BooksComponent implements OnInit {
         return this.datePipe.transform(date, 'yyyy');
     }
 
-    sortBooks(property: keyof BookModel, order: 'asc' | 'desc') {
-        this.filteredBooks.sort((a, b) => {
-            const comparison = (a[property] as string).localeCompare(b[property] as string);
-            return order === 'asc' ? comparison : -comparison;
-        });
-    }
+    // sortBooks(property: keyof BookModel, order: 'asc' | 'desc') {
+    //     this.filteredBooks.sort((a, b) => {
+    //         const comparison = (a[property] as string).localeCompare(b[property] as string);
+    //         return order === 'asc' ? comparison : -comparison;
+    //     });
+    // }
 }
