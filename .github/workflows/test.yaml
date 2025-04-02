@@ -11,7 +11,9 @@ on:
 jobs:
   Tests:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        mongodb-version: ['6.0', '7.0', '8.0']
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,6 +28,12 @@ jobs:
         run: |
           cd backend
           npm ci
+
+    - name: Start MongoDB
+      uses: supercharge/mongodb-github-action@1.12.0
+      with:
+        mongodb-version: ${{ matrix.mongodb-version }}
+        mongodb-port: 27017
 
       - name: Test Backend
         run: |
