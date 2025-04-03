@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <div class="w-100 h-100">
+    <div class="w-100 h-100" id="books-main">
         <div class="row w-100">
             <mat-card>
                 <mat-card-content class="d-block w-100 mx-auto">
@@ -28,6 +28,7 @@
                                 <img mat-card-image class="book-image w-100"
                                     src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain"
                                     alt="{{ book.title }}">
+                                    <mat-divider class="my-2"/>
                                 <mat-card-title class="text-center">{{ book.title }}</mat-card-title>
                                 <mat-card-subtitle class="text-center">{{ book.author }}</mat-card-subtitle>
                                 <mat-card-content class="text-center">

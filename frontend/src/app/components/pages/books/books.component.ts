@@ -18,6 +18,7 @@ import { BookModel } from '../../../models/Book';
 import { CustomPaginatorComponent } from '../../../utilities/components/custom-paginator/custom-paginator.component';
 import { TranslatePipe } from '@ngx-translate/core';
 import { SortItems } from '../../../utilities/components/sort-items';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
     selector: 'app-books',
@@ -34,7 +35,8 @@ import { SortItems } from '../../../utilities/components/sort-items';
         CommonModule,
         CustomPaginatorComponent,
         FormsModule,
-        TranslatePipe
+        TranslatePipe,
+        MatDividerModule
     ],
     templateUrl: './books.component.html',
     styleUrls: ['./books.component.scss'],
@@ -96,7 +98,7 @@ export class BooksComponent implements OnInit {
         if (_settings.field === '') {
             this.filteredBooks = structuredClone(this.books);
             return;
-        }        
+        }
         this.filteredBooks = structuredClone(this.books);
         this.filteredBooks = SortItems.generalizedSort(this.filteredBooks as any[], _settings.field, _settings.mode);
     }
