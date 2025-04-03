@@ -9,11 +9,7 @@
     }
 }
 
-@media (min-width: 576px) {
-    .review-content {
-        padding: 16px 24px;
-    }
-}
+
 
 .book-item-desc {
     text-align: justify;
@@ -36,12 +32,7 @@
     padding: 0;
 }
 
-.user-profile-picture {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
+
 
 // .starButton {
 //     margin-bottom: 1rem;
@@ -71,12 +62,12 @@
 }
 
 .book-image {
-    width: 100%;    
+    width: 100%;
     aspect-ratio: 3 / 4;
     object-fit: cover;
 }
 
-#book-item-submit{
+#book-item-submit {
     background-color: #2196F3;
     color: white;
 

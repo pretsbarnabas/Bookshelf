@@ -26,6 +26,7 @@ import { RelativeTimePipe } from '../../../pipes/relative-time.pipe';
 import { createAvatar } from '@dicebear/core';
 import { bottts } from '@dicebear/collection';
 import { CustomPaginatorComponent } from '../../../utilities/components/custom-paginator/custom-paginator.component';
+import { ReviewDisplayComponent } from './review-display/review-display.component';
 
 
 @Component({
@@ -45,8 +46,8 @@ import { CustomPaginatorComponent } from '../../../utilities/components/custom-p
         MatPaginatorModule,
         TranslatePipe,
         MatDividerModule,
-        RelativeTimePipe,
-        CustomPaginatorComponent
+        CustomPaginatorComponent,
+        ReviewDisplayComponent
     ],
     providers: [DatePipe],
     encapsulation: ViewEncapsulation.None,
@@ -113,7 +114,6 @@ export class BookItemComponent implements OnInit {
         this.reviews = [];
         this.bookService.getReviewsByBook(this.bookId, this.pageSize).subscribe(reviews => {
             this.reviews = reviews.data;
-            console.log(this.reviews)
             for (let i = 0; i < this.reviews.length; i++) {
                 if (!this.uniqueUserIds.includes(this.reviews[i].user._id)) {
                     this.uniqueUserIds.push(this.reviews[i].user._id);
@@ -160,14 +160,7 @@ export class BookItemComponent implements OnInit {
             return 'star_border';
         }
     }
-
-    showIconUserReview(index: number, Rating: number) {
-        if (Rating >= index + 1) {
-            return 'star';
-        } else {
-            return 'star_border';
-        }
-    }
+    
     onBack() {
         window.history.back();
     }

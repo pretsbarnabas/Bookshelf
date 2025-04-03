@@ -16,7 +16,7 @@
                         <mat-card-subtitle class="text-center mb-3">
                             {{ 'BOOKITEM.BOOKCARD.AUTHOR' | translate}}: {{ book?.author }}<br>
                             <b>{{ 'BOOKITEM.BOOKCARD.RELEASE' | translate}}:</b> {{ formatDate(book?.release) }}
-                        </mat-card-subtitle>                        
+                        </mat-card-subtitle>
                         <form class="form-row" *ngIf="isLoggedIn" [formGroup]="reviewForm"
                             (ngSubmit)="onSubmitReview()">
                             <mat-form-field class="mw-80" appearance="fill">
@@ -82,30 +82,9 @@
                             <div *ngIf="reviews.length == 0">
                                 <p class="text-center">{{ "BOOKITEM.NOREVIEWS" | translate }}</p>
                             </div>
-                            <div class="row w-100" *ngFor="let review of reviews">
-                                <div class="col-12 col-lg-3 ms-0">
-                                    <div class="">
-                                        <img class="user-profile-picture"
-                                            [src]="review.user.imageUrl ?? review.user.profile_image" />
-                                        <span class="username">{{ review.user.username }}</span>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-7 ms-0 p-0">
-                                    <button mat-icon-button [color]="color"
-                                        *ngFor="let ratingId of ratingArr; index as i" class="existing-review-star">
-                                        <mat-icon>
-                                            {{ showIconUserReview(i, review.score / 2) }}
-                                        </mat-icon>
-                                    </button>
-                                </div>
-                                <div class="col-12 col-lg-2 me-0">
-                                    <p>(<i>{{ review.created_at | relativeTime }})</i></p>
-                                </div>
-                                <div class="px-4 my-2 review-content">
-                                    <p class="book-item-desc">{{ review.content }}</p>
-                                </div>
-                                <mat-divider class="my-2" />
-                            </div>
+                            @for (review of this.reviews; track $index) {
+                            <review-display [review]="review" />
+                            }
                         </mat-card>
                     </mat-card-content>
                 </mat-card>
