@@ -141,10 +141,10 @@ export class CommentController{
                 if(req.user){
                     const userId = new Types.ObjectId(req.user.id as string)
                     comments.forEach((comment: any) => {
-                        if (comment.liked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                        if (comment.liked_by&&comment.liked_by.some((id: Types.ObjectId) => id.equals(userId))){
                             comment.liked_by_user = "liked"
                         }
-                        else if (comment.disliked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                        else if (comment.disliked_by&&comment.disliked_by.some((id: Types.ObjectId) => id.equals(userId))){
                             comment.liked_by_user = "disliked"
                         }
                         delete comment.liked_by
@@ -238,10 +238,10 @@ export class CommentController{
                 await Authenticator.verifyUser(req)
                 if(req.user){
                     const userId = new Types.ObjectId(req.user.id as string)
-                    if (comment.liked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                    if (comment.liked_by&&comment.liked_by.some((id: Types.ObjectId) => id.equals(userId))){
                         comment.liked_by_user = "liked"
                     }
-                    else if (comment.disliked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                    else if (comment.disliked_by&&comment.disliked_by.some((id: Types.ObjectId) => id.equals(userId))){
                         comment.liked_by_user = "disliked"
                     }
                 }
