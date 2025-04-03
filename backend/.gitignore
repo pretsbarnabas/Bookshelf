@@ -1,0 +1,5 @@
+/node_modules
+.env
+/images
+/src/test/mongolog*
+/src/test/report

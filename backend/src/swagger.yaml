@@ -1,0 +1,1884 @@
+definition:
+  openapi: "3.1.0"
+  info:
+    title: "Bookshelf Backend API"
+    version: "0.1.0"
+    description: "The backend API route descriptions used by Bookshelf"
+    license:
+      name: "MIT"
+      url: "https://spdx.org/licenses/MIT.html"
+  servers:
+    - url: "https://bookshelf.koyeb.app/"
+
+apis: [./src/swagger.yaml]
+
+components:
+  schemas:
+    user:
+      type: object
+      properties:
+        _id:
+          type: object
+        username:
+          type: string
+        password_hashed:
+          type: string
+        email:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        last_login:
+          type: string
+        role:
+          type: string
+        booklist:
+          type: array
+        imageUrl:
+          type: string
+      example:
+        _id: 67a5c3cba3bb48fa646f9638
+        username: User
+        email: email@email.com
+        role: user
+        booklist: []
+        created_at: 2025-02-07T08:26:51.424Z
+        updated_at: 2025-02-07T08:26:51.424Z
+        last_login: 2025-02-07T08:26:51.424Z
+        imageUrl: http://localhost:3000/api/image/user-db0b0c1f83fb29f652cc5a2f.png
+    UserListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+          example:
+            - _id: "67a5c3cba3bb48fa646f9638"
+              username: "User"
+              email: "email@email.com"
+              role: "user"
+              booklist: []
+              created_at: "2025-02-07T08:26:51.424Z"
+              updated_at: "2025-02-07T08:26:51.424Z"
+              last_login: "2025-02-07T08:26:51.424Z"
+              imageUrl: "http://localhost:3000/api/image/user-db0b0c1f83fb29f652cc5a2f.png"
+        pages:
+          type: integer
+          example: 10
+    book:
+      type: object
+      properties:
+        _id:
+          type: object
+        title:
+          type: string
+        author:
+          type: string
+        release:
+          type: string
+        genre:
+          type: string
+        user_id:
+          type: object
+        description:
+          type: string
+        score:
+          type: integer
+        added_at:
+          type: string
+        updated_at:
+          type: string
+        imageUrl:
+          type: string
+      example:
+        _id: 7fdb24bfd2c9eaca400201b8
+        title: Lorem
+        author: Lorem
+        release: 2016-04-08T15:06:21.595Z
+        genre: Crime
+        user_id: bbcb7eae48aa8ebcf9170140
+        description: Lorem
+        score: 7.25
+        added_at: 2016-04-08T15:06:21.595Z
+        updated_at: 2016-04-08T15:06:21.595Z
+        imageUrl: http://localhost:3000/api/image/book-db0b0c1f83fb29f652cc5a2f.png
+    BookListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/book'
+          example:
+            _id: 7fdb24bfd2c9eaca400201b8
+            title: Lorem
+            author: Lorem
+            release: 2016-04-08T15:06:21.595Z
+            genre: Crime
+            user_id: bbcb7eae48aa8ebcf9170140
+            description: Lorem
+            score: 7.25
+            added_at: 2016-04-08T15:06:21.595Z
+            updated_at: 2016-04-08T15:06:21.595Z
+            imageUrl: http://localhost:3000/api/image/book-db0b0c1f83fb29f652cc5a2f.png
+        pages:
+          type: integer
+          example: 10
+
+    review:
+      type: object
+      properties:
+        _id:
+          type: object
+        user:
+          type: object
+        book:
+          type: object
+        score:
+          type: integer
+        content:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        like_score:
+          type: integer
+        liked_by_user:
+          type: string
+      example:
+        - _id: a826b9febba8c411cf6d82cb
+          user:
+            _id: 67a5c3cba3bb48fa646f9638
+            username: User
+            role: user
+            imageUrl: http://localhost:3000/api/image/user-db0b0c1f83fb29f652cc5a2f.png
+          book:
+            _id: 7fdb24bfd2c9eaca400201b8
+            title: Lorem
+            author: Lorem
+            imageUrl: http://localhost:3000/api/image/book-db0b0c1f83fb29f652cc5a2f.png
+          score: 8
+          content: Lorem
+          created_at: 2016-04-08T15:06:21.595Z
+          updated_at: 2016-04-08T15:06:21.595Z
+          like_score: 2
+          liked_by_user: liked || disliked || none
+    ReviewListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/review'
+          example:
+            _id: a826b9febba8c411cf6d82cb
+            user:
+              _id: 67a5c3cba3bb48fa646f9638
+              username: User
+              role: user
+              imageUrl: http://localhost:3000/api/image/user-db0b0c1f83fb29f652cc5a2f.png
+            book:
+              _id: 7fdb24bfd2c9eaca400201b8
+              title: Lorem
+              author: Lorem
+              imageUrl: http://localhost:3000/api/image/book-db0b0c1f83fb29f652cc5a2f.png
+            score: 8
+            content: Lorem
+            created_at: 2016-04-08T15:06:21.595Z
+            updated_at: 2016-04-08T15:06:21.595Z
+            like_score: 2
+            liked_by_user: liked || disliked || none
+        pages:
+          type: integer
+          example: 10
+    comment:
+      type: object
+      properties:
+        _id:
+          type: string
+        content:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        like_score:
+          type: integer
+        liked_by_user:
+          type: string
+        user:
+          type: object
+          properties:
+            _id:
+              type: string
+            username:
+              type: string
+            role:
+              type: string
+        review:
+          type: object
+          properties:
+            _id:
+              type: string
+            score:
+              type: integer
+            content:
+              type: string
+            user:
+              type: object
+              properties:
+                _id:
+                  type: string
+                username:
+                  type: string
+                role:
+                  type: string
+      example:
+        _id: "7ef503b3e63a6bcb56f8db37"
+        content: "Lorem"
+        created_at: "2016-04-08T15:06:21.595Z"
+        updated_at: "2016-04-08T15:06:21.595Z"
+        like_score: 2
+        liked_by_user: liked || disliked || none
+        user:
+          _id: "db0b0c1f83fb29f652cc5a2f"
+          username: "admin"
+          role: "admin"
+        review:
+          _id: "a826b9febba8c411cf6d82cb"
+          score: 8
+          content: "Lorem"
+          user:
+            _id: "db0b0c1f83fb29f652cc5a2f"
+            username: "admin"
+            role: "admin"
+
+    CommentListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/comment'
+          example:
+            _id: "7ef503b3e63a6bcb56f8db37"
+            content: "Lorem"
+            created_at: "2016-04-08T15:06:21.595Z"
+            updated_at: "2016-04-08T15:06:21.595Z"
+            like_score: 2
+            liked_by_user: liked || disliked || none
+            user:
+              _id: "db0b0c1f83fb29f652cc5a2f"
+              username: "admin"
+              role: "admin"
+            review:
+              _id: "a826b9febba8c411cf6d82cb"
+              score: 8
+              content: "Lorem"
+              user:
+                _id: "db0b0c1f83fb29f652cc5a2f"
+                username: "admin"
+                role: "admin"
+        pages:
+          type: integer
+          example: 10
+    summary:
+      type: object
+      properties:
+        _id:
+          type: string
+        book_id:
+          type: string
+        user_id:
+          type: string
+        content:
+          type: string
+        added_at:
+          type: string
+        updated_at:
+          type: string
+      example:
+        _id: 72bd5cfdf84d7fea96483da4
+        book_id: db0b0c1f83fb29f652cc5a2f
+        user_id: 7fdb24bfd2c9eaca400201b8
+        content: Lorem
+        created_at: 2016-04-08T15:06:21.595+00:00
+        updated_at: 2016-04-08T15:06:21.595+00:00
+    SummaryListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/summary'
+          example:
+            _id: 72bd5cfdf84d7fea96483da4
+            book_id: db0b0c1f83fb29f652cc5a2f
+            user_id: 7fdb24bfd2c9eaca400201b8
+            content: Lorem
+            created_at: 2016-04-08T15:06:21.595+00:00
+            updated_at: 2016-04-08T15:06:21.595+00:00
+        pages:
+          type: integer
+          example: 10
+        
+
+  requestBodies:
+    user:
+      type: object
+      required:
+        - username
+        - password
+        - email
+        - role
+        - image
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+        image:
+          type: string
+      example:
+        username: required
+        password: required
+        email: required
+        role: required
+        image: nullable
+    book:
+      type: object
+      required:
+        - title
+        - author
+        - release
+        - genre
+        - description
+        - image
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        release:
+          type: string
+        genre:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+      example:
+        title: required
+        author: optional, default Unknown
+        release: nullable, default null
+        genre: optional, default None
+        description: optional, default No description added
+        image: nullable
+
+    bookput:
+      type: object
+      required:
+        - title
+        - author
+        - release
+        - genre
+        - description
+        - image
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        release:
+          type: string
+        genre:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+      example:
+        title: optional
+        author: optional
+        release: optiona
+        genre: optional
+        description: optional
+        image: optional
+
+    userput:
+      type: object
+      required:
+        - username
+        - password
+        - email
+        - booklist
+        - image
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        booklist:
+          type: array
+        image:
+          type: string
+      example:
+        username: optional
+        password: optional
+        email: optional
+        booklist: optional
+        image: optional
+    review:
+      type: object
+      required:
+        - book_id
+        - score
+        - content
+      properties:
+        book_id:
+          type: string
+        score:
+          type: integer
+        content:
+          type: string
+      example:
+        book_id: required
+        score: required
+        content: nullable
+    reviewput:
+      type: object
+      required:
+        - score
+        - content
+      properties:
+        score:
+          type: integer
+        content:
+          type: string
+      example:
+        score: optional
+        content: optional
+    comment:
+      type: object
+      required:
+        - review_id
+        - content
+      properties:
+        review_id:
+          type: string
+        content:
+          type: string
+      example:
+        review_id: required
+        content: required
+    commentput:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+      example:
+        content: required
+    summary:
+      type: object
+      required:
+        - book_id
+        - content
+      properties:
+        book_id:
+          type: string
+        content:
+          type: string
+      example:
+        book_id: required
+        content: required
+    summaryput:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+      example:
+        content: required
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+
+tags:
+  - name: Login
+    description: Login features
+  - name: Users
+    description: Routes managing users
+  - name: Reviews
+    description: Routes managing book reviews
+  - name: Books
+    description: Routes managing books
+  - name: Booklist
+    description: Routes managing users' booklists
+  - name: Likes and Dislikes
+    description: Routes managing the like features
+
+paths:
+  /api/login:
+    post:
+      summary: Login for a user
+      tags:
+        - Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: Verification token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        400:
+          description: Bad request body
+        403:
+          description: Invalid username or password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid username or password
+  /api/refreshToken:
+    post:
+      summary: Refresh a valid token
+      tags:
+        - Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+            example:
+              token: optional, if token sent in header
+      responses:
+        200:
+          description: New token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        400:
+          description: Bad request
+      security:
+        - ApiKeyAuth: []
+
+  /api/reviews/{id}/likedby:
+    get:
+      summary: Get list of users that liked the given review
+      tags:
+        - Likes and Dislikes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    _id:
+                      type: string
+                    username:
+                      type: string
+                    imageUrl:
+                      type: string
+        400:
+          description: Bad requests
+      security:
+        - ApiKeyAuth: []
+  /api/reviews/{id}/dislikedby:
+      get:
+        summary: Get list of users that disliked the given review
+        tags:
+          - Likes and Dislikes
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          200:
+            description: The list of users
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    properties:
+                      _id:
+                        type: string
+                      username:
+                        type: string
+                      imageUrl:
+                        type: string
+          400:
+            description: Bad requests
+        security:
+          - ApiKeyAuth: []
+  /api/reviews/{id}/like:
+    put:
+      summary: Post a like or dislike on the given review
+      tags:
+        - Likes and Dislikes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+            example:
+              action: like || dislike || delete
+      responses:
+        200:
+          description: Action done
+        400:
+          description: Bad requests
+      security:
+        - ApiKeyAuth: []
+  /api/comments/{id}/likedby:
+      get:
+        summary: Get list of users that liked the given comment
+        tags:
+          - Likes and Dislikes
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          200:
+            description: The list of users
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    properties:
+                      _id:
+                        type: string
+                      username:
+                        type: string
+                      imageUrl:
+                        type: string
+          400:
+            description: Bad requests
+        security:
+          - ApiKeyAuth: []
+  /api/comments/{id}/dislikedby:
+      get:
+        summary: Get list of users that disliked the given comment
+        tags:
+          - Likes and Dislikes
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          200:
+            description: The list of users
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    properties:
+                      _id:
+                        type: string
+                      username:
+                        type: string
+                      imageUrl:
+                        type: string
+          400:
+            description: Bad requests
+        security:
+          - ApiKeyAuth: []
+  /api/comments/{id}/like:
+    put:
+      summary: Post a like or dislike on the given review
+      tags:
+        - Likes and Dislikes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+            example:
+              action: like || dislike || delete
+      responses:
+        200:
+          description: Action done
+        400:
+          description: Bad requests
+      security:
+        - ApiKeyAuth: []
+  /api/users/{id}/booklist:
+    get:
+      summary: Get booklist of a user
+      tags:
+        - Booklist
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The user's booklist
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    book:
+                      type: object
+                      example:
+                        _id: _id
+                        title: Title
+                        author: Author
+                        imageUrl: Image Url
+                    read_status:
+                      type: string
+                      example: to_read
+        400:
+          description: Bad requests
+    put:
+      summary: Modify booklist of a user
+      tags:
+        - Booklist
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                akarmennyi_book_id:
+                  type: string
+                  example: akarmennyi read status
+      responses:
+        200:
+          description: The user's booklist
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    book:
+                      type: object
+                      example:
+                        _id: _id
+                        title: Title
+                        author: Author
+                        imageUrl: Image Url
+                    read_status:
+                      type: string
+                      example: to_read
+        400:
+          description: Bad requests
+      security:
+        - ApiKeyAuth: []
+
+  /api/users:
+    get:
+      summary: Get all users
+      tags:
+        - Users
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Page of pagination (default 0)
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Limit of requests (default 10)
+        - in: query
+          name: fields
+          description: Comma-separated list of fields to include in the response
+          schema:
+            type: string
+            example: _id,username,role,created_at,updated_at,booklist,last_login
+        - in: query
+          name: minCreate
+          schema:
+            type: string
+          description: Filter for minimum creation date (ISO string format)
+        - in: query
+          name: maxCreate
+          schema:
+            type: string
+          description: Filter for maximum creation date (ISO string format)
+        - in: query
+          name: minUpdate
+          schema:
+            type: string
+          description: Filter for minimum update date (ISO string format)
+        - in: query
+          name: maxUpdate
+          schema:
+            type: string
+          description: Filter for maximum update date (ISO string format)
+        - in: query
+          name: username
+          schema:
+            type: string
+          description: Filter for usernames containing the string
+        - in: query
+          name: email
+          schema:
+            type: string
+          description: Filter for emails containing the string
+        - in: query
+          name: role
+          schema:
+            type: string
+          description: Filter for role of user
+      responses:
+        200:
+          description: The list of requested users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserListResponse'
+      security:
+        - ApiKeyAuth: []
+
+
+    post:
+      summary: Create a new user
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/user'
+        description: "Required fields of request, roles: user,editor,admin. Authorization required for roles other than user"
+      responses:
+        201:
+          description: The created user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: username, password, email, role required || Invalid email format || ${duplicateKey} of value ${duplicateValue} already exists || ValidationError
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+      security:
+        - ApiKeyAuth: []
+
+  /api/users/{id}:
+    get:
+      summary: Get a specific user by id
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: fields
+          description: Comma-separated list of fields to include in the response (if authorized, email and password_hashed can be requested)
+          schema:
+            type: string
+            example: _id,username,created_at,updated_at,last_login,role,booklist
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: Data of the user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        400:
+          description: Invalid fields requested
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid fields requested
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User not found
+    put:
+      summary: Update a user by id
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/userput'
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: Data of the updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ${duplicateKey} of value ${duplicateValue} already exists || Invalid email format || Cannot update ${key} field || Invalid id format || ValidationError
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User not found
+    delete:
+      summary: Delete a user by id
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: User successfully deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User deleted
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid id format
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User not found
+  /api/books:
+    get:
+      summary: Get all books
+      tags:
+        - Books
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Page of pagination (default 0)
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Limit of requests (default 10)
+        - in: query
+          name: sort
+          schema:
+            type: string
+          description: sort by title/added_at/release/genre
+        - in: query
+          name: sortType
+          schema:
+            type: string
+          description: sort either asc or desc, default desc
+        - in: query
+          name: fields
+          description: Comma-separated list of fields to include in the response
+          schema:
+            type: string
+            example: _id,title,author,release,genre,description,added_at,updated_at
+        - in: query
+          name: minRelease
+          schema:
+            type: string
+          description: Filter for minimum release date (ISO string format)
+        - in: query
+          name: maxRelease
+          schema:
+            type: string
+          description: Filter for maximum release date (ISO string format)
+        - in: query
+          name: title
+          schema:
+            type: string
+          description: Filter for books with titles containing the string
+        - in: query
+          name: author
+          schema:
+            type: string
+          description: Filter for books with authors containing the string
+        - in: query
+          name: genre
+          schema:
+            type: string
+          description: Filter for books by genre
+        - in: query
+          name: user_id
+          schema:
+            type: string
+          description: Filter for books belonging to a specific user
+      responses:
+        200:
+          description: The list of requested books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookListResponse'
+
+    post:
+      summary: Create a new book
+      tags:
+        - Books
+      requestBody:
+        description: ONLY TITLE IS REQUIRED
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/book'
+      responses:
+        201:
+          description: The created book
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/book'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: title required|| Invalid date || ValidationError
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+      security:
+        - ApiKeyAuth: []
+
+  /api/books/{id}:
+    get:
+      summary: Get a specific book by id
+      tags:
+        - Books
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: fields
+          description: Comma-separated list of fields to include in the response
+          schema:
+            type: string
+            example: _id,title,author,release,genre,description,added_at,updated_at
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: Data of the book
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/book'
+        400:
+          description: Invalid fields requested
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid fields requested
+        404:
+          description: Book not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Book not found
+    put:
+      summary: Update a book by id
+      tags:
+        - Books
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/bookput'
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: Data of the updated book
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/book'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ${duplicateKey} of value ${duplicateValue} already exists || Invalid date format || ValidationError
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        404:
+          description: Book not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Book not found
+    delete:
+      summary: Delete a book by id
+      tags:
+        - Books
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: Book successfully deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Book deleted
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorized
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid id format
+        404:
+          description: Book not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Book not found
+  /api/reviews:
+    get:
+      summary: Get all reviews
+      tags:
+        - Reviews
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Page of pagination (default 0)
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Limit of requests (default 10)
+        - in: query
+          name: fields
+          description: Comma-separated list of fields to include in the response
+          schema:
+            type: string
+            example: _id,user_id,book_id,score,content,created_at,updated_at,user.username,book.title
+        - in: query
+          name: score
+          schema:
+            type: string
+          description: Filter reviews by score
+        - in: query
+          name: user_id
+          schema:
+            type: string
+          description: Filter reviews by user ID
+        - in: query
+          name: book_id
+          schema:
+            type: string
+          description: Filter reviews by book ID
+        - in: query
+          name: minCreate
+          schema:
+            type: string
+          description: Filter reviews by minimum creation date
+        - in: query
+          name: maxCreate
+          schema:
+            type: string
+          description: Filter reviews by maximum creation date
+        - in: query
+          name: minUpdate
+          schema:
+            type: string
+          description: Filter reviews by minimum update date
+        - in: query
+          name: maxUpdate
+          schema:
+            type: string
+          description: Filter reviews by maximum update date
+      responses:
+        200:
+          description: The list of reviews
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReviewListResponse'
+    post:
+      summary: Create a new review
+      tags:
+        - Reviews
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/review'
+      responses:
+        201:
+          description: The created review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/review'
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized
+      security:
+        - ApiKeyAuth: []
+
+  /api/reviews/{id}:
+    get:
+      summary: Get a specific review by id
+      tags:
+        - Reviews
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Data of the review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/review'
+        404:
+          description: Review not found
+    put:
+      summary: Update a review by id
+      tags:
+        - Reviews
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/reviewput'
+      responses:
+        200:
+          description: Data of the updated review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/review'
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized
+        404:
+          description: Review not found
+    delete:
+      summary: Delete a review by id
+      tags:
+        - Reviews
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: Review successfully deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Review deleted
+        404:
+          description: Review not found
+
+  /api/comments:
+    get:
+      summary: Get all comments
+      tags:
+        - Comments
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Page of pagination (default 0)
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Limit of requests (default 10)
+        - in: query
+          name: fields
+          description: Comma-separated list of fields to include in the response
+          schema:
+            type: string
+            example: _id,review._id,review.content,review.score,review.user._id,review.user.username,review.user.role,review.user.imageUrl,user._id,user.username,user.role,user.imageUrl,content,created_at,updated_at
+        - in: query
+          name: user_id
+          schema:
+            type: string
+          description: Filter reviews by user ID
+        - in: query
+          name: review_id
+          schema:
+            type: string
+          description: Filter reviews by review ID
+        - in: query
+          name: minCreate
+          schema:
+            type: string
+          description: Filter reviews by minimum creation date
+        - in: query
+          name: maxCreate
+          schema:
+            type: string
+          description: Filter reviews by maximum creation date
+        - in: query
+          name: minUpdate
+          schema:
+            type: string
+          description: Filter reviews by minimum update date
+        - in: query
+          name: maxUpdate
+          schema:
+            type: string
+          description: Filter reviews by maximum update date
+      responses:
+        200:
+          description: The list of comments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommentListResponse'
+    post:
+      summary: Create a new comment
+      tags:
+        - Comments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/comment'
+      responses:
+        201:
+          description: The created comment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized
+      security:
+        - ApiKeyAuth: []
+
+  /api/comments/{id}:
+    get:
+      summary: Get a specific comment by id
+      tags:
+        - Comments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Data of the comment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+        404:
+          description: Comment not found
+    put:
+      summary: Update a comment by id
+      tags:
+        - Comments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/commentput'
+      responses:
+        200:
+          description: Data of the updated comment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized
+        404:
+          description: Comment not found
+    delete:
+      summary: Delete a comment by id
+      tags:
+        - Comments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: Comment successfully deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Comment deleted
+        404:
+          description: Comment not found
+
+/api/summaries:
+  get:
+    summary: Get all summaries
+    tags:
+      - Summaries
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+        description: Page of pagination (default 0)
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: Limit of results per page (default 10)
+      - in: query
+        name: fields
+        description: Comma-separated list of fields to include in the response
+        schema:
+          type: string
+          example: "_id,content,created_at,updated_at,book.title,book._id,book.author,book.imageUrl,user._id,user.username,user.imageUrl,user.role"
+      - in: query
+        name: book_id
+        schema:
+          type: string
+        description: Filter summaries by book ID
+      - in: query
+        name: user_id
+        schema:
+          type: string
+        description: Filter summaries by user ID
+      - in: query
+        name: minCreate
+        schema:
+          type: string
+        description: Filter by minimum creation date (created_at)
+      - in: query
+        name: maxCreate
+        schema:
+          type: string
+        description: Filter by maximum creation date (created_at)
+      - in: query
+        name: minUpdate
+        schema:
+          type: string
+        description: Filter by minimum update date (updated_at)
+      - in: query
+        name: maxUpdate
+        schema:
+          type: string
+        description: Filter by maximum update date (updated_at)
+    responses:
+      200:
+        description: List of summaries
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SummaryListResponse'
+
+  post:
+    summary: Create a new summary
+    tags:
+      - Summaries
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/requestBodies/summary'
+    responses:
+      201:
+        description: Created summary
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/summary'
+      400:
+        description: Bad request
+      401:
+        description: Unauthorized
+    security:
+      - ApiKeyAuth: []
+
+/api/summaries/{id}:
+  get:
+    summary: Get a specific summary by ID
+    tags:
+      - Summaries
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: Summary data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/summary'
+      404:
+        description: Summary not found
+
+  put:
+    summary: Update a summary by ID
+    tags:
+      - Summaries
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    security:
+      - ApiKeyAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/requestBodies/summaryput'
+    responses:
+      200:
+        description: Updated summary data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/summary'
+      400:
+        description: Bad request
+      401:
+        description: Unauthorized
+      404:
+        description: Summary not found
+
+  delete:
+    summary: Delete a summary by ID
+    tags:
+      - Summaries
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    security:
+      - ApiKeyAuth: []
+    responses:
+      200:
+        description: Summary deleted
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: Summary deleted
+      404:
+        description: Summary not found
+
+security:
+  - ApiKeyAuth: []
