@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div class="wrapper-content">
         <div class="book-item d-flex align-items-start w-100 flex-wrap flex-sm-column flex-md-row flex-lg-row p-2">
-            <div id="Book" class="col-12 col-lg-2 d-flex h-100">
+            <div id="Book" class="col-12 col-md-6 col-lg-4 h-100">
                 <mat-card class="book-card w-100">
                     <mat-card-header>
                         <img mat-card-image class="book-image img-fluid"
@@ -39,7 +39,7 @@
                     </mat-card-content>
                 </mat-card>
             </div>
-            <div id="Book-Details" class="book-details col-12 col-lg-8">
+            <div id="Book-Details" class="book-details col-12 col-md-6 col-lg-8">
                 <h2>{{ book?.title }}</h2>
                 <p>{{ book?.author }}</p>
                 <p>{{ formatDate(book?.release) }}</p>

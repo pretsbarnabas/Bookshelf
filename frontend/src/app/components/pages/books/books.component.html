@@ -1,14 +1,14 @@
 <div class="wrapper">
     <div class="w-100 h-100" id="books-main">
-        <div class="row w-100">
+        <div class="w-100">
             <mat-card>
                 <mat-card-content class="d-block w-100 mx-auto">
                     <h1 class="display-3 text-center mt-3" id="books-header"><b>{{ 'BOOKS.HEADER' | translate }}</b>
                     </h1>
                     <div class="row my-3">
                         <mat-form-field class="w-75 mx-auto">
-                            <input matInput type="search" [(ngModel)]="searchTerm" (input)="filterBooks()"
-                                placeholder="{{ 'BOOKS.SEARCHBAR.BUTTON' | translate }}">
+                            <mat-label>{{ 'BOOKS.SEARCHBAR.BUTTON' | translate }}</mat-label>
+                            <input matInput type="search" [(ngModel)]="searchTerm" (input)="filterBooks()">
                         </mat-form-field>
                     </div>
                     <custom-paginator [pageSizeOptions]="[5, 10, 25]" [totalPages]="this.maxPages"

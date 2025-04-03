@@ -2,10 +2,10 @@
     padding: 10px;
 }
 
-@media (min-width: 992px) {
-    #Book-Details {
-        margin-left: 3rem;
+@media (min-width: 768px) {
+    #Book-Details {        
         padding: 0;
+        padding-left: 30px;
     }
 }
 

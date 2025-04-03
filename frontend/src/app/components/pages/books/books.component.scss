@@ -18,8 +18,8 @@
     }
 }
 
-@media (max-width: 576px){
-    .card-holder{
+@media (max-width: 576px) {
+    .card-holder {
         -webkit-box-shadow: none !important;
         -moz-box-shadow: none !important;
         box-shadow: none !important;
@@ -86,11 +86,14 @@ body {
 
     &.darkMode {
         .card-holder {
-            -webkit-box-shadow: 2px 4px 3px rgba(255, 255, 255, 0.2), 4px 2px 3px rgba(255, 255, 255, 0.8);
-            -moz-box-shadow: 2px 4px 3px rgba(255, 255, 255, 0.2), 4px 2px 3px rgba(255, 255, 255, 0.8);
-            box-shadow: 2px 4px 3px rgba(255, 255, 255, 0.2), 4px 2px 3px rgba(255, 255, 255, 0.8);
+            -webkit-box-shadow: 2px 4px 3px rgba(255, 255, 255, 0.1), 4px 2px 3px rgba(255, 255, 255, 0.2);
+            -moz-box-shadow: 2px 4px 3px rgba(255, 255, 255, 0.1), 4px 2px 3px rgba(255, 255, 255, 0.2);
+            box-shadow: 2px 4px 3px rgba(255, 255, 255, 0.1), 4px 2px 3px rgba(255, 255, 255, 0.2);
 
             &:hover {
+                -webkit-box-shadow: 2px 4px 3px rgba(255, 255, 255, 0.2), 4px 2px 3px rgba(255, 255, 255, 0.75);
+                -moz-box-shadow: 2px 4px 3px rgba(255, 255, 255, 0.2), 4px 2px 3px rgba(255, 255, 255, 0.75);
+                box-shadow: 2px 4px 3px rgba(255, 255, 255, 0.2), 4px 2px 3px rgba(255, 255, 255, 0.75);
                 filter: brightness(1.25);
             }
         }
