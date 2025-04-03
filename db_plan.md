@@ -7,7 +7,7 @@
 ### Users
 |Mező|Típus|Megkötések|
 |----|-----|----------|
-|id|`ObjectID`|primary key, required|
+|_id|`ObjectID`|primary key, required|
 |username|`string`|required, min1, max100|
 |password_hashed|`string`|required (hashelés backenden)|
 |email|`string` (email format)|required|
@@ -20,7 +20,7 @@
 ### Books
 |Mező|Típus|Megkötések|
 |----|-----|----------|
-|id|`ObjectID`|primary key, required|
+|_id|`ObjectID`|primary key, required|
 |title|`string`|required,min1,max200|
 |author|`string`|required,min1,max200|
 |release|`Date`|required|
@@ -33,7 +33,7 @@
 ### Reviews
 |Mező|Típus|Megkötések|
 |----|-----|----------|
-|id|`ObjectID`|primary key, required|
+|_id|`ObjectID`|primary key, required|
 |user_id|`ObjectID`|required, foreign key to users.id|
 |book_id|`ObjectID`|required, foreign key to books.id|
 |score|`number`|required,min1,max10|
@@ -44,9 +44,9 @@
 ### Summaries
 |Mező|Típus|Megkötések|
 |----|-----|----------|
-|id|`ObjectID`|primary key, required|
+|_id|`ObjectID`|primary key, required|
 |user_id|`ObjectID`|required, foreign key to users.id|
-|user_id|`ObjectID`|required, foreign key to books.id|
+|book_id|`ObjectID`|required, foreign key to books.id|
 |content|`string`|required,min1|
 |created_at|`Date`|required,  default: Date.now()|
 |updated_at|`Date`|required, default: Date.now()|
@@ -54,7 +54,7 @@
 ### Comments
 |Mező|Típus|Megkötések|
 |----|-----|----------|
-|id|`ObjectID`|primary key, required|
+|_id|`ObjectID`|primary key, required|
 |user_id|`ObjectID`|foreign key to users.id, required|
 |review_id|`ObjectID`|foreign key to reviews.id, required|
 |content|`string`|min:1,max:1000|

@@ -1,28 +1,53 @@
-require("dotenv").config()
 const express = require("express")
 const mongoose = require("mongoose")
+const routes = require("./routes")
+const swaggerJsdoc = require("swagger-jsdoc")
+const swaggerUi = require("swagger-ui-express");
+import YAML from "yamljs"
+import { Logger } from "./tools/logger"
+import { ImageController } from "./controllers/image.controller";
+const cors = require("cors")
+
+
+if(process.argv && process.argv.includes("test")){
+    require("dotenv").config({path: ".env.test"})
+}
+else{
+    require("dotenv").config()
+}
 
 const connectionString = process.env.DATABASE_URL
-
-if(!connectionString) throw new Error("No connection string defined")
+if(!connectionString){
+    Logger.error("No connection string defined")
+    throw new Error("No connection string defined")
+}
 
 mongoose.connect(connectionString)
 
 const database = mongoose.connection
 
 database.on("error",(error:any)=>{
-    console.log(error)
+    Logger.error(error)
 })
 
 database.once("connected",()=>{
-    console.log("Database connected")
+    Logger.info("Connected to Database")
 })
+
+
+const specs = swaggerJsdoc(YAML.load("./src/swagger.yaml"))
 
 const app = express()
-app.use(express.json())
+app.use(cors())
+app.use(express.json({limit:"10mb"}))
+app.use("/api",routes)
+
+app.use("/api/swagger",swaggerUi.serve,swaggerUi.setup(specs))
 
 app.listen(3000,()=>{
-    console.log("Server started")
+    Logger.info("Server started")
 })
 
-module.exports = app
+ImageController.setup()
+
+export default app

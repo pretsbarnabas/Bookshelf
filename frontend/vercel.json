@@ -1,0 +1,32 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "dist/frontend/browser"
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/assets/(.*)",
+            "dest": "/assets/$1"
+        },
+        {
+            "src": "/(.*)\\.(js|webp|png|jpg|ico|svg|woff2|woff|ttf|otf|eot|json)$",
+            "headers": { "Content-Type": "text/javascript" },
+            "dest": "/$1.$2"
+        },
+        {
+            "src": "/(.*)\\.css$",
+            "headers": { "Content-Type": "text/css" },
+            "dest": "/$1.css"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/index.html"
+        }
+    ]
+}

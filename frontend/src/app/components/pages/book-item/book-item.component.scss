@@ -1,0 +1,11 @@
+
+@media (min-width: 992px) {
+    .book-item-content {
+        flex-direction: row;
+    }
+
+    .book-card-container,
+    .book-details {
+        flex: 1;
+    }
+}
