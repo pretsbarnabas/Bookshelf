@@ -134,10 +134,10 @@ export class ReviewController{
                 if(req.user){
                     const userId = new Types.ObjectId(req.user.id as string)
                     data.forEach((review: any) => {
-                        if (review.liked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                        if (review.liked_by && review.liked_by.some((id: Types.ObjectId) => id.equals(userId))){
                             review.liked_by_user = "liked"
                         }
-                        else if (review.disliked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                        else if (review.disliked_by && review.disliked_by.some((id: Types.ObjectId) => id.equals(userId))){
                             review.liked_by_user = "disliked"
                         }
                         delete review.liked_by
@@ -222,10 +222,10 @@ export class ReviewController{
                   await Authenticator.verifyUser(req)
                   if(req.user){
                       const userId = new Types.ObjectId(req.user.id as string)
-                      if (review.liked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                      if (review.liked_by && review.liked_by.some((id: Types.ObjectId) => id.equals(userId))){
                           review.liked_by_user = "liked"
                       }
-                      else if (review.disliked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                      else if (review.disliked_by && review.disliked_by.some((id: Types.ObjectId) => id.equals(userId))){
                           review.liked_by_user = "disliked"
                       }
                   }

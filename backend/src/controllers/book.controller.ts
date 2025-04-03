@@ -23,7 +23,7 @@ export class BookController{
                 return res.status(400).json({error:"Invalid page or limit"})
             }
 
-            const allowedFields = ["_id","title","author","release","genre","user_id","description","added_at","updated_at"]
+            const allowedFields = ["_id","title","author","release","genre","user_id","description","added_at","updated_at","imageUrl"]
 
             let filters: {title?: RegExp,author?:RegExp,genre?:string, user_id?:string} = {}
 
@@ -132,7 +132,7 @@ export class BookController{
     static async getBookById(req:any,res:any){
         try{
             const {id, fields} = req.params
-            let allowedFields = ["_id","title","author","user_id","genre","release","description","added_at","updated_at"]
+            let allowedFields = ["_id","title","author","user_id","genre","release","description","added_at","updated_at","imageUrl"]
             
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
             const validFields: string[] = requestedFields.filter(field =>allowedFields.includes(field))
