@@ -127,6 +127,7 @@
     },
     "BOOKS": {
         "TITLE": "Books",
+        "HEADER": "Our selection",
         "SEARCHBAR": {
             "BUTTON": "Search"
         }

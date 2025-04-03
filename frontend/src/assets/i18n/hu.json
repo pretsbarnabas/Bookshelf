@@ -127,6 +127,7 @@
     },
     "BOOKS": {
         "TITLE": "Könyvek",
+        "HEADER": "Kínálatunk",
         "SEARCHBAR": {
             "BUTTON": "Keresés"
         }
