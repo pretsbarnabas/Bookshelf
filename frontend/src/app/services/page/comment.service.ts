@@ -12,8 +12,8 @@ export class CommentService {
     constructor() { }
 
     getAllcomments(pageSize: number, pageIndex: number, userId?: number | string, reviewId?: number | string): Observable<CommentRoot> {
-        return this.crudService.getAll<CommentRoot>(`comments?limit=${pageSize}&page=${pageIndex}${userId ? `&user_id=${userId}`: ''}${reviewId ? `&reviewId=${reviewId}`: ''}`);
-    }
+        return this.crudService.getAll<CommentRoot>(`comments?limit=${pageSize}&page=${pageIndex}${userId ? `&user_id=${userId}`: ''}${reviewId ? `&review_id=${reviewId}`: ''}`);
+    }    
 
     createComment(_item: { review_id: string | number, content: string}): Observable<any> {
         return this.crudService.create('comments', _item);

@@ -142,6 +142,15 @@
             "SUBMIT": "Submit"
         },
         "REVIEWS": "Reviews",
+        "COMMENT": {
+            "PLACEHOLDER": "Leave a comment",
+            "CANCEL": "Cancel",
+            "SUBMIT": "Comment",
+            "SHOW": "Show comments",
+            "HIDE": "Hide comments",
+            "MORE": "Show more",
+            "LESS": "Show less"
+        },
         "NOREVIEWS": "No reviews yet, but you can write yours anytime!",
         "SNACKBAR": {
             "RATED": "You rated",

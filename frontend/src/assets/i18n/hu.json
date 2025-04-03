@@ -142,6 +142,15 @@
             "SUBMIT": "Beküldés"
         },
         "REVIEWS": "Vélemények",
+        "COMMENT": {
+            "PLACEHOLDER": "Hagyj egy hozzászólást",
+            "CANCEL": "Mégse",
+            "SUBMIT": "Hozzászólás",
+            "SHOW": "Hozzászólások megjelenítése",
+            "HIDE": "Hozzászólások elrejtése",
+            "MORE": "Több megjelenítése",
+            "LESS": "Kevesebb megjelenítése"
+        },
         "NOREVIEWS": "Még nincs vélemény, de bármikor megírhatod a sajátodat!",
         "SNACKBAR": {
             "RATED": "Értékelésed",

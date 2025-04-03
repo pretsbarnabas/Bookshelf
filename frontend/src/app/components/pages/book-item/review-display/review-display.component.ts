@@ -36,7 +36,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     styleUrl: './review-display.component.scss',
     encapsulation: ViewEncapsulation.None
 })
-export class ReviewDisplayComponent implements OnChanges {
+export class ReviewDisplayComponent {
     private authService = inject(AuthService);
     private commentService = inject(CommentService);
     private fb = inject(FormBuilder);
@@ -47,8 +47,11 @@ export class ReviewDisplayComponent implements OnChanges {
 
     comments: CommentModel[] = [];
     maxCommentPages: number = 0;
+    currentCommentIndex: number = 0;
+    commentSampleSize: number = 5;
     commentContent: string = '';
     commentForm?: FormGroup;
+    showComments: boolean = false;
 
     ngOnChanges() {
         this.authService.loggedInUser$.subscribe((user) => {
@@ -61,15 +64,26 @@ export class ReviewDisplayComponent implements OnChanges {
     }
 
     getComments() {
-        this.commentService.getAllcomments(10, 0, undefined, this.review?._id).subscribe({
+        this.commentService.getAllcomments(this.commentSampleSize, 0, undefined, this.review?._id).subscribe({
             next: (result) => {
+                console.log(result, this.currentCommentIndex);                
                 this.comments = result.data;
+                if(result.data.length < 5){
+                    this.commentSampleSize = result.data.length
+                    this.currentCommentIndex = 1;
+                }
                 this.maxCommentPages = result.pages;
             },
             error: (err) => {
                 console.log(err);
             },
         })
+    }
+
+    loadCommentsBySampleSize(_sample: number) {
+        this.commentSampleSize += _sample;        
+        _sample > 0 ? this.currentCommentIndex++ : this.currentCommentIndex--;
+        this.getComments();
     }
 
 
@@ -91,8 +105,8 @@ export class ReviewDisplayComponent implements OnChanges {
                 { review_id: this.review?._id!, content: this.commentForm.controls['comment'].value }
             ).subscribe({
                 next: (result) => {
-                    this.clearComment();                    
-                    setTimeout(() => {                        
+                    this.clearComment();
+                    setTimeout(() => {
                         this.getComments();
                     }, 800);
                 },
