@@ -135,6 +135,8 @@
     "BOOKITEM": {
         "TITLE": "Részletek",
         "BOOKCARD": {
+            "AUTHOR": "Szerző",
+            "RELEASE": "Megjelenés dátuma",
             "CONTENT": "Tartalom",
             "RATED": "Értékelésed",
             "SUBMIT": "Beküldés"

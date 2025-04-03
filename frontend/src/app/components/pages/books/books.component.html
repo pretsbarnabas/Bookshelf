@@ -6,14 +6,17 @@
                     <h1 class="display-3 text-center mt-3" id="books-header"><b>{{ 'BOOKS.HEADER' | translate }}</b>
                     </h1>
                     <div class="row my-3">
-                        <mat-form-field class="w-75 mx-auto">
-                            <mat-label>{{ 'BOOKS.SEARCHBAR.BUTTON' | translate }}</mat-label>
+                        <mat-form-field class="w-50 mx-auto">
+                            <mat-label>
+                                <mat-icon class="me-2">search</mat-icon>
+                                {{ 'BOOKS.SEARCHBAR.BUTTON' | translate }}
+                            </mat-label>
                             <input matInput type="search" [(ngModel)]="searchTerm" (input)="filterBooks()">
                         </mat-form-field>
                     </div>
                     <custom-paginator [pageSizeOptions]="[5, 10, 25]" [totalPages]="this.maxPages"
-                        [pageSize]="this.pageSize" [pageIndex]="this.currentPageIndex" [showSortingMenu]="true" [itemType]="'book'"
-                        (sortingChanged)="this.sortItems($event)"
+                        [pageSize]="this.pageSize" [pageIndex]="this.currentPageIndex" [showSortingMenu]="true"
+                        [itemType]="'book'" (sortingChanged)="this.sortItems($event)"
                         (pageChanged)="this.changePage($event)" />
 
                 </mat-card-content>
@@ -28,7 +31,7 @@
                                 <img mat-card-image class="book-image w-100"
                                     src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain"
                                     alt="{{ book.title }}">
-                                    <mat-divider class="my-2"/>
+                                <mat-divider class="my-2" />
                                 <mat-card-title class="text-center">{{ book.title }}</mat-card-title>
                                 <mat-card-subtitle class="text-center">{{ book.author }}</mat-card-subtitle>
                                 <mat-card-content class="text-center">

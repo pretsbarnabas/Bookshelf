@@ -135,6 +135,8 @@
     "BOOKITEM": {
         "TITLE": "Details",
         "BOOKCARD": {
+            "AUTHOR": "Author",
+            "RELEASE": "Release date",
             "CONTENT": "Content",
             "RATED": "You rated",
             "SUBMIT": "Submit"

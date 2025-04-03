@@ -73,10 +73,13 @@
     }
 }
 
-.card-holder:hover {
-    cursor: pointer;
-    transform: scale(1.05);
+.card-holder {
     transition: transform 0.2s ease-in-out, filter 0.2s ease-in-out;
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.05);
+    }
 }
 
 body {

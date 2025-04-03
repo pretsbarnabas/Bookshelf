@@ -69,3 +69,18 @@
         transform: scale(1.1);
     }
 }
+
+.book-image {
+    width: 100%;    
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+}
+
+#book-item-submit{
+    background-color: #2196F3;
+    color: white;
+
+    mat-icon {
+        color: white;
+    }
+}

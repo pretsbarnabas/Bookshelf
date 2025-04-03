@@ -1,18 +1,22 @@
 <div class="wrapper">
     <div class="wrapper-content">
-        <div class="book-item d-flex align-items-start w-100 flex-wrap flex-sm-column flex-md-row flex-lg-row p-2">
+        <div class="book-item d-flex align-items-start flex-wrap flex-sm-column flex-md-row flex-lg-row p-2 w-100">
             <div id="Book" class="col-12 col-md-6 col-lg-4 h-100">
                 <mat-card class="book-card w-100">
                     <mat-card-header>
-                        <img mat-card-image class="book-image img-fluid" [src]="
+                        <img mat-card-image class="book-image w-75 mx-auto" [src]="
                 book?.image ||
                 'https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain'
               " [alt]="book?.title || 'Photo of a book'" />
                     </mat-card-header>
                     <mat-card-content>
-                        <mat-card-subtitle>{{ book?.author }}</mat-card-subtitle>
-                        <mat-card-title class="title">{{ book?.title }}</mat-card-title>
-                        <p>{{ formatDate(book?.release) }}</p>
+                        <mat-card-title class="title">
+                            <h1 class="display-5 text-center">{{ book?.title }}</h1>
+                        </mat-card-title>
+                        <mat-card-subtitle class="text-center mb-3">
+                            {{ 'BOOKITEM.BOOKCARD.AUTHOR' | translate}}: {{ book?.author }}<br>
+                            <b>{{ 'BOOKITEM.BOOKCARD.RELEASE' | translate}}:</b> {{ formatDate(book?.release) }}
+                        </mat-card-subtitle>                        
                         <form class="form-row" *ngIf="isLoggedIn" [formGroup]="reviewForm"
                             (ngSubmit)="onSubmitReview()">
                             <mat-form-field class="mw-80" appearance="fill">
@@ -38,7 +42,8 @@
                                 <span class="body-2">{{ rating }}</span> /
                                 <span class="body-2">{{ starCount }}</span>
                             </p>
-                            <button mat-raised-button color="primary" type="submit">
+                            <button mat-fab class="w-100" id="book-item-submit" type="submit">
+                                <mat-icon class="me-2">backup</mat-icon>
                                 {{ "BOOKITEM.BOOKCARD.SUBMIT" | translate }}
                             </button>
                         </form>
@@ -70,16 +75,14 @@
                                 <p class="display-5">{{ "BOOKITEM.REVIEWS" | translate }}</p>
                             </mat-card-title>
                             <custom-paginator [pageSizeOptions]="[5, 10, 25, 50]" [totalPages]="this.maxPages"
-                                [pageSize]="this.pageSize" [pageIndex]="this.currentPageIndex"
-                                [itemType]="'review'" [showSortingMenu]="true"
-                                (pageChanged)="this.onPageChange($event)" (sortingChanged)="this.sortItems($event)" />
+                                [pageSize]="this.pageSize" [pageIndex]="this.currentPageIndex" [itemType]="'review'"
+                                [showSortingMenu]="true" (pageChanged)="this.onPageChange($event)"
+                                (sortingChanged)="this.sortItems($event)" />
                             <mat-divider class="my-2" />
+                            <div *ngIf="reviews.length == 0">
+                                <p class="text-center">{{ "BOOKITEM.NOREVIEWS" | translate }}</p>
+                            </div>
                             <div class="row w-100" *ngFor="let review of reviews">
-                                <div class="col-12">
-                                    <div *ngIf="reviews.length == 0">
-                                        <p>{{ "BOOKITEM.NOREVIEWS" | translate }}</p>
-                                    </div>
-                                </div>
                                 <div class="col-12 col-lg-3 ms-0">
                                     <div class="">
                                         <img class="user-profile-picture"
