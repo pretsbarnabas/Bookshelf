@@ -21,6 +21,8 @@ import { UserModel } from '../../../models/User';
 import { TranslatePipe } from '@ngx-translate/core';
 import { TranslationService } from '../../../services/global/translation.service';
 import { firstValueFrom } from 'rxjs';
+import { MatDividerModule } from '@angular/material/divider';
+import { RelativeTimePipe } from '../../../pipes/relative-time.pipe';
 
 
 @Component({
@@ -38,7 +40,9 @@ import { firstValueFrom } from 'rxjs';
         MatIconModule,
         CommonModule,
         MatPaginatorModule,
-        TranslatePipe
+        TranslatePipe,
+        MatDividerModule,
+        RelativeTimePipe
     ],
     providers: [DatePipe],
     encapsulation: ViewEncapsulation.None,

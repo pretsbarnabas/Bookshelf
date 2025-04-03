@@ -9,6 +9,12 @@
     }
 }
 
+@media (min-width: 576px) {
+    .review-content{
+        padding: 16px 24px;   
+    }
+}
+
 .user-profile-picture {
     width: 50px;
     height: 50px;
@@ -16,12 +22,12 @@
     margin-right: 10px;
 }
 
-.backButton {
-    margin-top: 2.5rem;
-    margin-bottom: 2.5rem;
-    float: right;
-    border-radius: 20%;
-}
+// .backButton {
+//     margin-top: 2.5rem;
+//     margin-bottom: 2.5rem;
+//     float: right;
+//     border-radius: 20%;
+// }
 
 .mw-80 {
     max-width: 100%;
@@ -44,4 +50,8 @@
     margin-bottom: 1rem;
     padding: 0;
     max-width: 20%;
+}
+
+.existing-review-star{
+    pointer-events: none;
 }
