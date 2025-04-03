@@ -23,6 +23,9 @@ import { TranslationService } from '../../../services/global/translation.service
 import { firstValueFrom } from 'rxjs';
 import { MatDividerModule } from '@angular/material/divider';
 import { RelativeTimePipe } from '../../../pipes/relative-time.pipe';
+import { createAvatar } from '@dicebear/core';
+import { bottts } from '@dicebear/collection';
+import { CustomPaginatorComponent } from '../../../utilities/components/custom-paginator/custom-paginator.component';
 
 
 @Component({
@@ -42,7 +45,8 @@ import { RelativeTimePipe } from '../../../pipes/relative-time.pipe';
         MatPaginatorModule,
         TranslatePipe,
         MatDividerModule,
-        RelativeTimePipe
+        RelativeTimePipe,
+        CustomPaginatorComponent
     ],
     providers: [DatePipe],
     encapsulation: ViewEncapsulation.None,
@@ -58,8 +62,12 @@ export class BookItemComponent implements OnInit {
     private snackBarDuration: number = 2000;
     public ratingArr: any = [];
     reviews: ReviewModel[] = [];
+
     paginatedReviews: ReviewModel[] = [];
+    currentPageIndex: number = 0;
+    maxPages: number = 0;
     pageSize = 10;
+
     uniqueIds: any = [];
     uniqueUserIds: any = [];
     users: UserModel[] = [];
@@ -111,17 +119,29 @@ export class BookItemComponent implements OnInit {
                     this.uniqueUserIds.push(this.reviews[i].user._id);
                     console.log(this.uniqueUserIds)
                 }
+                if (!this.reviews[i].user.imageUrl)
+                    this.reviews[i].user.profile_image = createAvatar(bottts, { seed: this.reviews[i].user.username }).toDataUri();
             }
         });
     }
 
-    onPageChange(event: PageEvent) {
-        this.pageSize = event.pageSize;
+    onPageChange(changes: { pageIndex: number; pageSize: number }) {
+        this.pageSize = changes.pageSize;
         this.fillreviews();
     }
 
     formatDate(date: any) {
         return this.datePipe.transform(date, 'yyyy');
+    }
+
+    sortItems(_settings: { field: string, mode: 'asc' | 'desc' }): void {
+        // if (_settings.field === '') {
+        //     this.currentArrayInPaginator = structuredClone(this.fetchedArray);
+        //     return;
+        // }
+        // this.currentSortSettings = _settings;
+        // this.currentArrayInPaginator = structuredClone(this.fetchedArray);
+        // this.currentArrayInPaginator = SortItems.generalizedSort(this.currentArrayInPaginator as any[], _settings.field, _settings.mode);
     }
     async onClick(rating: number) {
         // console.log(rating)
@@ -151,7 +171,7 @@ export class BookItemComponent implements OnInit {
     onBack() {
         window.history.back();
     }
-    async onSubmitReview() {        
+    async onSubmitReview() {
         if (this.reviewForm.valid) {
             console.log(this.reviewForm.value.content)
             console.log(this.rating)

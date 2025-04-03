@@ -3,31 +3,21 @@
 }
 
 @media (min-width: 768px) {
-    #Book-Details {        
+    #Book-Details {
         padding: 0;
         padding-left: 30px;
     }
 }
 
 @media (min-width: 576px) {
-    .review-content{
-        padding: 16px 24px;   
+    .review-content {
+        padding: 16px 24px;
     }
 }
 
-.user-profile-picture {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 10px;
+.book-item-desc {
+    text-align: justify;
 }
-
-// .backButton {
-//     margin-top: 2.5rem;
-//     margin-bottom: 2.5rem;
-//     float: right;
-//     border-radius: 20%;
-// }
 
 .mw-80 {
     max-width: 100%;
@@ -46,12 +36,36 @@
     padding: 0;
 }
 
-.starButton {
-    margin-bottom: 1rem;
-    padding: 0;
-    max-width: 20%;
+.user-profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
 }
 
-.existing-review-star{
+// .starButton {
+//     margin-bottom: 1rem;
+//     padding: 0;
+//     max-width: 20%;
+// }
+
+.existing-review-star {
     pointer-events: none;
+}
+
+.review-card {
+    margin: 1rem 0;
+    padding: 1rem;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.starButton {
+    margin: 0 0.25rem;
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+        transform: scale(1.1);
+    }
 }

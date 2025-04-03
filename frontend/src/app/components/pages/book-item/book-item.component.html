@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div class="wrapper-content">
         <div class="book-item d-flex align-items-start w-100 flex-wrap flex-sm-column flex-md-row flex-lg-row p-2">
-            <div id="Book" class="col-12 col-md-6 col-lg-4 h-100">                
+            <div id="Book" class="col-12 col-md-6 col-lg-4 h-100">
                 <mat-card class="book-card w-100">
                     <mat-card-header>
                         <img mat-card-image class="book-image img-fluid" [src]="
@@ -43,7 +43,7 @@
                             </button>
                         </form>
                     </mat-card-content>
-                </mat-card>                
+                </mat-card>
             </div>
             <div id="Book-Details" class="book-details col-12 col-md-6 col-lg-8">
                 <div class="row px-5 py-3">
@@ -60,13 +60,19 @@
                             <h2>{{ book?.title }}</h2>
                             <p>{{ book?.author }}</p>
                             <p>{{ formatDate(book?.release) }}</p>
-                            <p>{{ book?.description }}</p>
+                            <p class="book-item-desc">{{ book?.description }}</p>
                         </mat-card>
                     </mat-card-header>
                     <mat-divider class="my-3" />
                     <mat-card-content>
                         <mat-card class="p-2">
-                            <mat-card-title>{{ "BOOKITEM.REVIEWS" | translate }}</mat-card-title>
+                            <mat-card-title class="text-center">
+                                <p class="display-5">{{ "BOOKITEM.REVIEWS" | translate }}</p>
+                            </mat-card-title>
+                            <custom-paginator [pageSizeOptions]="[5, 10, 25, 50]" [totalPages]="this.maxPages"
+                                [pageSize]="this.pageSize" [pageIndex]="this.currentPageIndex"
+                                [itemType]="'review'" [showSortingMenu]="true"
+                                (pageChanged)="this.onPageChange($event)" (sortingChanged)="this.sortItems($event)" />
                             <mat-divider class="my-2" />
                             <div class="row w-100" *ngFor="let review of reviews">
                                 <div class="col-12">
@@ -75,9 +81,9 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-3 ms-0">
-                                    <div class="review-header">
+                                    <div class="">
                                         <img class="user-profile-picture"
-                                            [src]="review.user.imageUrl ?? './assets/images/bingus.webp'" />
+                                            [src]="review.user.imageUrl ?? review.user.profile_image" />
                                         <span class="username">{{ review.user.username }}</span>
                                     </div>
                                 </div>
@@ -93,15 +99,13 @@
                                     <p>(<i>{{ review.created_at | relativeTime }})</i></p>
                                 </div>
                                 <div class="px-4 my-2 review-content">
-                                    {{ review.content }}
-                                </div>                                    
+                                    <p class="book-item-desc">{{ review.content }}</p>
+                                </div>
+                                <mat-divider class="my-2" />
                             </div>
-                            <mat-paginator [length]="reviews.length" [pageSize]="pageSize"
-                                [pageSizeOptions]="[10, 15, 20]" (page)="onPageChange($event)">
-                            </mat-paginator>
                         </mat-card>
                     </mat-card-content>
-                </mat-card>                
+                </mat-card>
             </div>
         </div>
     </div>
