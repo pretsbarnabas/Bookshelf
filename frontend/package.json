@@ -3,10 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build --configuration=production",
+    "devstart": "node devstart.js",
+    "start": "npm run devstart && ng serve",
+    "build": "ng build --configuration=production && npm run postbuild",
+    "postbuild": "node postbuild.js",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "ng test --watch=false --browsers=ChromeHeadless"
     "test:env": "npm i && concurrently \"npm run start\" \"cd ../backend && npm run test:seed\"",
     "test:cypress": "npm i && concurrently \"npm run start\" \"npx cypress open\" \"cd ../backend && npm run test:seed\"",
     "sharp": "npm i && concurrently \"npm run start\" \"cd ../backend && npm run start\""
@@ -30,7 +32,10 @@
     "@ngx-formly/material": "^6.3.12",
     "@ngx-translate/core": "^16.0.4",
     "@ngx-translate/http-loader": "^16.0.1",
+    "@types/crypto-js": "^4.2.2",
     "bootstrap": "^5.3.3",
+    "crypto-js": "^4.2.0",
+    "dicebear": "^9.2.2",
     "jwt-decode": "^4.0.0",
     "ngx-spinner": "^17.0.0",
     "rxjs": "~7.8.0",

@@ -1,0 +1,48 @@
+<mat-toolbar id="custom-paginator">
+    <mat-toolbar-row id="custom-paginator-row" class="py-2 d-flex justify-content-center">
+        <div class="w-100 d-flex justify-content-between align-items-center row">
+            <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
+                @if(this.showSortingMenu){
+                    <button mat-mini-fab class="my-auto me-4" [matMenuTriggerFor]="sorting">
+                        <mat-icon>swap_vert</mat-icon>
+                    </button>
+                    <mat-menu class="p-1" id="sorting-menu" #sorting="matMenu" [xPosition]="'before'" [yPosition]="'below'"                >
+                        <sort-items [type]="this.itemType" [isAdmin]="this.isAdmin" (onSortingChanged)="this.emitSortingChanged($event)"/>
+                    </mat-menu>
+                }
+                <mat-form-field id="page-size-select">
+                    <mat-label>{{ 'STANDALONECOMPONENTS.PAGINATOR.PAGESIZES' | translate }}</mat-label>
+                    <mat-select [(value)]="this.pageSize" (valueChange)="this.onPageSizeChange()">
+                        @for (pageSizeOption of this.pageSizeOptions; track $index) {
+                        <mat-option [value]="pageSizeOption">{{ pageSizeOption }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center" id="button-holder">
+                <button mat-mini-fab (click)="this.goToFirstPage()" [disabled]="this.pageIndex == 0">
+                    <mat-icon>first_page</mat-icon>
+                </button>
+                <button mat-mini-fab (click)="this.goToPreviousPage()" class="ms-2" [disabled]="this.pageIndex == 0">
+                    <mat-icon>chevron_left</mat-icon>
+                </button>
+                <span id="current-page" class="mx-2 my-auto">{{ this.pageIndex + 1 }}</span>
+                <button mat-mini-fab (click)="this.goToNextPage()" class="me-2" [disabled]="this.pageIndex == this.totalPages - 1">
+                    <mat-icon>chevron_right</mat-icon>
+                </button>
+                <button mat-mini-fab (click)="this.goToLastPage()" [disabled]="this.pageIndex == this.totalPages - 1">
+                    <mat-icon>last_page</mat-icon>
+                </button>
+            </div>
+            <div class="col-12 col-md-3 d-flex justify-content-center" id="display-pages">
+                {{ 'STANDALONECOMPONENTS.PAGINATOR.PAGEINDEX' | translate }}:
+                {{ this.pageIndex + 1 }}
+                {{ 'STANDALONECOMPONENTS.PAGINATOR.MAXPAGES' | translate }}:
+                {{ this.totalPages}}
+            </div>
+            <div class="col-12 col-md-1 d-flex justify-content-center">
+                
+            </div>
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>

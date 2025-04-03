@@ -1,58 +1,145 @@
 <div class="wrapper">
-    <div class="col-lg-4 col-md-6 mx-auto my-3"
-            [class]="{'col-lg-5': mode === 'register'}"
-        >
+    <div class="col-lg-4 col-md-6 mx-auto my-3" [class]="{'col-lg-5': mode === 'register'}">
         @if (errorMessages.length > 0) {
-            <div class="alert alert-danger row mt-3" role="alert" #errorAlert>
-                <div class="col-10">
-                    <ul class="m-0">
-                        @for (error of errorMessages; track $index) {
-                            @if (error.name === "HttpErrorResponse") {
-                                <li>{{ 'AUTH.EMSG.HTTPERRORRESPONSE' | translate }}</li>
-                            } @else if (error.message === "UNEXPECTED") {
-                                <li>{{ 'AUTH.EMSG.UNEXPECTED' | translate }}</li>
-                            } @else{
-                                <li>{{ error.message }}</li>
-                            }
-                        }
-                    </ul>
-                </div>
-                <div class="col-2 justify-content-center align-items-center d-flex">
-                    <mat-icon>error_outline</mat-icon>
-                </div>
-            </div>            
+        <div class="alert alert-danger row mt-3" role="alert" #errorAlert>
+            <div class="col-10">
+                <ul class="m-0">
+                    @for (error of errorMessages; track $index) {
+                    @if (error.error === "UNEXPECTED") {
+                    <li>{{ 'AUTH.EMSG.UNEXPECTED' | translate }}</li>
+                    } @else if (error.status === 0) {
+                    <li>{{ 'AUTH.EMSG.HTTPERRORRESPONSE' | translate }}</li>
+                    } @else{
+                    <li>{{ error.status }}: {{ error.error.error ?? error.error.message }}</li>
+                    }
+                    }
+                </ul>
+            </div>
+            <div class="col-2 justify-content-center align-items-center d-flex">
+                <mat-icon>error_outline</mat-icon>
+            </div>
+        </div>
         }
-        <mat-card appearance="raised" class="px-4 pb-5" id="form-card">
-                <mat-card-title class="text-center my-5">
-                    @if(mode === 'login'){
-                        {{ 'AUTH.FORM_TITLE.LOGIN' | translate }}
-                    } @else if(mode === 'register') {
-                        {{ 'AUTH.FORM_TITLE.REGISTER' | translate }}
-                    }                    
-                </mat-card-title>
-                <mat-card-content>
-                    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                        <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
-                        <div class="w-50 mx-auto">
-                            <button mat-raised-button class="w-100 mt-4" type="submit" [disabled]="!form.valid">
-                                @if(mode === 'login'){
-                                    {{ 'AUTH.SUBMIT.LOGIN' | translate }}
-                                } @else if(mode === 'register') {
-                                    {{ 'AUTH.SUBMIT.REGISTER' | translate }}
-                                } 
+        <mat-card appearance="raised" class="px-4 pb-3" id="form-card">
+            <mat-card-title class="text-center my-5 user-select-none">
+                @if(mode === 'login'){
+                {{ 'AUTH.FORM_TITLE.LOGIN' | translate }}
+                } @else if(mode === 'register') {
+                {{ 'AUTH.FORM_TITLE.REGISTER' | translate }}
+                }
+            </mat-card-title>
+            @if(this.mode === 'login'){
+            <mat-card-content>
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
+                    <div class="w-50 mx-auto">
+                        <button mat-raised-button class="w-100 mt-4" type="submit" [disabled]="!form.valid">
+                            {{ 'AUTH.SUBMIT.LOGIN' | translate }}
+                        </button>
+                    </div>
+                </form>
+            </mat-card-content>
+            }
+            @if(this.mode === 'register'){
+            <mat-card-content>
+                <mat-stepper linear #stepper [orientation]="(this.isMobile$ | async) ? 'vertical' : 'horizontal'">
+                    <mat-step [stepControl]="this.form">
+                        <div class="stepper-content">
+                            <ng-template matStepLabel>{{ 'AUTH.STEPPER.HEADINGS.DATA' | translate }}</ng-template>
+                            <form [formGroup]="form">
+                                <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
+                            </form>
+                            <div class="d-flex justify-content-end">
+                                <button class="w-auto" mat-raised-button matStepperNext (click)="this.touchForm()" [disabled]="!this.form.valid">{{
+                                    'AUTH.STEPPER.BUTTONS.NEXT' | translate }}</button>
+                            </div>
+                        </div>
+                    </mat-step>
+                    <mat-step [optional]="true" class="m-0">
+                        <div class="d-flex flex-column justify-content-center align-items-center">
+                            <ng-template matStepLabel class="text-center">{{ 'AUTH.STEPPER.HEADINGS.IMAGE' | translate
+                                }}</ng-template>
+                            <ng-container>
+                                <div class="mt-2 text-center stepper-content d-flex align-items-center w-100">
+                                    <mat-card appearance="raised" class="p-3 mb-3 w-100">
+                                        <mat-card-title class="mb-4">
+                                            <p class="h-auto mat-body-1">{{ 'AUTH.STEPPER.IMAGE.UPLOAD' | translate
+                                                }}</p>
+                                        </mat-card-title>
+                                        <mat-card-content class="text-center">
+                                            <div class="row">
+                                                <div *ngIf="this.imgBase64" class="col-12 col-md-6 mx-auto my-auto mt-2 ">
+                                                    <button class="w-auto" *ngIf="this.selectedFile || this.imgBase64"
+                                                        mat-raised-button type="button" (click)="this.clearImage()">{{
+                                                        'AUTH.STEPPER.BUTTONS.CLEAR' |
+                                                        translate }}</button><br>
+                                                    <img [src]="this.imgBase64" id="selected-profile"
+                                                        alt="Selected Profile picture" class="my-2">
+                                                </div>
+                                                <div class="col-12 col-md-6 mx-auto my-auto">
+                                                    <input id="fileInput" type="file" (change)="onFileSelected($event)"
+                                                        accept="image/*" hidden />
+                                                    <button mat-flat-button type="button" class="w-auto mx-auto"
+                                                        (click)="this.triggerFileInput()">{{ 'AUTH.STEPPER.IMAGE.CHOOSE'
+                                                        |
+                                                        translate
+                                                        }}</button>
+                                                    <p class="text-center m-0">{{ 'AUTH.STEPPER.IMAGE.SELECTED' |
+                                                        translate
+                                                        }}:</p>
+                                                    <p *ngIf="this.selectedFile">{{ selectedFileName.split('.')[0] |
+                                                        truncate }}</p>
+                                                    <span *ngIf="!this.selectedFile">{{ 'AUTH.STEPPER.IMAGE.NOSELECTED'
+                                                        |
+                                                        translate
+                                                        }}</span>
+
+                                                </div>
+                                            </div>
+
+                                        </mat-card-content>
+                                    </mat-card>
+                                </div>
+
+                            </ng-container>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button class="w-auto" mat-raised-button matStepperPrevious>{{ 'AUTH.STEPPER.BUTTONS.BACK' |
+                                translate }}</button>
+                            <button class="w-auto" mat-raised-button matStepperNext>
+                                <span *ngIf="this.selectedFile">{{ 'AUTH.STEPPER.BUTTONS.NEXT' | translate }}</span>
+                                <span *ngIf="!this.selectedFile">{{ 'AUTH.STEPPER.BUTTONS.SKIP' | translate }}</span>
                             </button>
                         </div>
-                    </form>
-                </mat-card-content>
+                    </mat-step>
+                    <mat-step>
+                        <div class="stepper-content d-flex flex-column justify-content-center align-items-center">
+                            <ng-template matStepLabel>{{ 'AUTH.STEPPER.HEADINGS.DONE' | translate }}</ng-template>
+                            <h2 class="text-center">{{ 'AUTH.STEPPER.DONE' | translate }}!</h2>
+                            <button id="register" class="w-75 mx-auto py-4" mat-raised-button (click)="this.onSubmit()">{{
+                                'AUTH.SUBMIT.REGISTER' |
+                                translate }}</button>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button class="w-auto" mat-raised-button matStepperPrevious>{{ 'AUTH.STEPPER.BUTTONS.BACK' |
+                                translate }}</button>
+                            <button class="w-auto" mat-raised-button
+                                (click)="stepper.reset(); this.clearImage(); this.clearForm()">{{
+                                'AUTH.STEPPER.BUTTONS.RESET' | translate }}</button>
+                        </div>
+                    </mat-step>
+                </mat-stepper>
+            </mat-card-content>
+            }
         </mat-card>
         @if(mode === 'login'){
-            <button mat-button class="w-100 mt-4 to-register" (click)="switchForms('register')">
-                {{ 'AUTH.SUBMIT.NO_ACCOUNT' | translate }}
-            </button>
+        <button mat-button class="w-100 mt-4 to-register" (click)="switchForms('register')">
+            {{ 'AUTH.SUBMIT.NO_ACCOUNT' | translate }}
+        </button>
         } @else if(mode === 'register') {
-            <button mat-button class="w-100 mt-4 to-register" (click)="switchForms('login')">
-                {{ 'AUTH.SUBMIT.BACK' | translate }}
-            </button>
+        <button mat-button class="w-100 mt-4 to-register" (click)="switchForms('login')">
+            {{ 'AUTH.SUBMIT.BACK' | translate }}
+        </button>
         }
     </div>
 </div>

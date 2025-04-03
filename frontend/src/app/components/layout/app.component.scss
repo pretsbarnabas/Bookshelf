@@ -1,18 +1,27 @@
 @use '@angular/material' as mat;
 
+app-navbar{
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+app-footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 1000;
+}
+
 mat-drawer {
+    min-width: max-content;
     .sidenav-column {
         display: flex;
         flex-direction: column;
         align-items: start;
         padding: 0;
 
-        button {
-            text-align: center;
-
-            mat-icon {
-                margin: 0, auto;
-            }
+        router-button {
+            min-width: 100% !important;
         }
     }
 }
@@ -37,6 +46,7 @@ mat-accordion {
         align-items: center;
         justify-content: center;
         width: 100%;
-        height: 100% !important;
+        height: auto !important;
+        // overflow: hidden !important;
     }
 }

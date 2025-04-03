@@ -1,33 +1,114 @@
 <div class="wrapper">
-    <div class="wrapper-content h-100">
-        <div class="book-item d-flex align-items-start row w-100 h-100">
-            <div id="Book" class=" col-12 col-lg-2 d-flex h-100">
+    <div class="wrapper-content">
+        <div class="book-item d-flex align-items-start flex-wrap flex-sm-column flex-md-row flex-lg-row p-2 w-100">
+            <div id="Book" class="col-12 col-md-6 col-lg-4 h-100">
                 <mat-card class="book-card w-100">
                     <mat-card-header>
-                        <img mat-card-image class="book-image img-fluid" [src]="book?.image || 'https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain'" [alt]="book?.title || 'Photo of a book'">
+                        <img mat-card-image class="book-image w-75 mx-auto" [src]="
+                book?.image ||
+                'https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain'
+              " [alt]="book?.title || 'Photo of a book'" />
                     </mat-card-header>
                     <mat-card-content>
-                        <mat-card-subtitle>{{ book?.author }}</mat-card-subtitle>
-                        <mat-card-title class="title">{{ book?.title }}</mat-card-title>
-                        <p>{{ formatDate(book?.release) }}</p>
-                        <button mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" (click)="onClick(i+1)">
-                            <mat-icon>
-                              {{showIcon(i)}}
-                            </mat-icon>
-                          </button>
-                          <mat-error *ngIf="starCount == null || starCount == 0">
-                            Star count is <strong>required</strong> and cannot be zero
-                          </mat-error>
-                          <p class="body-2">
-                              Your rated <span class="body-2">{{rating}}</span> / <span class="body-2">{{starCount}}</span>
-                          </p>
-                          
+                        <mat-card-title class="title">
+                            <h1 class="display-5 text-center">{{ book?.title }}</h1>
+                        </mat-card-title>
+                        <mat-card-subtitle class="text-center mb-3">
+                            {{ 'BOOKITEM.BOOKCARD.AUTHOR' | translate}}: {{ book?.author }}<br>
+                            <b>{{ 'BOOKITEM.BOOKCARD.RELEASE' | translate}}:</b> {{ formatDate(book?.release) }}
+                        </mat-card-subtitle>                        
+                        <form class="form-row" *ngIf="isLoggedIn" [formGroup]="reviewForm"
+                            (ngSubmit)="onSubmitReview()">
+                            <mat-form-field class="mw-80" appearance="fill">
+                                <mat-label>{{
+                                    "BOOKITEM.BOOKCARD.CONTENT" | translate
+                                    }}</mat-label>
+                                <textarea matInput formControlName="content"></textarea>
+                            </mat-form-field>
+                            <div class="button-row">
+                                <button class="starButton" mat-icon-button [color]="color"
+                                    *ngFor="let ratingId of ratingArr; index as i" [id]="'star_' + i"
+                                    (click)="onClick(i + 1)">
+                                    <mat-icon>
+                                        {{ showIcon(i) }}
+                                    </mat-icon>
+                                </button>
+                            </div>
+                            <mat-error *ngIf="starCount == null || starCount == 0">
+                                Star count is <strong>required</strong> and cannot be zero
+                            </mat-error>
+                            <p class="body-2">
+                                {{ "BOOKITEM.BOOKCARD.RATED" | translate }}
+                                <span class="body-2">{{ rating }}</span> /
+                                <span class="body-2">{{ starCount }}</span>
+                            </p>
+                            <button mat-fab class="w-100" id="book-item-submit" type="submit">
+                                <mat-icon class="me-2">backup</mat-icon>
+                                {{ "BOOKITEM.BOOKCARD.SUBMIT" | translate }}
+                            </button>
+                        </form>
                     </mat-card-content>
                 </mat-card>
             </div>
-            <div id="Book-Details" class="book-details col-12 col-lg-8">
-                <h2>{{ book?.title }}</h2>
-                <p>{{ book?.author }}</p>
+            <div id="Book-Details" class="book-details col-12 col-md-6 col-lg-8">
+                <div class="row px-5 py-3">
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <button class="w-100" mat-fab color="primary" (click)="onBack()">
+                            <mat-icon class="me-2">arrow_back</mat-icon>
+                            {{ "BOOKITEM.BACK" | translate }}
+                        </button>
+                    </div>
+                </div>
+                <mat-card appearance="outlined">
+                    <mat-card-header>
+                        <mat-card class="w-100 p-2">
+                            <h2>{{ book?.title }}</h2>
+                            <p>{{ book?.author }}</p>
+                            <p>{{ formatDate(book?.release) }}</p>
+                            <p class="book-item-desc">{{ book?.description }}</p>
+                        </mat-card>
+                    </mat-card-header>
+                    <mat-divider class="my-3" />
+                    <mat-card-content>
+                        <mat-card class="p-2">
+                            <mat-card-title class="text-center">
+                                <p class="display-5">{{ "BOOKITEM.REVIEWS" | translate }}</p>
+                            </mat-card-title>
+                            <custom-paginator [pageSizeOptions]="[5, 10, 25, 50]" [totalPages]="this.maxPages"
+                                [pageSize]="this.pageSize" [pageIndex]="this.currentPageIndex" [itemType]="'review'"
+                                [showSortingMenu]="true" (pageChanged)="this.onPageChange($event)"
+                                (sortingChanged)="this.sortItems($event)" />
+                            <mat-divider class="my-2" />
+                            <div *ngIf="reviews.length == 0">
+                                <p class="text-center">{{ "BOOKITEM.NOREVIEWS" | translate }}</p>
+                            </div>
+                            <div class="row w-100" *ngFor="let review of reviews">
+                                <div class="col-12 col-lg-3 ms-0">
+                                    <div class="">
+                                        <img class="user-profile-picture"
+                                            [src]="review.user.imageUrl ?? review.user.profile_image" />
+                                        <span class="username">{{ review.user.username }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-7 ms-0 p-0">
+                                    <button mat-icon-button [color]="color"
+                                        *ngFor="let ratingId of ratingArr; index as i" class="existing-review-star">
+                                        <mat-icon>
+                                            {{ showIconUserReview(i, review.score / 2) }}
+                                        </mat-icon>
+                                    </button>
+                                </div>
+                                <div class="col-12 col-lg-2 me-0">
+                                    <p>(<i>{{ review.created_at | relativeTime }})</i></p>
+                                </div>
+                                <div class="px-4 my-2 review-content">
+                                    <p class="book-item-desc">{{ review.content }}</p>
+                                </div>
+                                <mat-divider class="my-2" />
+                            </div>
+                        </mat-card>
+                    </mat-card-content>
+                </mat-card>
             </div>
         </div>
     </div>

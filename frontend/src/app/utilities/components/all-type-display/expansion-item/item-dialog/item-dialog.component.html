@@ -1,0 +1,123 @@
+@if(this.data.type === 'delete'){
+<h2 mat-dialog-title>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.HEADER' | translate }}?</h2>
+
+<mat-dialog-content>
+    <span *ngIf="this.data.isAdmin">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.MESSAGE' | translate }} </span>
+    <span *ngIf="!this.data.isAdmin">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.MESSAGEHEADERONLY' | translate
+        }} </span>
+    <span><b>{{ `STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.SUBJECT.${this.data.item.type.toLocaleUpperCase()}` |
+            translate
+            }}</b>?</span>
+</mat-dialog-content>
+
+<mat-dialog-content *ngIf="this.data.isAdmin">
+    <div><b>Id: </b>{{ this.data.item?._id }}</div>
+    @if( this.data.item?.type === 'user' ){
+    <div><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.USER.USERNAME' | translate }}: </b>{{ this.data.item?.username
+        }}</div>
+    }
+    @if( this.data.item?.type === 'book' ){
+    <div><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.BOOK.TITLE' | translate }}: </b>{{ this.data.item?.title }}
+    </div>
+    <div><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.BOOK.USERID' | translate }}: </b>{{ this.data.item?.user_id }}
+    </div>
+
+    }
+    @if( this.data.item?.type === 'review' ){
+    <div><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.REVIEW.USER' | translate }}: </b>{{
+        this.data.item?.user.username }}</div>
+    <div><b>UserId: </b>{{ this.data.item?.user._id }}</div>
+    }
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button id="cancel" mat-raised-button (click)="emitResult(false)">{{
+        'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.BUTTONNO' | translate
+        }}</button>
+    <button id="delete" mat-raised-button (click)="emitResult(true)">{{
+        'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.BUTTONYES' | translate
+        }}</button>
+</mat-dialog-actions>
+}
+@if(this.data.type === 'edit') {
+<h2 mat-dialog-title>
+    <span *ngIf="!this.data.isProfile">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.HEADER' | translate}}</span>
+    <span *ngIf="this.data.isProfile">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.HEADERPROFILE' |
+        translate}}</span>
+</h2>
+<mat-dialog-content [formGroup]="form" id="edit-dialog">
+    <div *ngFor="let field of config">
+
+        <ng-container *ngIf="field.name === 'image'; else defaultField">
+            <label class="mat-body-1">{{ field.label }}</label><br>
+            <div class="mt-2">
+                <input id="fileInput" type="file" (change)="onFileSelected($event)" accept="image/*" hidden />
+                <button mat-flat-button type="button" class="me-2" (click)="triggerFileInput()">
+                    {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.CHOOSE' | translate }}
+                </button>
+                <span *ngIf="this.selectedFile">{{ selectedFileName }}</span>
+                <span *ngIf="!this.selectedFile">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.NOSELECTED' |
+                    translate }}</span>
+            </div>
+            <mat-error *ngFor="let errorKey of getErrorKeys(field.name)">
+                {{ field.errorMessages![errorKey] }}
+            </mat-error>
+        </ng-container>
+        <ng-template #defaultField>
+            <mat-form-field appearance="outline" class="my-3 w-100">
+                <mat-label>{{ field.label }}</mat-label>
+                <ng-container [ngSwitch]="field.type">
+                    <input *ngSwitchCase="'text'" matInput [formControlName]="field.name" />
+                    <input *ngSwitchCase="'number'" matInput type="number" [formControlName]="field.name" />
+                    <ng-container *ngSwitchCase="'date'" class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <input class="w-75" matInput [matDatepicker]="picker" [formControlName]="field.name" />
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </div>
+                    </ng-container>
+                    <textarea *ngSwitchCase="'textarea'" matInput [formControlName]="field.name"></textarea>
+                    <mat-select *ngSwitchCase="'select'" [formControlName]="field.name">
+                        <mat-option *ngFor="let option of field.options" [value]="option">
+                            {{ option }}
+                        </mat-option>
+                    </mat-select>
+                </ng-container>
+                <mat-error *ngFor="let errorKey of getErrorKeys(field.name)">
+                    {{ field.errorMessages![errorKey] }}
+                </mat-error>
+            </mat-form-field>
+        </ng-template>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button id="cancel" (click)="this.emitResult(false)">{{
+        'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BUTTONNO' | translate}}</button>
+    <button mat-button id="save" color="primary" (click)="this.saveModification()" [disabled]="!this.form.valid">{{
+        'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BUTTONYES' | translate}}</button>
+</mat-dialog-actions>
+}
+@if(this.data.type === 'roleEdit') {
+<h2 mat-dialog-title>
+    <span>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.ROLECHANGE.HEADER' | translate}}?</span>
+</h2>
+<mat-dialog-content>
+    <p>
+        {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.ROLECHANGE.CHANGE' | translate}}:
+        <b>
+            <span *ngIf="this.data.item.role === 'user'">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.ROLECHANGE.USER'
+                |
+                translate}}</span>
+            <span *ngIf="this.data.item.role === 'editor'">{{
+                'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.ROLECHANGE.EDITOR'
+                | translate}}</span>
+        </b>?        
+    </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button id="cancel" (click)="this.emitResult(false)">{{
+        'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.ROLECHANGE.BUTTONNO' | translate}}</button>
+    <button mat-button id="save" color="primary" (click)="this.changeRole()" [disabled]="!this.form.valid">{{
+        'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.ROLECHANGE.BUTTONYES' | translate}}</button>
+</mat-dialog-actions>
+}

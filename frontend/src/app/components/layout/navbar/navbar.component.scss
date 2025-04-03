@@ -29,6 +29,29 @@
     display: none;
 }
 
+.mat-mdc-menu-panel {
+    will-change: auto;
+    &.settings {
+        min-width: 170px;
+    }
+
+    &.settings,
+    &.accessibility {
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        z-index: 1000;
+    }
+}
+
+@media (max-width: 599px) {
+    .mat-mdc-menu-panel {
+        max-width: 100vw !important;
+        left: 0 !important;
+        right: 0 !important;
+    }
+}
+
 body {
     mat-toolbar {
         -webkit-box-shadow: 0 4px 1px rgba(0, 0, 0, 0.2), 0 -4px 1px rgba(0, 0, 0, 0.2);
@@ -43,6 +66,7 @@ body {
         border-radius: 50%;
         padding: 2px;
     }
+
 
     &.darkMode mat-toolbar {
         -webkit-box-shadow: 0 2px 1px rgba(255, 255, 255, 0.5), 0 -2px 1px rgba(255, 255, 255, 0.5);

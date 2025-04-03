@@ -1,27 +1,63 @@
-.book-image {
-    max-height: 66%;
-    width: 10vw;
-    align-self: center;
+@media (min-width: 576px) {
+    #books-main {
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('../../../../assets/images/bookshelf.jpg') no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(4px);
+            z-index: -1;
+        }
+    }
 }
-.card-author{
+
+@media (max-width: 576px) {
+    .card-holder {
+        -webkit-box-shadow: none !important;
+        -moz-box-shadow: none !important;
+        box-shadow: none !important;
+    }
+}
+
+#books-header {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.book-image {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+}
+
+.card-author {
     text-align: center;
     width: 100%;
 }
-.book-cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
+
 .book-card {
-    margin: 10px;
-    max-width: 20vw;
-    min-width: 20vw;
+    min-width: 200px;
     justify-self: center;
-    font-size: calc(1vw + 1vh); /* Adjust font size based on viewport width and height */
+    font-size: calc(1vw + 1vh);
+
+    img {
+        max-height: 200px;
+        object-fit: contain;
+    }
 }
+
 .title {
-    word-break: break-word; /* Break words when they overflow */
-    overflow-wrap: break-word; /* Ensure long words break and wrap to the next line */
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 @media (max-width: 835px) {
@@ -29,9 +65,40 @@
         font-size: 1rem;
     }
 }
+
 @media (max-width: 650px) {
     .title {
 
         font-size: 0.9rem;
+    }
+}
+
+.card-holder {
+    transition: transform 0.2s ease-in-out, filter 0.2s ease-in-out;
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.05);
+    }
+}
+
+body {
+    .card-holder:hover {
+        filter: brightness(.9);
+    }
+
+    &.darkMode {
+        .card-holder {
+            -webkit-box-shadow: 2px 4px 3px rgba(255, 255, 255, 0.1), 4px 2px 3px rgba(255, 255, 255, 0.2);
+            -moz-box-shadow: 2px 4px 3px rgba(255, 255, 255, 0.1), 4px 2px 3px rgba(255, 255, 255, 0.2);
+            box-shadow: 2px 4px 3px rgba(255, 255, 255, 0.1), 4px 2px 3px rgba(255, 255, 255, 0.2);
+
+            &:hover {
+                -webkit-box-shadow: 2px 4px 3px rgba(255, 255, 255, 0.2), 4px 2px 3px rgba(255, 255, 255, 0.75);
+                -moz-box-shadow: 2px 4px 3px rgba(255, 255, 255, 0.2), 4px 2px 3px rgba(255, 255, 255, 0.75);
+                box-shadow: 2px 4px 3px rgba(255, 255, 255, 0.2), 4px 2px 3px rgba(255, 255, 255, 0.75);
+                filter: brightness(1.25);
+            }
+        }
     }
 }

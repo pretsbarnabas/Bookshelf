@@ -22,7 +22,7 @@ import { TranslatePipe } from '@ngx-translate/core';
     encapsulation: ViewEncapsulation.None
 })
 export class RouterButtonComponent {
-    @Input() payload?: { route: string, icon?: string, localReference: string, isMatMenu?: boolean};
+    @Input() payload?: { route: string, icon?: string, localReference: string, isMatMenu?: boolean, isSidenav?: boolean };
 
     constructor(
         private router: Router,
@@ -42,7 +42,7 @@ export class RouterButtonComponent {
     }
 
     isActive(route?: string): boolean {
-        if(route)
+        if (route)
             return this.activeRoute.startsWith(route);
         return false
     }
