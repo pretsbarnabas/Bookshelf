@@ -17,6 +17,7 @@ import { BookModel } from '../../../models/Book';
 
 import { CustomPaginatorComponent } from '../../../utilities/components/custom-paginator/custom-paginator.component';
 import { TranslatePipe } from '@ngx-translate/core';
+import { SortItems } from '../../../utilities/components/sort-items';
 
 @Component({
     selector: 'app-books',
@@ -61,7 +62,7 @@ export class BooksComponent implements OnInit {
     filterBooks(): void {
         this.filteredBooks = this.books.filter(book =>
             book.title.toLowerCase().startsWith(this.searchTerm.toLowerCase())
-        );        
+        );
     }
 
     getBooks() {
@@ -89,6 +90,15 @@ export class BooksComponent implements OnInit {
 
     formatDate(date: any) {
         return this.datePipe.transform(date, 'yyyy');
+    }
+
+    sortItems(_settings: { field: string, mode: 'asc' | 'desc' }): void {
+        if (_settings.field === '') {
+            this.filteredBooks = structuredClone(this.books);
+            return;
+        }        
+        this.filteredBooks = structuredClone(this.books);
+        this.filteredBooks = SortItems.generalizedSort(this.filteredBooks as any[], _settings.field, _settings.mode);
     }
 
     // sortBooks(property: keyof BookModel, order: 'asc' | 'desc') {
