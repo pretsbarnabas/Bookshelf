@@ -16,11 +16,17 @@
     <div class="col-12 col-lg-2 me-0">
         <p>(<i>{{ this.review?.created_at! | relativeTime }})</i></p>
     </div>
-    <div class="px-4 my-2 review-content">
-        <p class="book-item-desc">{{ this.review?.content }}</p>
+    <div class="px-4 review-content">
+        <p class="book-item-desc m-0">{{ this.review?.content }}</p>
+    </div>
+    <div class="col-2 offset-10">
+        <button mat-button (click)="this.isCommenting = true">
+            <mat-icon>reply</mat-icon>
+            {{ 'BOOKITEM.COMMENT.REPLY' | translate }}
+        </button>
     </div>
 </div>
-@if(this.user){
+@if(this.user && this.isCommenting){
 <div class="row w-100">
     <div class="col-3 col-sm-2 col-lg-1">
         <img class="user-profile-picture" [src]="this.user!.imageUrl ?? this.user!.profile_image" />
@@ -28,41 +34,42 @@
     <div class="col-9 col-sm-10 col-lg-11">
         <form [formGroup]="this.commentForm!">
             <mat-form-field appearance="outline" class="w-100">
-                <textarea id="leave-comment" matInput placeholder="{{ 'BOOKITEM.COMMENT.PLACEHOLDER' | translate }}" maxlength="256" cdkTextareaAutosize
-                    #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="4"
-                    formControlName="comment"></textarea>
+                <textarea id="leave-comment" matInput placeholder="{{ 'BOOKITEM.COMMENT.PLACEHOLDER' | translate }}"
+                    maxlength="256" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="4" formControlName="comment"></textarea>
             </mat-form-field>
         </form>
-        @if(this.commentForm?.controls!['comment'].value){
         <div class="w-100 d-flex justify-content-end mt-2">
             <button mat-raised-button (click)="this.clearComment()">
                 {{ 'BOOKITEM.COMMENT.CANCEL' | translate }}
             </button>
-            <button mat-flat-button class="ms-2" (click)="this.submitComment()">
+            <button mat-flat-button class="ms-2" (click)="this.submitComment()"
+                [disabled]="this.commentForm?.controls!['comment'].value.length < 1">
                 {{ 'BOOKITEM.COMMENT.SUBMIT' | translate }}
             </button>
         </div>
-        }
     </div>
 </div>
 }
 @if (this.comments.length > 0) {
 <div>
     <button mat-button (click)="this.showComments = !this.showComments">
-        <span *ngIf="!this.showComments"  class="d-flex align-items-center"><mat-icon>keyboard_arrow_down</mat-icon>{{ 'BOOKITEM.COMMENT.SHOW' | translate }}</span>
-        <span *ngIf="this.showComments"  class="d-flex align-items-center"><mat-icon>keyboard_arrow_up</mat-icon>{{ 'BOOKITEM.COMMENT.HIDE' | translate }}</span>
+        <span *ngIf="!this.showComments" class="d-flex align-items-center"><mat-icon>keyboard_arrow_down</mat-icon>{{
+            'BOOKITEM.COMMENT.SHOW' | translate }}</span>
+        <span *ngIf="this.showComments" class="d-flex align-items-center"><mat-icon>keyboard_arrow_up</mat-icon>{{
+            'BOOKITEM.COMMENT.HIDE' | translate }}</span>
     </button>
     @if(this.showComments){
     @for (comment of this.comments; track $index) {
     <mat-card appearance="raised" class="my-1">
         <p class="p-0 m-0 row">
-            <span class="text-center col-4 offset-8 col-lg-2 offset-lg-10"><i>{{ comment.created_at | relativeTime }}</i></span>
+            <span class="text-center col-4 offset-8 col-lg-2 offset-lg-10"><i>{{ comment.created_at | relativeTime
+                    }}</i></span>
         </p>
         <mat-card-content class="p-2 px-4 w-100">
             <div class="row">
                 <div class="col-3 col-sm-2 col-lg-1 p-0">
-                    <img class="user-profile-picture"
-                        [src]="comment.user.imageUrl ?? comment.user.profile_image" />
+                    <img class="user-profile-picture" [src]="comment.user.imageUrl ?? comment.user.profile_image" />
                 </div>
                 @if(comment.user._id === this.user?._id){
                 <div class="col-7" fxHide.gt-sm></div>
@@ -79,7 +86,7 @@
                 </div>
                 @if(comment.user._id === this.user?._id){
                 <div class="col-1 p-0" fxHide.lt-md>
-                    <button mat-mini-fab class="delete" (click)="$event.stopPropagation();">
+                    <button mat-mini-fab class="delete" (click)="this.deleteComment(comment);">
                         <mat-icon class="mx-auto">delete</mat-icon>
                     </button>
                 </div>
@@ -89,7 +96,7 @@
     </mat-card>
     }
     <div class="d-flex">
-        @if(this.maxCommentPages > this.currentCommentIndex) {
+        @if(this.maxCommentPages > 1) {
         <button mat-button (click)="this.loadCommentsBySampleSize(5)" class="d-flex align-items-center">
             <mat-icon>keyboard_arrow_down</mat-icon>
             <span>{{ 'BOOKITEM.COMMENT.MORE' | translate }}</span>

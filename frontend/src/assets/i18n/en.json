@@ -143,6 +143,7 @@
         },
         "REVIEWS": "Reviews",
         "COMMENT": {
+            "REPLY": "Reply",
             "PLACEHOLDER": "Leave a comment",
             "CANCEL": "Cancel",
             "SUBMIT": "Comment",

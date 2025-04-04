@@ -47,9 +47,8 @@ export class ReviewDisplayComponent {
 
     comments: CommentModel[] = [];
     maxCommentPages: number = 0;
-    currentCommentIndex: number = 0;
     commentSampleSize: number = 5;
-    commentContent: string = '';
+    isCommenting: boolean = false;
     commentForm?: FormGroup;
     showComments: boolean = false;
 
@@ -64,15 +63,10 @@ export class ReviewDisplayComponent {
     }
 
     getComments() {
-        this.commentService.getAllcomments(this.commentSampleSize, 0, undefined, this.review?._id).subscribe({
-            next: (result) => {
-                console.log(result, this.currentCommentIndex);                
-                this.comments = result.data;
-                if(result.data.length < 5){
-                    this.commentSampleSize = result.data.length
-                    this.currentCommentIndex = 1;
-                }
-                this.maxCommentPages = result.pages;
+        this.commentService.getAllcomments(this.commentSampleSize, 0, undefined, /*this.review?._id*/).subscribe({
+            next: (result) => {              
+                this.comments = result.data;      
+                this.maxCommentPages = result.pages;               
             },
             error: (err) => {
                 console.log(err);
@@ -82,7 +76,6 @@ export class ReviewDisplayComponent {
 
     loadCommentsBySampleSize(_sample: number) {
         this.commentSampleSize += _sample;        
-        _sample > 0 ? this.currentCommentIndex++ : this.currentCommentIndex--;
         this.getComments();
     }
 
@@ -96,7 +89,8 @@ export class ReviewDisplayComponent {
     }
 
     clearComment(): void {
-        this.commentForm?.controls!['comment'].setValue('')
+        this.commentForm?.controls!['comment'].setValue('');
+        this.isCommenting = false;
     }
 
     submitComment() {
@@ -108,7 +102,22 @@ export class ReviewDisplayComponent {
                     this.clearComment();
                     setTimeout(() => {
                         this.getComments();
-                    }, 800);
+                    }, 1000);
+                },
+                error: (err) => {
+                    console.log(err);
+                },
+            })
+        }
+    }
+
+    deleteComment($event: CommentModel){
+        if(this.comments.length % 5 === 1 && this.comments.length > 5)
+            this.commentSampleSize -= 5;
+        if(this.user?._id === $event.user._id){            
+            this.commentService.deleteComment($event._id).subscribe({
+                next: (result) => {
+                    this.getComments();
                 },
                 error: (err) => {
                     console.log(err);

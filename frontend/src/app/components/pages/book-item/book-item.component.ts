@@ -103,8 +103,6 @@ export class BookItemComponent implements OnInit {
         }
         if (this.bookId) {
             this.fillreviews();
-            console.log(this.uniqueUserIds)
-
         }
         for (let index = 0; index < this.starCount; index++) {
             this.ratingArr.push(index);

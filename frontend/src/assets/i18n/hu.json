@@ -143,6 +143,7 @@
         },
         "REVIEWS": "Vélemények",
         "COMMENT": {
+            "REPLY": "Válasz",
             "PLACEHOLDER": "Hagyj egy hozzászólást",
             "CANCEL": "Mégse",
             "SUBMIT": "Hozzászólás",
