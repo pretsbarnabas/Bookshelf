@@ -6,9 +6,8 @@ import { BooklistService } from '../../../services/page/booklist.service';
 import { AuthService } from '../../../services/global/auth.service';
 import { BookList } from '../../../models/Booklist';
 import { UserModel } from '../../../models/User';
-import {
-  CdkDragDrop, CdkDrag, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem,} from '@angular/cdk/drag-drop';
-
+import {CdkDragDrop, CdkDrag, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem,} from '@angular/cdk/drag-drop';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
@@ -20,7 +19,8 @@ import {
     MatTabsModule,
     CdkDropListGroup, 
     CdkDropList,
-    CdkDrag
+    CdkDrag,
+    MatIconModule,
   ],
   templateUrl: './mylist.component.html',
   styleUrls: ['./mylist.component.scss'],
