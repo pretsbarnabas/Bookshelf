@@ -54,7 +54,6 @@ export class MylistComponent implements OnInit {
     this.booklistService.getUserBookList(userId).subscribe({
       next: (data) => {
           this.bookList = data;
-          console.log(this.bookList)
           this.CategorizeBooks();
       },
       error: (err) => {
@@ -92,6 +91,19 @@ export class MylistComponent implements OnInit {
         default:
           console.warn(`Unknown read_status: ${item.read_status}`);
       }
+    });
+  }
+  ToRead(bookId: string) {
+    if (!this.loggedInUser) return;
+
+    this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'to_read').subscribe({
+        next: () => {
+            console.log(`Book with ID ${bookId} updated to "to_read"`);
+            this.fetchUserBookList(this.loggedInUser!._id);
+        },
+        error: (err) => {
+            console.error('Error updating book status:', err);
+        }
     });
   }
   startReading(bookId: string) {
@@ -164,7 +176,7 @@ markAsFavorite(bookId: string) {
   });
   
 }
-drop(event: CdkDragDrop<string[]>) {
+drop(event: CdkDragDrop<any[]>) {
   if (event.previousContainer === event.container) {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
   } else {
@@ -175,10 +187,18 @@ drop(event: CdkDragDrop<string[]>) {
       event.currentIndex
     );
 
-    if (event.container.id === 'cdk-drop-list-0') {
-      console.log(event.container.data[event.currentIndex])
+    if (event.container.id === 'cdk-drop-list-1') {
+      this.startReading(event.container.data[event.currentIndex]._id);
+      this.fetchUserBookList(this.loggedInUser!._id);
+    }
+    else if (event.container.id === 'cdk-drop-list-0') {
+      this.ToRead(event.container.data[event.currentIndex]._id);
+      this.fetchUserBookList(this.loggedInUser!._id);
+    }
+    else if (event.container.id === 'cdk-drop-list-2') {
+      this.finishReading(event.container.data[event.currentIndex]._id);
+      this.fetchUserBookList(this.loggedInUser!._id);
     }
   }
-  console.log(this.toReadBooks, this.hasReadBooks, this.readingBooks);
 }
 }
