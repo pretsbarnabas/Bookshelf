@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges, ViewEncapsulation } from '@angular/core';
+import { Component, inject, Input, ViewEncapsulation } from '@angular/core';
 import { ReviewModel } from '../../../../models/Review';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,6 +15,7 @@ import { CommentService } from '../../../../services/page/comment.service';
 import { CommentModel } from '../../../../models/Comment';
 import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ReviewService } from '../../../../services/page/review.service';
 
 @Component({
     selector: 'review-display',
@@ -38,9 +39,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 })
 export class ReviewDisplayComponent {
     private authService = inject(AuthService);
+    private reviewService = inject(ReviewService);
     private commentService = inject(CommentService);
     private fb = inject(FormBuilder);
     @Input() review?: ReviewModel;
+
+    reviewLikedBy: UserModel[] = [];
+    reviewDislikedBy: UserModel[] = [];
+    userLikedAction: 'like' | 'dislike' | 'none' = 'none';
 
     user?: UserModel | null
     ratingArr: number[] = [0, 1, 2, 3, 4]
@@ -56,10 +62,11 @@ export class ReviewDisplayComponent {
     showComments: boolean = false;
 
     ngOnChanges() {
+        this.getComments();
+        this.getReviewLikes();
         this.authService.loggedInUser$.subscribe((user) => {
             this.user = user;
         })
-        this.getComments();
         this.commentForm = this.fb.group({
             comment: [''/*, Validators.required*/]
         });
@@ -78,6 +85,23 @@ export class ReviewDisplayComponent {
                 console.log(err);
             },
         })
+    }
+
+    getReviewLikes() {
+        this.reviewService.getLikedBy(this.review?._id!).subscribe({
+            next: (result) => {
+                this.reviewLikedBy = result;
+                if (result.some((user: any) => user._id === this.user?._id))
+                    this.userLikedAction = 'like';
+            }
+        });
+        this.reviewService.getDislikedBy(this.review?._id!).subscribe({
+            next: (result) => {
+                this.reviewDislikedBy = result;
+                if (result.some((user: any) => user._id === this.user?._id))
+                    this.userLikedAction = 'dislike';
+            }
+        });
     }
 
     loadCommentsBySampleSize(_sample: number) {
@@ -155,6 +179,47 @@ export class ReviewDisplayComponent {
                     console.log(err);
                 },
             })
+        }
+    }
+
+    handleLikeRequest(action: 'like' | 'dislike' | 'none') {
+        switch (action) {
+            case 'like':
+                if (this.userLikedAction === 'like') {                    
+                    this.reviewService.putLike(this.review?._id!, 'delete').subscribe({
+                        next: (result) => {
+                            this.userLikedAction = 'none';
+                            this.reviewLikedBy = this.reviewLikedBy.filter((user) => user._id !== this.user!._id);
+                        }
+                    });
+                    return;
+                }                
+                this.reviewService.putLike(this.review?._id!, 'like').subscribe({
+                    next: (result) => {
+                        this.userLikedAction = 'like';                        
+                        this.reviewDislikedBy = this.reviewDislikedBy.filter((user) => user._id !== this.user!._id);
+                        this.reviewLikedBy.push(this.user!);
+                    }
+                });
+                break;
+            case 'dislike':
+                if (this.userLikedAction === 'dislike') {
+                    this.reviewService.putLike(this.review?._id!, 'delete').subscribe({
+                        next: (result) => {
+                            this.userLikedAction = 'none';
+                            this.reviewDislikedBy = this.reviewDislikedBy.filter((user) => user._id !== this.user!._id);
+                        }
+                    });
+                    return;
+                }                
+                this.reviewService.putLike(this.review?._id!, 'dislike').subscribe({
+                    next: (result) => {
+                        this.userLikedAction = 'dislike';
+                        this.reviewLikedBy = this.reviewLikedBy.filter((user) => user._id !== this.user!._id);
+                        this.reviewDislikedBy.push(this.user!);
+                    }
+                });
+                break;
         }
     }
 }

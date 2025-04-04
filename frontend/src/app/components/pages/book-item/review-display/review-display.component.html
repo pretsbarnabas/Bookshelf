@@ -19,7 +19,21 @@
     <div class="px-4 review-content">
         <p class="book-item-desc m-0">{{ this.review?.content }}</p>
     </div>
-    <div class="col-6 offset-6 col-lg-2 offset-lg-10 d-flex justify-content-end">
+    <div class="col-12 col-lg-2 offset-lg-10 d-flex justify-content-end">
+        <div class="text-center d-flex align-items-center">
+            <span>{{ this.reviewLikedBy.length }}</span>
+            <button mat-icon-button class="d-flex align-items-center justify-content-center"
+                (click)="this.handleLikeRequest('like')">
+                <mat-icon>thumb_up</mat-icon>
+            </button>
+        </div>
+        <div class="text-center d-flex align-items-center ms-2">
+            <span>{{ this.reviewDislikedBy.length }}</span>
+            <button mat-icon-button class="d-flex align-items-center justify-content-center"
+                (click)="this.handleLikeRequest('dislike')">
+                <mat-icon>thumb_down</mat-icon>
+            </button>
+        </div>
         <button mat-button (click)="this.isCommenting = true">
             <mat-icon>reply</mat-icon>
             {{ 'BOOKITEM.COMMENT.REPLY' | translate }}
@@ -73,10 +87,12 @@
         @if(comment.user._id === this.user?._id){
         <div class="col-7" fxHide.gt-sm></div>
         <div class="col-2 p-0" fxHide.gt-sm>
-            <button mat-button (click)="this.deleteComment(comment);">
+            <button mat-icon-button (click)="this.deleteComment(comment);"
+                class="d-flex align-items-center justify-content-center">
                 <mat-icon class="mx-auto">delete</mat-icon>
             </button>
-            <button mat-button (click)="this.editComment(comment);">
+            <button mat-icon-button (click)="this.editComment(comment);"
+                class="d-flex align-items-center justify-content-center">
                 <mat-icon class="mx-auto">edit</mat-icon>
             </button>
         </div>
@@ -106,10 +122,12 @@
         </div>
         @if(comment.user._id === this.user?._id){
         <div class="col-1 p-0" fxHide.lt-md>
-            <button mat-button (click)="this.deleteComment(comment);">
+            <button mat-icon-button (click)="this.deleteComment(comment);"
+                class="d-flex align-items-center justify-content-center">
                 <mat-icon class="mx-auto">delete</mat-icon>
             </button>
-            <button mat-button (click)="this.editComment(comment);">
+            <button mat-icon-button (click)="this.editComment(comment);"
+                class="d-flex align-items-center justify-content-center">
                 <mat-icon class="mx-auto">edit</mat-icon>
             </button>
         </div>
