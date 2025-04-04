@@ -8,6 +8,7 @@ import { seed } from "../seed"
 let adminToken: string
 let editorToken: string
 let newBook: any
+seed()
 describe("Book Controller Post Route Tests",()=>{
     beforeAll(async()=>{
         let response = await request(app).post("/api/login").send({username: "editor", password: "admin"})
