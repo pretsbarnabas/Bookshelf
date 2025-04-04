@@ -13,7 +13,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BookModel } from '../../../models/Book';
+import { BookModel, BookRoot } from '../../../models/Book';
 
 import { CustomPaginatorComponent } from '../../../utilities/components/custom-paginator/custom-paginator.component';
 
@@ -47,7 +47,7 @@ export class BooksComponent implements OnInit {
     pageSize = 10;
     
     books: BookModel[] = [];
-    filteredBooks: Book[] = [];
+    filteredBooks: BookModel[] = [];
     searchTerm: string = '';  
 
     constructor(private bookService: BookService, private datePipe: DatePipe, private router: Router){}
@@ -89,7 +89,7 @@ export class BooksComponent implements OnInit {
         return this.datePipe.transform(date, 'yyyy');
     }
 
-    sortBooks(property: keyof Book, order: 'asc' | 'desc') {
+    sortBooks(property: keyof BookModel, order: 'asc' | 'desc') {
         this.filteredBooks.sort((a, b) => {
             const comparison = (a[property] as string).localeCompare(b[property] as string);
             return order === 'asc' ? comparison : -comparison;

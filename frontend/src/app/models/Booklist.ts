@@ -1,6 +1,6 @@
-import { Book } from './Book';
+import { BookModel } from './Book';
 
 export interface BookList {
-  book: Book;
+  book: BookModel;
   read_status: string;
 }

@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { BookService } from '../../../services/page/book.service';
-import { Book } from '../../../models/Book';
+import { BookModel, BookRoot } from '../../../models/Book';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -9,6 +9,7 @@ import { AuthService } from '../../../services/global/auth.service';
 import { UserModel } from '../../../models/User';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+
 
 @Component({
   selector: 'app-home',
@@ -23,7 +24,7 @@ export class HomeComponent {
   pageSize = 10;
   currentPageIndex = 0;
   maxPages = 0;
-  books: Book[] = [];
+  books: BookModel[] = [];
   isLoggedIn: boolean = false;
   loggedInUser: UserModel | null = null;
 

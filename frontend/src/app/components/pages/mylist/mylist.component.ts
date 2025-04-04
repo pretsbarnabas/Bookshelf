@@ -5,7 +5,11 @@ import { CommonModule } from '@angular/common';
 import { BooklistService } from '../../../services/page/booklist.service';
 import { AuthService } from '../../../services/global/auth.service';
 import { BookList } from '../../../models/Booklist';
-import { UserModel } from '../../../models/User'; // Import UserModel
+import { UserModel } from '../../../models/User';
+import {
+  CdkDragDrop, CdkDrag, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem,} from '@angular/cdk/drag-drop';
+
+
 
 @Component({
   selector: 'app-mylist',
@@ -13,7 +17,10 @@ import { UserModel } from '../../../models/User'; // Import UserModel
   imports: [
     CommonModule,
     MatCardModule,
-    MatTabsModule
+    MatTabsModule,
+    CdkDropListGroup, 
+    CdkDropList,
+    CdkDrag
   ],
   templateUrl: './mylist.component.html',
   styleUrls: ['./mylist.component.scss'],
@@ -63,9 +70,8 @@ export class MylistComponent implements OnInit {
     this.droppedBooks = [];
     this.favoriteBooks = [];
   
-    // Categorize books based on read_status
     this.bookList!.forEach(item => {
-      const book = item.book; // Access the book object
+      const book = item.book; 
       switch (item.read_status) {
         case 'to_read':
           this.toReadBooks.push(book);
@@ -81,7 +87,7 @@ export class MylistComponent implements OnInit {
           break;
         case 'favorite':
           this.favoriteBooks.push(book);
-          this.hasReadBooks.push(book); // Add to hasReadBooks if it's also a favorite
+          this.hasReadBooks.push(book);
           break;
         default:
           console.warn(`Unknown read_status: ${item.read_status}`);
@@ -105,9 +111,11 @@ export class MylistComponent implements OnInit {
   deleteBook(bookId: string) {
       if (!this.loggedInUser) return;
 
-      this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'deleted').subscribe({
+      this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'delete').subscribe({
           next: () => {
               console.log(`Book with ID ${bookId} marked as "deleted"`);
+              this.fetchUserBookList(this.loggedInUser!._id); 
+
               
           },
           error: (err) => {
@@ -121,7 +129,7 @@ export class MylistComponent implements OnInit {
     this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'has_read').subscribe({
         next: () => {
             console.log(`Book with ID ${bookId} updated to "has_read"`);
-            this.fetchUserBookList(this.loggedInUser!._id); // Refresh the categorized lists
+            this.fetchUserBookList(this.loggedInUser!._id); 
         },
         error: (err) => {
             console.error('Error updating book status to "has_read":', err);
@@ -135,7 +143,7 @@ dropBook(bookId: string) {
     this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'dropped').subscribe({
         next: () => {
             console.log(`Book with ID ${bookId} updated to "dropped"`);
-            this.fetchUserBookList(this.loggedInUser!._id); // Refresh the categorized lists
+            this.fetchUserBookList(this.loggedInUser!._id);
         },
         error: (err) => {
             console.error('Error updating book status to "dropped":', err);
@@ -148,11 +156,29 @@ markAsFavorite(bookId: string) {
   this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'favorite').subscribe({
       next: () => {
           console.log(`Book with ID ${bookId} marked as "favorite"`);
-          this.fetchUserBookList(this.loggedInUser!._id); // Refresh the categorized lists
+          this.fetchUserBookList(this.loggedInUser!._id); 
       },
       error: (err) => {
           console.error('Error updating book status to "favorite":', err);
       }
   });
+  
+}
+drop(event: CdkDragDrop<string[]>) {
+  if (event.previousContainer === event.container) {
+    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+  } else {
+    transferArrayItem(
+      event.previousContainer.data,
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex
+    );
+
+    if (event.container.id === 'cdk-drop-list-0') {
+      console.log(event.container.data[event.currentIndex])
+    }
+  }
+  console.log(this.toReadBooks, this.hasReadBooks, this.readingBooks);
 }
 }
