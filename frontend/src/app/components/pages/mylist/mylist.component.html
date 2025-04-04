@@ -4,16 +4,16 @@
             <!-- To Read Tab -->
             <mat-tab label="Booklist">
                 <div cdkDropListGroup>
-                    <div class="example-container">
+                    <div class="BookListCol">
                       <h2>To Read</h2>
                   
                       <div
                         cdkDropList
                         [cdkDropListData]="toReadBooks"
-                        class="example-list"
+                        class="BookListColItems"
                         (cdkDropListDropped)="drop($event)">
                         @for (item of toReadBooks; track item) {
-                          <div class="example-box" cdkDrag>
+                          <div class="BookInstance" cdkDrag>
                             {{item.title}}
                             <button mat-fab (click)="markAsFavorite(item._id)" matTooltip="favorite Book" matTooltipPosition="above">
                                 <mat-icon>star</mat-icon>
@@ -26,16 +26,16 @@
                       </div>
                     </div>
                   
-                    <div class="example-container">
+                    <div class="BookListCol">
                       <h2>Currently Reading</h2>
                   
                       <div
                         cdkDropList
                         [cdkDropListData]="readingBooks"
-                        class="example-list"
+                        class="BookListColItems"
                         (cdkDropListDropped)="drop($event)">
                         @for (item of readingBooks; track item) {
-                          <div class="example-box" cdkDrag>
+                          <div class="BookInstance" cdkDrag>
                             {{item.title}}
                             <button mat-fab (click)="markAsFavorite(item._id)" matTooltip="favorite Book" matTooltipPosition="above">
                                 <mat-icon>star</mat-icon>
@@ -48,16 +48,16 @@
                       </div>
                     </div>
 
-                    <div class="example-container">
+                    <div class="BookListCol">
                         <h2>Finished Reading</h2>
                     
                         <div
                           cdkDropList
                           [cdkDropListData]="hasReadBooks"
-                          class="example-list"
+                          class="BookListColItems"
                           (cdkDropListDropped)="drop($event)">
                           @for (item of hasReadBooks; track item) {
-                            <div class="example-box" cdkDrag>
+                            <div class="BookInstance" cdkDrag>
                                 {{item.title}}
                                 <button mat-fab (click)="finishReading(item._id)" matTooltip="remove from favorites" matTooltipPosition="above">
                                     <mat-icon>star</mat-icon>

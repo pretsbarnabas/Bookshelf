@@ -77,24 +77,24 @@
     flex: 1 1 100%; /* Full width on extra small screens */
   }
 }
-example-container {
-  width: 400px;
+.BookListCol {
+  width: 30%;
+  height: 80vh;
   max-width: 100%;
-  margin: 0 25px 25px 0;
+  margin: 0.5% 0.5% 0.5% 0.5%;
   display: inline-block;
   vertical-align: top;
 }
 
-.example-list {
-  border: solid 1px #ccc;
+.BookListColItems {
   min-height: 60px;
-  background: white;
+  background: grey;
   border-radius: 4px;
   overflow: hidden;
   display: block;
 }
 
-.example-box {
+.BookInstance {
   padding: 20px 10px;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
@@ -104,7 +104,7 @@ example-container {
   justify-content: space-between;
   box-sizing: border-box;
   cursor: move;
-  background: white;
+  background: red;
   font-size: 14px;
 }
 
@@ -124,10 +124,10 @@ example-container {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.example-box:last-child {
+.BookInstance:last-child {
   border: none;
 }
 
-.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+.BookListColItems.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
