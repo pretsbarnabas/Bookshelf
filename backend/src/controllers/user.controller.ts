@@ -241,10 +241,6 @@ export class UserController{
             else{
                 res.status(200).json({message:"User deleted"})
                 Logger.info(`User deleted: ${id}`)
-                const deletedReviews = await ReviewModel.deleteMany({user_id: id})
-                if(deletedReviews.deletedCount) Logger.info(`Deleted ${deletedReviews.deletedCount} reviews of user: ${id}`)
-                const deletedComments = await CommentModel.deleteMany({user_id: id})
-                if(deletedComments.deletedCount) Logger.info(`Deleted ${deletedComments.deletedCount} comments of user: ${id}`)
 
                 if(data.imageUrl) ImageController.deleteCloudinaryImage(data.imageUrl)
             }

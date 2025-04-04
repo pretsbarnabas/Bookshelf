@@ -73,6 +73,15 @@ reviewSchema.pre("deleteMany",async function (next){
     deleteData.forEach(async data=>{
         await CommentModel.deleteMany({review_id: data._id})
     })
+    next()
+})
+
+reviewSchema.pre("findOneAndDelete",async function (next){
+    let reviewId = (await ReviewModel.findOne(this.getFilter()).select("_id").lean())!._id
+
+    const deletedComments = await CommentModel.deleteMany({user_id: reviewId})
+    if(deletedComments.deletedCount) Logger.info(`Deleted ${deletedComments.deletedCount} comments of review: ${reviewId}`)
+    next()
 })
 
 const ReviewModel = model("ReviewModel",reviewSchema,"reviews")

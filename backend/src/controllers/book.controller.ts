@@ -210,17 +210,6 @@ export class BookController{
             if(data){
                 res.status(200).json({message:"Book deleted"})
                 if(data.imageUrl) ImageController.deleteCloudinaryImage(data.imageUrl)
-                const deletedReviews = await ReviewModel.deleteMany({book_id: id})
-                const onBooklist = await UserModel.find({"booklist.book_id": new Types.ObjectId(id as string)})
-                if(onBooklist){
-                    onBooklist.forEach(async (user:any) => {
-                        const existingIndex = await user.booklist.findIndex((entry:any) => 
-                            entry.book_id.toString() === id
-                        );
-                        user.booklist.splice(existingIndex,1)
-                        await user.save()
-                    });
-                }               
             }
             else{
                 res.status(404).json({message:"Book not found"})

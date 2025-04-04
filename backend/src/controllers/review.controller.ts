@@ -295,8 +295,6 @@ export class ReviewController{
             const data = await ReviewModel.findByIdAndDelete(id)
             if(data){
                 res.status(200).json({message:"Review deleted"})
-                const deletedComments = await CommentModel.deleteMany({review_id: id})
-                if(deletedComments.deletedCount) Logger.info(`Deleted ${deletedComments.deletedCount} comments of user: ${id}`)
             }
             else{
                 res.status(404).json({message:"Review not found"})

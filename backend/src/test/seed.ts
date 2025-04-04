@@ -78,7 +78,9 @@ async function seed(){
             "score": 8,
             "content": "Lorem",
             "created_at": new Date("2016-04-08T15:06:21.595Z"),
-            "updated_at": new Date("2016-04-08T15:06:21.595Z")
+            "updated_at": new Date("2016-04-08T15:06:21.595Z"),
+            "liked_by": [],
+            "disliked_by": []
         })
 
         await commentsCollection.insertOne({
@@ -87,7 +89,9 @@ async function seed(){
             "review_id": new mongoose.Types.ObjectId("a826b9febba8c411cf6d82cb"),
             "content": "Lorem",
             "created_at": new Date("2016-04-08T15:06:21.595Z"),
-            "updated_at": new Date("2016-04-08T15:06:21.595Z")
+            "updated_at": new Date("2016-04-08T15:06:21.595Z"),
+            "liked_by": [],
+            "disliked_by": []
         })
 
         await summariesCollection.insertOne({
