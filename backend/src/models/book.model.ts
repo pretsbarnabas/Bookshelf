@@ -1,8 +1,8 @@
-import {Schema, model}  from "mongoose"
+import mongoose, {Schema, model}  from "mongoose"
 import { Logger } from "../tools/logger"
-const ReviewModel = require("./review.model")
 const SummaryModel = require("./summary.model")
-const UserModel = require("./user.model")
+import UserModel from "./user.model"
+import ReviewModel from "./review.model"
 
 
 export const bookSchema = new Schema({
@@ -64,7 +64,12 @@ bookSchema.pre("save",function(next){
 })
 
 bookSchema.pre("findOneAndDelete",async function(next){
-    let bookId = (await BookModel.findOne(this.getFilter()).select("_id").lean())!._id
+    let find = await BookModel.findOne(this.getFilter()).select("_id").lean()
+    if(!find){
+        next()
+        return
+    }
+    const bookId = find._id
 
     const deletedSummaries = await SummaryModel.deleteMany({user_id: bookId})
     if(deletedSummaries.deletedCount) Logger.info(`Deleted ${deletedSummaries.deletedCount} summaries of book: ${bookId}`)
@@ -107,3 +112,4 @@ bookSchema.pre("deleteMany",async function (next){
 const BookModel = model("BookModel",bookSchema,"books")
 
 module.exports = BookModel
+export default BookModel

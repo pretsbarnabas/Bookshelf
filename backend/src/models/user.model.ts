@@ -1,9 +1,9 @@
 import {Schema, model}  from "mongoose"
 import { Logger } from "../tools/logger";
-const ReviewModel = require("./review.model")
-const CommentModel = require("./comment.model")
-const BookModel = require("./book.model")
-const SummaryModel = require("./summary.model")
+import ReviewModel from "./review.model";
+import CommentModel from "./comment.model";
+import BookModel from "./book.model";
+import SummaryModel from "./summary.model";
 
 const userSchema = new Schema({
     username:{
@@ -94,7 +94,12 @@ userSchema.post("save",function(next){
 })
 
 userSchema.pre("findOneAndDelete",async function(next){
-    let userId = (await UserModel.findOne(this.getFilter()).select("_id").lean())!._id
+    let find = await UserModel.findOne(this.getFilter()).select("_id").lean()
+    if(!find){
+        next()
+        return
+    }
+    const userId = find._id
     
     const deletedComments = await CommentModel.deleteMany({user_id: userId})
     if(deletedComments.deletedCount) Logger.info(`Deleted ${deletedComments.deletedCount} comments of user: ${userId}`)
@@ -152,3 +157,4 @@ userSchema.pre("findOneAndDelete",async function(next){
 const UserModel = model("UserModel",userSchema,"users")
 
 module.exports = UserModel
+export default UserModel
