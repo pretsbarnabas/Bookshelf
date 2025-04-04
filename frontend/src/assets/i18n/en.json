@@ -145,8 +145,10 @@
         "COMMENT": {
             "REPLY": "Reply",
             "PLACEHOLDER": "Leave a comment",
+            "EDITED": "edited",
             "CANCEL": "Cancel",
             "SUBMIT": "Comment",
+            "Edit": "Edit",
             "SHOW": "Show comments",
             "HIDE": "Hide comments",
             "MORE": "Show more",

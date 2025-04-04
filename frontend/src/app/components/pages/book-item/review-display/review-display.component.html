@@ -19,7 +19,7 @@
     <div class="px-4 review-content">
         <p class="book-item-desc m-0">{{ this.review?.content }}</p>
     </div>
-    <div class="col-2 offset-10">
+    <div class="col-6 offset-6 col-lg-2 offset-lg-10 d-flex justify-content-end">
         <button mat-button (click)="this.isCommenting = true">
             <mat-icon>reply</mat-icon>
             {{ 'BOOKITEM.COMMENT.REPLY' | translate }}
@@ -63,8 +63,9 @@
     @for (comment of this.comments; track $index) {
     <mat-card appearance="raised" class="my-1">
         <p class="p-0 m-0 row">
-            <span class="text-center col-4 offset-8 col-lg-2 offset-lg-10"><i>{{ comment.created_at | relativeTime
-                    }}</i></span>
+            <span class="text-end col-6 offset-6 col-lg-4 offset-lg-8 subtext"><i>{{ comment.created_at | relativeTime
+                    }}</i><i *ngIf="comment.created_at !== comment.updated_at"> ({{
+                    'BOOKITEM.COMMENT.EDITED' | translate }})</i></span>
         </p>
         <mat-card-content class="p-2 px-4 w-100">
             <div class="row">
@@ -74,20 +75,45 @@
                 @if(comment.user._id === this.user?._id){
                 <div class="col-7" fxHide.gt-sm></div>
                 <div class="col-2 p-0" fxHide.gt-sm>
-                    <button mat-mini-fab class="delete" (click)="$event.stopPropagation();">
+                    <button mat-button (click)="this.deleteComment(comment);">
                         <mat-icon class="mx-auto">delete</mat-icon>
+                    </button>
+                    <button mat-button (click)="this.editComment(comment);">
+                        <mat-icon class="mx-auto">edit</mat-icon>
                     </button>
                 </div>
                 }
                 <div class="col-12 col-sm-9 col-lg-10 p-0">
-                    <div class="comment-content">
+                    <div class="comment-content" *ngIf="this.commentUnderEdit?._id != comment._id">
                         {{ comment.content }}
+                    </div>
+                    <div class="comment-content" *ngIf="this.commentUnderEdit?._id == comment._id">
+                        <form [formGroup]="this.commentEditForm!">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <textarea id="leave-comment" matInput maxlength="256" cdkTextareaAutosize
+                                    #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="4"
+                                    formControlName="comment"></textarea>
+                            </mat-form-field>
+                        </form>
+                        <div class="w-100 d-flex justify-content-end mt-2">
+                            <button mat-raised-button (click)="this.cancelEditComment()">
+                                {{ 'BOOKITEM.COMMENT.CANCEL' | translate }}
+                            </button>
+                            <button mat-flat-button class="ms-2"
+                                (click)="this.submitEditComment(this.commentUnderEdit!)"
+                                [disabled]="!this.commentForm!.valid">
+                                {{ 'BOOKITEM.COMMENT.EDIT' | translate }}
+                            </button>
+                        </div>
                     </div>
                 </div>
                 @if(comment.user._id === this.user?._id){
                 <div class="col-1 p-0" fxHide.lt-md>
-                    <button mat-mini-fab class="delete" (click)="this.deleteComment(comment);">
+                    <button mat-button (click)="this.deleteComment(comment);">
                         <mat-icon class="mx-auto">delete</mat-icon>
+                    </button>
+                    <button mat-button (click)="this.editComment(comment);">
+                        <mat-icon class="mx-auto">edit</mat-icon>
                     </button>
                 </div>
                 }
@@ -95,7 +121,7 @@
         </mat-card-content>
     </mat-card>
     }
-    <div class="d-flex">
+    <div class=" d-flex">
         @if(this.maxCommentPages > 1) {
         <button mat-button (click)="this.loadCommentsBySampleSize(5)" class="d-flex align-items-center">
             <mat-icon>keyboard_arrow_down</mat-icon>

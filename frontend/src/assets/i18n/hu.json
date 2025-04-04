@@ -145,8 +145,10 @@
         "COMMENT": {
             "REPLY": "Válasz",
             "PLACEHOLDER": "Hagyj egy hozzászólást",
+            "EDITED": "szerkesztve",
             "CANCEL": "Mégse",
             "SUBMIT": "Hozzászólás",
+            "EDIT": "Módosítás",
             "SHOW": "Hozzászólások megjelenítése",
             "HIDE": "Hozzászólások elrejtése",
             "MORE": "Több megjelenítése",

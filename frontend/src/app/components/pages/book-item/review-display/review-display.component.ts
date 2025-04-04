@@ -49,7 +49,10 @@ export class ReviewDisplayComponent {
     maxCommentPages: number = 0;
     commentSampleSize: number = 5;
     isCommenting: boolean = false;
+    commentUnderEdit: CommentModel | null = null;
+
     commentForm?: FormGroup;
+    commentEditForm?: FormGroup;
     showComments: boolean = false;
 
     ngOnChanges() {
@@ -60,13 +63,16 @@ export class ReviewDisplayComponent {
         this.commentForm = this.fb.group({
             comment: [''/*, Validators.required*/]
         });
+        this.commentEditForm = this.fb.group({
+            comment: ['', Validators.required]
+        });
     }
 
     getComments() {
         this.commentService.getAllcomments(this.commentSampleSize, 0, undefined, /*this.review?._id*/).subscribe({
-            next: (result) => {              
-                this.comments = result.data;      
-                this.maxCommentPages = result.pages;               
+            next: (result) => {
+                this.comments = result.data;
+                this.maxCommentPages = result.pages;
             },
             error: (err) => {
                 console.log(err);
@@ -75,7 +81,7 @@ export class ReviewDisplayComponent {
     }
 
     loadCommentsBySampleSize(_sample: number) {
-        this.commentSampleSize += _sample;        
+        this.commentSampleSize += _sample;
         this.getComments();
     }
 
@@ -111,13 +117,39 @@ export class ReviewDisplayComponent {
         }
     }
 
-    deleteComment($event: CommentModel){
-        if(this.comments.length % 5 === 1 && this.comments.length > 5)
+    deleteComment($event: CommentModel) {
+        if (this.comments.length % 5 === 1 && this.comments.length > 5)
             this.commentSampleSize -= 5;
-        if(this.user?._id === $event.user._id){            
+        if (this.user?._id === $event.user._id) {
             this.commentService.deleteComment($event._id).subscribe({
                 next: (result) => {
                     this.getComments();
+                },
+                error: (err) => {
+                    console.log(err);
+                },
+            })
+        }
+    }
+
+    editComment($event: CommentModel) {
+        this.commentUnderEdit = structuredClone($event);
+        this.commentEditForm!.controls['comment'].setValue(this.commentUnderEdit.content);
+    }
+
+    cancelEditComment() {
+        this.commentEditForm!.controls['comment'].setValue('');
+        this.commentUnderEdit = null
+    }
+
+    submitEditComment($event: CommentModel) {
+        if (this.commentEditForm?.valid) {
+            this.commentService.updateComment($event._id, { ...$event, content: this.commentEditForm.controls['comment'].value }).subscribe({
+                next: (result) => {
+                    this.cancelEditComment();
+                    setTimeout(() => {
+                        this.getComments();
+                    }, 1000);
                 },
                 error: (err) => {
                     console.log(err);
