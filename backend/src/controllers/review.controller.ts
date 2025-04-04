@@ -419,7 +419,7 @@ export class ReviewController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            if(!Authenticator.verifyUser(req,id)) throw new Error("Unauthorized")
+            if(!Authenticator.verifyUser(req)) throw new Error("Unauthorized")
 
             const review = await ReviewModel.findById(id)
             if(!review) throw new Error("Review not found")

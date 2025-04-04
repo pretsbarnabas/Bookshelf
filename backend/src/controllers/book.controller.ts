@@ -242,11 +242,11 @@ export class BookController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            if(!Authenticator.verifyUser(req,id)) return res.status(401).json({message: "Unauthorized"})
-                const book = await BookModel.findById(id)
+            const book = await BookModel.findById(id)
+            if(!book) return res.status(404).json({message: "Book not found"})
+            if(!Authenticator.verifyUser(req,book.user_id)) return res.status(401).json({message: "Unauthorized"})
             const updates = req.body
             const allowedFields = ["title","author","release","genre","description","image"]
-            if(!book) return res.status(404).json({message: "Book not found"})
             for (const key of Object.keys(updates)) {
                 if (!allowedFields.includes(key)) {
                     return res.status(400).json({ message: `Cannot update ${key} field` });

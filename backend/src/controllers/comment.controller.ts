@@ -297,7 +297,10 @@ export class CommentController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            if(!Authenticator.verifyUser(req,id)) return res.json(401).send()
+            const comment = await CommentModel.findById(id)
+            if(!comment) return res.status(404).json({message: "Comment not found"})
+            
+            if(!Authenticator.verifyUser(req,comment.user_id)) return res.json(401).send()
             const data = await CommentModel.findByIdAndDelete(id)
             if(!data){
                 res.status(404).json({message:"Comment not found"})
@@ -322,10 +325,13 @@ export class CommentController{
                 Logger.warn("content is required")
                 return res.status(400).json({message: "content is required"})
             }
-            if(!Authenticator.verifyUser(req,id)) return res.status(401).json({message: "Unauthorized"})
+
+         
             
             const comment = await CommentModel.findById(id)
             if(!comment) return res.status(404).json({message: "User not found"})
+            
+            if(!Authenticator.verifyUser(req,comment.user_id)) return res.status(401).json({message: "Unauthorized"})
 
             comment.content = content
             await comment.save()
@@ -411,7 +417,7 @@ export class CommentController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            if(!Authenticator.verifyUser(req,id)) throw new Error("Unauthorized")
+            if(!Authenticator.verifyUser(req)) throw new Error("Unauthorized")
 
             const comment = await CommentModel.findById(id)
             if(!comment) throw new Error("Review not found")
