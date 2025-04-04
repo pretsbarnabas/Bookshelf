@@ -1,7 +1,7 @@
 <div class="wrapper">
     <div class="wrapper-content">
-        <div class="book-item d-flex align-items-start flex-wrap flex-sm-column flex-md-row flex-lg-row p-2 w-100">
-            <div id="Book" class="col-12 col-md-6 col-lg-4 h-100">
+        <div class="book-item p-2 row w-100 mx-auto">
+            <div id="Book" class="col-12 col-lg-4 h-100 mx-auto">
                 <mat-card class="book-card w-100">
                     <mat-card-header>
                         <img mat-card-image class="book-image w-75 mx-auto" [src]="
@@ -17,8 +17,7 @@
                             {{ 'BOOKITEM.BOOKCARD.AUTHOR' | translate}}: {{ book?.author }}<br>
                             <b>{{ 'BOOKITEM.BOOKCARD.RELEASE' | translate}}:</b> {{ formatDate(book?.release) }}
                         </mat-card-subtitle>
-                        <form class="form-row" *ngIf="isLoggedIn" [formGroup]="reviewForm"
-                            (ngSubmit)="onSubmitReview()">
+                        <form class="form-row" *ngIf="isLoggedIn" [formGroup]="reviewForm">
                             <mat-form-field class="mw-80" appearance="fill">
                                 <mat-label>{{
                                     "BOOKITEM.BOOKCARD.CONTENT" | translate
@@ -42,7 +41,7 @@
                                 <span class="body-2">{{ rating }}</span> /
                                 <span class="body-2">{{ starCount }}</span>
                             </p>
-                            <button mat-fab class="w-100" id="book-item-submit" type="submit">
+                            <button mat-fab class="w-100" id="book-item-submit" type="submit" (click)="this.onSubmitReview()">
                                 <mat-icon class="me-2">backup</mat-icon>
                                 {{ "BOOKITEM.BOOKCARD.SUBMIT" | translate }}
                             </button>
@@ -50,7 +49,7 @@
                     </mat-card-content>
                 </mat-card>
             </div>
-            <div id="Book-Details" class="book-details col-12 col-md-6 col-lg-8">
+            <div id="Book-Details" class="book-details col-12 col-lg-8 mx-auto">
                 <div class="row px-5 py-3">
                     <div class="col-12 col-sm-6 col-lg-3">
                         <button class="w-100" mat-fab color="primary" (click)="onBack()">

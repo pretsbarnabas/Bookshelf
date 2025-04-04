@@ -110,8 +110,9 @@ export class BookItemComponent implements OnInit {
     }
     fillreviews() {
         this.reviews = [];
-        this.bookService.getReviewsByBook(this.bookId, this.pageSize).subscribe(reviews => {
+        this.bookService.getReviewsByBook(this.bookId, this.currentPageIndex, this.pageSize).subscribe(reviews => {
             this.reviews = reviews.data;
+            this.maxPages = reviews.pages;
             for (let i = 0; i < this.reviews.length; i++) {
                 if (!this.uniqueUserIds.includes(this.reviews[i].user._id)) {
                     this.uniqueUserIds.push(this.reviews[i].user._id);
@@ -124,6 +125,7 @@ export class BookItemComponent implements OnInit {
     }
 
     onPageChange(changes: { pageIndex: number; pageSize: number }) {
+        this.currentPageIndex = changes.pageIndex;
         this.pageSize = changes.pageSize;
         this.fillreviews();
     }
@@ -164,20 +166,17 @@ export class BookItemComponent implements OnInit {
     }
     async onSubmitReview() {
         if (this.reviewForm.valid) {
-            console.log(this.reviewForm.value.content)
-            console.log(this.rating)
-            console.log(this.bookId)
             const newReview = {
                 content: this.reviewForm.value.content,
                 score: this.rating * 2,
                 book_id: this.bookId,
                 user_id: this.loggedInUser!._id
             };
-            console.log(newReview)
             if (!this.uniqueUserIds.includes(this.loggedInUser!._id)) {
                 this.bookService.Addreview(newReview).subscribe(async review => {
-                    console.log(review)
-                    this.fillreviews();
+                    setTimeout(() => {
+                        this.fillreviews();                        
+                    }, 1000);
                     this.reviewForm.reset();
                     this.snackBar.open(await firstValueFrom(this.translationService.service.get('BOOKITEM.SNACKBAR.SUBMITTED')), '', {
                         duration: this.snackBarDuration

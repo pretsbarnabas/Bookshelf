@@ -1,6 +1,6 @@
 <div class="row w-100">
     <div class="col-12 col-lg-3 ms-0">
-        <div class="">
+        <div class="ms-2">
             <img class="user-profile-picture" [src]="this.review?.user?.imageUrl ?? this.review?.user?.profile_image" />
             <span class="username">{{ this.review?.user?.username }}</span>
         </div>
@@ -13,7 +13,7 @@
             </mat-icon>
         </button>
     </div>
-    <div class="col-12 col-lg-2 me-0">
+    <div class="col-12 col-lg-2 me-0 subtext text-end">
         <p>(<i>{{ this.review?.created_at! | relativeTime }})</i></p>
     </div>
     <div class="px-4 review-content">
@@ -29,7 +29,7 @@
 @if(this.user && this.isCommenting){
 <div class="row w-100">
     <div class="col-3 col-sm-2 col-lg-1">
-        <img class="user-profile-picture" [src]="this.user!.imageUrl ?? this.user!.profile_image" />
+        <img class="user-profile-picture ms-2" [src]="this.user!.imageUrl ?? this.user!.profile_image" />
     </div>
     <div class="col-9 col-sm-10 col-lg-11">
         <form [formGroup]="this.commentForm!">
@@ -61,65 +61,60 @@
     </button>
     @if(this.showComments){
     @for (comment of this.comments; track $index) {
-    <mat-card appearance="raised" class="my-1">
-        <p class="p-0 m-0 row">
-            <span class="text-end col-6 offset-6 col-lg-4 offset-lg-8 subtext"><i>{{ comment.created_at | relativeTime
-                    }}</i><i *ngIf="comment.created_at !== comment.updated_at"> ({{
-                    'BOOKITEM.COMMENT.EDITED' | translate }})</i></span>
-        </p>
-        <mat-card-content class="p-2 px-4 w-100">
-            <div class="row">
-                <div class="col-3 col-sm-2 col-lg-1 p-0">
-                    <img class="user-profile-picture" [src]="comment.user.imageUrl ?? comment.user.profile_image" />
-                </div>
-                @if(comment.user._id === this.user?._id){
-                <div class="col-7" fxHide.gt-sm></div>
-                <div class="col-2 p-0" fxHide.gt-sm>
-                    <button mat-button (click)="this.deleteComment(comment);">
-                        <mat-icon class="mx-auto">delete</mat-icon>
-                    </button>
-                    <button mat-button (click)="this.editComment(comment);">
-                        <mat-icon class="mx-auto">edit</mat-icon>
-                    </button>
-                </div>
-                }
-                <div class="col-12 col-sm-9 col-lg-10 p-0">
-                    <div class="comment-content" *ngIf="this.commentUnderEdit?._id != comment._id">
-                        {{ comment.content }}
-                    </div>
-                    <div class="comment-content" *ngIf="this.commentUnderEdit?._id == comment._id">
-                        <form [formGroup]="this.commentEditForm!">
-                            <mat-form-field appearance="outline" class="w-100">
-                                <textarea id="leave-comment" matInput maxlength="256" cdkTextareaAutosize
-                                    #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="4"
-                                    formControlName="comment"></textarea>
-                            </mat-form-field>
-                        </form>
-                        <div class="w-100 d-flex justify-content-end mt-2">
-                            <button mat-raised-button (click)="this.cancelEditComment()">
-                                {{ 'BOOKITEM.COMMENT.CANCEL' | translate }}
-                            </button>
-                            <button mat-flat-button class="ms-2"
-                                (click)="this.submitEditComment(this.commentUnderEdit!)"
-                                [disabled]="!this.commentForm!.valid">
-                                {{ 'BOOKITEM.COMMENT.EDIT' | translate }}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                @if(comment.user._id === this.user?._id){
-                <div class="col-1 p-0" fxHide.lt-md>
-                    <button mat-button (click)="this.deleteComment(comment);">
-                        <mat-icon class="mx-auto">delete</mat-icon>
-                    </button>
-                    <button mat-button (click)="this.editComment(comment);">
-                        <mat-icon class="mx-auto">edit</mat-icon>
-                    </button>
-                </div>
-                }
+    <p class="p-0 m-0 row">
+        <span class="text-end col-6 offset-6 col-lg-4 offset-lg-8 subtext"><i>{{ comment.created_at | relativeTime
+                }}</i><i *ngIf="comment.created_at !== comment.updated_at"> ({{
+                'BOOKITEM.COMMENT.EDITED' | translate }})</i></span>
+    </p>
+    <div class="row w-100 ps-3">
+        <div class="col-3 col-sm-2 col-lg-1 p-0">
+            <img class="user-profile-picture" [src]="comment.user.imageUrl ?? comment.user.profile_image" />
+        </div>
+        @if(comment.user._id === this.user?._id){
+        <div class="col-7" fxHide.gt-sm></div>
+        <div class="col-2 p-0" fxHide.gt-sm>
+            <button mat-button (click)="this.deleteComment(comment);">
+                <mat-icon class="mx-auto">delete</mat-icon>
+            </button>
+            <button mat-button (click)="this.editComment(comment);">
+                <mat-icon class="mx-auto">edit</mat-icon>
+            </button>
+        </div>
+        }
+        <div class="col-12 col-sm-9 col-lg-10 p-0">
+            <div class="comment-content" *ngIf="this.commentUnderEdit?._id != comment._id">
+                {{ comment.content }}
             </div>
-        </mat-card-content>
-    </mat-card>
+            <div class="comment-content" *ngIf="this.commentUnderEdit?._id == comment._id">
+                <form [formGroup]="this.commentEditForm!">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <textarea id="leave-comment" matInput maxlength="256" cdkTextareaAutosize
+                            #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="4"
+                            formControlName="comment"></textarea>
+                    </mat-form-field>
+                </form>
+                <div class="w-100 d-flex justify-content-end mt-2">
+                    <button mat-raised-button (click)="this.cancelEditComment()">
+                        {{ 'BOOKITEM.COMMENT.CANCEL' | translate }}
+                    </button>
+                    <button mat-flat-button class="ms-2" (click)="this.submitEditComment(this.commentUnderEdit!)"
+                        [disabled]="!this.commentForm!.valid">
+                        {{ 'BOOKITEM.COMMENT.EDIT' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+        @if(comment.user._id === this.user?._id){
+        <div class="col-1 p-0" fxHide.lt-md>
+            <button mat-button (click)="this.deleteComment(comment);">
+                <mat-icon class="mx-auto">delete</mat-icon>
+            </button>
+            <button mat-button (click)="this.editComment(comment);">
+                <mat-icon class="mx-auto">edit</mat-icon>
+            </button>
+        </div>
+        }
+    </div>
     }
     <div class=" d-flex">
         @if(this.maxCommentPages > 1) {
