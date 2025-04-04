@@ -127,7 +127,7 @@ export class ReviewController{
                 {$limit: limit}
             ])
 
-            if(data.length){
+            if(data && data.length){
                 const pages = Math.ceil(await ReviewModel.estimatedDocumentCount() / limit)
                 await Authenticator.verifyUser(req)
                 data.forEach((review: any) => {review.liked_by_user = "none"})
@@ -152,7 +152,7 @@ export class ReviewController{
                 return res.status(404).json({message: "No reviews found"})
             }
         }catch(error:any){
-            res.status(500).json({message:error.message})
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
     }
 

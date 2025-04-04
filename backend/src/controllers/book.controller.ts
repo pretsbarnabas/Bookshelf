@@ -119,10 +119,13 @@ export class BookController{
                 }
                 
             const books = await BookModel.aggregate(matchConditions);
-            if(books){
+            if(books && books.length){
                 Logger.info("Request handled")
                 const pages = Math.ceil(await BookModel.estimatedDocumentCount() / limit)
                 res.status(200).json({data: books, pages: pages})
+            }
+            else{
+                res.status(404).json({message: "No books found"})
             }
         }catch(error:any){
             ErrorHandler.HandleMongooseErrors(error,res)
@@ -131,13 +134,14 @@ export class BookController{
 
     static async getBookById(req:any,res:any){
         try{
-            const {id, fields} = req.params
+            const {id} = req.params
+            const {fields} = req.query
             let allowedFields = ["_id","title","author","user_id","genre","release","description","added_at","updated_at","imageUrl"]
             
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
             const validFields: string[] = requestedFields.filter(field =>allowedFields.includes(field))
 
-            if(validFields.length === 0) return res.status(400).json({error:"Invalid fields requested"})
+            if(validFields.length === 0) return res.status(400).json({message:"Invalid fields requested"})
             
             if(!validFields.includes("_id")) validFields.push("-_id")
 
@@ -147,7 +151,7 @@ export class BookController{
                 res.status(200).json(data)
             }
             else{
-                res.status(404).json({message: "User not found"})
+                res.status(404).json({message: "Book not found"})
             }
         }catch(error:any){
             res.status(500).json({message:error.message})
@@ -158,13 +162,13 @@ export class BookController{
         try{
             let {title, image, author = "Unknown", genre = "None", description = "No description added", release = null} = req.body
             
-            if(!title) return res.status(400).json({error: "title required"})
+            if(!title) return res.status(400).json({message: "title is required"})
             
             if(!Authenticator.verifyUser(req,"",["editor"])) return res.status(401).json({message:  `Unauthorized`})
             
             if(release){
                 if(!validators.isValidISODate(release))
-                    return res.status(400).json({error:"Invalid date"})
+                    return res.status(400).json({message:"Invalid date"})
             }
 
 
@@ -205,7 +209,7 @@ export class BookController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            if(!Authenticator.verifyUser(req,"",["editor"])) return res.status(401).send()
+            if(!Authenticator.verifyUser(req,"",["editor"])) throw new Error("Unauthorized")
             const data = await BookModel.findByIdAndDelete(id)
             if(data){
                 res.status(200).json({message:"Book deleted"})
@@ -216,7 +220,7 @@ export class BookController{
             }
         }
         catch(error:any){
-            res.status(500).json({message:error.message})
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
     }
 

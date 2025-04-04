@@ -1,9 +1,8 @@
-const MongoClient = require("mongodb").MongoClient
 import mongoose from "mongoose"
 
 
 
-async function seed(){
+export async function seed(){
     const uri = "mongodb://localhost:27017/Bookshelf"
 
     await mongoose.connect(uri)
@@ -55,6 +54,23 @@ async function seed(){
                 {
                     "book_id": new mongoose.Types.ObjectId("7fdb24bfd2c9eaca400201b8"),
                     "read_status": "to_read"
+                }
+            ]
+        })
+
+        await usersCollection.insertOne({
+            "_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2d"),
+            "username": "editor",
+            "password_hashed": "$2b$10$2ticgdLvmAs4b5epdj3rZeyf1.04UBUbxR7m/kk/HAYhhGVLAort.",
+            "email": "editor@mail.com",
+            "created_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z"),
+            "last_login": new Date("2016-04-08T15:06:21.595Z"),
+            "role": "editor",
+            "booklist": [
+                {
+                    "book_id": new mongoose.Types.ObjectId("7fdb24bfd2c9eaca400201b8"),
+                    "read_status": "has_read"
                 }
             ]
         })

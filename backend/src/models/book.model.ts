@@ -66,15 +66,16 @@ bookSchema.pre("save",function(next){
 bookSchema.pre("findOneAndDelete",async function(next){
     let find = await BookModel.findOne(this.getFilter()).select("_id").lean()
     if(!find){
+
         next()
         return
     }
     const bookId = find._id
 
-    const deletedSummaries = await SummaryModel.deleteMany({user_id: bookId})
+    const deletedSummaries = await SummaryModel.deleteMany({book_id: bookId})
     if(deletedSummaries.deletedCount) Logger.info(`Deleted ${deletedSummaries.deletedCount} summaries of book: ${bookId}`)
 
-    const deletedReviews = await ReviewModel.deleteMany({user_id: bookId})
+    const deletedReviews = await ReviewModel.deleteMany({book_id: bookId})
     if(deletedReviews.deletedCount) Logger.info(`Deleted ${deletedReviews.deletedCount} reviews of book: ${bookId}`)
 
     const onBooklist = await UserModel.find({"booklist.book_id": bookId})

@@ -6,7 +6,7 @@
     "start": "npx nodemon ./src/main.ts sharp",
     "test:env": "npm i && powershell Remove-Item src/test/mongolog.* && concurrently \"mongod --logpath src/test/mongolog.json --quiet --port 27017 --dbpath C:/data/db\" \"npx nodemon ./src/main.ts test\"",
     "test:seed": "npm i && powershell Remove-Item src/test/mongolog.* && concurrently \"mongod --logpath src/test/mongolog.json --quiet --port 27017 --dbpath C:/data/db\" \"tsx src/test/seed.ts\" \"npx nodemon ./src/main.ts test\"",
-    "test:jest": "npm i && powershell Remove-Item src/test/mongolog.* && concurrently --kill-others-on-fail \"mongod --logpath src/test/mongolog.json --quiet --port 27017 --dbpath C:/data/db\" \"tsx src/test/seed.ts\" \"npx jest --forceExit && npx kill-port 27017\"",
+    "test:jest": "npm i && powershell Remove-Item src/test/mongolog.* && concurrently --kill-others-on-fail \"mongod --logpath src/test/mongolog.json --quiet --port 27017 --dbpath C:/data/db\" \"tsx src/test/seed.ts\" \"npx jest --forceExit --maxWorkers=1 && npx kill-port 27017\"",
     "test:jest:pipe": "npm i && tsx src/test/seed.ts && npx jest --forceExit"
   },
   "keywords": [],

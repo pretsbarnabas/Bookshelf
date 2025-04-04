@@ -1,13 +1,21 @@
 process.argv.push("test")
+process.argv.push("jest")
 import app from "../../main"
 import request from "supertest"
+import {seed} from "../seed"
 
 let newUser: any
 let newUserToken: string
 let adminToken: string
-let allUserCount: number
+let adminId = "db0b0c1f83fb29f652cc5a2f"
+let adminUsername = "admin"
 
 describe("User Controller Post Route Tests",()=>{
+    beforeAll(async()=>{
+        const response = await request(app).post("/api/login").send({username: "admin", password: "admin"})
+        adminToken = response.body.token
+    })
+
     it("should return 201 Created and post new user ",async()=>{
         const response = await request(app).post("/api/users").send({username: "barni", password: "jelszo", email: "barni@mail.com", role: "user"})
         expect(response.statusCode).toBe(201)
@@ -34,10 +42,15 @@ describe("User Controller Post Route Tests",()=>{
         expect(response.body.message).toEqual("Unauthorized to create user of role admin")
     })
     it("should return 401 Unauthorized when trying to create user with editor role (no auth)",async()=>{
-        const response = await request(app).post("/api/users").send({username: "barni", password: "jelszo", email: "barni@mail.com", role: "editor"})
+        const response = await request(app).post("/api/users").send({username: "editor", password: "jelszo", email: "barni@editor.com", role: "editor"})
         expect(response.statusCode).toBe(401)
         expect(response.body.message).toBeDefined()
         expect(response.body.message).toEqual("Unauthorized to create user of role editor")
+    })
+    it("should return 201 Created when trying to create user with editor role (auth)",async()=>{
+        const response = await request(app).post("/api/users").send({username: "neweditor", password: "jelszo", email: "barni@editor.com", role: "editor"}).set("Authorization", `Bearer ${adminToken}`)
+        expect(response.statusCode).toBe(201)
+        expect(response.body._id).toBeDefined()
     })
     it("should return 401 Unauthorized when trying to create user with invalid role (no auth)",async()=>{
         const response = await request(app).post("/api/users").send({username: "barni", password: "jelszo", email: "barni@mail.com", role: "asd"})
@@ -46,7 +59,7 @@ describe("User Controller Post Route Tests",()=>{
         expect(response.body.message).toEqual("Unauthorized to create user of role asd")
     })
     it("should return 400 Bad Request if username already exists",async()=>{
-        const response = await request(app).post("/api/users").send({username: "barni", password: "jelszo", email: "barni@mail.com", role: "user"})
+        const response = await request(app).post("/api/users").send({username: "barni", password: "jelszo", email: "barnii@mail.com", role: "user"})
         expect(response.statusCode).toBe(400)
         expect(response.body.message).toBeDefined()
         expect(response.body.message).toEqual("username of value barni already exists")
@@ -93,6 +106,12 @@ describe("User Controller Put Route Tests",()=>{
         expect(response.body).toBeDefined()
         expect(response.body.username).toEqual("barnii")
         newUser.username = response.body.username
+    })
+    it("should not be able to modify user details with no auth",async()=>{
+        const response = await request(app).put(`/api/users/${newUser._id}`).send({username: "barnii"})
+        expect(response.statusCode).toBe(401)
+        expect(response.body.message).toBeDefined()
+        expect(response.body.message).toEqual("Unauthorized")
     })
     it("should modify multiple fields at once",async()=>{
         const response = await request(app).put(`/api/users/${newUser._id}`).send({username: "barni",email: "barna@mail.com"}).set("Authorization", `Bearer ${newUserToken}`)
@@ -166,7 +185,6 @@ describe("User Controller Get All Route Tests",()=>{
         expect(response.body.pages).toBeDefined()
         expect(response.body.pages).toEqual(1)
         expect(response.body.data.length).toBeGreaterThan(0)
-        allUserCount = response.body.data.length
         expect(response.body.data[0].email).toBeUndefined()
         expect(response.body.data[0].password_hashed).toBeUndefined()
     })
@@ -250,17 +268,17 @@ describe("User Controller Get All Route Tests",()=>{
 
 describe("User Controller Delete Route Tests",()=>{
     
-    it("should delete user when authorized",async()=>{
-        const response = await request(app).delete(`/api/users/${newUser._id}`).set("Authorization", `Bearer ${newUserToken}`)
-        expect(response.statusCode).toBe(200)
-        expect(response.body.message).toBeDefined()
-        expect(response.body.message).toEqual("User deleted")
-    })
     it("should not delete user when not authorized",async()=>{
         const response = await request(app).delete(`/api/users/${newUser._id}`)
         expect(response.statusCode).toBe(401)
         expect(response.body.message).toBeDefined()
         expect(response.body.message).toEqual("Unauthorized")
+    })
+    it("should delete user when authorized",async()=>{
+        const response = await request(app).delete(`/api/users/${newUser._id}`).set("Authorization", `Bearer ${newUserToken}`)
+        expect(response.statusCode).toBe(200)
+        expect(response.body.message).toBeDefined()
+        expect(response.body.message).toEqual("User deleted")
     })
     it("should return invalid id format on bad id",async()=>{
         const response = await request(app).delete(`/api/users/asd`)
@@ -273,5 +291,39 @@ describe("User Controller Delete Route Tests",()=>{
         expect(response.statusCode).toBe(404)
         expect(response.body.message).toBeDefined()
         expect(response.body.message).toEqual("User not found")
+    })
+})
+
+describe("User Controller Cascade Deletion Tests",()=>{
+    beforeAll(async()=>{
+        const response = await request(app).delete(`/api/users/${adminId}`).set("Authorization", `Bearer ${adminToken}`)
+        expect(response.statusCode).toBe(200)
+    })
+    afterAll(async ()=>{
+        seed()
+    })
+    it("should have delete books made by deleted user",async()=>{
+        const response = await request(app).get(`/api/books?user_id=${adminId}`)
+        expect(response.statusCode).toBe(404)
+        expect(response.body.message).toBeDefined()
+        expect(response.body.message).toEqual("No books found")
+    })
+    it("should have deleted reviews made by deleted user",async()=>{
+        const response = await request(app).get(`/api/reviews?user_id=${adminId}`)
+        expect(response.statusCode).toBe(404)
+        expect(response.body.message).toBeDefined()
+        expect(response.body.message).toEqual("No reviews found")
+    })
+    it("should have deleted comments made by deleted user",async()=>{
+        const response = await request(app).get(`/api/comments?user_id=${adminId}`)
+        expect(response.statusCode).toBe(404)
+        expect(response.body.message).toBeDefined()
+        expect(response.body.message).toEqual("No comments found")    
+    })
+    it("should have deleted summaries made by deleted user",async()=>{
+        const response = await request(app).get(`/api/summaries?user_id=${adminId}`)
+        expect(response.statusCode).toBe(404)
+        expect(response.body.message).toBeDefined()
+        expect(response.body.message).toEqual("No summaries found")
     })
 })

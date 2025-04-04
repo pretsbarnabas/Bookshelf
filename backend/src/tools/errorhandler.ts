@@ -12,11 +12,14 @@ export class ErrorHandler{
             })
         }
         if(error.name === "ValidationError"){
-            const errors: any = {};
+            const errors: Array<string> = [];
             for (let field in error.errors) {
-              errors[field] = error.errors[field].message;
+              errors.push(`${error.errors[field].message}`)
             }
-            return res.status(400).json({ errors });
+            return res.status(400).json({ message: errors });
+        }
+        if(error.message === "Unauthorized"){
+            return res.status(401).json({message: "Unauthorized"})
         }
         Logger.error(error.message)
         return res.status(400).json({message:error.message})

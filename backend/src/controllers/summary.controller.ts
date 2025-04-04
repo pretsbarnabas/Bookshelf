@@ -124,8 +124,8 @@ export class SummaryController{
                 res.status(200).json({data: data, pages: pages})
             }
             else{
-                Logger.warn("No comments found")
-                res.status(404).json({message: "No comments found"})
+                Logger.warn("No summaries found")
+                res.status(404).json({message: "No summaries found"})
             }
 
         }catch(error:any){

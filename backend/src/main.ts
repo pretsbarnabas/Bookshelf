@@ -44,9 +44,11 @@ app.use("/api",routes)
 
 app.use("/api/swagger",swaggerUi.serve,swaggerUi.setup(specs))
 
-app.listen(3000,()=>{
-    Logger.info("Server started")
-})
+if(process.argv && !process.argv.includes("jest")){
+    app.listen(3000,()=>{
+        Logger.info("Server started")
+    })
+}
 
 ImageController.setup()
 
