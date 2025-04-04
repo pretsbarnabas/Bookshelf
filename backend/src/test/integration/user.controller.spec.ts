@@ -299,9 +299,6 @@ describe("User Controller Cascade Deletion Tests",()=>{
         const response = await request(app).delete(`/api/users/${adminId}`).set("Authorization", `Bearer ${adminToken}`)
         expect(response.statusCode).toBe(200)
     })
-    afterAll(async ()=>{
-        seed()
-    })
     it("should have delete books made by deleted user",async()=>{
         const response = await request(app).get(`/api/books?user_id=${adminId}`)
         expect(response.statusCode).toBe(404)
