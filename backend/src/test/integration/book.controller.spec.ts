@@ -11,10 +11,12 @@ let newBook: any
 describe("Book Controller Post Route Tests",()=>{
     beforeAll(async()=>{
         let response = await request(app).post("/api/login").send({username: "editor", password: "admin"})
+        console.log(response.body)
         expect(response.body.token).toBeDefined()
         editorToken = response.body.token
 
         response = await request(app).post("/api/login").send({username: "admin", password: "admin"})
+        console.log(response.body)
         expect(response.body.token).toBeDefined()
         adminToken = response.body.token
         
@@ -225,9 +227,9 @@ describe("Book Controller Cascade Deletion Tests",()=>{
     beforeAll(async()=>{
         await request(app).delete(`/api/books/${dependentBookId}`).set("Authorization", `Bearer ${adminToken}`)
     })
-    afterAll(async ()=>{
-        await seed()
-    })
+    // afterAll(async ()=>{
+    //     await seed()
+    // })
     it("should have deleted reviews on deleted book",async()=>{
         const response = await request(app).get(`/api/reviews?book_id=${dependentBookId}`)
         expect(response.statusCode).toBe(404)
