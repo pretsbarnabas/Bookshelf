@@ -294,7 +294,7 @@ describe("User Controller Delete Route Tests",()=>{
 })
 
 
-let userToDelete = "db0b0c1f83fb29f652cc5a2e"
+let userToDelete = "db0b0c1f83fb29f652cc5a2d"
 describe("User Controller Cascade Deletion Tests",()=>{
     beforeAll(async()=>{
         const response = await request(app).delete(`/api/users/${userToDelete}`).set("Authorization", `Bearer ${adminToken}`)
