@@ -1,5 +1,5 @@
 import { Component, Renderer2, ElementRef, ViewChild, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { FormlyModule } from '@ngx-formly/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -36,7 +36,8 @@ import { MatDividerModule } from '@angular/material/divider';
         CustomPaginatorComponent,
         FormsModule,
         TranslatePipe,
-        MatDividerModule
+        MatDividerModule,
+        RouterModule
     ],
     templateUrl: './books.component.html',
     styleUrls: ['./books.component.scss'],
@@ -109,4 +110,8 @@ export class BooksComponent implements OnInit {
     //         return order === 'asc' ? comparison : -comparison;
     //     });
     // }
+
+    navigateToCreate() {
+        this.router.navigate(['/create/book']);
+    }
 }

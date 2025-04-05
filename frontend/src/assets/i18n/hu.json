@@ -130,7 +130,8 @@
         "HEADER": "Kínálatunk",
         "SEARCHBAR": {
             "BUTTON": "Keresés"
-        }
+        },
+        "ADD": "Új Könyv Hozzáadása"
     },
     "BOOKITEM": {
         "TITLE": "Részletek",
@@ -173,6 +174,9 @@
     },
     "SUMMARYITEM": {
         "TITLE": "Részletek"
+    },
+    "CREATE": {
+        "TITLE": "Létrehozás"
     },
     "MYLIST": {
         "TITLE": "Listám",

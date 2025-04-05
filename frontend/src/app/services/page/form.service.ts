@@ -3,8 +3,11 @@ import { FormlyFieldConfig } from "@ngx-formly/core";
 import { firstValueFrom } from "rxjs";
 import { TranslationService } from '../global/translation.service';
 import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { PasswordFieldWrapper } from '../../components/pages/auth/custom-field-wrappers/password-field-wrapper.component';
-import { InputFieldWrapper } from '../../components/pages/auth/custom-field-wrappers/input-field-wrapper.component';
+import { PasswordFieldWrapper } from '../../utilities/custom-field-wrappers/password-field-wrapper.component';
+import { InputFieldWrapper } from '../../utilities/custom-field-wrappers/input-field-wrapper.component';
+import { FileInputFieldWrapper } from '../../utilities/custom-field-wrappers/file-field-wrapper.component';
+import { DateFieldWrapper } from '../../utilities/custom-field-wrappers/date-field-wrapper.component';
+import { TextareaFieldWrapper } from '../../utilities/custom-field-wrappers/textarea-field-wrapper.component';
 
 @Injectable({
     providedIn: 'root'
@@ -175,7 +178,7 @@ export class FormService {
                 {
                     name: 'email', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.USER.EMAIL')), type: 'text', validators: [
                         Validators.required,
-                        function email (control: AbstractControl) {
+                        function email(control: AbstractControl) {
                             return (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/).test(control.value);
                         },
                     ],
@@ -247,7 +250,109 @@ export class FormService {
             ]
         };
     }
+    async getCreateFormConfigMapping(): Promise<{ [key: string]: FormlyFieldConfig[] }> {
+        return {
+            book: [
+                {
+                    key: 'image',
+                    wrappers: [InputFieldWrapper],
+                    templateOptions: {
+                        label: await firstValueFrom(
+                            this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.IMAGE')
+                        ),
+                        placeholder: '',
+                        required: false,
+                        id: 'image'
+                    }
+                },
+                {
+                    key: 'title',
+                    wrappers: [InputFieldWrapper],
+                    templateOptions: {
+                        label: await firstValueFrom(
+                            this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.TITLE')
+                        ),
+                        placeholder: '',
+                        required: true,
+                        id: 'title'
+                    },
+                    validation: {
+                        messages: {
+                            required: await firstValueFrom(
+                                this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.ERRORS.REQUIRED')
+                            )
+                        }
+                    }
+                },
+                {
+                    key: 'author',
+                    wrappers: [InputFieldWrapper],
+                    templateOptions: {
+                        label: await firstValueFrom(
+                            this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.AUTHOR')
+                        ),
+                        placeholder: '',
+                        required: false,
+                        id: 'author'
+                    }
+                },
+                {
+                    key: 'release',
+                    wrappers: [DateFieldWrapper],
+                    type: 'datepicker',
+                    templateOptions: {
+                        label: await firstValueFrom(
+                            this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.RELEASE')
+                        ),
+                        placeholder: '',
+                        required: false,
+                        id: 'release'
+                    },
+                    validators: { 
+                        isdate: (control: AbstractControl) => {
+                            return (Date.parse(control.value)) > 0;
+                        },
+                        maxdate: (control: AbstractControl) => {
+                            return (Date.parse(control.value)) < Date.now();
+                        },
+                    },
+                    validation: {
+                        messages: {                        
+                            isdate: 'NOT VALID DATE',
+                            maxdate: 'max date is today',
+                        },
+                    }
+                },
+                {
+                    key: 'genre',
+                    wrappers: [InputFieldWrapper],
+                    templateOptions: {
+                        label: await firstValueFrom(
+                            this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.GENRE')
+                        ),
+                        placeholder: '',
+                        required: false,
+                        id: 'genre'
+                    }
+                },
+                {
+                    key: 'description',
+                    wrappers: [TextareaFieldWrapper],
+                    templateOptions: {
+                        label: await firstValueFrom(
+                            this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.DESC')
+                        ),
+                        placeholder: '',
+                        required: false,
+                        id: 'description'
+                    }
+                }
+            ]
+        };
+    }
+
 }
+
 
 export function maxDateValidator(maxDate: Date): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
