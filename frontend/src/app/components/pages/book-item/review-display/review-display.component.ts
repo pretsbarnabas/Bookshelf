@@ -18,6 +18,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReviewService } from '../../../../services/page/review.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DisplayLikesDialogComponent } from './display-likes-dialog/display-likes-dialog.component';
+import { createAvatar } from '@dicebear/core';
+import { bottts } from '@dicebear/collection';
 
 @Component({
     selector: 'review-display',
@@ -79,8 +81,9 @@ export class ReviewDisplayComponent {
     getComments() {
         this.commentService.getAllcomments(this.commentSampleSize, 0, undefined, /*this.review?._id*/).subscribe({
             next: (result) => {
-                this.comments = result.data;
-                this.comments.forEach((comment) => {
+                result.data.forEach((comment) => {
+                    if(comment.user.imageUrl === undefined || comment.user.imageUrl === null)
+                        comment.user.imageUrl = createAvatar(bottts, { seed: comment.user.username }).toDataUri();
                     comment.likedBy = [];
                     comment.dislikedBy = [];
                     this.commentService.getLikedBy(comment._id).subscribe({
@@ -99,6 +102,7 @@ export class ReviewDisplayComponent {
                     });
                 });
                 this.maxCommentPages = result.pages;
+                this.comments = result.data;
             },
             error: (err) => {
                 console.log(err);

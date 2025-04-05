@@ -89,7 +89,7 @@
     </p>
     <div class="row w-100 ps-3">
         <div class="col-3 col-sm-2 col-lg-1 p-0">
-            <img class="user-profile-picture" [src]="comment.user.imageUrl ?? comment.user.profile_image" />
+            <img class="user-profile-picture" [src]="comment.user!.imageUrl ?? comment.user.profile_image" />
         </div>
         @if(comment.user._id === this.user?._id){
         <div class="col-7" fxHide.gt-sm></div>

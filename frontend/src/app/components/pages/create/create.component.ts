@@ -60,7 +60,8 @@ export class CreateComponent {
             this.getForm();
         });
         this.translationService.currentLanguage$.subscribe((lang) => {
-            this.model.release = '';
+            if(this.mode === 'book')
+                this.model.release = '';
             this.getForm();
         });
     }

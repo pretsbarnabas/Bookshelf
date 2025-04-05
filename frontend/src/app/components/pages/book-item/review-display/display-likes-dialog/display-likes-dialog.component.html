@@ -9,7 +9,7 @@
                 <div class="mt-2">
                     @for (user of data.likes; track $index) {
                     <div class="ms-2 mt-2">
-                        <img class="user-profile-picture" [src]="user.imageUrl" />
+                        <img class="user-profile-picture" [src]="user.imageUrl ?? user.profile_image" />
                         <span class="username">{{ user.username }}</span>
                     </div>
                     }
