@@ -23,14 +23,14 @@
                 </div>
                 }
                 <mat-card-title class="text-center">
-                    <h1>Create</h1>
+                    <h1>{{ 'CREATE.TITLE' | translate }}</h1>
                 </mat-card-title>
                 <mat-card-content>
                     <form [formGroup]="this.form" (ngSubmit)="this.onSubmit()">
                         <formly-form [fields]="fields" [form]="form" [model]="model" />
                         <div class="w-50 mx-auto">
                             <button mat-raised-button class="w-100 mt-4" type="submit" [disabled]="!form.valid">
-                                Create
+                                {{ 'CREATE.TITLE' | translate }}
                             </button>
                         </div>
                     </form>
@@ -38,18 +38,20 @@
             </mat-card>
             @if(this.mode === 'book') {
             <div class="col-12 col-lg-3 mx-auto">
-                <h1 class="text-center">Example Output</h1>
-                <mat-card class="w-100 card-holder">                    
+                <h1 class="text-center">{{ 'CREATE.EXAMPLE' | translate }}:</h1>
+                <mat-card class="w-100 card-holder">
                     <mat-card-content>
                         <mat-card class="book-card" appearance="outlined">
                             <img mat-card-image class="book-image mx-auto" id="create-book-image"
                                 [src]="this.model.image ? this.model.image : 'assets/images/no-cover.svg'"
                                 [alt]="this.model.image || 'Photo of a book'">
                             <mat-divider class="my-2" />
-                            <mat-card-title class="text-center truncate-title">
-                                {{ this.model.title.length > 0 ? this.model.title : 'Book Title' }}
+                            <mat-card-title class="text-center">
+                                <span class="w-75 truncate-title mx-auto">{{ this.model.title.length > 0 ?
+                                    this.model.title : 'Book Title' }}</span>
                             </mat-card-title>
-                            <mat-card-subtitle class="text-center">{{ this.model.author.length > 0 ? this.model.author : 'Author' }}</mat-card-subtitle>
+                            <mat-card-subtitle class="text-center">{{ this.model.author.length > 0 ? this.model.author :
+                                'Author' }}</mat-card-subtitle>
                             <mat-card-content class="text-center">
                                 <p>{{ formatDate(this.model.release) ?? 'Release date' }}</p>
                             </mat-card-content>

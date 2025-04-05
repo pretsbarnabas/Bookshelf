@@ -83,8 +83,9 @@
     @for (comment of this.comments; track $index) {
     <p class="p-0 m-0 row">
         <span class="text-end col-6 offset-6 col-lg-4 offset-lg-8 subtext"><i>{{ comment.created_at | relativeTime
-                }}</i><i *ngIf="comment.created_at !== comment.updated_at"> ({{
-                'BOOKITEM.COMMENT.EDITED' | translate }})</i></span>
+                }}</i>
+                <!-- <i *ngIf="comment.created_at !== comment.updated_at"> ({{ 'BOOKITEM.COMMENT.EDITED' | translate }})</i> -->
+                </span>
     </p>
     <div class="row w-100 ps-3">
         <div class="col-3 col-sm-2 col-lg-1 p-0">

@@ -40,8 +40,8 @@
                                     [src]="book.imageUrl ? book.imageUrl : 'assets/images/no-cover.svg'"
                                     alt="{{ book.title }}">
                                 <mat-divider class="my-2" />
-                                <mat-card-title class="text-center truncate-title">
-                                    {{ book.title }}
+                                <mat-card-title class="text-center ">
+                                    <span class="truncate-title">{{ book.title }}</span>
                                 </mat-card-title>
                                 <mat-card-subtitle class="text-center">{{ book.author }}</mat-card-subtitle>
                                 <mat-card-content class="text-center">

@@ -12,9 +12,10 @@ import { BookModel, CreateBookModel, isCreateBookModel } from '../../../models/B
 import { MatButtonModule } from '@angular/material/button';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BookService } from '../../../services/page/book.service';
-import { CreateSummaryModel, isCreateSummaryModel } from '../../../models/Summary';
+import { CreateSummaryModel, isCreateSummaryModel, SummaryModel } from '../../../models/Summary';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { SummaryService } from '../../../services/page/summary.service';
 
 @Component({
     selector: 'app-create',
@@ -39,6 +40,7 @@ export class CreateComponent {
     private route = inject(ActivatedRoute);
     private translationService = inject(TranslationService);
     private bookService = inject(BookService);
+    private summaryService = inject(SummaryService);
     private datePipe = inject(DatePipe);
 
     mode: 'book' | 'summary' = 'book';
@@ -58,6 +60,7 @@ export class CreateComponent {
             this.getForm();
         });
         this.translationService.currentLanguage$.subscribe((lang) => {
+            this.model.release = '';
             this.getForm();
         });
     }
@@ -77,15 +80,28 @@ export class CreateComponent {
 
     onSubmit() {
         this.errorMessages = [];
-        console.log(this.model as CreateBookModel);
-        this.bookService.createBook(this.model as CreateBookModel).subscribe({
-            next: (response: BookModel) => {
-                console.log(response);
-            },
-            error: (error: HttpErrorResponse) => {
-                this.errorMessages.push(error as HttpErrorResponse);
+        if(this.form.valid){
+            if (this.mode === 'book') {
+                this.bookService.createBook(this.model as CreateBookModel).subscribe({
+                    next: (response: BookModel) => {
+                        console.log(response);
+                    },
+                    error: (error: HttpErrorResponse) => {
+                        this.errorMessages.push(error as HttpErrorResponse);
+                    }
+                });
             }
-        });
+            if (this.mode === 'summary') {
+                this.summaryService.createSummary(this.model as CreateSummaryModel).subscribe({
+                    next: (response: SummaryModel) => {
+                        console.log(response);
+                    },
+                    error: (error: HttpErrorResponse) => {                                                    
+                        this.errorMessages.push(error as HttpErrorResponse);
+                    }
+                });
+            }
+        }
     }
 
     formatDate(date: any) {

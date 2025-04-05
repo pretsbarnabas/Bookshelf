@@ -92,15 +92,15 @@ export class BookItemComponent implements OnInit {
     ngOnInit() {
         this.uniqueIds = [];
         this.bookId = this.route.snapshot.paramMap.get('id');
-        this.authService.loggedInUser$.subscribe(user => {
-            this.isLoggedIn = !!user;
-            this.loggedInUser = user;
-        });
         if (this.bookId) {
             this.bookService.getBookById(this.bookId).subscribe(book => {
                 this.book = book;
             });
         }
+        this.authService.loggedInUser$.subscribe(user => {
+            this.isLoggedIn = !!user;
+            this.loggedInUser = user;
+        });
         if (this.bookId) {
             this.fillreviews();
         }

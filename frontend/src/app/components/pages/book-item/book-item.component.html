@@ -1,11 +1,11 @@
 <div class="wrapper">
     <div class="wrapper-content">
         <div class="book-item p-2 row w-100 mx-auto">
-            <div id="Book" class="col-12 col-lg-4 h-100 mx-auto">
+            <div id="Book" class="col-12 col-lg-4 h-100 mx-auto" *ngIf="this.book !== undefined">
                 <mat-card class="book-card w-100">
                     <mat-card-header>
                         <img mat-card-image class="book-image w-75 mx-auto"
-                            [src]="book.imageUrl ? book.imageUrl : 'assets/images/no-cover.svg'" [alt]=" book?.title
+                            [src]="this.book.imageUrl ?? 'assets/images/no-cover.svg'" [alt]=" book?.title
                             || 'Photo of a book'" />
                     </mat-card-header>
                     <mat-card-content>
@@ -50,7 +50,7 @@
                 </mat-card>
             </div>
             <div id="Book-Details" class="book-details col-12 col-lg-8 mx-auto">
-                <div class="row px-5 py-3">
+                <div class="row px-5 py-3 w-100">
                     <div class="col-12 col-sm-6 col-lg-3">
                         <button class="w-100" mat-fab color="primary" (click)="onBack()">
                             <mat-icon class="me-2">arrow_back</mat-icon>

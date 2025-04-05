@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { CrudService } from '../global/crud.service';
-import { SummaryModel, SummaryRoot } from '../../models/Summary';
+import { CreateSummaryModel, SummaryModel, SummaryRoot } from '../../models/Summary';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -21,6 +21,10 @@ export class SummaryService {
 
     updateSummary(_id: number | string, data: SummaryModel): Observable<any> {
         return this.crudService.update('summaries', _id, data);
+    }
+
+    createSummary(data: CreateSummaryModel): Observable<SummaryModel> {
+        return this.crudService.create<CreateSummaryModel>('summaries', data);
     }
 
 }

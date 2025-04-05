@@ -10,6 +10,7 @@ export const spinnerInterceptor: HttpInterceptorFn = (req, next) => {
         /\/auth\/refreshToken/,
         /\/api\/reviews\/[^\/]+\/like/,
         /\/api\/comments\/[^\/]+\/like/,
+        /\/api\/comments/,
     ];
 
     const shouldSkipSpinner = excludedRoutes.some((pattern: RegExp) =>

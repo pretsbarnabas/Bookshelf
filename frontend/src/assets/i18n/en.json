@@ -176,7 +176,8 @@
         "TITLE": "Details"
     },
     "CREATE": {
-        "TITLE": "Create"
+        "TITLE": "Create",
+        "EXAMPLE": "Example Output"
     },
     "MYLIST": {
         "TITLE": "Mylist",

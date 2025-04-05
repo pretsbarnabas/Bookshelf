@@ -176,7 +176,8 @@
         "TITLE": "Részletek"
     },
     "CREATE": {
-        "TITLE": "Létrehozás"
+        "TITLE": "Létrehozás",
+        "EXAMPLE": "Kimeneti példa"
     },
     "MYLIST": {
         "TITLE": "Listám",
