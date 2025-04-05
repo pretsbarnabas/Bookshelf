@@ -157,7 +157,8 @@
         "DIALOG": {
             "SHOW": "Kedvelők megtekintése",
             "LIKES": "Kedvelések",
-            "DISLIKES": "Nem kedvelések"
+            "DISLIKES": "Nem kedvelések",
+            "CLOSE": "Bezárás"
         },
         "NOREVIEWS": "Még nincs vélemény, de bármikor megírhatod a sajátodat!",
         "SNACKBAR": {

@@ -157,7 +157,8 @@
         "DIALOG": {
             "SHOW": "View likers",
             "LIKES": "Likes",
-            "DISLIKES": "Dislikes"
+            "DISLIKES": "Dislikes",
+            "CLOSE": "Close"
         },
         "NOREVIEWS": "No reviews yet, but you can write yours anytime!",
         "SNACKBAR": {
