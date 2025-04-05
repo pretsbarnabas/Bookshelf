@@ -4,13 +4,12 @@
             <div id="Book" class="col-12 col-lg-4 h-100 mx-auto">
                 <mat-card class="book-card w-100">
                     <mat-card-header>
-                        <img mat-card-image class="book-image w-75 mx-auto" [src]="
-                book?.image ||
-                'https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain'
-              " [alt]="book?.title || 'Photo of a book'" />
+                        <img mat-card-image class="book-image w-75 mx-auto"
+                            [src]="book.imageUrl ? book.imageUrl : 'assets/images/no-cover.svg'" [alt]=" book?.title
+                            || 'Photo of a book'" />
                     </mat-card-header>
                     <mat-card-content>
-                        <mat-card-title class="title">
+                        <mat-card-title class=" title">
                             <h1 class="display-5 text-center">{{ book?.title }}</h1>
                         </mat-card-title>
                         <mat-card-subtitle class="text-center mb-3">
@@ -41,7 +40,8 @@
                                 <span class="body-2">{{ rating }}</span> /
                                 <span class="body-2">{{ starCount }}</span>
                             </p>
-                            <button mat-fab class="w-100" id="book-item-submit" type="submit" (click)="this.onSubmitReview()">
+                            <button mat-fab class="w-100" id="book-item-submit" type="submit"
+                                (click)="this.onSubmitReview()">
                                 <mat-icon class="me-2">backup</mat-icon>
                                 {{ "BOOKITEM.BOOKCARD.SUBMIT" | translate }}
                             </button>

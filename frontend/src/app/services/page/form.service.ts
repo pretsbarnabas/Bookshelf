@@ -255,7 +255,7 @@ export class FormService {
             book: [
                 {
                     key: 'image',
-                    wrappers: [InputFieldWrapper],
+                    wrappers: [FileInputFieldWrapper],
                     templateOptions: {
                         label: await firstValueFrom(
                             this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.IMAGE')
@@ -310,9 +310,11 @@ export class FormService {
                     },
                     validators: { 
                         isdate: (control: AbstractControl) => {
+                            if(control.value === '') return true;
                             return (Date.parse(control.value)) > 0;
                         },
                         maxdate: (control: AbstractControl) => {
+                            if(control.value === '') return true;
                             return (Date.parse(control.value)) < Date.now();
                         },
                     },

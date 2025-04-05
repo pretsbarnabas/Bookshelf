@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ConfigService } from '../global/config.service';
-import { BookModel, BookRoot } from '../../models/Book';
+import { BookModel, BookRoot, CreateBookModel } from '../../models/Book';
 import { CrudService } from '../global/crud.service';
 import { ReviewModel } from '../../models/Review';
 @Injectable({
@@ -34,5 +34,9 @@ export class BookService {
 
     updateBook(_id: number | string, data: BookModel): Observable<any> {
         return this.crudService.update('books', _id, data);
+    }
+
+    createBook(data: CreateBookModel): Observable<BookModel> {
+        return this.crudService.create<CreateBookModel>('books', data);
     }
 }

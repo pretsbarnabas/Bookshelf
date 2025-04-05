@@ -23,7 +23,7 @@
             </mat-card>
         </div>
         <div id="Books" class="d-flex flex-column justify-content-center align-items-center mt-3">
-            <div class="col-12 col-md-6 col-lg-4">
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
                 <button mat-fab (click)="this.navigateToCreate()" class="w-100">
                     <mat-icon class="me-2">add</mat-icon>
                     {{ 'BOOKS.ADD' | translate }}
@@ -35,7 +35,7 @@
                         <mat-card-content>
                             <mat-card class="book-card" appearance="outlined">
                                 <img mat-card-image class="book-image w-100"
-                                    src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain"
+                                    [src]="book.imageUrl ? book.imageUrl : 'assets/images/no-cover.svg'"
                                     alt="{{ book.title }}">
                                 <mat-divider class="my-2" />
                                 <mat-card-title class="text-center">{{ book.title }}</mat-card-title>
