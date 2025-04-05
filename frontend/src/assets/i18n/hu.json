@@ -154,6 +154,11 @@
             "MORE": "Több megjelenítése",
             "LESS": "Kevesebb megjelenítése"
         },
+        "DIALOG": {
+            "SHOW": "Kedvelők megtekintése",
+            "LIKES": "Kedvelések",
+            "DISLIKES": "Nem kedvelések"
+        },
         "NOREVIEWS": "Még nincs vélemény, de bármikor megírhatod a sajátodat!",
         "SNACKBAR": {
             "RATED": "Értékelésed",

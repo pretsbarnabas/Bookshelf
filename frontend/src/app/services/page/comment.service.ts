@@ -26,4 +26,16 @@ export class CommentService {
     updateComment(_id: number | string, data: CommentModel): Observable<any> {
         return this.crudService.update('comments', _id, data);
     }
+
+    getLikedBy(_id: number | string): Observable<any> {
+        return this.crudService.getAll(`comments/${_id}/likedby`);
+    }
+
+    getDislikedBy(_id: number | string): Observable<any> {
+        return this.crudService.getAll(`comments/${_id}/dislikedby`);
+    }
+
+    putLike(_id: number | string, action: 'like' | 'dislike' | 'delete'): Observable<any> {
+        return this.crudService.update(`comments/${_id}/like`, undefined, { action });
+    }
 }

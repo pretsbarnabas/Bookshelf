@@ -154,6 +154,11 @@
             "MORE": "Show more",
             "LESS": "Show less"
         },
+        "DIALOG": {
+            "SHOW": "View likers",
+            "LIKES": "Likes",
+            "DISLIKES": "Dislikes"
+        },
         "NOREVIEWS": "No reviews yet, but you can write yours anytime!",
         "SNACKBAR": {
             "RATED": "You rated",

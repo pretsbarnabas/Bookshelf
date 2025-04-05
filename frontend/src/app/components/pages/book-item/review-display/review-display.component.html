@@ -19,24 +19,29 @@
     <div class="px-4 review-content">
         <p class="book-item-desc m-0">{{ this.review?.content }}</p>
     </div>
-    <div class="col-12 col-lg-2 offset-lg-10 d-flex justify-content-end">
+    <div class="col-12 col-lg-4 offset-lg-8 d-flex justify-content-end">
         <div class="text-center d-flex align-items-center">
-            <span>{{ this.reviewLikedBy.length }}</span>
+            <span>{{ this.review!.likedBy!.length }}</span>
             <button mat-icon-button class="d-flex align-items-center justify-content-center"
-                (click)="this.handleLikeRequest('like')">
+                (click)="this.handleLikeRequest(this.review!, 'like')">
                 <mat-icon>thumb_up</mat-icon>
             </button>
         </div>
         <div class="text-center d-flex align-items-center ms-2">
-            <span>{{ this.reviewDislikedBy.length }}</span>
+            <span>{{ this.review!.dislikedBy!.length }}</span>
             <button mat-icon-button class="d-flex align-items-center justify-content-center"
-                (click)="this.handleLikeRequest('dislike')">
+                (click)="this.handleLikeRequest(this.review!, 'dislike')">
                 <mat-icon>thumb_down</mat-icon>
             </button>
         </div>
         <button mat-button (click)="this.isCommenting = true">
             <mat-icon>reply</mat-icon>
             {{ 'BOOKITEM.COMMENT.REPLY' | translate }}
+        </button>
+    </div>
+    <div class="col-12 col-lg-4 offset-lg-8 d-flex justify-content-end">
+        <button mat-button (click)="this.showLikesOrDislikes(this.review!.likedBy!, this.review!.dislikedBy!)">
+            {{ 'BOOKITEM.DIALOG.SHOW' | translate }}
         </button>
     </div>
 </div>
@@ -132,7 +137,29 @@
             </button>
         </div>
         }
+        <div class="col-12 col-lg-4 offset-lg-8 d-flex justify-content-end">
+            <div class="text-center d-flex align-items-center">
+                <span>{{ comment.likedBy!.length }}</span>
+                <button mat-icon-button class="d-flex align-items-center justify-content-center"
+                    (click)="this.handleLikeRequest(comment, 'like')">
+                    <mat-icon>thumb_up</mat-icon>
+                </button>
+            </div>
+            <div class="text-center d-flex align-items-center ms-2">
+                <span>{{ comment.dislikedBy!.length }}</span>
+                <button mat-icon-button class="d-flex align-items-center justify-content-center"
+                    (click)="this.handleLikeRequest(comment, 'dislike')">
+                    <mat-icon>thumb_down</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4 offset-lg-8 d-flex justify-content-end">
+            <button mat-button (click)="this.showLikesOrDislikes(comment.likedBy!, comment.dislikedBy!)">
+                {{ 'BOOKITEM.DIALOG.SHOW' | translate }}
+            </button>
+        </div>
     </div>
+    <mat-divider class="my-1 w-100 mx-auto" />
     }
     <div class=" d-flex">
         @if(this.maxCommentPages > 1) {

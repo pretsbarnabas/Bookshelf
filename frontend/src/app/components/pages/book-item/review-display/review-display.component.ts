@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RelativeTimePipe } from '../../../../pipes/relative-time.pipe';
 import { AuthService } from '../../../../services/global/auth.service';
-import { UserModel } from '../../../../models/User';
+import { UserLikeModel, UserModel } from '../../../../models/User';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatInputModule } from '@angular/material/input';
@@ -16,6 +16,8 @@ import { CommentModel } from '../../../../models/Comment';
 import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReviewService } from '../../../../services/page/review.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DisplayLikesDialogComponent } from './display-likes-dialog/display-likes-dialog.component';
 
 @Component({
     selector: 'review-display',
@@ -42,11 +44,8 @@ export class ReviewDisplayComponent {
     private reviewService = inject(ReviewService);
     private commentService = inject(CommentService);
     private fb = inject(FormBuilder);
+    readonly dialog = inject(MatDialog);
     @Input() review?: ReviewModel;
-
-    reviewLikedBy: UserModel[] = [];
-    reviewDislikedBy: UserModel[] = [];
-    userLikedAction: 'like' | 'dislike' | 'none' = 'none';
 
     user?: UserModel | null
     ratingArr: number[] = [0, 1, 2, 3, 4]
@@ -62,6 +61,8 @@ export class ReviewDisplayComponent {
     showComments: boolean = false;
 
     ngOnChanges() {
+        this.review!.likedBy = [];
+        this.review!.dislikedBy = [];
         this.getComments();
         this.getReviewLikes();
         this.authService.loggedInUser$.subscribe((user) => {
@@ -79,6 +80,24 @@ export class ReviewDisplayComponent {
         this.commentService.getAllcomments(this.commentSampleSize, 0, undefined, /*this.review?._id*/).subscribe({
             next: (result) => {
                 this.comments = result.data;
+                this.comments.forEach((comment) => {
+                    comment.likedBy = [];
+                    comment.dislikedBy = [];
+                    this.commentService.getLikedBy(comment._id).subscribe({
+                        next: (result) => {
+                            comment.likedBy = result;
+                            if (result.some((user: any) => user._id === this.user?._id))
+                                comment.liked_by_user = 'liked';
+                        }
+                    });
+                    this.commentService.getDislikedBy(comment._id).subscribe({
+                        next: (result) => {
+                            comment.dislikedBy = result;
+                            if (result.some((user: any) => user._id === this.user?._id))
+                                comment.liked_by_user = 'disliked';
+                        }
+                    });
+                });
                 this.maxCommentPages = result.pages;
             },
             error: (err) => {
@@ -90,16 +109,16 @@ export class ReviewDisplayComponent {
     getReviewLikes() {
         this.reviewService.getLikedBy(this.review?._id!).subscribe({
             next: (result) => {
-                this.reviewLikedBy = result;
+                this.review!.likedBy = result;
                 if (result.some((user: any) => user._id === this.user?._id))
-                    this.userLikedAction = 'like';
+                    this.review!.liked_by_user = 'liked';
             }
         });
         this.reviewService.getDislikedBy(this.review?._id!).subscribe({
             next: (result) => {
-                this.reviewDislikedBy = result;
+                this.review!.dislikedBy = result;
                 if (result.some((user: any) => user._id === this.user?._id))
-                    this.userLikedAction = 'dislike';
+                    this.review!.liked_by_user = 'disliked';
             }
         });
     }
@@ -182,44 +201,62 @@ export class ReviewDisplayComponent {
         }
     }
 
-    handleLikeRequest(action: 'like' | 'dislike' | 'none') {
-        switch (action) {
+    handleLikeRequest(_item: ReviewModel | CommentModel, _action: 'like' | 'dislike' | 'none') {
+        const serviceMap = new Map<string, ReviewService | CommentService>([
+            ['review', this.reviewService],
+            ['comment', this.commentService],
+        ]);
+
+        const isReview = 'book' in _item;
+        const typeKey = isReview ? 'review' : 'comment';
+        const service = serviceMap.get(typeKey)!;
+
+        const userId = this.user!._id;
+
+        const updateState = (state: 'liked' | 'disliked' | 'none') => {
+            _item.liked_by_user = state;
+
+            if (state === 'liked') {
+                _item.dislikedBy = _item.dislikedBy?.filter((u) => u._id !== userId) || [];
+                _item.likedBy = [...(_item.likedBy || []), this.user as UserLikeModel];
+            } else if (state === 'disliked') {
+                _item.likedBy = _item.likedBy?.filter((u) => u._id !== userId) || [];
+                _item.dislikedBy = [...(_item.dislikedBy || []), this.user as UserLikeModel];
+            } else {
+                _item.likedBy = _item.likedBy?.filter((u) => u._id !== userId) || [];
+                _item.dislikedBy = _item.dislikedBy?.filter((u) => u._id !== userId) || [];
+            }
+        };
+
+        const toggleState = (newState: 'liked' | 'disliked') => {
+            if (_item.liked_by_user === newState) {
+                service.putLike(_item._id, 'delete').subscribe(() => updateState('none'));
+            } else {
+                service.putLike(_item._id, newState.slice(0, newState.length - 1) as 'like' | 'dislike').subscribe(() => updateState(newState));
+            }
+        };
+
+        switch (_action) {
             case 'like':
-                if (this.userLikedAction === 'like') {                    
-                    this.reviewService.putLike(this.review?._id!, 'delete').subscribe({
-                        next: (result) => {
-                            this.userLikedAction = 'none';
-                            this.reviewLikedBy = this.reviewLikedBy.filter((user) => user._id !== this.user!._id);
-                        }
-                    });
-                    return;
-                }                
-                this.reviewService.putLike(this.review?._id!, 'like').subscribe({
-                    next: (result) => {
-                        this.userLikedAction = 'like';                        
-                        this.reviewDislikedBy = this.reviewDislikedBy.filter((user) => user._id !== this.user!._id);
-                        this.reviewLikedBy.push(this.user!);
-                    }
-                });
+                toggleState('liked');
                 break;
             case 'dislike':
-                if (this.userLikedAction === 'dislike') {
-                    this.reviewService.putLike(this.review?._id!, 'delete').subscribe({
-                        next: (result) => {
-                            this.userLikedAction = 'none';
-                            this.reviewDislikedBy = this.reviewDislikedBy.filter((user) => user._id !== this.user!._id);
-                        }
-                    });
-                    return;
-                }                
-                this.reviewService.putLike(this.review?._id!, 'dislike').subscribe({
-                    next: (result) => {
-                        this.userLikedAction = 'dislike';
-                        this.reviewLikedBy = this.reviewLikedBy.filter((user) => user._id !== this.user!._id);
-                        this.reviewDislikedBy.push(this.user!);
-                    }
-                });
+                toggleState('disliked');
                 break;
+            default:
+                service.putLike(_item._id, 'delete').subscribe(() => updateState('none'));
+                break;
+        }
+    }
+
+    showLikesOrDislikes(_likes: UserLikeModel[], _dilikes: UserLikeModel[]) {
+        if (_likes.length > 0) {
+            const dialogRef = this.dialog.open(DisplayLikesDialogComponent, {
+                data: {
+                    likes: _likes,
+                    dislikes: _dilikes,
+                }
+            });
         }
     }
 }
