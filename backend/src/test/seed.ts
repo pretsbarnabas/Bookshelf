@@ -60,6 +60,23 @@ export async function seed(){
 
         await usersCollection.insertOne({
             "_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2d"),
+            "username": "userdelete",
+            "password_hashed": "$2b$10$2ticgdLvmAs4b5epdj3rZeyf1.04UBUbxR7m/kk/HAYhhGVLAort.",
+            "email": "userdelete@email.com",
+            "created_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z"),
+            "last_login": new Date("2016-04-08T15:06:21.595Z"),
+            "role": "user",
+            "booklist": [
+                {
+                    "book_id": new mongoose.Types.ObjectId("7fdb24bfd2c9eaca400201b8"),
+                    "read_status": "to_read"
+                }
+            ]
+        })
+
+        await usersCollection.insertOne({
+            "_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2c"),
             "username": "editor",
             "password_hashed": "$2b$10$2ticgdLvmAs4b5epdj3rZeyf1.04UBUbxR7m/kk/HAYhhGVLAort.",
             "email": "editor@mail.com",
@@ -87,10 +104,34 @@ export async function seed(){
             "updated_at": new Date("2016-04-08T15:06:21.595Z")
         })
 
+        await booksCollection.insertOne({
+            "_id": new mongoose.Types.ObjectId("7fdb24bfd2c9eaca400201b7"),
+            "title": "Lorem",
+            "author": "Lorem",
+            "release": new Date("2016-04-08T15:06:21.595Z"),
+            "genre": "Crime",
+            "user_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2e"),
+            "description": "Lorem",
+            "added_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z")
+        })
+
         await reviewsCollection.insertOne({
             "_id": new mongoose.Types.ObjectId("a826b9febba8c411cf6d82cb"),
             "user_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2f"),
             "book_id": new mongoose.Types.ObjectId("7fdb24bfd2c9eaca400201b8"),
+            "score": 8,
+            "content": "Lorem",
+            "created_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z"),
+            "liked_by": [],
+            "disliked_by": []
+        })
+
+        await reviewsCollection.insertOne({
+            "_id": new mongoose.Types.ObjectId("a826b9febba8c411cf6d82ca"),
+            "user_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2d"),
+            "book_id": new mongoose.Types.ObjectId("7fdb24bfd2c9eaca400201b7"),
             "score": 8,
             "content": "Lorem",
             "created_at": new Date("2016-04-08T15:06:21.595Z"),
@@ -110,10 +151,30 @@ export async function seed(){
             "disliked_by": []
         })
 
+        await commentsCollection.insertOne({
+            "_id": new mongoose.Types.ObjectId("7ef503b3e63a6bcb56f8db36"),
+            "user_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2d"),
+            "review_id": new mongoose.Types.ObjectId("a826b9febba8c411cf6d82c7"),
+            "content": "Lorem",
+            "created_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z"),
+            "liked_by": [],
+            "disliked_by": []
+        })
+
         await summariesCollection.insertOne({
             "_id": new mongoose.Types.ObjectId("72bd5cfdf84d7fea96483da4"),
             "user_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2f"),
             "book_id": new mongoose.Types.ObjectId("7fdb24bfd2c9eaca400201b8"),
+            "content": "Lorem",
+            "created_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z")
+        })
+
+        await summariesCollection.insertOne({
+            "_id": new mongoose.Types.ObjectId("72bd5cfdf84d7fea96483da3"),
+            "user_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2d"),
+            "book_id": new mongoose.Types.ObjectId("7fdb24bfd2c9eaca400201b7"),
             "content": "Lorem",
             "created_at": new Date("2016-04-08T15:06:21.595Z"),
             "updated_at": new Date("2016-04-08T15:06:21.595Z")

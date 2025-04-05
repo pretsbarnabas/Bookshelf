@@ -2,13 +2,11 @@ process.argv.push("test")
 process.argv.push("jest")
 import app from "../../main"
 import request from "supertest"
-import { seed } from "../seed"
 
 
 let adminToken: string
 let editorToken: string
 let newBook: any
-seed()
 describe("Book Controller Post Route Tests",()=>{
     beforeAll(async()=>{
         let response = await request(app).post("/api/login").send({username: "editor", password: "admin"})
@@ -228,9 +226,6 @@ describe("Book Controller Cascade Deletion Tests",()=>{
     beforeAll(async()=>{
         await request(app).delete(`/api/books/${dependentBookId}`).set("Authorization", `Bearer ${adminToken}`)
     })
-    // afterAll(async ()=>{
-    //     await seed()
-    // })
     it("should have deleted reviews on deleted book",async()=>{
         const response = await request(app).get(`/api/reviews?book_id=${dependentBookId}`)
         expect(response.statusCode).toBe(404)

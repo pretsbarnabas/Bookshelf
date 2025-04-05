@@ -2,7 +2,6 @@ process.argv.push("test")
 process.argv.push("jest")
 import app from "../../main"
 import request from "supertest"
-import {seed} from "../seed"
 
 let newUser: any
 let newUserToken: string
@@ -294,31 +293,33 @@ describe("User Controller Delete Route Tests",()=>{
     })
 })
 
+
+let userToDelete = "db0b0c1f83fb29f652cc5a2e"
 describe("User Controller Cascade Deletion Tests",()=>{
     beforeAll(async()=>{
-        const response = await request(app).delete(`/api/users/${adminId}`).set("Authorization", `Bearer ${adminToken}`)
+        const response = await request(app).delete(`/api/users/${userToDelete}`).set("Authorization", `Bearer ${adminToken}`)
         expect(response.statusCode).toBe(200)
     })
     it("should have delete books made by deleted user",async()=>{
-        const response = await request(app).get(`/api/books?user_id=${adminId}`)
+        const response = await request(app).get(`/api/books?user_id=${userToDelete}`)
         expect(response.statusCode).toBe(404)
         expect(response.body.message).toBeDefined()
         expect(response.body.message).toEqual("No books found")
     })
     it("should have deleted reviews made by deleted user",async()=>{
-        const response = await request(app).get(`/api/reviews?user_id=${adminId}`)
+        const response = await request(app).get(`/api/reviews?user_id=${userToDelete}`)
         expect(response.statusCode).toBe(404)
         expect(response.body.message).toBeDefined()
         expect(response.body.message).toEqual("No reviews found")
     })
     it("should have deleted comments made by deleted user",async()=>{
-        const response = await request(app).get(`/api/comments?user_id=${adminId}`)
+        const response = await request(app).get(`/api/comments?user_id=${userToDelete}`)
         expect(response.statusCode).toBe(404)
         expect(response.body.message).toBeDefined()
         expect(response.body.message).toEqual("No comments found")    
     })
     it("should have deleted summaries made by deleted user",async()=>{
-        const response = await request(app).get(`/api/summaries?user_id=${adminId}`)
+        const response = await request(app).get(`/api/summaries?user_id=${userToDelete}`)
         expect(response.statusCode).toBe(404)
         expect(response.body.message).toBeDefined()
         expect(response.body.message).toEqual("No summaries found")
