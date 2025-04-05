@@ -6,8 +6,6 @@ import request from "supertest"
 let newUser: any
 let newUserToken: string
 let adminToken: string
-let adminId = "db0b0c1f83fb29f652cc5a2f"
-let adminUsername = "admin"
 
 describe("User Controller Post Route Tests",()=>{
     beforeAll(async()=>{

@@ -1,5 +1,6 @@
 const ReviewModel = require("../models/review.model")
 const CommentModel = require("../models/comment.model")
+const BookModel = require("../models/book.model")
 const mongoose = require("mongoose")
 import { Projection } from "../models/projection.model"
 import * as dates from "../tools/dates"
@@ -242,7 +243,7 @@ export class ReviewController{
 
     static async createReview(req:any,res:any){
         try {
-            const {book_id,score,content = null} = req.body
+            let {book_id,score,content = null} = req.body
             
             if(book_id){
                 if(!mongoose.Types.ObjectId.isValid(book_id)){
@@ -253,12 +254,17 @@ export class ReviewController{
                 return res.status(400).json({message: "book_id is required"})
             }
             if(!score)
-                return res.status(400).json({message: "score required"}) 
+                return res.status(400).json({message: "score is required"}) 
+            score = Number.parseInt(score)
             if(Number.isNaN(score)){
                 return res.status(400).json({message: "Invalid score, must be a number"})
             }
-            if(!Authenticator.verifyUser(req)) return res.json(401).send()
+            if(!Authenticator.verifyUser(req)) throw new Error("Unauthorized")
             
+            const existingBook = await BookModel.findById(book_id)
+            if(!existingBook){
+                throw new Error("Book doesnt exist")
+            }
             const existingReview = await ReviewModel.findOne({user_id: new mongoose.Types.ObjectId(req.user.id as string), book_id: new mongoose.Types.ObjectId(book_id as string)})
             if(existingReview){
                 throw new Error("User already posted a review on book")
