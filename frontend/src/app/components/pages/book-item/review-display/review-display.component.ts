@@ -250,13 +250,11 @@ export class ReviewDisplayComponent {
     }
 
     showLikesOrDislikes(_likes: UserLikeModel[], _dilikes: UserLikeModel[]) {
-        if (_likes.length > 0) {
-            const dialogRef = this.dialog.open(DisplayLikesDialogComponent, {
-                data: {
-                    likes: _likes,
-                    dislikes: _dilikes,
-                }
-            });
-        }
+        const dialogRef = this.dialog.open(DisplayLikesDialogComponent, {
+            data: {
+                likes: _likes,
+                dislikes: _dilikes,
+            }
+        });
     }
 }

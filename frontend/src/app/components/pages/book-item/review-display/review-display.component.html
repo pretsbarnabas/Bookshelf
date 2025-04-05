@@ -40,7 +40,8 @@
         </button>
     </div>
     <div class="col-12 col-lg-4 offset-lg-8 d-flex justify-content-end">
-        <button mat-button (click)="this.showLikesOrDislikes(this.review!.likedBy!, this.review!.dislikedBy!)">
+        <button *ngIf="this.review?.likedBy!.length > 0 || this.review?.dislikedBy!.length > 0" mat-button
+            (click)="this.showLikesOrDislikes(this.review!.likedBy!, this.review!.dislikedBy!)">
             {{ 'BOOKITEM.DIALOG.SHOW' | translate }}
         </button>
     </div>
@@ -154,7 +155,8 @@
             </div>
         </div>
         <div class="col-12 col-lg-4 offset-lg-8 d-flex justify-content-end">
-            <button mat-button (click)="this.showLikesOrDislikes(comment.likedBy!, comment.dislikedBy!)">
+            <button *ngIf="comment.likedBy!.length > 0 || comment.dislikedBy!.length > 0" mat-button
+                (click)="this.showLikesOrDislikes(comment.likedBy!, comment.dislikedBy!)">
                 {{ 'BOOKITEM.DIALOG.SHOW' | translate }}
             </button>
         </div>
