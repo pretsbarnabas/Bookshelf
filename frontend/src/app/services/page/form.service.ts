@@ -345,8 +345,29 @@ export class FormService {
                             this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.DESC')
                         ),
                         placeholder: '',
-                        required: false,
+                        required: true,
                         id: 'description'
+                    },
+                    validation: {
+                        messages: {
+                            required: await firstValueFrom(
+                                this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.ERRORS.REQUIRED')
+                            )
+                        }
+                    }
+                }
+            ],
+            summary: [                
+                {
+                    key: 'content',
+                    wrappers: [TextareaFieldWrapper],
+                    templateOptions: {
+                        label: await firstValueFrom(
+                            this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.SUMMARY.CONTENT')
+                        ),
+                        placeholder: '',
+                        required: false,
+                        id: 'content'
                     }
                 }
             ]

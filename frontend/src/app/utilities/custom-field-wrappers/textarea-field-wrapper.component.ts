@@ -21,7 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
         MatIconModule
     ],
     template: `
-    <mat-form-field appearance="outline" class="w-100 my-1">
+    <mat-form-field [appearance]="triggerFillAppearance ? 'fill' : 'outline'" class="w-100 my-1">
       <mat-label>{{ to.label }}</mat-label>
       <textarea
         matInput

@@ -24,7 +24,7 @@ import { TranslationService } from '../../services/global/translation.service';
         ReactiveFormsModule,
     ],
     template: `
-    <mat-form-field appearance="outline" class="w-100 my-1">
+    <mat-form-field [appearance]="triggerFillAppearance ? 'fill' : 'outline'" class="w-100 my-1">
       <mat-label>{{ to.label }}</mat-label>
       <input
         matInput

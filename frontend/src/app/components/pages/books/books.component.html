@@ -23,22 +23,26 @@
             </mat-card>
         </div>
         <div id="Books" class="d-flex flex-column justify-content-center align-items-center mt-3">
-            <div class="col-12 col-md-6 col-lg-4 mb-3">
-                <button mat-fab (click)="this.navigateToCreate()" class="w-100">
+            <div class="col-12 col-md-6 col-lg-4 mb-3"
+                *ngIf="this.user && ['editor', 'admin'].includes(this.user.role)"> <button mat-fab
+                    (click)="this.navigateToCreate()" class="w-100">
                     <mat-icon class="me-2">add</mat-icon>
                     {{ 'BOOKS.ADD' | translate }}
                 </button>
             </div>
             <div class="book-cards row w-100">
                 <div class="col-12 col-sm-6 col-lg-3 mb-4" *ngFor="let book of filteredBooks">
-                    <mat-card class="w-100 card-holder" (click)="navigateToBook(book._id)">
+                    <mat-card class="w-100 card-holder" (click)="navigateToBook(book._id)"
+                        [matTooltip]="this.isMdOrBeyond ? book.title : null" [matTooltipPosition]="'above'">
                         <mat-card-content>
                             <mat-card class="book-card" appearance="outlined">
                                 <img mat-card-image class="book-image w-100"
                                     [src]="book.imageUrl ? book.imageUrl : 'assets/images/no-cover.svg'"
                                     alt="{{ book.title }}">
                                 <mat-divider class="my-2" />
-                                <mat-card-title class="text-center">{{ book.title }}</mat-card-title>
+                                <mat-card-title class="text-center truncate-title">
+                                    {{ book.title }}
+                                </mat-card-title>
                                 <mat-card-subtitle class="text-center">{{ book.author }}</mat-card-subtitle>
                                 <mat-card-content class="text-center">
                                     <p>{{ formatDate(book.release) }}</p>

@@ -53,6 +53,17 @@
         max-height: 200px;
         object-fit: contain;
     }
+
+}
+
+.truncate-title{
+    display: -webkit-box;
+    line-clamp: 1;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
 }
 
 .title {

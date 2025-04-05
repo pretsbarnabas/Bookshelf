@@ -1,0 +1,26 @@
+@media (max-width: 767px) {
+    #form-card {
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+
+        mat-card-title {
+            font-size: 2.5rem;
+        }
+    }
+}
+
+#create-book-image{
+    max-width: 200px;
+}
+
+
+.truncate-title{
+    display: -webkit-box;
+    line-clamp: 1;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}

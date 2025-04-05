@@ -1,4 +1,4 @@
-import { Component, Renderer2, ElementRef, ViewChild, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Renderer2, ElementRef, ViewChild, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { FormlyModule } from '@ngx-formly/core';
@@ -11,7 +11,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { BookService } from '../../../services/page/book.service';
 import { CommonModule, DatePipe } from '@angular/common';
 
-import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BookModel } from '../../../models/Book';
 
@@ -19,6 +18,11 @@ import { CustomPaginatorComponent } from '../../../utilities/components/custom-p
 import { TranslatePipe } from '@ngx-translate/core';
 import { SortItems } from '../../../utilities/components/sort-items';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import { map } from 'rxjs/internal/operators/map';
+import { UserModel } from '../../../models/User';
+import { AuthService } from '../../../services/global/auth.service';
 
 @Component({
     selector: 'app-books',
@@ -37,7 +41,8 @@ import { MatDividerModule } from '@angular/material/divider';
         FormsModule,
         TranslatePipe,
         MatDividerModule,
-        RouterModule
+        RouterModule,
+        MatTooltipModule
     ],
     templateUrl: './books.component.html',
     styleUrls: ['./books.component.scss'],
@@ -45,8 +50,14 @@ import { MatDividerModule } from '@angular/material/divider';
     encapsulation: ViewEncapsulation.None,
 })
 export class BooksComponent implements OnInit {
+    private mediaObserver = inject(MediaObserver);
+    private authService = inject(AuthService);
+
     @ViewChild('container') container!: ElementRef;
     @ViewChild('showMoreButton') showMoreButton!: ElementRef;
+
+    isMdOrBeyond: boolean = false;
+    user: UserModel | null = null;
 
     maxPages: number = 0;
     currentPageIndex = 0;
@@ -60,6 +71,15 @@ export class BooksComponent implements OnInit {
 
     ngOnInit() {
         this.getBooks();
+        this.mediaObserver.asObservable().pipe(
+            map((changes: MediaChange[]) => {
+                const isMdOrBeyond = changes.some(change => ['md', 'lg', 'xl'].includes(change.mqAlias));
+                this.isMdOrBeyond = isMdOrBeyond;
+            })
+        ).subscribe();
+        this.authService.loggedInUser$.subscribe((user) => {
+            this.user = user;
+        });
     }
 
     filterBooks(): void {
