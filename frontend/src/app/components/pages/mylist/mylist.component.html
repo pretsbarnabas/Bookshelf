@@ -67,11 +67,6 @@
                                 </mat-card-actions>
                               </mat-card>
 
-
-                          <div class="BookInstance" cdkDrag>
-                            {{item.title}}
-
-                        </div>
                         }
                       </div>
                     </div>
@@ -85,22 +80,28 @@
                           class="BookListColItems"
                           (cdkDropListDropped)="drop($event)">
                           @for (item of hasReadBooks; track item) {
-                            <div class="BookInstance" cdkDrag>
-                                {{item.title}}
-                                @if (favoriteBooks.includes(item)) {
-                                    <button mat-fab (click)="finishReading(item._id)" matTooltip="remove from favorites" matTooltipPosition="above">
-                                        <mat-icon>star</mat-icon>
+
+                            <mat-card appearance="outlined" class="drgCard d-flex justify-content-between flex-row"  cdkDrag>
+                                <mat-card-header>
+                                  <mat-card-title> {{item.title}}</mat-card-title>
+                                  <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
+                                </mat-card-header>
+                                <mat-card-actions class="d-flex flex-column align-items-end">
+                                    @if (favoriteBooks.includes(item)) {
+                                        <button mat-fab (click)="finishReading(item._id)" matTooltip="remove from favorites" matTooltipPosition="above">
+                                            <mat-icon>star</mat-icon>
+                                        </button>
+                                    }
+                                    @else {
+                                        <button mat-fab (click)="markAsFavorite(item._id)" matTooltip="favorite Book" matTooltipPosition="above">
+                                            <mat-icon>star</mat-icon>
+                                        </button>
+                                    }
+                                    <button mat-fab (click)="dropBook(item._id)" matTooltip="Delete Book" matTooltipPosition="above">
+                                        <mat-icon>delete</mat-icon>
                                     </button>
-                                }
-                                @else {
-                                    <button mat-fab (click)="markAsFavorite(item._id)" matTooltip="favorite Book" matTooltipPosition="above">
-                                        <mat-icon>star</mat-icon>
-                                    </button>
-                                }
-                                <button mat-fab (click)="dropBook(item._id)" matTooltip="Delete Book" matTooltipPosition="above">
-                                    <mat-icon>delete</mat-icon>
-                                </button>
-                            </div>
+                                </mat-card-actions>
+                              </mat-card>
                           }
                         </div>
                       </div>
