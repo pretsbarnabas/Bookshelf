@@ -4,7 +4,7 @@
             <mat-card class="book-card w-100">
                 <mat-card-header>
                     <img mat-card-image class="book-image w-75 mx-auto"
-                        [src]="this.summary!.book?.imageUrl ?? 'assets/images/no-cover.svg'" [alt]=" this.summary!.book.title
+                        [src]="this.summary.book.imageUrl == undefined ? 'assets/images/no-cover.svg' : this.summary.book.imageUrl" [alt]=" this.summary!.book.title
                             || 'Photo of a book'" />
                 </mat-card-header>
                 <mat-card-content>

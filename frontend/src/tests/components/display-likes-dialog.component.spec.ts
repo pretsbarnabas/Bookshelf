@@ -17,7 +17,7 @@ describe('DisplayLikesDialogComponent', () => {
                 TranslateModule.forRoot()
             ],
             providers: [
-                { provide: MAT_DIALOG_DATA, useValue: { likes: [], dislikes: [] } },
+                { provide: MAT_DIALOG_DATA, useValue: { likes: ['User1'], dislikes: ['User2'] } },
                 { provide: MatDialogRef, useValue: dialogRef },
             ]
         }).compileComponents();
@@ -29,5 +29,11 @@ describe('DisplayLikesDialogComponent', () => {
 
     it('Should create the component', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('Should inject data from MAT_DIALOG_DATA', () => {
+        const mockData = { likes: ['User1'], dislikes: ['User2'] };
+        const dialogRef = TestBed.createComponent(DisplayLikesDialogComponent).componentInstance;
+        expect(dialogRef.data).toEqual(mockData);
     });
 });
