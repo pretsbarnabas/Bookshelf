@@ -308,20 +308,24 @@ export class FormService {
                         required: false,
                         id: 'release'
                     },
-                    validators: { 
+                    validators: {
                         isdate: (control: AbstractControl) => {
-                            if(control.value === '') return true;
+                            if (control.value === '') return true;
                             return (Date.parse(control.value)) > 0;
                         },
                         maxdate: (control: AbstractControl) => {
-                            if(control.value === '') return true;
+                            if (control.value === '') return true;
                             return (Date.parse(control.value)) < Date.now();
                         },
                     },
                     validation: {
-                        messages: {                        
-                            isdate: 'NOT VALID DATE',
-                            maxdate: 'max date is today',
+                        messages: {
+                            isdate:  await firstValueFrom(
+                                this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.ERRORS.INVALID')
+                            ),
+                            maxdate: await firstValueFrom(
+                                this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.ERRORS.MAXDATE')
+                            ),
                         },
                     }
                 },
@@ -357,7 +361,7 @@ export class FormService {
                     }
                 }
             ],
-            summary: [                
+            summary: [
                 {
                     key: 'content',
                     wrappers: [TextareaFieldWrapper],
@@ -366,8 +370,15 @@ export class FormService {
                             this.translationService.service.get('CREATE.CONTENT')
                         ),
                         placeholder: '',
-                        required: false,
+                        required: true,
                         id: 'content'
+                    },
+                    validation: {
+                        messages: {
+                            required: await firstValueFrom(
+                                this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.ERRORS.REQUIRED')
+                            )
+                        }
                     }
                 }
             ]

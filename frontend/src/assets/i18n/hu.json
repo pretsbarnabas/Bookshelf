@@ -171,7 +171,8 @@
     },
     "SUMMARIES": {
         "TITLE": "Összefoglalók",
-        "ADD": "Új Összefoglaló Hozzáadása"
+        "ADD": "Új Összefoglaló Hozzáadása",
+        "BY": "Készítette"
     },
     "SUMMARYITEM": {
         "TITLE": "Részletek"
@@ -389,6 +390,7 @@
                     "CONTENT": "Tartalom",
                     "ERRORS": {
                         "REQUIRED": "Mező kitöltése kötelező",
+                        "INVALID": "Nem megfelelő formátum",
                         "MAXDATE": "A dátum nem lehet a mainál nagyobb",
                         "SCOREMIN": "Pontszám nem lehet negatív",
                         "SCOREMAX": "Pontszám maximum 10 lehet"

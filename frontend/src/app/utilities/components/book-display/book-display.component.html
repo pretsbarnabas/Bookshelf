@@ -76,7 +76,7 @@
                                 <mat-card-subtitle class="text-center">{{ summary.book.author }}</mat-card-subtitle>
                                 <mat-divider class="my-2" />
                                 <mat-card-content>
-                                    <h6 class="text-center">By: {{ summary.user.username }}</h6>
+                                    <h6 class="text-center">{{ 'SUMMARIES.BY' | translate}}: {{ summary.user.username }}</h6>
                                     <h6 class="text-center">{{ summary.updated_at | localizedDate }}</h6>
                                 </mat-card-content>
                             </mat-card>

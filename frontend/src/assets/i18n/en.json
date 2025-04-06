@@ -171,7 +171,8 @@
     },
     "SUMMARIES": {
         "TITLE": "Summaries",
-        "ADD": "Add new summary"       
+        "ADD": "Add new summary",
+        "BY": "By"     
     },
     "SUMMARYITEM": {
         "TITLE": "Details"
@@ -389,6 +390,7 @@
                     "CONTENT": "Content",
                     "ERRORS": {
                         "REQUIRED": "This field is required",
+                        "INVALID": "Invalid format",                        
                         "MAXDATE": "Release date cannot be later than today",
                         "SCOREMIN": "Score cannot be negative",
                         "SCOREMAX": "Maximum score is 10"
