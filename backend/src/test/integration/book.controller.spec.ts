@@ -166,7 +166,7 @@ describe("Book Controller Get All Route Tests",()=>{
         });
     })
     let firstPageBook:any
-    it("should only return the request limit of users",async()=>{
+    it("should only return the request limit of books",async()=>{
         const response = await request(app).get("/api/books?limit=1")
         expect(response.statusCode).toBe(200)
         expect(response.body.data).toBeDefined()
@@ -184,8 +184,8 @@ describe("Book Controller Get All Route Tests",()=>{
         expect(response.body.pages).toBeGreaterThan(1)
         expect(response.body.data[0]).not.toEqual(firstPageBook)
     })
-    it("should return 404 when no users match criteria",async()=>{
-        const response = await request(app).get("/api/books?minRelease=2025-01-01")
+    it("should return 404 when no books match criteria",async()=>{
+        const response = await request(app).get("/api/books?minRelease=2100-01-01")
         expect(response.statusCode).toBe(404)
         expect(response.body.message).toBeDefined()
         expect(response.body.message).toEqual("No books found")
@@ -200,7 +200,7 @@ describe("Book Controller Delete Route Tests",()=>{
         expect(response.body.message).toBeDefined()
         expect(response.body.message).toEqual("Unauthorized")
     })
-    it("should delete user when authorized",async()=>{
+    it("should delete book when authorized",async()=>{
         const response = await request(app).delete(`/api/books/${newBook._id}`).set("Authorization", `Bearer ${editorToken}`)
         expect(response.statusCode).toBe(200)
         expect(response.body.message).toBeDefined()
@@ -212,7 +212,7 @@ describe("Book Controller Delete Route Tests",()=>{
         expect(response.body.message).toBeDefined()
         expect(response.body.message).toEqual("Invalid id format")
     })
-    it("should return 404 when user doesnt exist (only possible if admin token)",async()=>{
+    it("should return 404 when book doesnt exist (only possible if admin token)",async()=>{
         const response = await request(app).delete(`/api/books/67a5c3cba3bb48fa646f9639`).set("Authorization", `Bearer ${adminToken}`)
         expect(response.statusCode).toBe(404)
         expect(response.body.message).toBeDefined()

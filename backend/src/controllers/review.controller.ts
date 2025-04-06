@@ -23,13 +23,13 @@ export class ReviewController{
             if(score){
                 score = Number.parseInt(score)
                 if(Number.isNaN(score)|| score<1 || score>10){
-                    return res.status(400).json({error: "Invalid score"})
+                    return res.status(400).json({message: "Invalid score"})
                 }
                 filters.score = score
             }
             
             if(Number.isNaN(limit) || Number.isNaN(page) || limit < 1 || page < 0){
-                return res.status(400).json({error:"Invalid page or limit"})
+                return res.status(400).json({message:"Invalid page or limit"})
             }
             const allowedFields = ["_id","like_score","score","content","created_at","updated_at","book.title","book._id","book.author","book.imageUrl","user._id", "user.username","user.imageUrl","user.role","user.updated_at","user.created_at","user.last_login"]
 
@@ -181,7 +181,7 @@ export class ReviewController{
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
             const validFields: string[] = requestedFields.filter(field =>allowedFields.includes(field))
 
-            if(validFields.length === 0) return res.status(400).json({error:"Invalid fields requested"})
+            if(validFields.length === 0) return res.status(400).json({message:"Invalid fields requested"})
             
             if(!validFields.includes("_id")) validFields.push("-_id")
 
@@ -236,7 +236,7 @@ export class ReviewController{
                 res.status(404).json({message: "Review not found"})
             }
         } catch (error:any) {
-            res.status(500).json({message:error.message})
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
 
     }
@@ -296,7 +296,7 @@ export class ReviewController{
             const review = await ReviewModel.findById(id)
             if(!review) return res.status(404).json({message: "Review not found"})
             
-            if(!Authenticator.verifyUser(req,review.user_id)) return res.json(401).send()
+            if(!Authenticator.verifyUser(req,review.user_id)) throw new Error("Unauthorized")
             
             const data = await ReviewModel.findByIdAndDelete(id)
             if(data){
@@ -325,7 +325,7 @@ export class ReviewController{
             const review = await ReviewModel.findById(id)
             if(!review) return res.status(404).json({message: "Review not found"})
             
-            if(!Authenticator.verifyUser(req,review.user_id)) return res.json(401).send()
+            if(!Authenticator.verifyUser(req,review.user_id)) throw new Error("Unauthorized")
             
             const updates = req.body
             const allowedFields = ["score","content"]
