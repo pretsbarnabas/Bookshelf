@@ -186,7 +186,7 @@ drop(event: CdkDragDrop<any[]>) {
       event.previousIndex,
       event.currentIndex
     );
-
+    console.log(event.container.data[event.currentIndex]);
     if (event.container.id === 'cdk-drop-list-1') {
       this.startReading(event.container.data[event.currentIndex]._id);
       this.fetchUserBookList(this.loggedInUser!._id);

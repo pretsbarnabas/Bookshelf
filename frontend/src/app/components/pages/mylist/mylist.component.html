@@ -3,7 +3,7 @@
         <mat-tab-group>
             <!-- To Read Tab -->
             <mat-tab label="Booklist">
-                <div cdkDropListGroup>
+                <div class="drgcontainer" cdkDropListGroup>
                     <div class="BookListCol">
                       <h2>To Read</h2>
                   
@@ -13,7 +13,24 @@
                         class="BookListColItems"
                         (cdkDropListDropped)="drop($event)">
                         @for (item of toReadBooks; track item) {
-                          <div class="BookInstance" cdkDrag>
+                            <mat-card appearance="outlined" class="drgCard d-flex justify-content-between flex-row"  cdkDrag>
+                                <mat-card-header>
+                                  <mat-card-title> {{item.title}}</mat-card-title>
+                                  <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
+                                </mat-card-header>
+                                <mat-card-actions class="d-flex flex-column align-items-end">
+                                    <button mat-fab (click)="markAsFavorite(item._id)" matTooltip="favorite Book" matTooltipPosition="above">
+                                        <mat-icon>star</mat-icon>
+                                    </button>
+                                    <button mat-fab (click)="dropBook(item._id)" matTooltip="Delete Book" matTooltipPosition="above">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </mat-card-actions>
+                              </mat-card>
+
+
+
+                          <!-- <div class="BookInstance" cdkDrag>
                             {{item.title}}
                             <button mat-fab (click)="markAsFavorite(item._id)" matTooltip="favorite Book" matTooltipPosition="above">
                                 <mat-icon>star</mat-icon>
@@ -21,7 +38,7 @@
                             <button mat-fab (click)="dropBook(item._id)" matTooltip="Delete Book" matTooltipPosition="above">
                                 <mat-icon>delete</mat-icon>
                             </button>
-                        </div>
+                        </div> -->
                         }
                       </div>
                     </div>
@@ -35,14 +52,25 @@
                         class="BookListColItems"
                         (cdkDropListDropped)="drop($event)">
                         @for (item of readingBooks; track item) {
+                            <mat-card appearance="outlined" class="drgCard d-flex justify-content-between flex-row"  cdkDrag>
+                                <mat-card-header>
+                                  <mat-card-title> {{item.title}}</mat-card-title>
+                                  <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
+                                </mat-card-header>
+                                <mat-card-actions class="d-flex flex-column align-items-end">
+                                    <button mat-fab (click)="markAsFavorite(item._id)" matTooltip="favorite Book" matTooltipPosition="above">
+                                        <mat-icon>star</mat-icon>
+                                    </button>
+                                    <button mat-fab (click)="dropBook(item._id)" matTooltip="Delete Book" matTooltipPosition="above">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </mat-card-actions>
+                              </mat-card>
+
+
                           <div class="BookInstance" cdkDrag>
                             {{item.title}}
-                            <button mat-fab (click)="markAsFavorite(item._id)" matTooltip="favorite Book" matTooltipPosition="above">
-                                <mat-icon>star</mat-icon>
-                            </button>
-                            <button mat-fab (click)="dropBook(item._id)" matTooltip="Delete Book" matTooltipPosition="above">
-                                <mat-icon>delete</mat-icon>
-                            </button>
+
                         </div>
                         }
                       </div>
@@ -59,9 +87,16 @@
                           @for (item of hasReadBooks; track item) {
                             <div class="BookInstance" cdkDrag>
                                 {{item.title}}
-                                <button mat-fab (click)="finishReading(item._id)" matTooltip="remove from favorites" matTooltipPosition="above">
-                                    <mat-icon>star</mat-icon>
-                                </button>
+                                @if (favoriteBooks.includes(item)) {
+                                    <button mat-fab (click)="finishReading(item._id)" matTooltip="remove from favorites" matTooltipPosition="above">
+                                        <mat-icon>star</mat-icon>
+                                    </button>
+                                }
+                                @else {
+                                    <button mat-fab (click)="markAsFavorite(item._id)" matTooltip="favorite Book" matTooltipPosition="above">
+                                        <mat-icon>star</mat-icon>
+                                    </button>
+                                }
                                 <button mat-fab (click)="dropBook(item._id)" matTooltip="Delete Book" matTooltipPosition="above">
                                     <mat-icon>delete</mat-icon>
                                 </button>

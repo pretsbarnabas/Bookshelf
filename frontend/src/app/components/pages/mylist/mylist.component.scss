@@ -77,23 +77,22 @@
     flex: 1 1 100%; /* Full width on extra small screens */
   }
 }
+
 .BookListCol {
   width: 30%;
-  height: 80vh;
   max-width: 100%;
   margin: 0.5% 0.5% 0.5% 0.5%;
   display: inline-block;
   vertical-align: top;
 }
-
 .BookListColItems {
-  min-height: 60px;
+  height: 70vh;
+  display:block;
   background: grey;
   border-radius: 4px;
   overflow: hidden;
   display: block;
 }
-
 .BookInstance {
   padding: 20px 10px;
   border-bottom: solid 1px #ccc;
@@ -130,4 +129,7 @@
 
 .BookListColItems.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+.drgCard{
+  margin: 1% 0 1% 0;
 }
