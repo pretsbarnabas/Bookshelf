@@ -77,6 +77,18 @@ export async function seed(){
             ]
         })
 
+        await booksCollection.insertOne({
+            "_id": new mongoose.Types.ObjectId("7fdb24bfd2c9eaca400201b1"),
+            "title": "Lorem",
+            "author": "Lorem",
+            "release": new Date("2016-04-08T15:06:21.595Z"),
+            "genre": "Crime",
+            "user_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2c"),
+            "description": "Lorem",
+            "added_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z")
+        })
+
         // cascade delete book stuff
 
         await booksCollection.insertOne({
