@@ -23,18 +23,18 @@
         <div class="text-center d-flex align-items-center">
             <span>{{ this.review!.likedBy!.length }}</span>
             <button mat-icon-button class="d-flex align-items-center justify-content-center"
-                (click)="this.handleLikeRequest(this.review!, 'like')">
+                (click)="this.handleLikeRequest(this.review!, 'like')" [disabled]="!this.user">
                 <mat-icon>thumb_up</mat-icon>
             </button>
         </div>
         <div class="text-center d-flex align-items-center ms-2">
             <span>{{ this.review!.dislikedBy!.length }}</span>
             <button mat-icon-button class="d-flex align-items-center justify-content-center"
-                (click)="this.handleLikeRequest(this.review!, 'dislike')">
+                (click)="this.handleLikeRequest(this.review!, 'dislike')" [disabled]="!this.user">
                 <mat-icon>thumb_down</mat-icon>
             </button>
         </div>
-        <button mat-button (click)="this.isCommenting = true">
+        <button mat-button (click)="this.isCommenting = true" *ngIf="this.user">
             <mat-icon>reply</mat-icon>
             {{ 'BOOKITEM.COMMENT.REPLY' | translate }}
         </button>
@@ -143,14 +143,14 @@
             <div class="text-center d-flex align-items-center">
                 <span>{{ comment.likedBy!.length }}</span>
                 <button mat-icon-button class="d-flex align-items-center justify-content-center"
-                    (click)="this.handleLikeRequest(comment, 'like')">
+                    (click)="this.handleLikeRequest(comment, 'like')" [disabled]="!this.user">
                     <mat-icon>thumb_up</mat-icon>
                 </button>
             </div>
             <div class="text-center d-flex align-items-center ms-2">
                 <span>{{ comment.dislikedBy!.length }}</span>
                 <button mat-icon-button class="d-flex align-items-center justify-content-center"
-                    (click)="this.handleLikeRequest(comment, 'dislike')">
+                    (click)="this.handleLikeRequest(comment, 'dislike')" [disabled]="!this.user">
                     <mat-icon>thumb_down</mat-icon>
                 </button>
             </div>

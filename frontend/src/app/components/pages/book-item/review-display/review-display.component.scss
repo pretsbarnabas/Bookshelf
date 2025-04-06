@@ -34,3 +34,7 @@ button.delete {
     font-size: 0.8em;
     color: #888;
 }
+
+button:disabled {
+    color: inherit !important;
+}

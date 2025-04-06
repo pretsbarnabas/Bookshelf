@@ -170,7 +170,8 @@
         "BACK": "Back"
     },
     "SUMMARIES": {
-        "TITLE": "Summaries"
+        "TITLE": "Summaries",
+        "ADD": "Add new summary"       
     },
     "SUMMARYITEM": {
         "TITLE": "Details"

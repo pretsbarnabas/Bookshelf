@@ -170,7 +170,8 @@
         "BACK": "Vissza"
     },
     "SUMMARIES": {
-        "TITLE": "Összefoglalók"
+        "TITLE": "Összefoglalók",
+        "ADD": "Új Összefoglaló Hozzáadása"
     },
     "SUMMARYITEM": {
         "TITLE": "Részletek"
