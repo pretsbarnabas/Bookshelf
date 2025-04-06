@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BookService } from '../../../services/page/book.service';
 import { MatCardModule } from '@angular/material/card';
 import { FormlyModule } from '@ngx-formly/core';
@@ -54,6 +54,7 @@ import { ReviewDisplayComponent } from './review-display/review-display.componen
 })
 export class BookItemComponent implements OnInit {
     private translationService = inject(TranslationService);
+    private router = inject(Router);
 
     public book: any;
     public color: string = 'accent';
@@ -162,7 +163,7 @@ export class BookItemComponent implements OnInit {
     }
     
     onBack() {
-        window.history.back();
+        this.router.navigate(['/books']);
     }
     async onSubmitReview() {
         if (this.reviewForm.valid) {
@@ -190,6 +191,10 @@ export class BookItemComponent implements OnInit {
             }
         }
     }
+
+navigateToCreate(){
+    this.router.navigate(['create/summary', this.book._id]);
+}
 }
 export enum StarRatingColor {
     primary = "primary",

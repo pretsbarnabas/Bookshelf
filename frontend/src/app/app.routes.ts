@@ -27,7 +27,7 @@ export const routes: Routes = [
         children:[
             { path: '', redirectTo: '404', pathMatch: 'full' },
             { path: 'book', loadComponent: () => import('./components/pages/create/create.component').then(m => m.CreateComponent), title: 'CREATE.TITLE' },
-            { path: 'summary', loadComponent: () => import('./components/pages/create/create.component').then(m => m.CreateComponent), title: 'CREATE.TITLE' },
+            { path: 'summary/:bookid', loadComponent: () => import('./components/pages/create/create.component').then(m => m.CreateComponent), title: 'CREATE.TITLE' },
             { path: '**', redirectTo: '404', pathMatch: 'full' },
         ], 
     },

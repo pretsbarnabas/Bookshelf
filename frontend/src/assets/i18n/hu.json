@@ -178,7 +178,8 @@
     },
     "CREATE": {
         "TITLE": "Létrehozás",
-        "EXAMPLE": "Kimeneti példa"
+        "EXAMPLE": "Kimeneti példa",
+        "CONTENT": "Tartalom"
     },
     "MYLIST": {
         "TITLE": "Listám",

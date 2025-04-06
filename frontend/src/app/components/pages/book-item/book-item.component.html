@@ -3,6 +3,13 @@
         <div class="book-item p-2 row w-100 mx-auto">
             <div id="Book" class="col-12 col-lg-4 h-100 mx-auto" *ngIf="this.book !== undefined">
                 <mat-card class="book-card w-100">
+                    <div class="w-50 mx-auto my-3"
+                        *ngIf="this.loggedInUser && ['editor', 'admin'].includes(this.loggedInUser.role)">
+                        <button mat-fab (click)="this.navigateToCreate()" class="w-100">
+                            <mat-icon class="me-2">add</mat-icon>
+                            {{ 'SUMMARIES.ADD' | translate }}
+                        </button>
+                    </div>
                     <mat-card-header>
                         <img mat-card-image class="book-image w-75 mx-auto"
                             [src]="this.book.imageUrl ?? 'assets/images/no-cover.svg'" [alt]=" book?.title

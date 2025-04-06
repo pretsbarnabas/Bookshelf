@@ -1,1 +1,43 @@
-<p>summary-item works!</p>
+<div class="wrapper">
+    <div class="book-item p-2 row w-100 mx-auto" *ngIf="this.summary !== undefined && this.summary.book !== undefined">
+        <div id="Book" class="col-12 col-lg-4 h-100 mx-auto">
+            <mat-card class="book-card w-100">
+                <mat-card-header>
+                    <img mat-card-image class="book-image w-75 mx-auto"
+                        [src]="this.summary!.book?.imageUrl ?? 'assets/images/no-cover.svg'" [alt]=" this.summary!.book.title
+                            || 'Photo of a book'" />
+                </mat-card-header>
+                <mat-card-content>
+                    <mat-card-title class=" title">
+                        <h1 class="display-5 text-center">{{ this.summary!.book.title }}</h1>
+                    </mat-card-title>
+                    <mat-card-subtitle class="text-center mb-3">
+                        {{ 'BOOKITEM.BOOKCARD.AUTHOR' | translate}}: {{ this.summary!.book!.author }}<br>
+                    </mat-card-subtitle>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div id="Book-Details" class="book-details col-12 col-lg-8 mx-auto">
+            <div class="row px-5 py-3 w-100 mx-auto">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <button class="w-100" mat-fab color="primary" (click)="onBack()">
+                        <mat-icon class="me-2">arrow_back</mat-icon>
+                        {{ "BOOKITEM.BACK" | translate }}
+                    </button>
+                </div>
+            </div>
+            <mat-card appearance="outlined">
+                <mat-card-header class="p-2">
+                    <mat-card class="w-100 p-2">
+                        <h2>Summary for: <i>{{ this.summary!.book.title }}</i></h2>
+                        <p>By: {{ this.summary!.user.username }}</p>
+                        <p>{{ this.summary!.updated_at | localizedDate }}</p>
+                        <mat-card-content class="summary-content p-4">
+                            <p>{{ this.summary!.content }}</p>
+                        </mat-card-content>
+                    </mat-card>
+                </mat-card-header>
+            </mat-card>
+        </div>
+    </div>
+</div>

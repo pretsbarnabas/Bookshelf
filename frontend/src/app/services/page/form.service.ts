@@ -363,7 +363,7 @@ export class FormService {
                     wrappers: [TextareaFieldWrapper],
                     templateOptions: {
                         label: await firstValueFrom(
-                            this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.SUMMARY.CONTENT')
+                            this.translationService.service.get('CREATE.CONTENT')
                         ),
                         placeholder: '',
                         required: false,

@@ -25,26 +25,28 @@ import { UserModel } from '../../../models/User';
 import { AuthService } from '../../../services/global/auth.service';
 import { SummaryService } from '../../../services/page/summary.service';
 import { SummaryModel } from '../../../models/Summary';
+import { LocalizedDatePipe } from "../../../pipes/date.pipe";
 
 @Component({
     selector: 'book-display',
     imports: [
-        FormlyModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        FormlyMaterialModule,
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatIconModule,
-        CommonModule,
-        CustomPaginatorComponent,
-        FormsModule,
-        TranslatePipe,
-        MatDividerModule,
-        RouterModule,
-        MatTooltipModule
-    ],
+    FormlyModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormlyMaterialModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatIconModule,
+    CommonModule,
+    CustomPaginatorComponent,
+    FormsModule,
+    TranslatePipe,
+    MatDividerModule,
+    RouterModule,
+    MatTooltipModule,
+    LocalizedDatePipe
+],
     templateUrl: './book-display.component.html',
     styleUrl: './book-display.component.scss',
     providers: [DatePipe],
@@ -146,12 +148,14 @@ export class BookDisplayComponent {
     }
 
     sortItems(_settings: { field: string, mode: 'asc' | 'desc' }): void {
-        if (_settings.field === '') {
+        if(this.mode === 'books'){
+            if (_settings.field === '') {
+                this.filteredBooks = structuredClone(this.books);
+                return;
+            }
             this.filteredBooks = structuredClone(this.books);
-            return;
+            this.filteredBooks = SortItems.generalizedSort(this.filteredBooks as any[], _settings.field, _settings.mode);
         }
-        this.filteredBooks = structuredClone(this.books);
-        this.filteredBooks = SortItems.generalizedSort(this.filteredBooks as any[], _settings.field, _settings.mode);
     }
 
     navigateToCreate() {

@@ -47,6 +47,7 @@ export class CreateComponent {
     form: FormGroup = new FormGroup({});
     model?: any;
     fields: FormlyFieldConfig[] = [];
+    bookId?: string | null;
 
     errorMessages: HttpErrorResponse[] = [];
 
@@ -73,8 +74,9 @@ export class CreateComponent {
             this.formService.getCreateFormConfigMapping().then((value) => this.fields = value['book']);
         }
         if (this.mode === 'summary') {
+            this.bookId = this.route.snapshot.paramMap.get('bookid');
             if (!isCreateSummaryModel(this.model))
-                this.model = { book_id: '', content: '' }
+                this.model = { book_id: this.bookId, content: '' }
             this.formService.getCreateFormConfigMapping().then((value) => this.fields = value['summary']);
         }
     }

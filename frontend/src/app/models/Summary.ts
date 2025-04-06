@@ -21,7 +21,6 @@ export interface CreateSummaryModel {
 
 export function isCreateSummaryModel(obj: any): obj is CreateSummaryModel {
     return typeof obj === 'object' &&
-        obj !== null &&
-        typeof obj.book_id === 'string' || typeof obj.book_id === 'number' &&
+        obj !== null &&    
         typeof obj.content === 'string'
 }

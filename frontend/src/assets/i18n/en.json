@@ -178,7 +178,8 @@
     },
     "CREATE": {
         "TITLE": "Create",
-        "EXAMPLE": "Example Output"
+        "EXAMPLE": "Example Output",
+        "CONTENT": "Content"
     },
     "MYLIST": {
         "TITLE": "Mylist",

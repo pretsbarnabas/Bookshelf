@@ -22,7 +22,7 @@
                         </mat-form-field>
                     </div>
                     <custom-paginator [pageSizeOptions]="[5, 10, 25]" [totalPages]="this.maxPages"
-                        [pageSize]="this.pageSize" [pageIndex]="this.currentPageIndex" [showSortingMenu]="true"
+                        [pageSize]="this.pageSize" [pageIndex]="this.currentPageIndex" [showSortingMenu]="this.mode === 'books'"
                         [itemType]="'book'" (sortingChanged)="this.sortItems($event)"
                         (pageChanged)="this.changePage($event)" />
 
@@ -35,13 +35,6 @@
                 <button mat-fab (click)="this.navigateToCreate()" class="w-100">
                     <mat-icon class="me-2">add</mat-icon>
                     {{ 'BOOKS.ADD' | translate }}
-                </button>
-            </div>
-            <div class="col-12 col-md-6 col-lg-4 mb-3"
-                *ngIf="this.mode==='summaries' && this.user && ['editor', 'admin'].includes(this.user.role)">
-                <button mat-fab (click)="this.navigateToCreate()" class="w-100">
-                    <mat-icon class="me-2">add</mat-icon>
-                    {{ 'SUMMARIES.ADD' | translate }}
                 </button>
             </div>
             <div class="book-cards row w-100">
@@ -81,6 +74,11 @@
                                     <span class="truncate-title">{{ summary.book.title }}</span>
                                 </mat-card-title>
                                 <mat-card-subtitle class="text-center">{{ summary.book.author }}</mat-card-subtitle>
+                                <mat-divider class="my-2" />
+                                <mat-card-content>
+                                    <h6 class="text-center">By: {{ summary.user.username }}</h6>
+                                    <h6 class="text-center">{{ summary.updated_at | localizedDate }}</h6>
+                                </mat-card-content>
                             </mat-card>
                         </mat-card-content>
                     </mat-card>
