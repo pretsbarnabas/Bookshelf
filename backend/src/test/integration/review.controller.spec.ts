@@ -7,7 +7,7 @@ import request from "supertest"
 let adminToken: string
 let userToken: string
 let newReview: any
-let usedBookId = "7fdb24bfd2c9eaca400201b7"
+let usedBookId = "7fdb24bfd2c9eaca400201b1"
 describe("Review Controller Post Route Tests",()=>{
     beforeAll(async()=>{
         let response = await request(app).post("/api/login").send({username: "admin", password: "admin"})
