@@ -282,6 +282,7 @@ export class UserController{
                 } 
                 if(key === "image"){
                     try {
+                        if(user.imageUrl) await ImageController.deleteCloudinaryImage(user.imageUrl)
                         user.imageUrl = await ImageController.uploadToCloudinary(req.body.image);
                       } catch (uploadError) {
                         return res.status(400).json({ 

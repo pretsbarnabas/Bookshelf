@@ -258,6 +258,7 @@ export class BookController{
                 }
                 if(key === "image"){
                     try {
+                        if(book.imageUrl) await ImageController.deleteCloudinaryImage(book.imageUrl)
                         book.imageUrl = await ImageController.uploadToCloudinary(req.body.image);
                       } catch (uploadError) {
                         return res.status(400).json({ 
