@@ -422,7 +422,7 @@ export class FormService {
                             },
                             {
                                 label: await firstValueFrom(
-                                    this.translationService.service.get('CREATE.GENRES.NONE')
+                                    this.translationService.service.get('CREATE.GENRES.RELIGIOUS')
                                 ), value: 'Religious'
                             },
                             {
