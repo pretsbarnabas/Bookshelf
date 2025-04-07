@@ -18,12 +18,14 @@
                                   <mat-card-title> {{item.title}}</mat-card-title>
                                   <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
                                 </mat-card-header>
-                                <mat-card-actions class="d-flex flex-column align-items-end">
-                                    <button mat-fab (click)="markAsFavorite(item._id)" matTooltip="favorite Book" matTooltipPosition="above">
+                                <mat-card-actions class="d-flex flex-column align-items-end gap-2">
+                                    <button mat-raised-button color="accent" class="rounded w-8  drgButton" (click)="markAsFavorite(item._id)" matTooltip="Favorite Book" matTooltipPosition="above">
                                         <mat-icon>star</mat-icon>
+                                        Favorite
                                     </button>
-                                    <button mat-fab (click)="dropBook(item._id)" matTooltip="Delete Book" matTooltipPosition="above">
+                                    <button mat-raised-button class="rounded w-8 drgDelete" (click)="deleteBook(item._id)" matTooltip="Delete Book" matTooltipPosition="above">
                                         <mat-icon>delete</mat-icon>
+                                        Delete
                                     </button>
                                 </mat-card-actions>
                               </mat-card>
@@ -52,20 +54,22 @@
                         class="BookListColItems"
                         (cdkDropListDropped)="drop($event)">
                         @for (item of readingBooks; track item) {
-                            <mat-card appearance="outlined" class="drgCard d-flex justify-content-between flex-row"  cdkDrag>
+                            <mat-card appearance="outlined" class="drgCard d-flex justify-content-between flex-row" cdkDrag>
                                 <mat-card-header>
-                                  <mat-card-title> {{item.title}}</mat-card-title>
-                                  <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
+                                    <mat-card-title>{{ item.title }}</mat-card-title>
+                                    <mat-card-subtitle>{{ item.author }}</mat-card-subtitle>
                                 </mat-card-header>
-                                <mat-card-actions class="d-flex flex-column align-items-end">
-                                    <button mat-fab (click)="markAsFavorite(item._id)" matTooltip="favorite Book" matTooltipPosition="above">
+                                <mat-card-actions class="d-flex flex-column align-items-end gap-2">
+                                    <button mat-raised-button color="accent" class="rounded w-8  drgButton" (click)="markAsFavorite(item._id)" matTooltip="Favorite Book" matTooltipPosition="above">
                                         <mat-icon>star</mat-icon>
+                                        Favorite
                                     </button>
-                                    <button mat-fab (click)="dropBook(item._id)" matTooltip="Delete Book" matTooltipPosition="above">
+                                    <button mat-raised-button class="rounded w-8 drgDelete" (click)="dropBook(item._id)" matTooltip="Drop Book" matTooltipPosition="above">
                                         <mat-icon>delete</mat-icon>
+                                        Drop Book
                                     </button>
                                 </mat-card-actions>
-                              </mat-card>
+                            </mat-card>
 
                         }
                       </div>
@@ -86,19 +90,22 @@
                                   <mat-card-title> {{item.title}}</mat-card-title>
                                   <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
                                 </mat-card-header>
-                                <mat-card-actions class="d-flex flex-column align-items-end">
+                                <mat-card-actions class="d-flex flex-column align-items-end gap-2">
                                     @if (favoriteBooks.includes(item)) {
-                                        <button mat-fab (click)="finishReading(item._id)" matTooltip="remove from favorites" matTooltipPosition="above">
+                                        <button mat-raised-button color="accent" class="rounded w-8  drgDelete" (click)="finishReading(item._id)" matTooltip="Favorite Book" matTooltipPosition="above">
                                             <mat-icon>star</mat-icon>
+                                            Remove
                                         </button>
                                     }
                                     @else {
-                                        <button mat-fab (click)="markAsFavorite(item._id)" matTooltip="favorite Book" matTooltipPosition="above">
+                                        <button mat-raised-button color="accent" class="rounded w-8  drgButton" (click)="markAsFavorite(item._id)" matTooltip="Favorite Book" matTooltipPosition="above">
                                             <mat-icon>star</mat-icon>
+                                            Favorite
                                         </button>
                                     }
-                                    <button mat-fab (click)="dropBook(item._id)" matTooltip="Delete Book" matTooltipPosition="above">
+                                    <button mat-raised-button class="rounded w-8 drgDelete" (click)="deleteBook(item._id)" matTooltip="Delete Book" matTooltipPosition="above">
                                         <mat-icon>delete</mat-icon>
+                                        Delete Book
                                     </button>
                                 </mat-card-actions>
                               </mat-card>

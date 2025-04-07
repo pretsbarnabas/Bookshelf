@@ -1,28 +1,28 @@
 .card-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem; /* Bootstrap spacing utility equivalent */
+  gap: 1rem; 
   justify-content: flex-start;
-  margin: 1rem; /* Add some spacing around the container */
+  margin: 1rem; 
 }
 
 .card-item {
-  flex: 1 1 calc(20% - 1rem); /* Responsive card width with gap adjustment */
-  max-width: 20%; /* Ensure cards don't exceed 20% width */
-  min-width: 200px; /* Set a minimum width for smaller screens */
+  flex: 1 1 calc(20% - 1rem);
+  max-width: 20%;
+  min-width: 200px; 
 }
 
 .book-card {
   height: 100%;
   width: 100%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-  border-radius: 0.5rem; /* Rounded corners */
-  overflow: hidden; /* Prevent content overflow */
-  transition: transform 0.2s ease-in-out; /* Smooth hover effect */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out; 
 }
 
 .book-card:hover {
-  transform: scale(1.05); /* Slight zoom on hover */
+  transform: scale(1.05); 
 }
 
 .book-button {
@@ -32,16 +32,16 @@
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-  background-color: #007bff; /* Bootstrap primary color */
-  color: #fff; /* White text */
+  background-color: #007bff; 
+  color: #fff; 
   border: none;
-  border-radius: 0.25rem; /* Rounded corners */
+  border-radius: 0.25rem; 
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }
 
 .book-button:hover {
-  background-color: #0056b3; /* Darker shade of primary color */
+  background-color: #0056b3; 
 }
 
 .book-image {
@@ -49,13 +49,13 @@
   width: auto;
   margin: 0 auto;
   display: block;
-  object-fit: cover; /* Ensure the image fits nicely */
+  object-fit: cover; 
 }
 
 .card-author {
   text-align: center;
   font-size: 0.9rem;
-  color: #6c757d; /* Bootstrap muted text color */
+  color: #6c757d; 
 }
 
 .title {
@@ -68,13 +68,13 @@
 
 @media (max-width: 768px) {
   .card-item {
-    flex: 1 1 calc(50% - 1rem); /* Adjust for smaller screens */
+    flex: 1 1 calc(50% - 1rem); 
   }
 }
 
 @media (max-width: 576px) {
   .card-item {
-    flex: 1 1 100%; /* Full width on extra small screens */
+    flex: 1 1 100%; 
   }
 }
 
@@ -132,4 +132,25 @@
 }
 .drgCard{
   margin: 1% 0 1% 0;
+}
+.w-8 {
+  width: 8vw;
+}
+.drgDelete{
+  background-color: #f8d7da; 
+  color: black; 
+  border: 1px solid #f5c6cb; 
+  border-radius: 0.25rem; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+}
+.drgButton{
+  background-color: #fff3cd; 
+  color: black; 
+  border: 1px solid #ffeeba; 
+  border-radius: 0.25rem; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
 }
