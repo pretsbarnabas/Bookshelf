@@ -39,7 +39,7 @@ export class ReviewController{
             if(!maxUpdate) maxUpdate = dates.maxDate()
     
             if(!validators.isValidISODate(minCreate)|| !validators.isValidISODate(maxCreate) || !validators.isValidISODate(minUpdate || !validators.isValidISODate(maxUpdate))){
-                return res.status(400).json({error:"Invalid date requested"})
+                return res.status(400).json({message:"Invalid date requested"})
             }
 
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
@@ -47,7 +47,7 @@ export class ReviewController{
 
             if(validFields.length === 0){
                 Logger.info("Invalid fields requested")
-                return res.status(400).json({error:"Invalid fields requested"})
+                return res.status(400).json({message:"Invalid fields requested"})
             }
 
             if(!validFields.includes("_id")) validFields.push("-_id")

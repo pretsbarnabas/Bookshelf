@@ -21,7 +21,7 @@ export class SummaryController{
             limit = Number.parseInt(limit)
             page = Number.parseInt(page)
             if(Number.isNaN(limit) || Number.isNaN(page) || limit < 1 || page < 0){
-                return res.status(400).json({error:"Invalid page or limit"})
+                return res.status(400).json({message:"Invalid page or limit"})
             }
 
             if(!minCreate) minCreate = dates.minDate()
@@ -30,7 +30,7 @@ export class SummaryController{
             if(!maxUpdate) maxUpdate = dates.maxDate()
     
             if(!validators.isValidISODate(minCreate)|| !validators.isValidISODate(maxCreate) || !validators.isValidISODate(minUpdate || !validators.isValidISODate(maxUpdate))){
-                return res.status(400).json({error:"Invalid date requested"})
+                return res.status(400).json({message:"Invalid date requested"})
             }
 
             const requestedFields: string[] = fields ? fields.split(",") : SummaryController.allowedFields
@@ -38,7 +38,7 @@ export class SummaryController{
 
             if(validFields.length === 0){
                 Logger.info("Invalid fields requested")
-                return res.status(400).json({error:"Invalid fields requested"})
+                return res.status(400).json({message:"Invalid fields requested"})
             }
 
             if(!validFields.includes("_id")) validFields.push("-_id")

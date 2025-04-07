@@ -20,7 +20,7 @@ export class BookController{
             page = Number.parseInt(page)
             
             if(Number.isNaN(limit) || Number.isNaN(page) || limit < 1 || page < 0){
-                return res.status(400).json({error:"Invalid page or limit"})
+                return res.status(400).json({message:"Invalid page or limit"})
             }
 
             const allowedFields = ["_id","title","author","release","genre","user_id","description","added_at","updated_at","imageUrl"]
@@ -31,7 +31,7 @@ export class BookController{
             if(author) filters.author = new RegExp(`${author}`,"i")
             if(user_id){
                 if(!Types.ObjectId.isValid(user_id)){
-                    return res.status(400).json({error: "user_id is in invalid format"})
+                    return res.status(400).json({message: "user_id is in invalid format"})
                 }
                 filters.user_id = user_id
             }
@@ -39,7 +39,7 @@ export class BookController{
                 const genrePath = BookModel.schema.path("genre")
                 const genres: string[] = genrePath.options.enum.map(function(genre: string){return genre.toLowerCase()})
                 if(!genres.includes(genre.toLowerCase())){
-                    return res.status(400).json({error: "Invalid genre requested"})
+                    return res.status(400).json({message: "Invalid genre requested"})
                 }
                 filters.genre = genre
             }
@@ -49,7 +49,7 @@ export class BookController{
             
             if(validFields.length === 0){
                 Logger.info("Invalid fields requested")
-                return res.status(400).json({error:"Invalid fields requested"})
+                return res.status(400).json({message:"Invalid fields requested"})
             }
             
             if(!validFields.includes("_id")) validFields.push("-_id")
@@ -72,13 +72,13 @@ export class BookController{
                     
                     if (minRelease) {
                         if(!validators.isValidISODate(minRelease)){
-                            return res.status(400).json({error: "Invalid date requested"})
+                            return res.status(400).json({message: "Invalid date requested"})
                         }
                         releaseFilter.$gte = new Date(minRelease);
                     }
                     if (maxRelease) {
                         if(!validators.isValidISODate(maxRelease)){
-                            return res.status(400).json({error: "Invalid date requested"})
+                            return res.status(400).json({message: "Invalid date requested"})
                         }
                         releaseFilter.$lte = new Date(maxRelease);
                     }

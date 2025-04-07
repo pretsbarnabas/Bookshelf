@@ -46,11 +46,11 @@ export class UserController{
 
             if(!validators.isValidISODate(minCreate)|| !validators.isValidISODate(maxCreate)){
                 Logger.info(`Invalid date requested\nminCreate: ${minCreate}\nmaxCreate: ${maxCreate}`)
-                return res.status(400).json({error:"Invalid create date requested"})
+                return res.status(400).json({message:"Invalid create date requested"})
             }
             if(!validators.isValidISODate(minUpdate) || !validators.isValidISODate(maxUpdate)){
                 Logger.info(`Invalid date requested\nminUpdate: ${minUpdate}\nmaxUpdate: ${maxUpdate}`)
-                return res.status(400).json({error:"Invalid update date requested"})
+                return res.status(400).json({message:"Invalid update date requested"})
             }
 
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
@@ -58,7 +58,7 @@ export class UserController{
 
             if(validFields.length === 0){
                 Logger.info("Invalid fields requested")
-                return res.status(400).json({error:"Invalid fields requested"})
+                return res.status(400).json({message:"Invalid fields requested"})
             }
 
             if(!validFields.includes("_id")) validFields.push("-_id")
