@@ -139,6 +139,7 @@
         "BOOKCARD": {
             "AUTHOR": "Szerző",
             "RELEASE": "Megjelenés dátuma",
+            "GENRE": "Műfaj",
             "CONTENT": "Tartalom",
             "RATED": "Értékelésed",
             "SUBMIT": "Beküldés"
@@ -182,7 +183,28 @@
     "CREATE": {
         "TITLE": "Létrehozás",
         "EXAMPLE": "Kimeneti példa",
-        "CONTENT": "Tartalom"
+        "CONTENT": "Tartalom",
+        "GENRES": {
+            "NONE": "Nincs",
+            "ACTION": "Akció",
+            "ADVENTURE": "Kaland",
+            "CHILDREN": "Gyermek",
+            "COMEDY": "Vígjáték",
+            "CRIME": "Bűnügyi",
+            "DETECTIVE": "Nyomozós",
+            "DRAMA": "Dráma",
+            "EROTIC": "Erotikus",
+            "FANTASY": "Fantasy",
+            "HISTORICAL": "Történelmi",
+            "HORROR": "Horror",
+            "LITERARYPROSE": "Irodalmi próza",
+            "MYSTERY": "Rejtély",
+            "PHILOSOPHICAL": "Filozófiai",
+            "POETRY": "Költészet",
+            "RELIGIOUS": "Vallási",
+            "ROMANCE": "Romantikus",
+            "SCIFI": "Sci-fi"
+        }
     },
     "MYLIST": {
         "TITLE": "Listám",

@@ -139,6 +139,7 @@
         "BOOKCARD": {
             "AUTHOR": "Author",
             "RELEASE": "Release date",
+            "GENRE": "Genre",
             "CONTENT": "Content",
             "RATED": "You rated",
             "SUBMIT": "Submit"
@@ -173,7 +174,7 @@
     "SUMMARIES": {
         "TITLE": "Summaries",
         "ADD": "Add new summary",
-        "BY": "By"     
+        "BY": "By"
     },
     "SUMMARYITEM": {
         "TITLE": "Details",
@@ -182,7 +183,28 @@
     "CREATE": {
         "TITLE": "Create",
         "EXAMPLE": "Example Output",
-        "CONTENT": "Content"
+        "CONTENT": "Content",
+        "GENRES": {
+            "NONE": "None",
+            "ACTION": "Action",
+            "ADVENTURE": "Adventure",
+            "CHILDREN": "Children",
+            "COMEDY": "Comedy",
+            "CRIME": "Crime",
+            "DETECTIVE": "Detective",
+            "DRAMA": "Drama",
+            "EROTIC": "Erotic",
+            "FANTASY": "Fantasy",
+            "HISTORICAL": "Historical",
+            "HORROR": "Horror",
+            "LITERARY_PROSE": "Literary prose",
+            "MYSTERY": "Mystery",
+            "PHILOSOPHICAL": "Philosophical",
+            "POETRY": "Poetry",
+            "RELIGIOUS": "Religious",
+            "ROMANCE": "Romance",
+            "SCIFI": "SciFi"
+        }
     },
     "MYLIST": {
         "TITLE": "Mylist",
@@ -392,7 +414,7 @@
                     "CONTENT": "Content",
                     "ERRORS": {
                         "REQUIRED": "This field is required",
-                        "INVALID": "Invalid format",                        
+                        "INVALID": "Invalid format",
                         "MAXDATE": "Release date cannot be later than today",
                         "SCOREMIN": "Score cannot be negative",
                         "SCOREMAX": "Maximum score is 10"

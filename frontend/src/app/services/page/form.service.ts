@@ -8,6 +8,7 @@ import { InputFieldWrapper } from '../../utilities/custom-field-wrappers/input-f
 import { FileInputFieldWrapper } from '../../utilities/custom-field-wrappers/file-field-wrapper.component';
 import { DateFieldWrapper } from '../../utilities/custom-field-wrappers/date-field-wrapper.component';
 import { TextareaFieldWrapper } from '../../utilities/custom-field-wrappers/textarea-field-wrapper.component';
+import { SelectFieldWrapper } from '../../utilities/custom-field-wrappers/select-field-wrapper.component';
 
 @Injectable({
     providedIn: 'root'
@@ -320,7 +321,7 @@ export class FormService {
                     },
                     validation: {
                         messages: {
-                            isdate:  await firstValueFrom(
+                            isdate: await firstValueFrom(
                                 this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.ERRORS.INVALID')
                             ),
                             maxdate: await firstValueFrom(
@@ -331,13 +332,111 @@ export class FormService {
                 },
                 {
                     key: 'genre',
-                    wrappers: [InputFieldWrapper],
+                    type: 'select',
+                    wrappers: [SelectFieldWrapper],
+                    defaultValue: 'None',
                     templateOptions: {
                         label: await firstValueFrom(
                             this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.GENRE')
                         ),
-                        placeholder: '',
-                        required: false,
+                        options: [
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.NONE')
+                                ), value: 'None'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.ACTION')
+                                ), value: 'Action'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.ADVENTURE')
+                                ), value: 'Adventure'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.CHILDREN')
+                                ), value: 'Children'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.COMEDY')
+                                ), value: 'Comedy'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.CRIME')
+                                ), value: 'Crime'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.DETECTIVE')
+                                ), value: 'Detective'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.DRAMA')
+                                ), value: 'Drama'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.EROTIC')
+                                ), value: 'Erotic'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.FANTASY')
+                                ), value: 'Fantasy'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.HISTORICAL')
+                                ), value: 'Historical'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.HORROR')
+                                ), value: 'Horror'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.LITERARYPROSE')
+                                ), value: 'Literary prose'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.MYSTERY')
+                                ), value: 'Mystery'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.PHILOSOPHICAL')
+                                ), value: 'Philosophical'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.POETRY')
+                                ), value: 'Poetry'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.NONE')
+                                ), value: 'Religious'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.ROMANCE')
+                                ), value: 'Romance'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.SCIFI')
+                                ), value: 'SciFi'
+                            },
+                        ],
+                        required: true,
                         id: 'genre'
                     }
                 },
