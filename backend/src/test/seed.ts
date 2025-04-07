@@ -101,6 +101,17 @@ export async function seed(){
             "disliked_by": []
         })
 
+        await commentsCollection.insertOne({
+            "_id": new mongoose.Types.ObjectId("7ef503b3e63a6bcb56f8db31"),
+            "user_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2c"),
+            "review_id": new mongoose.Types.ObjectId("a826b9febba8c411cf6d82cd"),
+            "content": "Lorem",
+            "created_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z"),
+            "liked_by": [],
+            "disliked_by": []
+        })
+
         // cascade delete book stuff
 
         await booksCollection.insertOne({
