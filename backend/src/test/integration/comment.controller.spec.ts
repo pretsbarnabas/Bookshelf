@@ -172,6 +172,7 @@ describe("Comment Controller Get All Route Tests",()=>{
     })
     it("should return requested page",async()=>{
         const response = await request(app).get("/api/comments?limit=1&page=1")
+        console.log(response.body)
         expect(response.statusCode).toBe(200)
         expect(response.body.data).toBeDefined()
         expect(response.body.pages).toBeDefined()

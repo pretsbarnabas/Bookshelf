@@ -177,6 +177,7 @@ describe("Book Controller Get All Route Tests",()=>{
     })
     it("should return requested page",async()=>{
         const response = await request(app).get("/api/books?limit=1&page=1")
+        console.log(response.body)
         expect(response.statusCode).toBe(200)
         expect(response.body.data).toBeDefined()
         expect(response.body.pages).toBeDefined()
@@ -189,6 +190,30 @@ describe("Book Controller Get All Route Tests",()=>{
         expect(response.statusCode).toBe(404)
         expect(response.body.message).toBeDefined()
         expect(response.body.message).toEqual("No books found")
+    })
+    it("should return 400 when limit is less than 1",async()=>{
+        const response = await request(app).get("/api/comments?limit=0")
+        expect(response.statusCode).toBe(400)
+        expect(response.body.message).toBeDefined()
+        expect(response.body.message).toEqual("Invalid page or limit")
+    })
+    it("should return 400 when limit is not a number",async()=>{
+        const response = await request(app).get("/api/comments?limit=asd")
+        expect(response.statusCode).toBe(400)
+        expect(response.body.message).toBeDefined()
+        expect(response.body.message).toEqual("Invalid page or limit")
+    })
+    it("should return 400 when page is less than 0",async()=>{
+        const response = await request(app).get("/api/comments?page=-1")
+        expect(response.statusCode).toBe(400)
+        expect(response.body.message).toBeDefined()
+        expect(response.body.message).toEqual("Invalid page or limit")
+    })
+    it("should return 400 when page is not a number",async()=>{
+        const response = await request(app).get("/api/comments?page=asd")
+        expect(response.statusCode).toBe(400)
+        expect(response.body.message).toBeDefined()
+        expect(response.body.message).toEqual("Invalid page or limit")
     })
 })
 
