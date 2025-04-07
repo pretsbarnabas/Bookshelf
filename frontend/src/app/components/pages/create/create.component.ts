@@ -1,6 +1,6 @@
 import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { FormService } from '../../../services/page/form.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -42,6 +42,7 @@ export class CreateComponent {
     private bookService = inject(BookService);
     private summaryService = inject(SummaryService);
     private datePipe = inject(DatePipe);
+    private router = inject(Router);
 
     mode: 'book' | 'summary' = 'book';
     form: FormGroup = new FormGroup({});
@@ -86,8 +87,8 @@ export class CreateComponent {
         if(this.form.valid){
             if (this.mode === 'book') {
                 this.bookService.createBook(this.model as CreateBookModel).subscribe({
-                    next: (response: BookModel) => {
-                        console.log(response);
+                    next: (response: BookModel) => {                        
+                        this.router.navigate(['books']);
                     },
                     error: (error: HttpErrorResponse) => {
                         this.errorMessages.push(error as HttpErrorResponse);
@@ -96,8 +97,8 @@ export class CreateComponent {
             }
             if (this.mode === 'summary') {
                 this.summaryService.createSummary(this.model as CreateSummaryModel).subscribe({
-                    next: (response: SummaryModel) => {
-                        console.log(response);
+                    next: (response: SummaryModel) => {                        
+                        this.router.navigate(['summaries']);
                     },
                     error: (error: HttpErrorResponse) => {                                                    
                         this.errorMessages.push(error as HttpErrorResponse);
