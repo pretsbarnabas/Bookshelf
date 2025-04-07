@@ -1,5 +1,6 @@
 const ReviewModel = require("../models/review.model")
 const CommentModel = require("../models/comment.model")
+const BookModel = require("../models/book.model")
 const mongoose = require("mongoose")
 import { Projection } from "../models/projection.model"
 import * as dates from "../tools/dates"
@@ -22,13 +23,13 @@ export class ReviewController{
             if(score){
                 score = Number.parseInt(score)
                 if(Number.isNaN(score)|| score<1 || score>10){
-                    return res.status(400).json({error: "Invalid score"})
+                    return res.status(400).json({message: "Invalid score"})
                 }
                 filters.score = score
             }
             
             if(Number.isNaN(limit) || Number.isNaN(page) || limit < 1 || page < 0){
-                return res.status(400).json({error:"Invalid page or limit"})
+                return res.status(400).json({message:"Invalid page or limit"})
             }
             const allowedFields = ["_id","like_score","score","content","created_at","updated_at","book.title","book._id","book.author","book.imageUrl","user._id", "user.username","user.imageUrl","user.role","user.updated_at","user.created_at","user.last_login"]
 
@@ -38,7 +39,7 @@ export class ReviewController{
             if(!maxUpdate) maxUpdate = dates.maxDate()
     
             if(!validators.isValidISODate(minCreate)|| !validators.isValidISODate(maxCreate) || !validators.isValidISODate(minUpdate || !validators.isValidISODate(maxUpdate))){
-                return res.status(400).json({error:"Invalid date requested"})
+                return res.status(400).json({message:"Invalid date requested"})
             }
 
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
@@ -46,7 +47,7 @@ export class ReviewController{
 
             if(validFields.length === 0){
                 Logger.info("Invalid fields requested")
-                return res.status(400).json({error:"Invalid fields requested"})
+                return res.status(400).json({message:"Invalid fields requested"})
             }
 
             if(!validFields.includes("_id")) validFields.push("-_id")
@@ -127,7 +128,7 @@ export class ReviewController{
                 {$limit: limit}
             ])
 
-            if(data.length){
+            if(data && data.length){
                 const pages = Math.ceil(await ReviewModel.estimatedDocumentCount() / limit)
                 await Authenticator.verifyUser(req)
                 data.forEach((review: any) => {review.liked_by_user = "none"})
@@ -152,7 +153,7 @@ export class ReviewController{
                 return res.status(404).json({message: "No reviews found"})
             }
         }catch(error:any){
-            res.status(500).json({message:error.message})
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
     }
 
@@ -180,7 +181,7 @@ export class ReviewController{
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
             const validFields: string[] = requestedFields.filter(field =>allowedFields.includes(field))
 
-            if(validFields.length === 0) return res.status(400).json({error:"Invalid fields requested"})
+            if(validFields.length === 0) return res.status(400).json({message:"Invalid fields requested"})
             
             if(!validFields.includes("_id")) validFields.push("-_id")
 
@@ -235,14 +236,14 @@ export class ReviewController{
                 res.status(404).json({message: "Review not found"})
             }
         } catch (error:any) {
-            res.status(500).json({message:error.message})
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
 
     }
 
     static async createReview(req:any,res:any){
         try {
-            const {book_id,score,content = null} = req.body
+            let {book_id,score,content = null} = req.body
             
             if(book_id){
                 if(!mongoose.Types.ObjectId.isValid(book_id)){
@@ -253,12 +254,17 @@ export class ReviewController{
                 return res.status(400).json({message: "book_id is required"})
             }
             if(!score)
-                return res.status(400).json({message: "score required"}) 
+                return res.status(400).json({message: "score is required"}) 
+            score = Number.parseInt(score)
             if(Number.isNaN(score)){
                 return res.status(400).json({message: "Invalid score, must be a number"})
             }
-            if(!Authenticator.verifyUser(req)) return res.json(401).send()
+            if(!Authenticator.verifyUser(req)) throw new Error("Unauthorized")
             
+            const existingBook = await BookModel.findById(book_id)
+            if(!existingBook){
+                throw new Error("Book doesnt exist")
+            }
             const existingReview = await ReviewModel.findOne({user_id: new mongoose.Types.ObjectId(req.user.id as string), book_id: new mongoose.Types.ObjectId(book_id as string)})
             if(existingReview){
                 throw new Error("User already posted a review on book")
@@ -290,13 +296,11 @@ export class ReviewController{
             const review = await ReviewModel.findById(id)
             if(!review) return res.status(404).json({message: "Review not found"})
             
-            if(!Authenticator.verifyUser(req,review.user_id)) return res.json(401).send()
+            if(!Authenticator.verifyUser(req,review.user_id)) throw new Error("Unauthorized")
             
             const data = await ReviewModel.findByIdAndDelete(id)
             if(data){
                 res.status(200).json({message:"Review deleted"})
-                const deletedComments = await CommentModel.deleteMany({review_id: id})
-                if(deletedComments.deletedCount) Logger.info(`Deleted ${deletedComments.deletedCount} comments of user: ${id}`)
             }
             else{
                 res.status(404).json({message:"Review not found"})
@@ -321,7 +325,7 @@ export class ReviewController{
             const review = await ReviewModel.findById(id)
             if(!review) return res.status(404).json({message: "Review not found"})
             
-            if(!Authenticator.verifyUser(req,review.user_id)) return res.json(401).send()
+            if(!Authenticator.verifyUser(req,review.user_id)) throw new Error("Unauthorized")
             
             const updates = req.body
             const allowedFields = ["score","content"]
@@ -357,6 +361,7 @@ export class ReviewController{
                 return res.status(400).json({message: "id is required"})
             }
             const potentialLikedBy = await ReviewModel.findById(id).select(["liked_by","-_id"])
+            if(!potentialLikedBy) throw new Error("Review not found")
             if(!potentialLikedBy.liked_by.length) return res.status(200).json([])
             const data = await ReviewModel.aggregate([
                 { $match: { _id: new mongoose.Types.ObjectId(id as string) } },
@@ -388,6 +393,7 @@ export class ReviewController{
                 return res.status(400).json({message: "id is required"})
             }
             const potentialDislikedBy = await ReviewModel.findById(id).select(["disliked_by","-_id"])
+            if(!potentialDislikedBy) throw new Error("Review not found")
             if(!potentialDislikedBy.disliked_by.length) return res.status(200).json([])
             const data = await ReviewModel.aggregate([
                 { $match: { _id: new mongoose.Types.ObjectId(id as string) } },
@@ -419,7 +425,7 @@ export class ReviewController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            if(!Authenticator.verifyUser(req,id)) throw new Error("Unauthorized")
+            if(!Authenticator.verifyUser(req)) throw new Error("Unauthorized")
 
             const review = await ReviewModel.findById(id)
             if(!review) throw new Error("Review not found")

@@ -1,6 +1,7 @@
 import jwt, { Secret } from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import { Logger } from "../tools/logger"
+import { ErrorHandler } from "../tools/errorhandler"
 const UserModel = require("../models/user.model")
 
 
@@ -35,8 +36,12 @@ export class Authenticator{
     static async refreshToken(req:any,res:any){
         try {
             let {token} = req.body
-            if(!token) token = req.headers["authorization"].split(" ").pop()
-            if(!token) throw new Error("No tokent sent in request")
+            if(!token){
+                if(req.headers["authorization"]){
+                   token = req.headers["authorization"].split(" ").pop()
+                }
+            }
+            if(!token) throw new Error("No token sent in request")
             
             let verifiedToken = false
             jwt.verify(token, process.env.JWT_SECRET as Secret,(err:any,decoded:any)=>{
@@ -58,7 +63,7 @@ export class Authenticator{
             
         } catch (error:any) {
             Logger.error(error)
-            res.status(400).json(error)
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
     }
 
