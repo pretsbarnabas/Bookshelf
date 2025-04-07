@@ -96,6 +96,98 @@ describe("User Controller (Auth Controller) Login Route Tests",()=>{
     })
 })
 
+describe("User Controller (Auth Controller) RefreshToken Route Tests",()=>{
+    it("should return new token with valid token sent in header",async()=>{
+        const response = await request(app).post("/api/refreshToken").set("Authorization", `Bearer ${newUserToken}`)
+        expect(response.statusCode).toBe(200)
+        expect(response.body.token).toBeDefined()
+    })
+    it("should return new token with valid token sent in body",async()=>{
+        const response = await request(app).post("/api/refreshToken").send({token: newUserToken})
+        expect(response.statusCode).toBe(200)
+        expect(response.body.token).toBeDefined()
+    })
+    it("should return 400 with no token sent",async()=>{
+        const response = await request(app).post("/api/refreshToken")
+        expect(response.statusCode).toBe(400)
+        expect(response.body.message).toBe("No token sent in request")
+    })
+    it("should return 400 with invalid token sent",async()=>{
+        const response = await request(app).post("/api/refreshToken").send({token: "asd"})
+        expect(response.statusCode).toBe(400)
+        expect(response.body.message).toBe("Incorrect token")
+    })
+})
+
+describe("User Controller - Booklist Put Route Tests",()=>{
+    const booklistBookId = "7fdb24bfd2c9eaca400201b1"
+    it("should modify booklist with auth",async()=>{
+        const response = await request(app).put(`/api/users/${newUser._id}/booklist`).send({"7fdb24bfd2c9eaca400201b1": "to_read"}).set("Authorization", `Bearer ${newUserToken}`)
+        expect(response.statusCode).toBe(200)
+        expect(response.body[0].book._id).toBe(booklistBookId)
+    })
+    it("should return 401 if no auth",async()=>{
+        const response = await request(app).put(`/api/users/${newUser._id}/booklist`).send({"7fdb24bfd2c9eaca400201b1": "to_read"})
+        expect(response.statusCode).toBe(401)
+        expect(response.body.message).toBe("Unauthorized")
+    })
+    it("should return 400 if user id is invalid format",async()=>{
+        const response = await request(app).put(`/api/users/asd/booklist`).send({"7fdb24bfd2c9eaca400201b1": "to_read"}).set("Authorization", `Bearer ${newUserToken}`)
+        expect(response.statusCode).toBe(400)
+        expect(response.body.message).toBe("Invalid id format")
+    })
+    it("should return 404 if user doesnt exist (only when admin token)",async()=>{
+        const response = await request(app).put(`/api/users/7fdb24bfd2c9eaca400201b1/booklist`).send({"7fdb24bfd2c9eaca400201b1": "to_read"}).set("Authorization", `Bearer ${adminToken}`)
+        expect(response.statusCode).toBe(404)
+        expect(response.body.message).toBe("User not found")
+    })
+    it("should return 400 if book id is invalid format",async()=>{
+        const response = await request(app).put(`/api/users/${newUser._id}/booklist`).send({"7fdb24bfd2c9eaca40021": "to_read"}).set("Authorization", `Bearer ${newUserToken}`)
+        expect(response.statusCode).toBe(400)
+        expect(response.body.message).toBe("Invalid book id format")
+    })
+    it("should return 404 if book doesnt exist",async()=>{
+        const response = await request(app).put(`/api/users/${newUser._id}/booklist`).send({"1fdb24bfd2c9eaca400201be": "to_read"}).set("Authorization", `Bearer ${newUserToken}`)
+        expect(response.statusCode).toBe(404)
+        expect(response.body.message).toBe(`Book not found with id: 1fdb24bfd2c9eaca400201be`)
+    })
+    it("should modify booklist existing item to new value",async()=>{
+        const response = await request(app).put(`/api/users/${newUser._id}/booklist`).send({"7fdb24bfd2c9eaca400201b1": "has_read"}).set("Authorization", `Bearer ${newUserToken}`)
+        expect(response.statusCode).toBe(200)
+        expect(response.body[0].book._id).toBe(booklistBookId)
+        expect(response.body[0].read_status).toBe("has_read")
+    })
+    it("should delete booklist item",async()=>{
+        const response = await request(app).put(`/api/users/${newUser._id}/booklist`).send({"7fdb24bfd2c9eaca400201b1": "delete"}).set("Authorization", `Bearer ${newUserToken}`)
+        expect(response.statusCode).toBe(200)
+        expect(response.body[0]).toBeUndefined()
+    })
+    it("should modify booklist with mutliple items",async()=>{
+        const response = await request(app).put(`/api/users/${newUser._id}/booklist`).send({"7fdb24bfd2c9eaca400201b1": "has_read", "7fdb24bfd2c9eaca400201b0": "to_read"}).set("Authorization", `Bearer ${newUserToken}`)
+        expect(response.statusCode).toBe(200)
+        expect(response.body.length).toBe(2)
+    })
+})
+
+describe("User Controller - Booklist Get Route Tests",()=>{
+    it("should return users booklist",async()=>{
+        const response = await request(app).get(`/api/users/${newUser._id}/booklist`)
+        expect(response.statusCode).toBe(200)
+        expect(response.body).toBeDefined()
+        expect(response.body[0].book._id).toBeDefined()
+    })
+    it("should return 400 if id is invalid",async()=>{
+        const response = await request(app).get(`/api/users/asd/booklist`)
+        expect(response.statusCode).toBe(400)
+        expect(response.body.message).toBe("Invalid id format")
+    })
+    it("should return 404 if user doesnt exist",async()=>{
+        const response = await request(app).get(`/api/users/7fdb24bfd2c9eaca400201b1/booklist`)
+        expect(response.statusCode).toBe(404)
+        expect(response.body.message).toBe("User not found")
+    })
+})
+
 describe("User Controller Put Route Tests",()=>{
     it("should modify user details with valid token",async()=>{
         const response = await request(app).put(`/api/users/${newUser._id}`).send({username: "barnii"}).set("Authorization", `Bearer ${newUserToken}`)
@@ -137,6 +229,9 @@ describe("User Controller Put Route Tests",()=>{
 describe("User Controller Get by Id Route Tests",()=>{
     it("should return user by id (no auth)",async()=>{
         const response = await request(app).get(`/api/users/${newUser._id}`)
+        console.log(newUser._id)
+        console.log(response.body._id)
+        console.log(response.body.username)
         expect(response.statusCode).toBe(200)
         expect(response.body).toBeDefined()
         expect(response.body.username).toEqual(newUser.username)
@@ -145,6 +240,9 @@ describe("User Controller Get by Id Route Tests",()=>{
     })
     it("should return user by id (auth)",async()=>{
         const response = await request(app).get(`/api/users/${newUser._id}`).set("Authorization", `Bearer ${newUserToken}`)
+        console.log(newUser._id)
+        console.log(response.body._id)
+        console.log(response.body.username)
         expect(response.statusCode).toBe(200)
         expect(response.body).toBeDefined()
         expect(response.body.username).toEqual(newUser.username)

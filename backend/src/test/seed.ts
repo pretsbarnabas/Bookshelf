@@ -88,9 +88,31 @@ export async function seed(){
             "added_at": new Date("2016-04-08T15:06:21.595Z"),
             "updated_at": new Date("2016-04-08T15:06:21.595Z")
         })
+        await booksCollection.insertOne({
+            "_id": new mongoose.Types.ObjectId("7fdb24bfd2c9eaca400201b0"),
+            "title": "Lorem",
+            "author": "Lorem",
+            "release": new Date("2016-04-08T15:06:21.595Z"),
+            "genre": "Crime",
+            "user_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2c"),
+            "description": "Lorem",
+            "added_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z")
+        })
 
         await reviewsCollection.insertOne({
             "_id": new mongoose.Types.ObjectId("a826b9febba8c411cf6d82cd"),
+            "user_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2c"),
+            "book_id": new mongoose.Types.ObjectId("7fdb24bfd2c9eaca400201b1"),
+            "score": 8,
+            "content": "Lorem",
+            "created_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z"),
+            "liked_by": [],
+            "disliked_by": []
+        })
+        await reviewsCollection.insertOne({
+            "_id": new mongoose.Types.ObjectId("a826b9febba8c411cf6d82c0"),
             "user_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2c"),
             "book_id": new mongoose.Types.ObjectId("7fdb24bfd2c9eaca400201b1"),
             "score": 8,
@@ -111,8 +133,26 @@ export async function seed(){
             "liked_by": [],
             "disliked_by": []
         })
+        await commentsCollection.insertOne({
+            "_id": new mongoose.Types.ObjectId("7ef503b3e63a6bcb56f8db32"),
+            "user_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2c"),
+            "review_id": new mongoose.Types.ObjectId("a826b9febba8c411cf6d82cd"),
+            "content": "Lorem",
+            "created_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z"),
+            "liked_by": [],
+            "disliked_by": []
+        })
         await summariesCollection.insertOne({
             "_id": new mongoose.Types.ObjectId("72bd5cfdf84d7fea96483da0"),
+            "user_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2c"),
+            "book_id": new mongoose.Types.ObjectId("7fdb24bfd2c9eaca400201b1"),
+            "content": "Lorem",
+            "created_at": new Date("2016-04-08T15:06:21.595Z"),
+            "updated_at": new Date("2016-04-08T15:06:21.595Z")
+        })
+        await summariesCollection.insertOne({
+            "_id": new mongoose.Types.ObjectId("72bd5cfdf84d7fea96483da1"),
             "user_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2c"),
             "book_id": new mongoose.Types.ObjectId("7fdb24bfd2c9eaca400201b1"),
             "content": "Lorem",
@@ -267,5 +307,13 @@ export async function seed(){
     }
 
 }
-seed()
+if (require.main === module) {
+    runseed().catch(error => {
+        console.error("Seed failed:", error);
+        process.exit(1);
+    });
+}
+async function runseed(){
+    await seed()
+}
 module.exports = {seed}

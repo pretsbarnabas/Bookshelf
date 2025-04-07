@@ -375,6 +375,7 @@ export class CommentController{
                 return res.status(400).json({message: "id is required"})
             }
             const potentialLikedBy = await CommentModel.findById(id).select(["liked_by","-_id"])
+            if(!potentialLikedBy) throw new Error("Comment not found")
             if(!potentialLikedBy.liked_by.length) return res.status(200).json([])
             const data = await CommentModel.aggregate([
                 { $match: { _id: new mongoose.Types.ObjectId(id as string) } },
@@ -406,6 +407,7 @@ export class CommentController{
                 return res.status(400).json({message: "id is required"})
             }
             const potentialDislikedBy = await CommentModel.findById(id).select(["disliked_by","-_id"])
+            if(!potentialDislikedBy) throw new Error("Comment not found")
             if(!potentialDislikedBy.disliked_by.length) return res.status(200).json([])
             const data = await CommentModel.aggregate([
                 { $match: { _id: new mongoose.Types.ObjectId(id as string) } },

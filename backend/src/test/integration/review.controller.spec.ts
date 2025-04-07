@@ -267,6 +267,36 @@ describe("Review Controller Get All Route Tests",()=>{
     })
 })
 
+describe("Review Controller Likes and Dislikes",()=>{
+    it("should post like on review with auth",async()=>{
+        const response = await request(app).put(`/api/reviews/${newReview._id}/like`).send({action: "like"}).set("Authorization", `Bearer ${userToken}`)
+        expect(response.statusCode).toBe(200)
+    })
+    it("should return 401 with no auth",async()=>{
+        const response = await request(app).put(`/api/reviews/${newReview._id}/like`).send({action: "like"})
+        expect(response.statusCode).toBe(401)
+        expect(response.body.message).toBe("Unauthorized")
+    })
+    it("should return list if users that liked the review",async()=>{
+        const response = await request(app).get(`/api/reviews/${newReview._id}/likedby`)
+        expect(response.statusCode).toBe(200)
+        expect(response.body[0]._id).toBeDefined()
+    })
+    it("should post dislike on review with auth",async()=>{
+        const response = await request(app).put(`/api/reviews/${newReview._id}/like`).send({action: "dislike"}).set("Authorization", `Bearer ${userToken}`)
+        expect(response.statusCode).toBe(200)
+    })
+    it("should return list if users that disliked the review",async()=>{
+        const response = await request(app).get(`/api/reviews/${newReview._id}/dislikedby`)
+        expect(response.statusCode).toBe(200)
+        expect(response.body[0]._id).toBeDefined()
+    })
+    it("should delete like or dislike on review with auth",async()=>{
+        const response = await request(app).put(`/api/reviews/${newReview._id}/like`).send({action: "delete"}).set("Authorization", `Bearer ${userToken}`)
+        expect(response.statusCode).toBe(200)
+    })
+})
+
 describe("Review Controller Delete Route Tests",()=>{
     
     it("should not delete review when not authorized",async()=>{

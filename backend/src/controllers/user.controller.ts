@@ -136,7 +136,8 @@ export class UserController{
             if(!potUser.booklist ||!potUser.booklist.length){
                 return res.status(200).json(potUser)
             }
-            const data = await UserModel.aggregate([                    
+            const data = await UserModel.aggregate([         
+                { $match: {_id: new mongoose.Types.ObjectId(id as string)}},         
                 { $unwind: "$booklist" },
                 {
                   $lookup: {
@@ -319,6 +320,7 @@ export class UserController{
                 return res.status(400).json({message: "id is required"})
             }
             const potentialBooklist = await UserModel.findById(id).select(["booklist","-_id"])
+            if(!potentialBooklist) throw new Error("User not found")
             if(!potentialBooklist.booklist.length) return res.status(200).json([])
             const data = await UserModel.aggregate([
                 { $match: { _id: new mongoose.Types.ObjectId(id as string) } },
@@ -353,7 +355,7 @@ export class UserController{
                 { $project: { _id: 0,"booklist.read_status": 1,  "booklist.book.title": 1, "booklist.book._id": 1, "booklist.book.imageUrl": 1, "booklist.book.author": 1 } }
             ]);
 
-            if(!data) throw new Error("User not found")
+            if(!data || !data[0]) throw new Error("User not found")
             return res.status(200).json(data[0].booklist)
         } catch (error) {
             ErrorHandler.HandleMongooseErrors(error,res)
@@ -380,9 +382,9 @@ export class UserController{
 
             for (const key of Object.keys(updates)) {
                 if (!mongoose.Types.ObjectId.isValid(key)) {
-                    throw new Error("Invalid ID format");
+                    throw new Error("Invalid book id format");
                 }
-                if(!await BookModel.findById(key)) throw new Error(`Book doesnt exist with id: ${key}`)
+                if(!await BookModel.findById(key)) throw new Error(`Book not found with id: ${key}`)
 
                 const existingIndex = await user.booklist.findIndex((entry:any) => 
                     entry.book_id.toString() === key

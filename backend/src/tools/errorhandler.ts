@@ -21,6 +21,9 @@ export class ErrorHandler{
         if(error.message === "Unauthorized"){
             return res.status(401).json({message: "Unauthorized"})
         }
+        if(error.message.includes("not found")){
+            return res.status(404).json({message: error.message})
+        }
         Logger.error(error.message)
         return res.status(400).json({message:error.message})
     }
