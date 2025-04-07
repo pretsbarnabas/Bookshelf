@@ -167,5 +167,9 @@
   margin: 0; /* Removes any default margins */
 }
 
-
+@media (min-width: 992px) {
+  .mat-drawer-container .d-lg-none {
+      display: none !important;
+  }
+}
 
