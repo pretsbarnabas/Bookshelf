@@ -88,7 +88,7 @@
                             <div *ngIf="reviews.length == 0">
                                 <p class="text-center">{{ "BOOKITEM.NOREVIEWS" | translate }}</p>
                             </div>
-                            @for (review of this.reviews; track $index) {
+                            @for (review of this.paginatedReviews; track $index) {
                             <review-display [review]="review" />
                             }
                         </mat-card>

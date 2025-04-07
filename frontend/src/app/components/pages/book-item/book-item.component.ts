@@ -27,6 +27,7 @@ import { createAvatar } from '@dicebear/core';
 import { bottts } from '@dicebear/collection';
 import { CustomPaginatorComponent } from '../../../utilities/components/custom-paginator/custom-paginator.component';
 import { ReviewDisplayComponent } from './review-display/review-display.component';
+import { SortItems } from '../../../utilities/components/sort-items';
 
 
 @Component({
@@ -69,6 +70,7 @@ export class BookItemComponent implements OnInit {
     currentPageIndex: number = 0;
     maxPages: number = 0;
     pageSize = 10;
+    currentSortSettings: { field: string, mode: 'asc' | 'desc' } = { field: '', mode: 'asc' }
 
     uniqueIds: any = [];
     uniqueUserIds: any = [];
@@ -113,6 +115,7 @@ export class BookItemComponent implements OnInit {
         this.reviews = [];
         this.bookService.getReviewsByBook(this.bookId, this.currentPageIndex, this.pageSize).subscribe(reviews => {
             this.reviews = reviews.data;
+            this.paginatedReviews = reviews.data;
             this.maxPages = reviews.pages;
             for (let i = 0; i < this.reviews.length; i++) {
                 if (!this.uniqueUserIds.includes(this.reviews[i].user._id)) {
@@ -136,22 +139,21 @@ export class BookItemComponent implements OnInit {
     }
 
     sortItems(_settings: { field: string, mode: 'asc' | 'desc' }): void {
-        // if (_settings.field === '') {
-        //     this.currentArrayInPaginator = structuredClone(this.fetchedArray);
-        //     return;
-        // }
-        // this.currentSortSettings = _settings;
-        // this.currentArrayInPaginator = structuredClone(this.fetchedArray);
-        // this.currentArrayInPaginator = SortItems.generalizedSort(this.currentArrayInPaginator as any[], _settings.field, _settings.mode);
+        if (_settings.field === '') {
+            this.paginatedReviews = structuredClone(this.reviews);
+            return;
+        }
+        this.currentSortSettings = _settings;
+        this.paginatedReviews = structuredClone(this.paginatedReviews);
+        this.paginatedReviews = SortItems.generalizedSort(this.paginatedReviews as any[], _settings.field, _settings.mode);
     }
-    async onClick(rating: number) {
-        // console.log(rating)
+
+    async onClick(rating: number) {    
         this.snackBar.open(`${await firstValueFrom(this.translationService.service.get('BOOKITEM.SNACKBAR.RATED'))} ` + rating + ' / ' + this.starCount, '', {
             duration: this.snackBarDuration
         });
         this.rating = rating;
-        return false;
-        //  ide  kell még konkretan a  mukodo  rating mentés  ha be  van jelentkezve  a ficko  valamint a rating  kiolvasas akkor is ha  nincs  bejenetkezve
+        return false;        
     }
 
     showIcon(index: number) {
@@ -161,7 +163,7 @@ export class BookItemComponent implements OnInit {
             return 'star_border';
         }
     }
-    
+
     onBack() {
         this.router.navigate(['/books']);
     }
@@ -176,7 +178,7 @@ export class BookItemComponent implements OnInit {
             if (!this.uniqueUserIds.includes(this.loggedInUser!._id)) {
                 this.bookService.Addreview(newReview).subscribe(async review => {
                     setTimeout(() => {
-                        this.fillreviews();                        
+                        this.fillreviews();
                     }, 1000);
                     this.reviewForm.reset();
                     this.snackBar.open(await firstValueFrom(this.translationService.service.get('BOOKITEM.SNACKBAR.SUBMITTED')), '', {
@@ -192,9 +194,9 @@ export class BookItemComponent implements OnInit {
         }
     }
 
-navigateToCreate(){
-    this.router.navigate(['create/summary', this.book._id]);
-}
+    navigateToCreate() {
+        this.router.navigate(['create/summary', this.book._id]);
+    }
 }
 export enum StarRatingColor {
     primary = "primary",
