@@ -22,7 +22,7 @@
                         <mat-card-subtitle class="text-center mb-3">
                             {{ 'BOOKITEM.BOOKCARD.AUTHOR' | translate}}: {{ book?.author }}<br>
                             <b>{{ 'BOOKITEM.BOOKCARD.RELEASE' | translate}}:</b> {{ formatDate(book?.release) }}<br>
-                            <b>{{ 'BOOKITEM.BOOKCARD.GENRE' | translate}}:</b> {{ `CREATE.GENRES.${book.genre.toLocaleUpperCase()}` | translate }}
+                            <b>{{ 'BOOKITEM.BOOKCARD.GENRE' | translate}}:</b> {{ `CREATE.GENRES.${book?.genre?.toLocaleUpperCase()}` | translate }}
                         </mat-card-subtitle>
                         <form class="form-row" *ngIf="isLoggedIn" [formGroup]="reviewForm">
                             <mat-form-field class="mw-80" appearance="fill">
