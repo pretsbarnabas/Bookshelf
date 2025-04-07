@@ -8,6 +8,8 @@ import { BookList } from '../../../models/Booklist';
 import { UserModel } from '../../../models/User';
 import {CdkDragDrop, CdkDrag, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem,} from '@angular/cdk/drag-drop';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 
 @Component({
@@ -21,6 +23,8 @@ import { MatIconModule } from '@angular/material/icon';
     CdkDropList,
     CdkDrag,
     MatIconModule,
+    MatSidenavModule,
+    MatListModule,
   ],
   templateUrl: './mylist.component.html',
   styleUrls: ['./mylist.component.scss'],
@@ -34,7 +38,8 @@ export class MylistComponent implements OnInit {
   droppedBooks: any[] = [];
   favoriteBooks: any[] = [];
   loggedInUser: UserModel | null = null; // Store the logged-in user
-
+  selectedTab: string = 'toRead';
+  
   constructor(
     private booklistService: BooklistService,
     private authService: AuthService

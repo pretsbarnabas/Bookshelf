@@ -1,8 +1,143 @@
 <div class="wrapper">
     <div class="wrapper-content">
-        <mat-tab-group>
+                <!-- Sidebar for smaller screens -->
+        <mat-sidenav-container class="d-none d-md-block">
+            <mat-sidenav #sidenav mode="over" class="sidebar">
+                <mat-nav-list>
+                    <mat-list-item (click)="selectedTab = 'toRead'; sidenav.close()">
+                        To Read
+                    </mat-list-item>
+                    <mat-list-item (click)="selectedTab = 'reading'; sidenav.close()">
+                        Currently Reading
+                    </mat-list-item>
+                    <mat-list-item (click)="selectedTab = 'read'; sidenav.close()">
+                        Finished Reading
+                    </mat-list-item>
+                    <mat-list-item (click)="selectedTab = 'dropped'; sidenav.close()">
+                        Dropped Books
+                    </mat-list-item>
+                    <mat-list-item (click)="selectedTab = 'favorite'; sidenav.close()">
+                        Favorite Books
+                    </mat-list-item>
+                </mat-nav-list>
+            </mat-sidenav>
+            <mat-sidenav-content>
+                <button mat-icon-button (click)="sidenav.toggle()" class="m-3">
+                    <mat-icon>menu</mat-icon>
+                </button>
+                <div *ngIf="selectedTab === 'toRead'" class="container">
+                    <div class="row justify-content-center g-4">
+                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of toReadBooks">
+                            <mat-card class="book-card h-100 p-3">
+                                <mat-card-header class="centered-header">
+                                    <mat-card-title>{{ book.title }}</mat-card-title>
+                                    <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                                </mat-card-header>
+                                <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
+                                <mat-card-actions class="d-flex justify-content-between">
+                                    <button mat-raised-button color="accent" class="rounded w-100" (click)="markAsFavorite(book._id)">
+                                        <mat-icon>star</mat-icon>
+                                        Favorite
+                                    </button>
+                                    <button mat-raised-button color="warn" class="rounded w-100" (click)="deleteBook(book._id)">
+                                        <mat-icon>delete</mat-icon>
+                                        Delete
+                                    </button>
+                                </mat-card-actions>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="selectedTab === 'reading'" class="container">
+                    <div class="row justify-content-center g-4">
+                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of readingBooks">
+                            <mat-card class="book-card h-100 p-3">
+                                <mat-card-header class="centered-header">
+                                    <mat-card-title>{{ book.title }}</mat-card-title>
+                                    <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                                </mat-card-header>
+                                <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
+                                <mat-card-actions class="d-flex justify-content-between">
+                                    <button mat-raised-button color="primary" class="rounded w-100" (click)="startReading(book._id)">
+                                        <mat-icon>book</mat-icon>
+                                        Read
+                                    </button>
+                                    <button mat-raised-button color="warn" class="rounded w-100" (click)="deleteBook(book._id)">
+                                        <mat-icon>delete</mat-icon>
+                                        Delete
+                                    </button>
+                                </mat-card-actions>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="selectedTab === 'read'" class="container">
+                    <div class="row justify-content-center g-4">
+                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of hasReadBooks">
+                            <mat-card class="book-card h-100 p-3">
+                                <mat-card-header class="centered-header">
+                                    <mat-card-title>{{ book.title }}</mat-card-title>
+                                    <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                                </mat-card-header>
+                                <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
+                                <mat-card-actions class="d-flex justify-content-between">
+                                    <button mat-raised-button color="warn" class="rounded w-100" (click)="finishReading(book._id)">
+                                        <mat-icon>remove_circle</mat-icon>
+                                        Remove
+                                    </button>
+                                </mat-card-actions>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="selectedTab === 'dropped'" class="container">
+                    <div class="row justify-content-center g-4">
+                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of droppedBooks">
+                            <mat-card class="book-card h-100 p-3">
+                                <mat-card-header class="centered-header">
+                                    <mat-card-title>{{ book.title }}</mat-card-title>
+                                    <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                                </mat-card-header>
+                                <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
+                                <mat-card-actions class="d-flex justify-content-between">
+                                    <button mat-raised-button color="primary" class="rounded w-100" (click)="startReading(book._id)">
+                                        <mat-icon>book</mat-icon>
+                                        Read
+                                    </button>
+                                    <button mat-raised-button color="warn" class="rounded w-100" (click)="deleteBook(book._id)">
+                                        <mat-icon>delete</mat-icon>
+                                        Delete
+                                    </button>
+                                </mat-card-actions>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="selectedTab === 'favorite'" class="container">
+                    <div class="row justify-content-center g-4">
+                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of favoriteBooks">
+                            <mat-card class="book-card h-100 p-3">
+                                <mat-card-header class="centered-header">
+                                    <mat-card-title>{{ book.title }}</mat-card-title>
+                                    <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                                </mat-card-header>
+                                <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
+                                <mat-card-actions class="d-flex justify-content-between">
+                                    <button mat-raised-button color="warn" class="rounded w-100" (click)="finishReading(book._id)">
+                                        <mat-icon>remove_circle</mat-icon>
+                                        Remove
+                                    </button>
+                                </mat-card-actions>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+        
+        <mat-tab-group class="d-none d-lg-block">
             <!-- To Read Tab -->
-            <mat-tab label="Booklist">
+            <mat-tab label="Booklist" fxHide.lt-lg>
                 <div class="drgcontainer" cdkDropListGroup>
                     <div class="BookListCol">
                       <h2>To Read</h2>
