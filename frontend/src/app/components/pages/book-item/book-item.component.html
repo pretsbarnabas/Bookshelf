@@ -6,7 +6,7 @@
                     <div class="w-50 mx-auto my-3"
                         *ngIf="this.loggedInUser && ['editor', 'admin'].includes(this.loggedInUser.role)">
                         <button mat-fab (click)="this.navigateToCreate()" class="w-100">
-                            <mat-icon class="me-2">add</mat-icon>
+                            <mat-icon>add</mat-icon>
                             {{ 'SUMMARIES.ADD' | translate }}
                         </button>
                     </div>

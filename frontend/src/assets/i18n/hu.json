@@ -39,16 +39,17 @@
     },
     "HOME": {
         "TITLE": "Főoldal",
-        "LATEST": {
-            "HEADER": "Legújabb Könyvek",
-            "CONTENT": "Tekintsd meg a könyvespolcunk legújabb kiegészítéseit!"
+        "SUMMARIES": {
+            "HEADER": "Legújabb Összefoglalók",
+            "BUTTON": "Fedezd fel legújabb összefoglalóinkat"
         },
-        "POPULAR": {
-            "HEADER": "Népszerű Könyvek",
-            "CONTENT": "Nézd meg válogatásunk legnépszerűbb darabjait!"
+        "BOOKS": {
+            "HEADER": "Legújabb Könyvek",
+            "BUTTON": "Fedezd fel legújabb könyveinket"
         },
         "NEWCOMERS": {
-            "GREETING": "Üdvözlünk a Bookshelf oldalán! Kérlek, jelentkezz be vagy regisztrálj a folytatáshoz.",
+            "GREETING": "Üdvözlünk a Bookshelf oldalán!",
+            "JOIN": "Kérlek, jelentkezz be vagy regisztrálj a folytatáshoz.",
             "DESC": "A Bookshelf hisz abban, hogy minden könyv megérdemli a saját hangját. Platformunk lehetővé teszi, hogy értékeld, véleményezd és felfedezd a könyvek összefoglalóit, segítve az olvasókat rejtett kincsek megtalálásában. Csatlakozz közösségünkhöz, hogy megoszthasd gondolataidat, megtaláld következő kedvenc olvasmányodat, és alakítsd az irodalom világát – egy véleménycikk egyszerre!",
             "LOGIN": "Bejelentkezés",
             "REGISTER": "Regisztráció"
@@ -175,7 +176,8 @@
         "BY": "Készítette"
     },
     "SUMMARYITEM": {
-        "TITLE": "Részletek"
+        "TITLE": "Részletek",
+        "FOR": "Összefoglaló"
     },
     "CREATE": {
         "TITLE": "Létrehozás",

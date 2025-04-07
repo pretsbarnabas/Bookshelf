@@ -39,16 +39,17 @@
     },
     "HOME": {
         "TITLE": "Home",
-        "LATEST": {
-            "HEADER": "Latest Books",
-            "CONTENT": "See the latest additions of our bookshelf!"
+        "SUMMARIES": {
+            "HEADER": "Latest Summaries",
+            "BUTTON": "Discover our latest summaries"
         },
-        "POPULAR": {
-            "HEADER": "Popular Books",
-            "CONTENT": "Take a look at the most popular items of our selection!"
+        "BOOKS": {
+            "HEADER": "Latest Books",
+            "BUTTON": "Discover our latest books"
         },
         "NEWCOMERS": {
-            "GREETING": "Welcome to Bookshelf! Please log in or register to continue.",
+            "GREETING": "Welcome to Bookshelf!",
+            "JOIN": "Please log in or register to continue.",
             "DESC": "At Bookshelf, we believe every book deserves a voice. Our platform lets you rate, review, and explore book summaries, helping readers discover hidden gems. Join our community to share insights, find your next great read, and shape the world of literature—one review at a time!",
             "LOGIN": "Login",
             "REGISTER": "Register"
@@ -175,7 +176,8 @@
         "BY": "By"     
     },
     "SUMMARYITEM": {
-        "TITLE": "Details"
+        "TITLE": "Details",
+        "FOR": "Summary for"
     },
     "CREATE": {
         "TITLE": "Create",

@@ -79,7 +79,7 @@ export class ReviewDisplayComponent {
     }
 
     getComments() {
-        this.commentService.getAllcomments(this.commentSampleSize, 0, undefined, /*this.review?._id*/).subscribe({
+        this.commentService.getAllcomments(this.commentSampleSize, 0, undefined, this.review?._id).subscribe({
             next: (result) => {
                 result.data.forEach((comment) => {
                     if(comment.user.imageUrl === undefined || comment.user.imageUrl === null)

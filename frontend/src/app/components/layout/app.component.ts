@@ -34,7 +34,7 @@ import { TranslationService } from '../../services/global/translation.service';
     encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent {
-    title = 'frontend';
+    title = 'bookshelf';
     public authService = inject(AuthService);
     private router = inject(Router);
     private spinner = inject(NgxSpinnerService);

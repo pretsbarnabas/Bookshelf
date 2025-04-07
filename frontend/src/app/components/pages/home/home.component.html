@@ -1,6 +1,118 @@
 <div class="wrapper">
-    <div class="wrapper-content">
-        <div class="Bookshelf">
+    <mat-drawer-container class="example-container">
+        <mat-drawer #leftDrawer mode="over" position="start" class="home-side-drawer">
+            <div class="row w-100 mt-3 mx-auto">
+                <h4 class="text-center">{{ 'HOME.BOOKS.HEADER' | translate }}</h4>
+                <mat-divider />
+                @for (book of this.books; track $index) {
+                <div class="col-12 col-lg-6 mb-4 mx-auto">
+                    <mat-card class="w-100 card-holder" (click)="this.navigateToBook(book._id)"
+                        [matTooltip]="this.isMdOrBeyond ? book.title : null" [matTooltipPosition]="'below'">
+                        <mat-card-content>
+                            <mat-card class="book-card" appearance="outlined">
+                                <img mat-card-image class="book-image w-100"
+                                    [src]="book.imageUrl ? book.imageUrl : 'assets/images/no-cover.svg'"
+                                    alt="{{ book.title }}">
+                                <mat-divider class="my-2" />
+                                <mat-card-title class="text-center ">
+                                    <span class="truncate-title">{{ book.title }}</span>
+                                </mat-card-title>
+                                <mat-card-subtitle class="text-center">{{ book.author }}</mat-card-subtitle>
+                                <mat-card-content class="text-center">
+                                    <p>{{ formatDate(book.release) }}</p>
+                                </mat-card-content>
+                                <mat-divider class="my-2" />
+                                <mat-card-subtitle>
+                                    <p class="text-center subtext">{{ book.added_at | relativeTime }}</p>
+                                </mat-card-subtitle>
+                            </mat-card>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                }
+            </div>
+        </mat-drawer>
+        <mat-drawer #rightDrawer mode="over" position="end" class="home-side-drawer">
+            <div class="row w-100 mt-3 mx-auto">
+                <h4 class="text-center">{{ 'HOME.SUMMARIES.HEADER' | translate }}</h4>
+                <mat-divider />
+                @for (summary of this.summaries; track $index) {
+                <div class="col-12 col-lg-6 mb-4 mx-auto">
+                    <mat-card class="w-100 card-holder" (click)="this.navigateToSummary(summary._id)"
+                        [matTooltip]="this.isMdOrBeyond ? summary.book.title : null" [matTooltipPosition]="'below'">
+                        <mat-card-content>
+                            <mat-card class="book-card" appearance="outlined">
+                                <img mat-card-image class="book-image w-100"
+                                    [src]="summary.book.imageUrl ?summary. book.imageUrl : 'assets/images/no-cover.svg'"
+                                    alt="{{ summary.book.title }}">
+                                <mat-divider class="my-2" />
+                                <mat-card-title class="text-center ">
+                                    <span class="truncate-title">{{ summary.book.title }}</span>
+                                </mat-card-title>
+                                <mat-card-subtitle class="text-center">{{ summary.book.author }}</mat-card-subtitle>
+                                <mat-divider class="my-2" />
+                                <mat-card-content>
+                                    <h6 class="text-center">{{ 'SUMMARIES.BY' | translate}}: {{ summary.user.username }}
+                                    </h6>
+                                    <h6 class="text-center">{{ summary.updated_at | localizedDate }}</h6>
+                                </mat-card-content>
+                                <mat-divider class="my-2" />
+                                <mat-card-subtitle>
+                                    <p class="text-center subtext">{{ summary.updated_at | relativeTime }}</p>
+                                </mat-card-subtitle>
+                            </mat-card>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                }
+            </div>
+        </mat-drawer>
+        <div class="main-content">
+            <div class="row w-100 mx-auto">
+                <mat-card class="py-5 col-12 col-md-6 mx-auto">
+                    <div class="w-25 mx-auto">
+                        <img src="./assets/images/logo.svg" alt="Bookshelf-logo" class="w-100 rounded-circle">
+                    </div>
+                    <mat-card-title class="text-center mb-5">
+                        <h1>{{ 'HOME.NEWCOMERS.GREETING' | translate }}</h1>
+                    </mat-card-title>
+                    <mat-card-subtitle class="text-center mb-3" *ngIf="!this.loggedInUser">
+                        <h5>{{ 'HOME.NEWCOMERS.JOIN' | translate }}</h5>
+                    </mat-card-subtitle>
+                    <mat-card-content>
+                        <p class="w-75 mx-auto text-justify">
+                            {{ 'HOME.NEWCOMERS.DESC' | translate }}
+                        </p>
+                        <div class="d-flex justify-content-center gap-3" *ngIf="!this.loggedInUser">
+                            <button mat-fab extended (click)="navigateTo('auth/register')">
+                                <mat-icon>person_add</mat-icon>
+                                {{ 'HOME.NEWCOMERS.REGISTER' | translate }}
+                            </button>
+                            <button mat-fab extended (click)="navigateTo('auth/login')">
+                                <mat-icon>login</mat-icon>
+                                {{ 'HOME.NEWCOMERS.LOGIN' | translate }}
+                            </button>
+                        </div>
+                    </mat-card-content>
+                    <div class="row mt-4 w-100 mx-auto">
+                        <div class="col-12 col-md-6 d-flex justify-content-center mb-4">
+                            <button matRipple [matRippleCentered]="true" mat-fab extended (click)="leftDrawer.toggle()">
+                                {{ 'HOME.BOOKS.BUTTON' | translate }}
+                            </button>
+                        </div>
+                        <div class="col-12 col-md-6 d-flex justify-content-center">
+                            <button matRipple [matRippleCentered]="true" mat-fab extended
+                                (click)="rightDrawer.toggle()">
+                                {{ 'HOME.SUMMARIES.BUTTON' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </mat-drawer-container>
+
+    <!-- <div class="Bookshelf">
             <h1>bookshelf.</h1>
         </div>
         <div class="gradient w-100 overflow-hidden">
@@ -64,6 +176,5 @@
                     </button>
                 </div>
             </div>
-        </div>
-    </div>
+        </div> -->
 </div>

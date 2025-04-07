@@ -15,8 +15,8 @@ export class BookService {
 
     constructor() { }
 
-    getAllBooks(pageSize: number, pageIndex: number, userId?: number | string): Observable<BookRoot> {
-        return this.crudService.getAll<BookRoot>(`books?limit=${pageSize}&page=${pageIndex}${userId ? `&user_id=${userId}` : ''}`);
+    getAllBooks(pageSize: number, pageIndex: number, userId?: number | string, sort?: string, sortType?: 'asc' | 'desc'): Observable<BookRoot> {
+        return this.crudService.getAll<BookRoot>(`books?limit=${pageSize}&page=${pageIndex}${userId ? `&user_id=${userId}` : ''}${sort ? `&sort=${sort}` : ''}${sortType ? `&sortType=${sortType}` : ''}`);
     }
     getBookById(id: string): Observable<any> {
         return this.crudService.getById<BookModel>('books', id);
