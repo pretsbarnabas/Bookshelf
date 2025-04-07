@@ -12,8 +12,7 @@ describe('CustomPaginatorComponent', () => {
                 CustomPaginatorComponent,
                 TranslateModule.forRoot(),
             ]
-        })
-            .compileComponents();
+        }).compileComponents();
 
 
         fixture = TestBed.createComponent(CustomPaginatorComponent);
