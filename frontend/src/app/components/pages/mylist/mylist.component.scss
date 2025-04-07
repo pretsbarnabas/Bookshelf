@@ -154,3 +154,15 @@
   justify-content: center; 
   align-items: center;
 }
+.centered-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers content horizontally */
+  justify-content: center; /* Centers content vertically */
+  text-align: center; /* Ensures text alignment */
+}
+
+.centered-header mat-card-title,
+.centered-header mat-card-subtitle {
+  margin: 0; /* Removes any default margins */
+}
