@@ -120,7 +120,6 @@ export class BookItemComponent implements OnInit {
             for (let i = 0; i < this.reviews.length; i++) {
                 if (!this.uniqueUserIds.includes(this.reviews[i].user._id)) {
                     this.uniqueUserIds.push(this.reviews[i].user._id);
-                    console.log(this.uniqueUserIds)
                 }
                 if (!this.reviews[i].user.imageUrl)
                     this.reviews[i].user.profile_image = createAvatar(bottts, { seed: this.reviews[i].user.username }).toDataUri();

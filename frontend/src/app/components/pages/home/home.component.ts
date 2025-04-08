@@ -23,19 +23,19 @@ import { RelativeTimePipe } from "../../../pipes/relative-time.pipe";
 @Component({
     selector: 'app-home',
     imports: [
-    TranslatePipe,
-    MatCardModule,
-    CommonModule,
-    MatButtonModule,
-    MatIconModule,
-    MatRippleModule,
-    MatExpansionModule,
-    MatSidenavModule,
-    MatDividerModule,
-    MatTooltipModule,
-    LocalizedDatePipe,
-    RelativeTimePipe
-],
+        TranslatePipe,
+        MatCardModule,
+        CommonModule,
+        MatButtonModule,
+        MatIconModule,
+        MatRippleModule,
+        MatExpansionModule,
+        MatSidenavModule,
+        MatDividerModule,
+        MatTooltipModule,
+        LocalizedDatePipe,
+        RelativeTimePipe
+    ],
     providers: [DatePipe],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss',
@@ -78,7 +78,14 @@ export class HomeComponent {
     getsummaries(): void {
         this.summaryService.getAllSummaries(4, 0).subscribe({
             next: (data) => {
-                this.summaries = data.data;
+                if (data.pages > 1) {
+                    this.summaryService.getAllSummaries(4, data.pages-1).subscribe({
+                        next: (data) => {
+                            this.summaries = data.data;
+                        }
+                    });
+                } else
+                    this.summaries = data.data;
             }
         });
     }

@@ -8,8 +8,28 @@
 
 .home-side-drawer {
     width: 50% !important;
-    div.mat-drawer-inner-container{
+    overflow-y: auto;
+    height: 100%;
+    padding: 1rem;
+
+    div.mat-drawer-inner-container {
         scrollbar-width: thin;
+        scrollbar-color: #5A7D9A transparent;
+
+        &::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: #5A7D9A;
+            border-radius: 6px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
     }
 }
 
