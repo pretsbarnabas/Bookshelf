@@ -172,4 +172,9 @@
       display: none !important;
   }
 }
+.mat-sidenav-container {
+  height: 100vh; /* Ensure the sidenav container takes the full viewport height */
+}
+
+
 
