@@ -104,7 +104,7 @@ export async function seed(){
             "_id": new mongoose.Types.ObjectId("a826b9febba8c411cf6d82cd"),
             "user_id": new mongoose.Types.ObjectId("db0b0c1f83fb29f652cc5a2c"),
             "book_id": new mongoose.Types.ObjectId("7fdb24bfd2c9eaca400201b1"),
-            "score": 8,
+            "score": 7,
             "content": "Lorem",
             "created_at": new Date("2016-04-08T15:06:21.595Z"),
             "updated_at": new Date("2016-04-08T15:06:21.595Z"),

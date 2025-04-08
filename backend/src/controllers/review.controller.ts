@@ -123,15 +123,21 @@ export class ReviewController{
                     path: "$book",
                     preserveNullAndEmptyArrays: true
                 }},
-                {$project: projection},
-                {$skip: page*limit},
-                {$limit: limit}
+                {$facet:{
+                    data: [
+                        {$skip: page*limit},
+                        {$limit: limit},
+                        {$project: projection}
+                    ],
+                    count:[{$count:"count"}]
+                }},
+                {$project:{data: 1, count: {$arrayElemAt: ["$count",0]}}}
             ])
-
-            if(data && data.length){
-                const pages = Math.ceil(await ReviewModel.estimatedDocumentCount() / limit)
+            let reviews = data[0]
+            if(reviews && reviews.data && reviews.data.length){
+                const pages = Math.ceil(Number.parseInt(reviews.count.count) / limit)
                 await Authenticator.verifyUser(req)
-                data.forEach((review: any) => {review.liked_by_user = "none"})
+                reviews.data.forEach((review: any) => {review.liked_by_user = "none"})
                 if(req.user){
                     const userId = new Types.ObjectId(req.user.id as string)
                     data.forEach((review: any) => {
@@ -146,7 +152,7 @@ export class ReviewController{
                     });
                 }
                 Logger.info("Request handled")
-                return res.status(200).json({data: data, pages: pages})
+                return res.status(200).json({data: reviews.data, pages: pages})
             }
             else{
                 Logger.warn("No reviews found")
