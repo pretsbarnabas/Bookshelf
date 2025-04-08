@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BookService } from '../../../services/page/book.service';
 import { MatCardModule } from '@angular/material/card';
 import { FormlyModule } from '@ngx-formly/core';
@@ -26,6 +26,8 @@ import { RelativeTimePipe } from '../../../pipes/relative-time.pipe';
 import { createAvatar } from '@dicebear/core';
 import { bottts } from '@dicebear/collection';
 import { CustomPaginatorComponent } from '../../../utilities/components/custom-paginator/custom-paginator.component';
+import { ReviewDisplayComponent } from './review-display/review-display.component';
+import { SortItems } from '../../../utilities/components/sort-items';
 
 
 @Component({
@@ -45,14 +47,15 @@ import { CustomPaginatorComponent } from '../../../utilities/components/custom-p
         MatPaginatorModule,
         TranslatePipe,
         MatDividerModule,
-        RelativeTimePipe,
-        CustomPaginatorComponent
+        CustomPaginatorComponent,
+        ReviewDisplayComponent
     ],
     providers: [DatePipe],
     encapsulation: ViewEncapsulation.None,
 })
 export class BookItemComponent implements OnInit {
     private translationService = inject(TranslationService);
+    private router = inject(Router);
 
     public book: any;
     public color: string = 'accent';
@@ -67,6 +70,7 @@ export class BookItemComponent implements OnInit {
     currentPageIndex: number = 0;
     maxPages: number = 0;
     pageSize = 10;
+    currentSortSettings: { field: string, mode: 'asc' | 'desc' } = { field: '', mode: 'asc' }
 
     uniqueIds: any = [];
     uniqueUserIds: any = [];
@@ -91,19 +95,17 @@ export class BookItemComponent implements OnInit {
     ngOnInit() {
         this.uniqueIds = [];
         this.bookId = this.route.snapshot.paramMap.get('id');
-        this.authService.loggedInUser$.subscribe(user => {
-            this.isLoggedIn = !!user;
-            this.loggedInUser = user;
-        });
         if (this.bookId) {
             this.bookService.getBookById(this.bookId).subscribe(book => {
                 this.book = book;
             });
         }
+        this.authService.loggedInUser$.subscribe(user => {
+            this.isLoggedIn = !!user;
+            this.loggedInUser = user;
+        });
         if (this.bookId) {
             this.fillreviews();
-            console.log(this.uniqueUserIds)
-
         }
         for (let index = 0; index < this.starCount; index++) {
             this.ratingArr.push(index);
@@ -111,13 +113,13 @@ export class BookItemComponent implements OnInit {
     }
     fillreviews() {
         this.reviews = [];
-        this.bookService.getReviewsByBook(this.bookId, this.pageSize).subscribe(reviews => {
+        this.bookService.getReviewsByBook(this.bookId, this.currentPageIndex, this.pageSize).subscribe(reviews => {
             this.reviews = reviews.data;
-            console.log(this.reviews)
+            this.paginatedReviews = reviews.data;
+            this.maxPages = reviews.pages;
             for (let i = 0; i < this.reviews.length; i++) {
                 if (!this.uniqueUserIds.includes(this.reviews[i].user._id)) {
                     this.uniqueUserIds.push(this.reviews[i].user._id);
-                    console.log(this.uniqueUserIds)
                 }
                 if (!this.reviews[i].user.imageUrl)
                     this.reviews[i].user.profile_image = createAvatar(bottts, { seed: this.reviews[i].user.username }).toDataUri();
@@ -126,6 +128,7 @@ export class BookItemComponent implements OnInit {
     }
 
     onPageChange(changes: { pageIndex: number; pageSize: number }) {
+        this.currentPageIndex = changes.pageIndex;
         this.pageSize = changes.pageSize;
         this.fillreviews();
     }
@@ -135,22 +138,21 @@ export class BookItemComponent implements OnInit {
     }
 
     sortItems(_settings: { field: string, mode: 'asc' | 'desc' }): void {
-        // if (_settings.field === '') {
-        //     this.currentArrayInPaginator = structuredClone(this.fetchedArray);
-        //     return;
-        // }
-        // this.currentSortSettings = _settings;
-        // this.currentArrayInPaginator = structuredClone(this.fetchedArray);
-        // this.currentArrayInPaginator = SortItems.generalizedSort(this.currentArrayInPaginator as any[], _settings.field, _settings.mode);
+        if (_settings.field === '') {
+            this.paginatedReviews = structuredClone(this.reviews);
+            return;
+        }
+        this.currentSortSettings = _settings;
+        this.paginatedReviews = structuredClone(this.paginatedReviews);
+        this.paginatedReviews = SortItems.generalizedSort(this.paginatedReviews as any[], _settings.field, _settings.mode);
     }
-    async onClick(rating: number) {
-        // console.log(rating)
+
+    async onClick(rating: number) {    
         this.snackBar.open(`${await firstValueFrom(this.translationService.service.get('BOOKITEM.SNACKBAR.RATED'))} ` + rating + ' / ' + this.starCount, '', {
             duration: this.snackBarDuration
         });
         this.rating = rating;
-        return false;
-        //  ide  kell még konkretan a  mukodo  rating mentés  ha be  van jelentkezve  a ficko  valamint a rating  kiolvasas akkor is ha  nincs  bejenetkezve
+        return false;        
     }
 
     showIcon(index: number) {
@@ -161,32 +163,22 @@ export class BookItemComponent implements OnInit {
         }
     }
 
-    showIconUserReview(index: number, Rating: number) {
-        if (Rating >= index + 1) {
-            return 'star';
-        } else {
-            return 'star_border';
-        }
-    }
     onBack() {
-        window.history.back();
+        this.router.navigate(['/books']);
     }
     async onSubmitReview() {
         if (this.reviewForm.valid) {
-            console.log(this.reviewForm.value.content)
-            console.log(this.rating)
-            console.log(this.bookId)
             const newReview = {
                 content: this.reviewForm.value.content,
                 score: this.rating * 2,
                 book_id: this.bookId,
                 user_id: this.loggedInUser!._id
             };
-            console.log(newReview)
             if (!this.uniqueUserIds.includes(this.loggedInUser!._id)) {
                 this.bookService.Addreview(newReview).subscribe(async review => {
-                    console.log(review)
-                    this.fillreviews();
+                    setTimeout(() => {
+                        this.fillreviews();
+                    }, 1000);
                     this.reviewForm.reset();
                     this.snackBar.open(await firstValueFrom(this.translationService.service.get('BOOKITEM.SNACKBAR.SUBMITTED')), '', {
                         duration: this.snackBarDuration
@@ -199,6 +191,10 @@ export class BookItemComponent implements OnInit {
                 });
             }
         }
+    }
+
+    navigateToCreate() {
+        this.router.navigate(['create/summary', this.book._id]);
     }
 }
 export enum StarRatingColor {

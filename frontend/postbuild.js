@@ -6,7 +6,7 @@ const config = {
     API_URL: apiKey
 };
 
-const path = 'dist/frontend/browser/assets/config.json';
+const path = 'dist/bookshelf/browser/assets/config.json';
 
 fs.writeFileSync(path, JSON.stringify(config, null, 2));
 

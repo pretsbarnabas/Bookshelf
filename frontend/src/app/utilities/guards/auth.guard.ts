@@ -26,6 +26,13 @@ export const authGuard: CanActivateFn = (route, state) => {
             router.navigate(['auth/login']);
         }
     }
+    if (state.url.startsWith('/create')) {
+        if (userRole && ['editor', 'admin'].includes(userRole)) {
+            return of(true);
+        } else {
+            router.navigate(['auth/login']);
+        }
+    }
     if (state.url.startsWith('/admin'))
         if (!userRole)
             router.navigate(['auth/login']);
@@ -33,5 +40,5 @@ export const authGuard: CanActivateFn = (route, state) => {
             return of(true);
         else
             router.navigate(['home']);
-    return of(false);
+    return of(true);
 };

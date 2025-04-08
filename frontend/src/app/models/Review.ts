@@ -1,5 +1,5 @@
 import { BookModel } from "./Book"
-import { UserModel } from "./User"
+import { UserModel, UserLikeModel } from "./User"
 
 export interface ReviewRoot {
     data: ReviewModel[],
@@ -14,5 +14,8 @@ export interface ReviewModel {
     score: number
     content: string
     created_at: string
-    updated_at: string
+    updated_at: string,
+    liked_by_user: 'liked' | 'disliked' | 'none'
+    likedBy?: UserLikeModel[],
+    dislikedBy?: UserLikeModel[],
 }

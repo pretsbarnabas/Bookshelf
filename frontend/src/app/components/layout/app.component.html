@@ -4,7 +4,7 @@
     </ngx-spinner>
     <app-navbar (sidenavToggleClicked)="drawer.toggle()"></app-navbar>
     <mat-drawer-container autosize hasBackdrop="true">
-        <mat-drawer #drawer mode="over" (window:resize)="drawer.opened=false">
+        <mat-drawer #drawer mode="over" (window:resize)="drawer.opened=false" class="app">
             <div class="mb-3 d-flex align-items-center">
                 <img src="./assets/favicon.ico" alt="bookshelf-icon" class="app-icon user-select-none">
                 <span class="text-center user-select-none">{{ 'APP.MENU.HEADER' | translate }}</span>
