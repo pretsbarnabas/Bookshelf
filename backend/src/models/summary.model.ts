@@ -31,4 +31,7 @@ summarySchema.pre("save",function(next){
     next();
 })
 
-module.exports = model("SummaryModel",summarySchema,"summaries")
+const SummaryModel = model("SummaryModel",summarySchema,"summaries")
+
+module.exports = SummaryModel
+export default SummaryModel

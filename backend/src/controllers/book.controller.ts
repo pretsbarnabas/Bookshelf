@@ -20,7 +20,7 @@ export class BookController{
             page = Number.parseInt(page)
             
             if(Number.isNaN(limit) || Number.isNaN(page) || limit < 1 || page < 0){
-                return res.status(400).json({error:"Invalid page or limit"})
+                return res.status(400).json({message:"Invalid page or limit"})
             }
 
             const allowedFields = ["_id","title","author","release","genre","user_id","description","added_at","updated_at","imageUrl"]
@@ -31,7 +31,7 @@ export class BookController{
             if(author) filters.author = new RegExp(`${author}`,"i")
             if(user_id){
                 if(!Types.ObjectId.isValid(user_id)){
-                    return res.status(400).json({error: "user_id is in invalid format"})
+                    return res.status(400).json({message: "user_id is in invalid format"})
                 }
                 filters.user_id = user_id
             }
@@ -39,7 +39,7 @@ export class BookController{
                 const genrePath = BookModel.schema.path("genre")
                 const genres: string[] = genrePath.options.enum.map(function(genre: string){return genre.toLowerCase()})
                 if(!genres.includes(genre.toLowerCase())){
-                    return res.status(400).json({error: "Invalid genre requested"})
+                    return res.status(400).json({message: "Invalid genre requested"})
                 }
                 filters.genre = genre
             }
@@ -49,7 +49,7 @@ export class BookController{
             
             if(validFields.length === 0){
                 Logger.info("Invalid fields requested")
-                return res.status(400).json({error:"Invalid fields requested"})
+                return res.status(400).json({message:"Invalid fields requested"})
             }
             
             if(!validFields.includes("_id")) validFields.push("-_id")
@@ -72,13 +72,13 @@ export class BookController{
                     
                     if (minRelease) {
                         if(!validators.isValidISODate(minRelease)){
-                            return res.status(400).json({error: "Invalid date requested"})
+                            return res.status(400).json({message: "Invalid date requested"})
                         }
                         releaseFilter.$gte = new Date(minRelease);
                     }
                     if (maxRelease) {
                         if(!validators.isValidISODate(maxRelease)){
-                            return res.status(400).json({error: "Invalid date requested"})
+                            return res.status(400).json({message: "Invalid date requested"})
                         }
                         releaseFilter.$lte = new Date(maxRelease);
                     }
@@ -119,10 +119,13 @@ export class BookController{
                 }
                 
             const books = await BookModel.aggregate(matchConditions);
-            if(books){
+            if(books && books.length){
                 Logger.info("Request handled")
                 const pages = Math.ceil(await BookModel.estimatedDocumentCount() / limit)
                 res.status(200).json({data: books, pages: pages})
+            }
+            else{
+                res.status(404).json({message: "No books found"})
             }
         }catch(error:any){
             ErrorHandler.HandleMongooseErrors(error,res)
@@ -131,13 +134,14 @@ export class BookController{
 
     static async getBookById(req:any,res:any){
         try{
-            const {id, fields} = req.params
+            const {id} = req.params
+            const {fields} = req.query
             let allowedFields = ["_id","title","author","user_id","genre","release","description","added_at","updated_at","imageUrl"]
             
             const requestedFields: string[] = fields ? fields.split(",") : allowedFields
             const validFields: string[] = requestedFields.filter(field =>allowedFields.includes(field))
 
-            if(validFields.length === 0) return res.status(400).json({error:"Invalid fields requested"})
+            if(validFields.length === 0) return res.status(400).json({message:"Invalid fields requested"})
             
             if(!validFields.includes("_id")) validFields.push("-_id")
 
@@ -147,7 +151,7 @@ export class BookController{
                 res.status(200).json(data)
             }
             else{
-                res.status(404).json({message: "User not found"})
+                res.status(404).json({message: "Book not found"})
             }
         }catch(error:any){
             res.status(500).json({message:error.message})
@@ -158,13 +162,13 @@ export class BookController{
         try{
             let {title, image, author = "Unknown", genre = "None", description = "No description added", release = null} = req.body
             
-            if(!title) return res.status(400).json({error: "title required"})
+            if(!title) return res.status(400).json({message: "title is required"})
             
             if(!Authenticator.verifyUser(req,"",["editor"])) return res.status(401).json({message:  `Unauthorized`})
             
             if(release){
                 if(!validators.isValidISODate(release))
-                    return res.status(400).json({error:"Invalid date"})
+                    return res.status(400).json({message:"Invalid date"})
             }
 
 
@@ -205,29 +209,18 @@ export class BookController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            if(!Authenticator.verifyUser(req,"",["editor"])) return res.status(401).send()
+            if(!Authenticator.verifyUser(req,"",["editor"])) throw new Error("Unauthorized")
             const data = await BookModel.findByIdAndDelete(id)
             if(data){
                 res.status(200).json({message:"Book deleted"})
                 if(data.imageUrl) ImageController.deleteCloudinaryImage(data.imageUrl)
-                const deletedReviews = await ReviewModel.deleteMany({book_id: id})
-                const onBooklist = await UserModel.find({"booklist.book_id": new Types.ObjectId(id as string)})
-                if(onBooklist){
-                    onBooklist.forEach(async (user:any) => {
-                        const existingIndex = await user.booklist.findIndex((entry:any) => 
-                            entry.book_id.toString() === id
-                        );
-                        user.booklist.splice(existingIndex,1)
-                        await user.save()
-                    });
-                }               
             }
             else{
                 res.status(404).json({message:"Book not found"})
             }
         }
         catch(error:any){
-            res.status(500).json({message:error.message})
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
     }
 
@@ -242,11 +235,11 @@ export class BookController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            if(!Authenticator.verifyUser(req,id)) return res.status(401).json({message: "Unauthorized"})
-                const book = await BookModel.findById(id)
+            const book = await BookModel.findById(id)
+            if(!book) return res.status(404).json({message: "Book not found"})
+            if(!Authenticator.verifyUser(req,book.user_id)) return res.status(401).json({message: "Unauthorized"})
             const updates = req.body
             const allowedFields = ["title","author","release","genre","description","image"]
-            if(!book) return res.status(404).json({message: "Book not found"})
             for (const key of Object.keys(updates)) {
                 if (!allowedFields.includes(key)) {
                     return res.status(400).json({ message: `Cannot update ${key} field` });
@@ -265,6 +258,7 @@ export class BookController{
                 }
                 if(key === "image"){
                     try {
+                        if(book.imageUrl) await ImageController.deleteCloudinaryImage(book.imageUrl)
                         book.imageUrl = await ImageController.uploadToCloudinary(req.body.image);
                       } catch (uploadError) {
                         return res.status(400).json({ 

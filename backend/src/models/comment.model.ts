@@ -53,4 +53,6 @@ commentSchema.post("save",function(){
     Logger.info(`${this._id} comment saved`)
 })
 
-module.exports = model("CommentModel",commentSchema,"comments")
+const CommentModel = model("CommentModel",commentSchema,"comments")
+module.exports = CommentModel
+export default CommentModel

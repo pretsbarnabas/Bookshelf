@@ -5,6 +5,7 @@ import * as dates from "../tools/dates"
 import * as validators from "../tools/validators"
 import { Projection } from "../models/projection.model"
 import { Authenticator } from "./auth.controller"
+import ReviewModel from "../models/review.model"
 const CommentModel = require("../models/comment.model")
 
 export class CommentController{
@@ -19,25 +20,29 @@ export class CommentController{
             
             if(Number.isNaN(limit) || Number.isNaN(page) || limit < 1 || page < 0){
                 Logger.warn("Invalid page or limit requested")
-                return res.status(400).json({error:"Invalid page or limit"})
+                return res.status(400).json({message:"Invalid page or limit"})
             }
 
             
-            let filters: {review_id?: string, user_id?: string} = {}
+            let filters: {review_id?: mongoose.Types.ObjectId, user_id?: mongoose.Types.ObjectId} = {}
             
             if(review_id){
-                if(!Types.ObjectId.isValid(review_id)){
-                    Logger.warn("review_id is in invalid format")
-                    return res.status(400).json({error: "review_id is in invalid format"})
+                if(mongoose.Types.ObjectId.isValid(review_id)){
+                    filters.review_id = new mongoose.Types.ObjectId(review_id as string)
                 }
-                filters.user_id = user_id
+                else{
+                    Logger.warn("review_id is in invalid format")
+                    return res.status(400).json({message: "review_id is in invalid format"})
+                }
             }
             if(user_id){
-                if(!Types.ObjectId.isValid(user_id)){
-                    Logger.warn("user_id is in invalid format")
-                    return res.status(400).json({error: "user_id is in invalid format"})
+                if(Types.ObjectId.isValid(user_id)){
+                    filters.user_id = new mongoose.Types.ObjectId(user_id as string)
                 }
-                filters.user_id = user_id
+                else{
+                    Logger.warn("user_id is in invalid format")
+                    return res.status(400).json({message: "user_id is in invalid format"})
+                }
             }
             
             if(!minCreate) minCreate = dates.minDate()
@@ -48,11 +53,11 @@ export class CommentController{
 
             if(!validators.isValidISODate(minCreate)|| !validators.isValidISODate(maxCreate)){
                 Logger.info(`Invalid date requested\nminCreate: ${minCreate}\nmaxCreate: ${maxCreate}`)
-                return res.status(400).json({error:"Invalid create date requested"})
+                return res.status(400).json({message:"Invalid create date requested"})
             }
             if(!validators.isValidISODate(minUpdate) || !validators.isValidISODate(maxUpdate)){
                 Logger.info(`Invalid date requested\nminUpdate: ${minUpdate}\nmaxUpdate: ${maxUpdate}`)
-                return res.status(400).json({error:"Invalid update date requested"})
+                return res.status(400).json({message:"Invalid update date requested"})
             }
 
             const allowedFields = ["_id","like_score","review._id","review.content","review.score","review.user._id","review.user.username","review.user.role","review.user.imageUrl","user._id","user.username","user.role","user.imageUrl","content","created_at","updated_at"]
@@ -62,7 +67,7 @@ export class CommentController{
 
             if(validFields.length === 0){
                 Logger.info("Invalid fields requested")
-                return res.status(400).json({error:"Invalid fields requested"})
+                return res.status(400).json({message:"Invalid fields requested"})
             }
 
             if(!validFields.includes("_id")) validFields.push("-_id")
@@ -141,10 +146,10 @@ export class CommentController{
                 if(req.user){
                     const userId = new Types.ObjectId(req.user.id as string)
                     comments.forEach((comment: any) => {
-                        if (comment.liked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                        if (comment.liked_by&&comment.liked_by.some((id: Types.ObjectId) => id.equals(userId))){
                             comment.liked_by_user = "liked"
                         }
-                        else if (comment.disliked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                        else if (comment.disliked_by&&comment.disliked_by.some((id: Types.ObjectId) => id.equals(userId))){
                             comment.liked_by_user = "disliked"
                         }
                         delete comment.liked_by
@@ -186,7 +191,7 @@ export class CommentController{
             
             if(validFields.length === 0){
                 Logger.info("Invalid fields requested")
-                return res.status(400).json({error:"Invalid fields requested"})
+                return res.status(400).json({message:"Invalid fields requested"})
             }
             
             if(!validFields.includes("_id")) validFields.push("-_id")
@@ -238,14 +243,17 @@ export class CommentController{
                 await Authenticator.verifyUser(req)
                 if(req.user){
                     const userId = new Types.ObjectId(req.user.id as string)
-                    if (comment.liked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                    if (comment.liked_by&&comment.liked_by.some((id: Types.ObjectId) => id.equals(userId))){
                         comment.liked_by_user = "liked"
                     }
-                    else if (comment.disliked_by.some((id: Types.ObjectId) => id.equals(userId))){
+                    else if (comment.disliked_by&&comment.disliked_by.some((id: Types.ObjectId) => id.equals(userId))){
                         comment.liked_by_user = "disliked"
                     }
                 }
                 res.status(200).json(comment)
+            }
+            else{
+                res.status(404).json({message: "Comment not found"})
             }
         }catch(error:any){
             ErrorHandler.HandleMongooseErrors(error,res)
@@ -255,7 +263,7 @@ export class CommentController{
     static async createComment(req:any,res:any){
         try{
             const {review_id, content} = req.body
-            if(!Authenticator.verifyUser(req)) return res.json(401).send()
+            if(!Authenticator.verifyUser(req)) throw new Error("Unauthorized")
             if(review_id){
                 if(!mongoose.Types.ObjectId.isValid(review_id)){
                     Logger.warn("Invalid review_id format")
@@ -268,7 +276,11 @@ export class CommentController{
             }
             if(!content){
                 Logger.warn("content is required")
-                return res.status(400).json({mesasage: "content is required"})
+                return res.status(400).json({message: "content is required"})
+            }
+            const existingReview = await ReviewModel.findById(review_id)
+            if(!existingReview){
+                throw new Error("Review doesnt exist")
             }
 
             const newComment = new CommentModel({
@@ -297,7 +309,10 @@ export class CommentController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            if(!Authenticator.verifyUser(req,id)) return res.json(401).send()
+            const comment = await CommentModel.findById(id)
+            if(!comment) return res.status(404).json({message: "Comment not found"})
+            
+            if(!Authenticator.verifyUser(req,comment.user_id)) throw new Error("Unauthorized")
             const data = await CommentModel.findByIdAndDelete(id)
             if(!data){
                 res.status(404).json({message:"Comment not found"})
@@ -318,14 +333,25 @@ export class CommentController{
         try{
             const {id} = req.params
             const {content} = req.body
+            if(id){
+                if(!mongoose.Types.ObjectId.isValid(id)){
+                    return res.status(400).json({message: "Invalid id format"})
+                }
+            }
+            else{
+                return res.status(400).json({message: "id is required"})
+            }
             if(!content){
                 Logger.warn("content is required")
                 return res.status(400).json({message: "content is required"})
             }
-            if(!Authenticator.verifyUser(req,id)) return res.status(401).json({message: "Unauthorized"})
+
+         
             
             const comment = await CommentModel.findById(id)
-            if(!comment) return res.status(404).json({message: "User not found"})
+            if(!comment) return res.status(404).json({message: "Comment not found"})
+            
+            if(!Authenticator.verifyUser(req,comment.user_id)) return res.status(401).json({message: "Unauthorized"})
 
             comment.content = content
             await comment.save()
@@ -349,6 +375,7 @@ export class CommentController{
                 return res.status(400).json({message: "id is required"})
             }
             const potentialLikedBy = await CommentModel.findById(id).select(["liked_by","-_id"])
+            if(!potentialLikedBy) throw new Error("Comment not found")
             if(!potentialLikedBy.liked_by.length) return res.status(200).json([])
             const data = await CommentModel.aggregate([
                 { $match: { _id: new mongoose.Types.ObjectId(id as string) } },
@@ -380,6 +407,7 @@ export class CommentController{
                 return res.status(400).json({message: "id is required"})
             }
             const potentialDislikedBy = await CommentModel.findById(id).select(["disliked_by","-_id"])
+            if(!potentialDislikedBy) throw new Error("Comment not found")
             if(!potentialDislikedBy.disliked_by.length) return res.status(200).json([])
             const data = await CommentModel.aggregate([
                 { $match: { _id: new mongoose.Types.ObjectId(id as string) } },
@@ -411,7 +439,7 @@ export class CommentController{
             else{
                 return res.status(400).json({message: "id is required"})
             }
-            if(!Authenticator.verifyUser(req,id)) throw new Error("Unauthorized")
+            if(!Authenticator.verifyUser(req)) throw new Error("Unauthorized")
 
             const comment = await CommentModel.findById(id)
             if(!comment) throw new Error("Review not found")
