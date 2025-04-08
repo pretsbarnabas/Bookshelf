@@ -114,15 +114,22 @@ export class SummaryController{
                     path: "$book",
                     preserveNullAndEmptyArrays: true
                 }},
-                {$project: projection},
-                {$skip: page*limit},
-                {$limit: limit}
+                {$facet:{
+                    data: [
+                        {$skip: page*limit},
+                        {$limit: limit},
+                        {$project: projection}
+                    ],
+                    count:[{$count:"count"}]
+                }},
+                {$project:{data: 1, count: {$arrayElemAt: ["$count",0]}}}
             ])
 
-            if(data.length){
+            let summaries = data[0]
+            if(summaries && summaries.data && summaries.data.length){
+                const pages = Math.ceil(Number.parseInt(summaries.count.count) / limit)
                 Logger.info("Request handled")
-                const pages = Math.ceil(await SummaryModel.estimatedDocumentCount() / limit)
-                res.status(200).json({data: data, pages: pages})
+                res.status(200).json({data: summaries.data, pages: pages})
             }
             else{
                 Logger.warn("No summaries found")

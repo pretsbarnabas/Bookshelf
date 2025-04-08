@@ -23,7 +23,7 @@ export class BookController{
                 return res.status(400).json({message:"Invalid page or limit"})
             }
 
-            const allowedFields = ["_id","title","author","release","genre","user_id","description","added_at","updated_at","imageUrl"]
+            const allowedFields = ["_id","title","author","release","genre","user._id", "user.username", "user.created_at","user.updated_at","user.last_login","user.role","user.imageUrl","description","added_at","updated_at","imageUrl"]
 
             let filters: {title?: RegExp,author?:RegExp,genre?:string, user_id?:string} = {}
 
@@ -86,9 +86,7 @@ export class BookController{
                     matchConditions.push({ $match: { release: releaseFilter } });
                 }
                 
-                matchConditions.push({ $project: projection });
-                matchConditions.push({ $skip: page * limit });
-                matchConditions.push({ $limit: limit });
+
                 if(sort){
                     switch (sortType) {
                         case "desc":
@@ -117,12 +115,34 @@ export class BookController{
                             throw new Error("Invalid sort, title/added_at/genre/release allowed")
                     }
                 }
+                matchConditions.push({$lookup:{
+                    from: "users",
+                    localField: "user_id",
+                    foreignField: "_id",
+                    as: "user"
+                }})
+                matchConditions.push({$unwind:{
+                    path: "$user",
+                    preserveNullAndEmptyArrays: true
+                }})
+                matchConditions.push({$facet:{
+                    data: [
+                        {$skip: page*limit},
+                        {$limit: limit},
+                        {$project: projection}
+                    ],
+                    count:[{$count:"count"}]
+                }})
+                matchConditions.push({$project:{data: 1, count: {$arrayElemAt: ["$count",0]}}});
                 
-            const books = await BookModel.aggregate(matchConditions);
-            if(books && books.length){
+            const data = await BookModel.aggregate(matchConditions);
+            console.log(data)
+            let books = data[0]
+            if(books && books.data && books.data.length){
+                const pages = Math.ceil(Number.parseInt(books.count.count) / limit)
+
                 Logger.info("Request handled")
-                const pages = Math.ceil(await BookModel.estimatedDocumentCount() / limit)
-                res.status(200).json({data: books, pages: pages})
+                res.status(200).json({data: books.data, pages: pages})
             }
             else{
                 res.status(404).json({message: "No books found"})

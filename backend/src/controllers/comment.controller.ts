@@ -77,7 +77,7 @@ export class CommentController{
                 return acc
             }, {"_id": 0,"liked_by":1,"disliked_by":1} as Projection)
 
-            const comments = await CommentModel.aggregate([
+            const data = await CommentModel.aggregate([
                 {$match: filters},
                 {
                     $match: {
@@ -135,17 +135,24 @@ export class CommentController{
                     path: "$review.user",
                     preserveNullAndEmptyArrays: true
                 }},
-                {$project: projection},
-                {$skip: page*limit},
-                {$limit: limit}
+                {$facet:{
+                    data: [
+                        {$skip: page*limit},
+                        {$limit: limit},
+                        {$project: projection}
+                    ],
+                    count:[{$count:"count"}]
+                }},
+                {$project:{data: 1, count: {$arrayElemAt: ["$count",0]}}}
             ])
-            if(comments.length){
-                const pages = Math.ceil(await CommentModel.estimatedDocumentCount() / limit)
+            let comments = data[0]
+            if(comments && comments.data && comments.data.length){
+                const pages = Math.ceil(Number.parseInt(comments.count.count) / limit)
                 await Authenticator.verifyUser(req)
-                comments.forEach((comment: any) => {comment.liked_by_user = "none"})
+                comments.data.forEach((comment: any) => {comment.liked_by_user = "none"})
                 if(req.user){
                     const userId = new Types.ObjectId(req.user.id as string)
-                    comments.forEach((comment: any) => {
+                    comments.data.forEach((comment: any) => {
                         if (comment.liked_by&&comment.liked_by.some((id: Types.ObjectId) => id.equals(userId))){
                             comment.liked_by_user = "liked"
                         }
@@ -157,7 +164,7 @@ export class CommentController{
                     });
                 }
                 Logger.info("Request handled")
-                return res.status(200).json({data: comments, pages: pages})
+                return res.status(200).json({data: comments.data, pages: pages})
             }
             else{
                 Logger.warn("No comments found")

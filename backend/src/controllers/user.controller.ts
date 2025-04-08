@@ -70,7 +70,7 @@ export class UserController{
 
 
 
-            const users = await UserModel.aggregate([
+            const data = await UserModel.aggregate([
                 {
                   $match: {
                     $and: [
@@ -82,18 +82,26 @@ export class UserController{
                     ]
                   }
                 },
-                {$project: projection},
-                { $skip: page * limit },
-                { $limit: limit }
+                {$facet:{
+                    data: [
+                        {$skip: page*limit},
+                        {$limit: limit},
+                        {$project: projection}
+                    ],
+                    count:[{$count:"count"}]
+                }},
+                {$project:{data: 1, count: {$arrayElemAt: ["$count",0]}}}
               ]);
-            if(users.length){
+            let users = data[0]
+            if(users && users.data && users.data.length){
+                const pages = Math.ceil(Number.parseInt(users.count.count) / limit)
+
                 Logger.info("Request handled")
-                const pages = Math.ceil(await UserModel.estimatedDocumentCount() / limit)
-                res.status(200).json({data: users, pages: pages})
+                return res.status(200).json({data: users.data, pages: pages})
             }
             else{
                 Logger.warn("No users found")
-                res.status(404).json({message: "No users found"})
+                return res.status(404).json({message: "No users found"})
             }
         }catch(error:any){
             ErrorHandler.HandleMongooseErrors(error,res)
