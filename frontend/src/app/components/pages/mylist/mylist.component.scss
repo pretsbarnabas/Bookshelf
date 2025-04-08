@@ -12,7 +12,7 @@
   min-width: 200px; 
 }
 
-.book-card {
+.drg-book-card {
   height: 100%;
   width: 100%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
@@ -157,14 +157,14 @@
 .centered-header {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centers content horizontally */
-  justify-content: center; /* Centers content vertically */
-  text-align: center; /* Ensures text alignment */
+  align-items: center; 
+  justify-content: center; 
+  text-align: center; 
 }
 
 .centered-header mat-card-title,
 .centered-header mat-card-subtitle {
-  margin: 0; /* Removes any default margins */
+  margin: 0; 
 }
 
 @media (min-width: 992px) {
@@ -173,8 +173,21 @@
   }
 }
 .mat-sidenav-container {
-  height: 100vh; /* Ensure the sidenav container takes the full viewport height */
+  height: 100vh; 
+}
+.sidenav-toggle-button {
+  width: auto; 
+  height: auto; 
+  background-color: transparent; 
+  color: inherit; 
+  border: none; 
+  box-shadow: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0; 
 }
 
+.sidenav-toggle-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CommonModule } from '@angular/common';
@@ -8,7 +8,7 @@ import { BookList } from '../../../models/Booklist';
 import { UserModel } from '../../../models/User';
 import {CdkDragDrop, CdkDrag, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem,} from '@angular/cdk/drag-drop';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 
 
@@ -31,6 +31,11 @@ import { MatListModule } from '@angular/material/list';
   encapsulation: ViewEncapsulation.None,
 })
 export class MylistComponent implements OnInit {
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+
+  toggleSidenav() {
+    this.sidenav.toggle();
+  }
   bookList: BookList[] | null = null;
   toReadBooks: any[] = [];
   hasReadBooks: any[] = [];
