@@ -31,5 +31,5 @@ jobs:
         working-directory: frontend
 
       - name: Run E2E Tests
-        run: npm run e2e:run
+        run: npm run test:e2e
         working-directory: frontend
