@@ -46,7 +46,7 @@ Cypress.Commands.add("defineInterceptors", () => {
 })
 
 Cypress.Commands.add("setLangToEn", () => {
-    cy.visit("http://localhost:4200/auth/register")
+    cy.visit("http://localhost:4200/home")
     cy.get('[data-cy="navbar-btn-settings"]').as('settingsButton').click({ force: true });
     cy.get('[data-cy="navbar-langToggle-en"]').should('be.visible').should('not.be.disabled').click();
     cy.get('@settingsButton').click({ force: true });

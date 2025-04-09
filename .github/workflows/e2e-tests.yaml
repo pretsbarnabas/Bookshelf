@@ -1,0 +1,35 @@
+name: Angular E2E Tests
+
+on:
+  push:
+    branches: 
+      - main
+      - E2E
+      - frontend
+  pull_request:
+    branches:
+      - main
+      - E2E
+      - frontend
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Dependencies
+        run: npm ci
+        working-directory: frontend
+
+      - name: Run E2E Tests
+        run: npm run e2e:run
+        working-directory: frontend
