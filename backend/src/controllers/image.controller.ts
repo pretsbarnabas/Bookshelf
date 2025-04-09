@@ -28,9 +28,9 @@ export class ImageController{
           const imageBuffer = Buffer.from(matches[2], 'base64');
       
           // Validate allowed types
-          const allowedTypes = ['image/jpeg', 'image/png'];
+          const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
           if (!allowedTypes.some(type => mimeType.includes(type))) {
-            throw new Error('Only JPEG/PNG images allowed');
+            throw new Error('Only JPEG/PNG/GIF images allowed');
           }
       
           // Upload to Cloudinary
