@@ -68,7 +68,7 @@ export class BookItemComponent implements OnInit {
 
     paginatedReviews: ReviewModel[] = [];
     currentPageIndex: number = 0;
-    maxPages: number = 0;
+    maxPages: number = 1;
     pageSize = 10;
     currentSortSettings: { field: string, mode: 'asc' | 'desc' } = { field: '', mode: 'asc' }
 
