@@ -50,7 +50,7 @@
                                 <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
                             </form>
                             <div class="d-flex justify-content-end">
-                                <button class="w-auto" mat-raised-button matStepperNext (click)="this.touchForm()" [disabled]="!this.form.valid" data-cy="auth-btn-next">{{
+                                <button class="w-auto" mat-raised-button matStepperNext (click)="this.touchForm()" [disabled]="!this.form.valid" [attr.data-cy]="'auth-btn-next'">{{
                                     'AUTH.STEPPER.BUTTONS.NEXT' | translate }}</button>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                                                         |
                                                         translate
                                                         }}</button>
-                                                    <p class="text-center m-0">{{ 'AUTH.STEPPER.IMAGE.SELECTED' |
+                                                    <p class="text-center m-0">{{ 'AUTHTEPPER.IMAGE.SELECTED' |
                                                         translate
                                                         }}:</p>
                                                     <p *ngIf="this.selectedFile">{{ selectedFileName.split('.')[0] |
@@ -107,8 +107,8 @@
                             <button class="w-auto" mat-raised-button matStepperPrevious>{{ 'AUTH.STEPPER.BUTTONS.BACK' |
                                 translate }}</button>
                             <button class="w-auto" mat-raised-button matStepperNext>
-                                <span *ngIf="this.selectedFile">{{ 'AUTH.STEPPER.BUTTONS.NEXT' | translate }}</span>
-                                <span *ngIf="!this.selectedFile">{{ 'AUTH.STEPPER.BUTTONS.SKIP' | translate }}</span>
+                                <span *ngIf="this.selectedFile" [attr.data-cy]="'auth-btn-next2'">{{ 'AUTH.STEPPER.BUTTONS.NEXT' | translate }}</span>
+                                <span *ngIf="!this.selectedFile" [attr.data-cy]="'auth-btn-skip'">{{ 'AUTH.STEPPER.BUTTONS.SKIP' | translate }}</span>
                             </button>
                         </div>
                     </mat-step>
@@ -116,7 +116,7 @@
                         <div class="stepper-content d-flex flex-column justify-content-center align-items-center">
                             <ng-template matStepLabel>{{ 'AUTH.STEPPER.HEADINGS.DONE' | translate }}</ng-template>
                             <h2 class="text-center">{{ 'AUTH.STEPPER.DONE' | translate }}!</h2>
-                            <button id="register" class="w-75 mx-auto py-4" mat-raised-button (click)="this.onSubmit()">{{
+                            <button id="register" class="w-75 mx-auto py-4" mat-raised-button (click)="this.onSubmit()" [attr.data-cy]="'auth-btn-register'">{{
                                 'AUTH.SUBMIT.REGISTER' |
                                 translate }}</button>
                         </div>
@@ -142,4 +142,4 @@
         </button>
         }
     </div>
-</div>
+</div>.S
