@@ -13,7 +13,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReviewModel } from '../../../models/Review';
 import { UserService } from '../../../services/page/user.service';
-
+import { BooklistService } from '../../../services/page/booklist.service';
 import { PageEvent } from '@angular/material/paginator';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { AuthService } from '../../../services/global/auth.service';
@@ -44,7 +44,7 @@ export class BookItemComponent implements OnInit {
   public book: any;
   public color: string = 'accent';
   public starCount: number = 5;
-  public rating: number = 3;
+  public rating: number = 0;
   bookId: any;
   private snackBarDuration: number = 2000;
   public ratingArr: any = [];
@@ -65,7 +65,8 @@ export class BookItemComponent implements OnInit {
     private snackBar: MatSnackBar,
     private userService: UserService,
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private booklistService: BooklistService
   ) {
     this.reviewForm = this.fb.group({
       content: ['', Validators.required]
@@ -92,6 +93,30 @@ export class BookItemComponent implements OnInit {
       this.ratingArr.push(index);
     }
   }
+
+  addToBooklist(bookId: string | undefined) {
+    if (!this.loggedInUser || !bookId) {
+      this.snackBar.open('You must be logged in to add books to your booklist.', '', {
+        duration: 3000,
+      });
+      return;
+    }
+
+    this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'to_read').subscribe({
+      next: () => {
+        this.snackBar.open('Book added to your booklist!', '', {
+          duration: 3000,
+        });
+      },
+      error: (err) => {
+        console.error('Error adding book to booklist:', err);
+        this.snackBar.open('Failed to add book to your booklist.', '', {
+          duration: 3000,
+        });
+      },
+    });
+  }
+
   fillreviews() {
     this.reviews = [];
     this.bookService.getReviewsByBook(this.bookId, this.pageSize).subscribe(reviews => {

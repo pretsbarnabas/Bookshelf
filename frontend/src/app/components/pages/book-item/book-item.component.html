@@ -26,7 +26,12 @@
                                 Star count is <strong>required</strong> and cannot be zero
                             </mat-error>
                             <p class="body-2">
-                                Your rated <span class="body-2">{{rating}}</span> / <span class="body-2">{{starCount}}</span>
+                                @if (rating != 0) {
+                                    Your rated <span class="body-2">{{rating}}</span> / <span class="body-2">{{starCount}}</span>
+                                }
+                                @else {
+                                    You haven't rated yet
+                                }
                             </p>
                             <button mat-raised-button color="primary" type="submit">Submit</button>
                         </form>
@@ -38,6 +43,10 @@
                 <p>{{ book?.author }}</p>
                 <p>{{ formatDate(book?.release) }}</p>
                 <p>{{ book?.description }}</p>
+                <button mat-raised-button color="accent" class="add-to-booklist-button" (click)="addToBooklist(book?._id)">
+                    <mat-icon>add</mat-icon>
+                    Add to My Booklist
+                </button>
                 <mat-card>
                     <mat-card-header>
                         <mat-card-title>Reviews</mat-card-title>
