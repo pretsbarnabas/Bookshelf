@@ -45,7 +45,9 @@
         <button mat-icon-button [matMenuTriggerFor]="settings" (click)="settingsIconState = 'clicked'"
             [matBadge]="this.isLastColorBlindnessDiff ? '!' : null"
             [matTooltip]="this.isMdOrBeyond ? ('APP.MENU.SETTINGS.TOOLTIP' | translate ) : null"
-            [matTooltipPosition]="'below'" matTooltipShowDelay="500">
+            [matTooltipPosition]="'below'" matTooltipShowDelay="500"
+            data-cy="navbar-btn-settings"
+            >
             <mat-icon [@rotate]="settingsIconState">settings</mat-icon>
         </button>
         <mat-menu #settings="matMenu" class="p-1 settings" (closed)="settingsIconState = 'default'">
@@ -70,8 +72,8 @@
             <div class="theme-holder mb-3">
                 <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [value]="localizationToggleValue"
                     (click)="$event.stopPropagation()">
-                    <mat-button-toggle value="en" (change)="changeLanguage($event)">EN</mat-button-toggle>
-                    <mat-button-toggle value="hu" (change)="changeLanguage($event)">HU</mat-button-toggle>
+                    <mat-button-toggle value="en" (change)="changeLanguage($event)" [attr.data-cy]="'navbar-langToggle-en'">EN</mat-button-toggle>
+                    <mat-button-toggle value="hu" (change)="changeLanguage($event)" [attr.data-cy]="'navbar-langToggle-hu'">HU</mat-button-toggle>
                 </mat-button-toggle-group>
             </div>
 

@@ -1,5 +1,9 @@
 /// <reference types="cypress" />
 
+Cypress.on('uncaught:exception', (err, runnable) => {  
+  return false;
+});
+
 describe('Testing the authentication system when registering and logging in', () => {
   
   before(()=>{

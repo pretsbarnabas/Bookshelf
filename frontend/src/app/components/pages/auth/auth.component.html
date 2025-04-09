@@ -50,7 +50,7 @@
                                 <formly-form [fields]="fields" [form]="form" [model]="model"></formly-form>
                             </form>
                             <div class="d-flex justify-content-end">
-                                <button class="w-auto" mat-raised-button matStepperNext (click)="this.touchForm()" [disabled]="!this.form.valid">{{
+                                <button class="w-auto" mat-raised-button matStepperNext (click)="this.touchForm()" [disabled]="!this.form.valid" data-cy="auth-btn-next">{{
                                     'AUTH.STEPPER.BUTTONS.NEXT' | translate }}</button>
                             </div>
                         </div>

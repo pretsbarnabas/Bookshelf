@@ -57,7 +57,7 @@ import { BaseFieldWrapper } from './base-field-wrapper.component';
         <ng-container *ngIf="field.formControl?.errors">
           <span>
             <mat-icon class="error-icon">error_outline</mat-icon>
-            {{ field!.validation?.messages?.[getError()!.key] || 'Unknown error' }}
+            <span [attr.data-cy]="'error-' + to['id']"> {{ field!.validation?.messages?.[getError()!.key] || 'Unknown error' }}</span>
           </span>
         </ng-container>
       </mat-error>
