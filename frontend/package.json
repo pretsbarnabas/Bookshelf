@@ -11,7 +11,7 @@
     "test": "ng test --watch=false --browsers=ChromeHeadless",
     "test:env": "npm i && concurrently \"npm run start\" \"cd ../backend && npm run test:seed\"",
     "test:cypress": "npm i && concurrently \"npm run start\" \"npx cypress open\" \"cd ../backend && npm run test:seed\"",
-    "test:e2e": "npx cypress run",
+    "test:e2e": "npm i && concurrently \"npm run start\" \"npx cypress run\" \"cd ../backend && npm run test:seed\"",
     "sharp": "npm i && concurrently \"npm run start\" \"cd ../backend && npm run start\""
   },
   "private": true,
