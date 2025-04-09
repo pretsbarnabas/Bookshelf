@@ -65,6 +65,7 @@ export class ReviewDisplayComponent {
     ngOnChanges() {
         this.review!.likedBy = [];
         this.review!.dislikedBy = [];
+        this.comments = [];
         this.getComments();
         this.getReviewLikes();
         this.authService.loggedInUser$.subscribe((user) => {
