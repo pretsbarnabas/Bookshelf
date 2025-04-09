@@ -37,11 +37,11 @@
                                 <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
                                 <mat-card-actions class="d-flex justify-content-between">
                                     <button mat-raised-button color="accent" class="rounded w-100 drgButton" (click)="startReading(book._id)">
-                                        <mat-icon>book</mat-icon>
+                                        <mat-icon class="d-none d-lg-block" >book</mat-icon>
                                         Read
                                     </button>
                                     <button mat-raised-button color="warn" class="rounded w-100 drgDelete" (click)="deleteBook(book._id)">
-                                        <mat-icon>delete</mat-icon>
+                                        <mat-icon class="d-none d-lg-block">delete</mat-icon>
                                         Delete
                                     </button>
                                 </mat-card-actions>
@@ -60,11 +60,11 @@
                                 <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
                                 <mat-card-actions class="d-flex justify-content-between">
                                     <button mat-raised-button color="primary" class="rounded w-100  drgButton" (click)="finishReading(book._id)">
-                                        <mat-icon>book</mat-icon>
+                                        <mat-icon class="d-none d-lg-block">book</mat-icon>
                                         Finish
                                     </button>
                                     <button mat-raised-button color="warn" class="rounded w-100  drgDelete" (click)="dropBook(book._id)">
-                                        <mat-icon>delete</mat-icon>
+                                        <mat-icon class="d-none d-lg-block">delete</mat-icon>
                                         Drop
                                     </button>
                                 </mat-card-actions>
@@ -84,18 +84,18 @@
                                 <mat-card-actions class="d-flex justify-content-between">
                                     @if (favoriteBooks.includes(book)) {
                                         <button mat-raised-button color="accent" class="rounded w-8  drgDelete" (click)="finishReading(book._id)" matTooltip="Favorite Book" matTooltipPosition="above">
-                                            <mat-icon>star</mat-icon>
+                                            <mat-icon class="d-none d-lg-block">star</mat-icon>
                                             Remove
                                         </button>
                                     }
                                     @else {
                                         <button mat-raised-button color="accent" class="rounded w-8  drgButton" (click)="markAsFavorite(book._id)" matTooltip="Favorite Book" matTooltipPosition="above">
-                                            <mat-icon>star</mat-icon>
+                                            <mat-icon class="d-none d-lg-block">star</mat-icon>
                                             Favorite
                                         </button>
                                     }
                                     <button mat-raised-button class="rounded w-8 drgDelete" (click)="deleteBook(book._id)" matTooltip="Delete Book" matTooltipPosition="above">
-                                        <mat-icon>delete</mat-icon>
+                                        <mat-icon  class="d-none d-lg-block">delete</mat-icon>
                                         Delete Book
                                     </button>
                                 </mat-card-actions>
@@ -114,11 +114,11 @@
                                 <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
                                 <mat-card-actions class="d-flex justify-content-between">
                                     <button mat-raised-button color="primary" class="rounded w-100 drgButton" (click)="startReading(book._id)">
-                                        <mat-icon>book</mat-icon>
+                                        <mat-icon class="d-none d-lg-block">book</mat-icon>
                                         Read
                                     </button>
                                     <button mat-raised-button color="warn" class="rounded w-100 drgDelete" (click)="deleteBook(book._id)">
-                                        <mat-icon>delete</mat-icon>
+                                        <mat-icon class="d-none d-lg-block">delete</mat-icon>
                                         Delete
                                     </button>
                                 </mat-card-actions>
@@ -137,7 +137,7 @@
                                 <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
                                 <mat-card-actions class="d-flex justify-content-between">
                                     <button mat-raised-button color="warn" class="rounded w-100 drgDelete" (click)="finishReading(book._id)">
-                                        <mat-icon>delete</mat-icon>
+                                        <mat-icon   class="d-none d-lg-block">delete</mat-icon>
                                         Remove
                                     </button>
                                 </mat-card-actions>
