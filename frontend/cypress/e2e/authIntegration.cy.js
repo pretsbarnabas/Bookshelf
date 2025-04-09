@@ -8,10 +8,7 @@ describe('Testing the authentication system when registering and logging in', ()
 
     before(() => {
         cy.task("seedDatabase")
-        cy.visit("http://localhost:4200/auth/register")
-        cy.get('[data-cy="navbar-btn-settings"]').as('settingsButton').click({ force: true });
-        cy.get('[data-cy="navbar-langToggle-en"]').should('be.visible').should('not.be.disabled').click();
-        cy.get('@settingsButton').click({ force: true });
+        cy.setLangToEn();
     })
 
     beforeEach(() => {
