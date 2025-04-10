@@ -55,7 +55,8 @@
             <hr class="my-2">
             <div class="mb-3 theme-holder" (click)="$event.stopPropagation()">
                 <mat-icon class="theme-icon" [@pulse]="this.currentTheme === 'light'">wb_sunny</mat-icon>
-                <mat-slide-toggle class="mx-2" (toggleChange)="changeTheme()" [checked]="this.currentTheme === 'dark'">
+                <mat-slide-toggle class="mx-2" (toggleChange)="changeTheme()" [checked]="this.currentTheme === 'dark'" 
+                [attr.data-cy]="'navbar-themeToggle'">
                 </mat-slide-toggle>
                 <mat-icon class="theme-icon" [@pulse]="this.currentTheme === 'dark'">brightness_2</mat-icon>
             </div>
@@ -63,7 +64,8 @@
             <hr class="my-2">
             <div class="mb-3 theme-holder" (click)="$event.stopPropagation()">
                 <mat-icon class="theme-icon">visibility_off</mat-icon>
-                <mat-slide-toggle class="mx-2" (toggleChange)="changeEyeSaveMode()" [checked]="this.isEyeSaveModeOn">
+                <mat-slide-toggle class="mx-2" (toggleChange)="changeEyeSaveMode()" [checked]="this.isEyeSaveModeOn"
+                [attr.data-cy]="'navbar-eyeSaveToggle'">
                 </mat-slide-toggle>
                 <mat-icon class="theme-icon">visibility</mat-icon>
             </div>
@@ -81,7 +83,8 @@
                 <hr class="my-2">
                 <button class="accessibilityButton text-center" mat-menu-item [matMenuTriggerFor]="accessibility"
                     (click)="$event.stopPropagation()" [matBadge]="this.isLastColorBlindnessDiff ? '!' : null"
-                    (mouseover)="this.isLastColorBlindnessDiff = false">
+                    (mouseover)="this.isLastColorBlindnessDiff = false"
+                    [attr.data-cy]="'navbar-btn-accessibility'">
                     <mat-icon class="mx-auto">accessibility</mat-icon>
                     {{ 'APP.MENU.SETTINGS.ACCESSIBILITY.LABEL' | translate }}
                 </button>
@@ -94,19 +97,19 @@
             <span class="text-center d-block">{{ 'APP.MENU.SETTINGS.ACCESSIBILITY.SUBMENU.COLORBLIND' | translate
                 }}</span>
             <hr class="my-2">
-            <button mat-menu-item (click)="changeColorBlindnessOverlay('red-green')">
+            <button mat-menu-item (click)="changeColorBlindnessOverlay('red-green')" [attr.data-cy]="'navbar-cbBtn-redgreen'">
                 <span>{{ 'APP.MENU.SETTINGS.ACCESSIBILITY.SUBMENU.REDGREEN' | translate }}</span>
                 @if(this.colorBlindnessMode=='red-green'){
                 <mat-icon>check</mat-icon>
                 }
             </button>
-            <button mat-menu-item (click)="changeColorBlindnessOverlay('blue-yellow')">
+            <button mat-menu-item (click)="changeColorBlindnessOverlay('blue-yellow')" [attr.data-cy]="'navbar-cbBtn-blueyellow'">
                 <span>{{ 'APP.MENU.SETTINGS.ACCESSIBILITY.SUBMENU.BLUEYELLOW' | translate }}</span>
                 @if(this.colorBlindnessMode=='blue-yellow'){
                 <mat-icon>check</mat-icon>
                 }
             </button>
-            <button mat-menu-item (click)="changeColorBlindnessOverlay('monochrome')">
+            <button mat-menu-item (click)="changeColorBlindnessOverlay('monochrome')" [attr.data-cy]="'navbar-cbBtn-monochrome'">
                 <span>{{ 'APP.MENU.SETTINGS.ACCESSIBILITY.SUBMENU.MONOCHROME' | translate }}</span>
                 @if(this.colorBlindnessMode=='monochrome'){
                 <mat-icon>check</mat-icon>

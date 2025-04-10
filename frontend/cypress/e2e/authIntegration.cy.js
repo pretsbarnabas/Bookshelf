@@ -8,10 +8,10 @@ describe('Testing the authentication system when registering and logging in', ()
 
     before(() => {
         cy.task("seedDatabase")
-        cy.setLangToEn();
     })
 
     beforeEach(() => {
+        cy.setLangToEn();
         cy.visit("http://localhost:4200/auth/register")
 
         cy.defineInterceptors()

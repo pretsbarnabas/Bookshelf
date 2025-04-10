@@ -4,14 +4,12 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     return false;
 });
 
-describe('Testing validations in fields when registering a new user', () => {
-
-    before(() => {
-        cy.setLangToEn();
-    })
+describe('Testing validations in fields when registering a new user', () => {    
 
     beforeEach(() => {
+        cy.setLangToEn();
         cy.visit("http://localhost:4200/auth/register")
+
         cy.get("input[ng-reflect-id='username']").as("usernameInput")
         cy.get("input[ng-reflect-id='email']").as("emailInput")
         cy.get("input[ng-reflect-id='password']").as("passwordInput")
