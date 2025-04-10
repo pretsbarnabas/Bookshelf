@@ -3,14 +3,19 @@
         <div class="row w-100">
             <div class="d-flex justify-content-end align-item-center p-0">
 
-                <ng-container *ngIf="payload?.type ==='book' || payload?.item.book ">
+                <ng-container *ngIf="payload?.type ==='book' || payload?.item.book || payload?.type === 'user'">
                     @if(payload?.type === 'book'){
-                    <button mat-mini-fab [routerLink]="['/book-item', this.payload?.item._id]" class="visit me-1"
+                    <button mat-mini-fab (click)="this.navigateToPage('book-item', this.payload?.item._id)" class="visit me-1"
                         (click)="$event.stopPropagation()">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
-                    } @else{
-                    <button mat-mini-fab [routerLink]="['/book-item', this.payload?.item.book._id]" class="visit me-1"
+                    } @if(payload?.item.book){
+                    <button mat-mini-fab (click)="this.navigateToPage('book-item', this.payload?.item.book._id)" class="visit me-1"
+                        (click)="$event.stopPropagation()">
+                        <mat-icon class="mx-auto">open_in_new</mat-icon>
+                    </button>
+                    } @if(payload?.type === 'user'){
+                        <button mat-mini-fab (click)="this.navigateToPage('profile', this.payload?.item._id)" class="visit me-1"
                         (click)="$event.stopPropagation()">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
@@ -33,18 +38,18 @@
                 </ng-container>
 
                 <ng-template #nonUserButtons>
-                    <button mat-mini-fab class="edit me-1" (click)="$event.stopPropagation(); this.openDialog('edit')">
+                    <button mat-mini-fab class="edit me-1" (click)="$event.stopPropagation(); this.openDialog('edit')" *ngIf="!this.payload?.observedProfileId">
                         <mat-icon class="mx-auto">edit</mat-icon>
                     </button>
                 </ng-template>
 
                 <ng-container *ngIf="payload?.item.role === 'admin'; else deleteButton">
-                    <button mat-mini-fab class="admin" (click)="$event.stopPropagation()" disabled>
+                    <button mat-mini-fab class="admin" (click)="$event.stopPropagation()" disabled *ngIf="!this.payload?.observedProfileId">
                         <mat-icon class="mx-auto">stars</mat-icon>
                     </button>
                 </ng-container>
                 <ng-template #deleteButton>
-                    <button mat-mini-fab class="delete" (click)="$event.stopPropagation(); this.openDialog('delete')">
+                    <button mat-mini-fab class="delete" (click)="$event.stopPropagation(); this.openDialog('delete')" *ngIf="!this.payload?.observedProfileId">
                         <mat-icon class="mx-auto">delete</mat-icon>
                     </button>
                 </ng-template>
@@ -149,10 +154,6 @@
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.ADDED', date: payload?.item.added_at }"></ng-container>
                         <ng-container
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.UPDATED', date: payload?.item.updated_at }"></ng-container>
-                        <div class="col-12 col-sm-6 col-lg-4" *ngIf="this.payload?.isAdminPage">
-                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.USERID' | translate }}: </b>
-                            <i>{{ payload?.item.user_id }}</i>
-                        </div>
                     </div>
                 </mat-card-content>
             </mat-card>
@@ -203,13 +204,13 @@
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.ADDED', date: payload?.item.created_at }"></ng-container>
                         <ng-container
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.UPDATED', date: payload?.item.updated_at }"></ng-container>
-                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
-                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.USERNAME' | translate }}: </b>
-                            <i>{{ payload?.item.user.username }}</i>
-                        </div>
-                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
+                        <div class="col-12 col-sm-6 col-lg-3 mx-auto" *ngIf="this.payload?.isAdminPage">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.USERID' | translate }}: </b>
                             <i>{{ payload?.item.user._id }}</i>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3 mx-auto" *ngIf="this.payload?.isAdminPage">
+                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.USERNAME' | translate }}: </b>
+                            <i>{{ payload?.item.user.username }}</i>
                         </div>
                     </div>
                 </mat-card-content>
@@ -238,6 +239,7 @@
                         <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.BOOKID' | translate }}: </b>
                             <i>{{ payload?.item.book._id }}</i>
+                            <p><i>({{ payload?.item.book.title }})</i></p>
                         </div>
                         <ng-container
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.UPDATED', date: payload?.item.updated_at }"></ng-container>
@@ -269,7 +271,7 @@
         <!-- Comment Details -->
         <ng-container *ngSwitchCase="'comment'">
             <h5 class="text-center mt-3" *ngIf="this.payload?.isAdminPage">
-                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.HEADERS.COMMENT' | translate }}
+                {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.HEADERS.RECORD' | translate }}
             </h5>
             <mat-card appearance="raised">
                 <mat-card-content>

@@ -1,0 +1,47 @@
+.user-profile-picture{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+@media (min-width: 576px) {
+    .review-content {
+        padding: 16px 24px;
+    }
+}
+
+#leave-comment{
+    min-height: 25px;
+    height: 25px;
+    max-height: 100px;
+    overflow: auto;
+}
+
+.comment-content{
+    word-wrap: break-word;
+}
+
+button.delete {
+    background-color: #F44336;
+
+    mat-icon {
+        color: white;
+    }
+}
+
+.subtext {
+    font-size: 0.8em;
+    color: #888;
+}
+
+button:disabled {
+    color: inherit !important;
+}
+
+.selectable:hover{
+    text-decoration: underline;
+    cursor: pointer;
+    transition-duration: 250ms;    
+    transform: scale(1.1);
+}

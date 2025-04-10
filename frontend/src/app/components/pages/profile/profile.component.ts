@@ -14,6 +14,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { ItemDialogComponent } from '../../../utilities/components/all-type-display/expansion-item/item-dialog/item-dialog.component';
 import { UserService } from '../../../services/page/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { bottts } from '@dicebear/collection';
+import { createAvatar } from '@dicebear/core';
+import { NavigationStateService } from '../../../services/global/navigation-state.service';
 
 @Component({
     selector: 'app-profile',
@@ -38,20 +42,37 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class ProfileComponent {
     private authService = inject(AuthService);
     private userService = inject(UserService);
+    private navService = inject(NavigationStateService);
     readonly dialog = inject(MatDialog);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
 
     constructor(
     ) {
 
     }
 
+    userId?: string | number;
+    user?: UserModel;
     loggedInUser: UserModel | null = null;
     roleDataHead: string = "";
 
     ngOnInit() {
-        this.authService.loggedInUser$.subscribe(user => {
-            this.loggedInUser = user;
-            this.roleDataHead = `PROFILE.PROFILECARD.ROLETABLE.${user?.role.toLocaleUpperCase()}`;
+        this.navService.getStateObservable('/profile').subscribe(state =>{
+            this.userId = state?.id!;
+            this.userService.getUserById(this.userId!).subscribe({
+                next: (user: UserModel) =>{                
+                    this.user = user;
+                    if(!this.user.imageUrl)
+                        this.user.profile_image = createAvatar(bottts, { seed: this.user.username }).toDataUri();
+                },
+                error: () =>
+                    this.router.navigate(['404'])
+            });
+            this.authService.loggedInUser$.subscribe(user => {
+                this.loggedInUser = user;
+                this.roleDataHead = `PROFILE.PROFILECARD.ROLETABLE.${user?.role.toLocaleUpperCase()}`;
+            });
         });
     }
 

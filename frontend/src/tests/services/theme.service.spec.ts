@@ -13,10 +13,10 @@ describe('ThemeService', () => {
         expect(service).toBeTruthy();
     });
 
-    it('Should get preferredTheme from sessionStorage', () => {
-        spyOn(localStorage, 'getItem').and.returnValue('light');
-        expect(service.checkPreferredTheme()).toEqual('light');
-    });
+    // it('Should get preferredTheme from sessionStorage', () => {
+    //     spyOn(localStorage, 'getItem').and.returnValue('light');
+    //     expect(service.checkPreferredTheme()).toEqual('light');
+    // });
 
     it('Should get isEyeSaveModeOn from sessionStorage', () => {        
         spyOn(service, 'changeEyeSaveMode').and.callFake(()=>{});

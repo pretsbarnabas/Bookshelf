@@ -50,15 +50,15 @@ export class MylistComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-  ngOnInit() {
-    this.authService.loggedInUser$.subscribe((user) => {
-        this.loggedInUser = user;
-        if (this.loggedInUser) {
-            this.fetchUserBookList(this.loggedInUser._id);
+    ngOnInit() {
+        this.authService.loggedInUser$.subscribe((user) => {
+            this.loggedInUser = user;
+            if (this.loggedInUser) {
+                this.fetchUserBookList(this.loggedInUser._id);
 
-        }
-    });
-  }
+            }
+        });
+    }
 
   fetchUserBookList(userId: string) {
     this.booklistService.getUserBookList(userId).subscribe({
@@ -119,19 +119,44 @@ export class MylistComponent implements OnInit {
   startReading(bookId: string) {
     if (!this.loggedInUser) return;
 
-    this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'is_reading').subscribe({
-        next: () => {
-            console.log(`Book with ID ${bookId} updated to "is_reading"`);
-            this.fetchUserBookList(this.loggedInUser!._id);
-        },
-        error: (err) => {
-            console.error('Error updating book status:', err);
-        }
-    });
-  }
+        // Categorize books based on read_status
+        this.bookList!.forEach(item => {
+            const book = item.book; // Access the book object
+            switch (item.read_status) {
+                case 'to_read':
+                    this.toReadBooks.push(book);
+                    break;
+                case 'has_read':
+                    this.hasReadBooks.push(book);
+                    break;
+                case 'is_reading':
+                    this.readingBooks.push(book);
+                    break;
+                case 'dropped':
+                    this.droppedBooks.push(book);
+                    break;
+                case 'favorite':
+                    this.favoriteBooks.push(book);
+                    this.hasReadBooks.push(book); // Add to hasReadBooks if it's also a favorite
+                    break;
+                default:
+                    console.warn(`Unknown read_status: ${item.read_status}`);
+            }
+        });
+    }
+    startReading(bookId: string) {
+        if (!this.loggedInUser) return;
 
-  deleteBook(bookId: string) {
-      if (!this.loggedInUser) return;
+        this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'is_reading').subscribe({
+            next: () => {
+                console.log(`Book with ID ${bookId} updated to "is_reading"`);
+                this.fetchUserBookList(this.loggedInUser!._id);
+            },
+            error: (err) => {
+                console.error('Error updating book status:', err);
+            }
+        });
+    }
 
       this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'delete').subscribe({
           next: () => {
@@ -159,8 +184,14 @@ export class MylistComponent implements OnInit {
     });
 }
 
-dropBook(bookId: string) {
-    if (!this.loggedInUser) return;
+            },
+            error: (err) => {
+                console.error('Error deleting book:', err);
+            }
+        });
+    }
+    finishReading(bookId: string) {
+        if (!this.loggedInUser) return;
 
     this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'dropped').subscribe({
         next: () => {
