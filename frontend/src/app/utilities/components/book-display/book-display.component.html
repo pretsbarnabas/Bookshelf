@@ -2,18 +2,18 @@
 
     <div class="w-100 h-100" id="books-main">
         <div class="w-100">
-            <mat-card>
+            <mat-card [attr.data-cy]="'bd-header-card'">
                 <mat-card-content class="d-block w-100 mx-auto">
                     <h1 class="display-3 text-center mt-3" id="books-header">
-                        <b *ngIf="this.mode==='books'">
+                        <b *ngIf="this.mode==='books'" [attr.data-cy]="'bd-header-books'">
                             {{ 'BOOKS.HEADER' | translate }}
                         </b>
-                        <b *ngIf="this.mode==='summaries'">
+                        <b *ngIf="this.mode==='summaries'" [attr.data-cy]="'bd-header-summaries'">
                             {{ 'SUMMARIES.TITLE' | translate }}
                         </b>
                     </h1>
                     <div class="row my-3">
-                        <mat-form-field class="w-50 mx-auto">
+                        <mat-form-field class="w-50 mx-auto" [attr.data-cy]="'bd-header-search'">
                             <mat-label>
                                 <mat-icon class="me-2">search</mat-icon>
                                 {{ 'BOOKS.SEARCHBAR.BUTTON' | translate }}
@@ -24,7 +24,9 @@
                     <custom-paginator [pageSizeOptions]="[5, 10, 25]" [totalPages]="this.maxPages"
                         [pageSize]="this.pageSize" [pageIndex]="this.currentPageIndex" [showSortingMenu]="this.mode === 'books'"
                         [itemType]="'book'" (sortingChanged)="this.sortItems($event)"
-                        (pageChanged)="this.changePage($event)" />
+                        (pageChanged)="this.changePage($event)" 
+                        [attr.data-cy]="'bd-header-paginator'"
+                        />
 
                 </mat-card-content>
             </mat-card>
@@ -41,7 +43,9 @@
                 @if(this.mode === 'books'){
                 <div class="col-12 col-sm-6 col-lg-3 mb-4" *ngFor="let book of filteredBooks">
                     <mat-card class="w-100 card-holder" (click)="navigateToBook(book._id)"
-                        [matTooltip]="this.isMdOrBeyond ? book.title : null" [matTooltipPosition]="'above'">
+                        [matTooltip]="this.isMdOrBeyond ? book.title : null" [matTooltipPosition]="'above'"
+                        [attr.data-cy]="'bd-content-bookcard'"
+                        >
                         <mat-card-content>
                             <mat-card class="book-card" appearance="outlined">
                                 <img mat-card-image class="book-image w-100"

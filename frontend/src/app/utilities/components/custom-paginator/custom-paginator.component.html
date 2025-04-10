@@ -3,7 +3,9 @@
         <div class="w-100 d-flex justify-content-between align-items-center row">
             <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
                 @if(this.showSortingMenu){
-                    <button mat-mini-fab class="my-auto me-4" [matMenuTriggerFor]="sorting">
+                    <button mat-mini-fab class="my-auto me-4" [matMenuTriggerFor]="sorting"
+                    [attr.data-cy]="'paginator-btn-sort'"
+                    >
                         <mat-icon>swap_vert</mat-icon>
                     </button>
                     <mat-menu class="p-1" id="sorting-menu" #sorting="matMenu" [xPosition]="'before'" [yPosition]="'below'"                >
