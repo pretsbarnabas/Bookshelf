@@ -10,7 +10,7 @@ describe('Testing the books page', () => {
         cy.visit("http://localhost:4200/books")
     })
 
-    it('Should contain the book-display element', () => {
+    it('Should contain the book-display element with mode: books', () => {
         cy.get('[data-cy="books-bd"]')
             .should('exist')
             .should('have.attr', 'ng-reflect-mode', 'books')

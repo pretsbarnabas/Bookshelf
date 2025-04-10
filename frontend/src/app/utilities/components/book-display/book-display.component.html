@@ -67,7 +67,9 @@
                 @if(this.mode === 'summaries'){
                 <div class="col-12 col-sm-6 col-lg-3 mb-4" *ngFor="let summary of this.filteredSummaries">
                     <mat-card class="w-100 card-holder" (click)="navigateToBook(summary._id)"
-                        [matTooltip]="this.isMdOrBeyond ? summary.book.title : null" [matTooltipPosition]="'above'">
+                        [matTooltip]="this.isMdOrBeyond ? summary.book.title : null" [matTooltipPosition]="'above'"
+                        [attr.data-cy]="'bd-content-summarycard'"
+                        >
                         <mat-card-content>
                             <mat-card class="book-card" appearance="outlined">
                                 <img mat-card-image class="book-image w-100"
