@@ -31,7 +31,8 @@ import { BaseFieldWrapper } from './base-field-wrapper.component';
         <input
           [id]="to['id']"
           type="file"
-          accept="image/*"
+          accept="image/png,image/jpeg,image/gif,.png,.jpg,.gif"
+          ngf-max-size="8MB"     
           hidden
           (change)="onFileSelected($event)"
           #fileInput
