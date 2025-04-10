@@ -58,12 +58,12 @@ export class ProfileComponent {
     roleDataHead: string = "";
 
     ngOnInit() {
-        this.navService.getStateObservable('/profile').subscribe(state =>{
+        this.navService.getStateObservable('/profile').subscribe(state => {
             this.userId = state?.id!;
             this.userService.getUserById(this.userId!).subscribe({
-                next: (user: UserModel) =>{                
+                next: (user: UserModel) => {
                     this.user = user;
-                    if(!this.user.imageUrl)
+                    if (!this.user.imageUrl)
                         this.user.profile_image = createAvatar(bottts, { seed: this.user.username }).toDataUri();
                 },
                 error: () =>
@@ -101,8 +101,8 @@ export class ProfileComponent {
             }
             if (result.result === true) {
                 this.userService.updateUser(this.loggedInUser!._id, result.modifiedData)?.subscribe({
-                    next: async (response) => {                                          
-                        window.location.reload();                        
+                    next: async (response) => {
+                        window.location.reload();
                     },
                     error: (err: HttpErrorResponse) => console.log(err)
                 })

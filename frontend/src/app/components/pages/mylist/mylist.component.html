@@ -1,11 +1,9 @@
 <div class="wrapper">
     <div class="wrapper-content">
-        <button mat-icon-button class="sidenav-toggle-button" 
-        (click)="sidenav.toggle()" >
-    <mat-icon>menu</mat-icon>
-</button>
+        <button mat-icon-button class="sidenav-toggle-button" (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
         <mat-sidenav-container class="d-lg-none">
-
             <mat-sidenav #sidenav mode="over" class="sidebar" opened>
                 <mat-nav-list>
                     <mat-list-item (click)="selectedTab = 'toRead'; sidenav.close()">
@@ -28,7 +26,7 @@
             <mat-sidenav-content>
                 <div *ngIf="selectedTab === 'toRead'" class="container">
                     <div class="row justify-content-center g-4">
-                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of toReadBooks">
+                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of toReadBooks; trackBy: trackByBookId">
                             <mat-card class="drg-book-card h-100 p-3">
                                 <mat-card-header class="centered-header">
                                     <mat-card-title>{{ book.title }}</mat-card-title>
@@ -36,11 +34,13 @@
                                 </mat-card-header>
                                 <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
                                 <mat-card-actions class="d-flex justify-content-between">
-                                    <button mat-raised-button color="accent" class="rounded w-100 drgButton" (click)="startReading(book._id)">
-                                        <mat-icon class="d-none d-lg-block" >book</mat-icon>
+                                    <button mat-raised-button color="accent" class="rounded w-100 drgButton"
+                                        (click)="startReading(book._id)">
+                                        <mat-icon class="d-none d-lg-block">book</mat-icon>
                                         Read
                                     </button>
-                                    <button mat-raised-button color="warn" class="rounded w-100 drgDelete" (click)="deleteBook(book._id)">
+                                    <button mat-raised-button color="warn" class="rounded w-100 drgDelete"
+                                        (click)="deleteBook(book._id)">
                                         <mat-icon class="d-none d-lg-block">delete</mat-icon>
                                         Delete
                                     </button>
@@ -51,7 +51,7 @@
                 </div>
                 <div *ngIf="selectedTab === 'reading'" class="container">
                     <div class="row justify-content-center g-4">
-                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of readingBooks">
+                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of readingBooks; trackBy: trackByBookId">
                             <mat-card class="drg-book-card h-100 p-3">
                                 <mat-card-header class="centered-header">
                                     <mat-card-title>{{ book.title }}</mat-card-title>
@@ -59,11 +59,13 @@
                                 </mat-card-header>
                                 <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
                                 <mat-card-actions class="d-flex justify-content-between">
-                                    <button mat-raised-button color="primary" class="rounded w-100  drgButton" (click)="finishReading(book._id)">
+                                    <button mat-raised-button color="primary" class="rounded w-100  drgButton"
+                                        (click)="finishReading(book._id)">
                                         <mat-icon class="d-none d-lg-block">book</mat-icon>
                                         Finish
                                     </button>
-                                    <button mat-raised-button color="warn" class="rounded w-100  drgDelete" (click)="dropBook(book._id)">
+                                    <button mat-raised-button color="warn" class="rounded w-100  drgDelete"
+                                        (click)="dropBook(book._id)">
                                         <mat-icon class="d-none d-lg-block">delete</mat-icon>
                                         Drop
                                     </button>
@@ -74,7 +76,7 @@
                 </div>
                 <div *ngIf="selectedTab === 'read'" class="container">
                     <div class="row justify-content-center g-4">
-                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of hasReadBooks">
+                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of hasReadBooks; trackBy: trackByBookId">
                             <mat-card class="drg-book-card h-100 p-3">
                                 <mat-card-header class="centered-header">
                                     <mat-card-title>{{ book.title }}</mat-card-title>
@@ -83,19 +85,25 @@
                                 <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
                                 <mat-card-actions class="d-flex justify-content-between">
                                     @if (favoriteBooks.includes(book)) {
-                                        <button mat-raised-button color="accent" class="rounded w-8  drgDelete" (click)="finishReading(book._id)" matTooltip="Favorite Book" matTooltipPosition="above">
-                                            <mat-icon class="d-none d-lg-block">star</mat-icon>
-                                            Remove
-                                        </button>
+                                    <button mat-raised-button color="accent" class="rounded w-8  drgDelete"
+                                        (click)="finishReading(book._id)" matTooltip="Favorite Book"
+                                        matTooltipPosition="above">
+                                        <mat-icon class="d-none d-lg-block">star</mat-icon>
+                                        Remove
+                                    </button>
                                     }
                                     @else {
-                                        <button mat-raised-button color="accent" class="rounded w-8  drgButton" (click)="markAsFavorite(book._id)" matTooltip="Favorite Book" matTooltipPosition="above">
-                                            <mat-icon class="d-none d-lg-block">star</mat-icon>
-                                            Favorite
-                                        </button>
+                                    <button mat-raised-button color="accent" class="rounded w-8  drgButton"
+                                        (click)="markAsFavorite(book._id)" matTooltip="Favorite Book"
+                                        matTooltipPosition="above">
+                                        <mat-icon class="d-none d-lg-block">star</mat-icon>
+                                        Favorite
+                                    </button>
                                     }
-                                    <button mat-raised-button class="rounded w-8 drgDelete" (click)="deleteBook(book._id)" matTooltip="Delete Book" matTooltipPosition="above">
-                                        <mat-icon  class="d-none d-lg-block">delete</mat-icon>
+                                    <button mat-raised-button class="rounded w-8 drgDelete"
+                                        (click)="deleteBook(book._id)" matTooltip="Delete Book"
+                                        matTooltipPosition="above">
+                                        <mat-icon class="d-none d-lg-block">delete</mat-icon>
                                         Delete Book
                                     </button>
                                 </mat-card-actions>
@@ -105,7 +113,7 @@
                 </div>
                 <div *ngIf="selectedTab === 'dropped'" class="container">
                     <div class="row justify-content-center g-4">
-                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of droppedBooks">
+                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of droppedBooks; trackBy: trackByBookId">
                             <mat-card class="drg-book-card h-100 p-3">
                                 <mat-card-header class="centered-header">
                                     <mat-card-title>{{ book.title }}</mat-card-title>
@@ -113,11 +121,13 @@
                                 </mat-card-header>
                                 <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
                                 <mat-card-actions class="d-flex justify-content-between">
-                                    <button mat-raised-button color="primary" class="rounded w-100 drgButton" (click)="startReading(book._id)">
+                                    <button mat-raised-button color="primary" class="rounded w-100 drgButton"
+                                        (click)="startReading(book._id)">
                                         <mat-icon class="d-none d-lg-block">book</mat-icon>
                                         Read
                                     </button>
-                                    <button mat-raised-button color="warn" class="rounded w-100 drgDelete" (click)="deleteBook(book._id)">
+                                    <button mat-raised-button color="warn" class="rounded w-100 drgDelete"
+                                        (click)="deleteBook(book._id)">
                                         <mat-icon class="d-none d-lg-block">delete</mat-icon>
                                         Delete
                                     </button>
@@ -128,7 +138,7 @@
                 </div>
                 <div *ngIf="selectedTab === 'favorite'" class="container">
                     <div class="row justify-content-center g-4">
-                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of favoriteBooks">
+                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of favoriteBooks; trackBy: trackByBookId">
                             <mat-card class="drg-book-card h-100 p-3">
                                 <mat-card-header class="centered-header">
                                     <mat-card-title>{{ book.title }}</mat-card-title>
@@ -136,8 +146,9 @@
                                 </mat-card-header>
                                 <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
                                 <mat-card-actions class="d-flex justify-content-between">
-                                    <button mat-raised-button color="warn" class="rounded w-100 drgDelete" (click)="finishReading(book._id)">
-                                        <mat-icon   class="d-none d-lg-block">delete</mat-icon>
+                                    <button mat-raised-button color="warn" class="rounded w-100 drgDelete"
+                                        (click)="finishReading(book._id)">
+                                        <mat-icon class="d-none d-lg-block">delete</mat-icon>
                                         Remove
                                     </button>
                                 </mat-card-actions>
@@ -147,40 +158,42 @@
                 </div>
             </mat-sidenav-content>
         </mat-sidenav-container>
-        
+
         <mat-tab-group class="d-none d-lg-block">
             <!-- To Read Tab -->
             <mat-tab label="Booklist" fxHide.lt-lg>
                 <div class="drgcontainer" cdkDropListGroup>
                     <div class="BookListCol">
-                      <h2>To Read</h2>
-                  
-                      <div
-                        cdkDropList
-                        [cdkDropListData]="toReadBooks"
-                        class="BookListColItems"
-                        (cdkDropListDropped)="drop($event)">
-                        @for (item of toReadBooks; track item) {
-                            <mat-card appearance="outlined" class="drgCard d-flex justify-content-between flex-row"  cdkDrag>
+                        <h2>To Read</h2>
+
+                        <div cdkDropList [cdkDropListData]="toReadBooks" class="BookListColItems"
+                            (cdkDropListDropped)="drop($event)">
+                            @for (item of toReadBooks; track item) {
+                            <mat-card appearance="outlined" class="drgCard d-flex justify-content-between flex-row"
+                                cdkDrag>
                                 <mat-card-header>
-                                  <mat-card-title> {{item.title}}</mat-card-title>
-                                  <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
+                                    <mat-card-title> {{item.title}}</mat-card-title>
+                                    <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
                                 </mat-card-header>
                                 <mat-card-actions class="d-flex flex-column align-items-end gap-2">
-                                    <button mat-raised-button color="accent" class="rounded w-8  drgButton" (click)="markAsFavorite(item._id)" matTooltip="Favorite Book" matTooltipPosition="above">
+                                    <button mat-raised-button color="accent" class="rounded w-8  drgButton"
+                                        (click)="markAsFavorite(item._id)" matTooltip="Favorite Book"
+                                        matTooltipPosition="above">
                                         <mat-icon>star</mat-icon>
                                         Favorite
                                     </button>
-                                    <button mat-raised-button class="rounded w-8 drgDelete" (click)="deleteBook(item._id)" matTooltip="Delete Book" matTooltipPosition="above">
+                                    <button mat-raised-button class="rounded w-8 drgDelete"
+                                        (click)="deleteBook(item._id)" matTooltip="Delete Book"
+                                        matTooltipPosition="above">
                                         <mat-icon>delete</mat-icon>
                                         Delete
                                     </button>
                                 </mat-card-actions>
-                              </mat-card>
+                            </mat-card>
 
 
 
-                          <!-- <div class="BookInstance" cdkDrag>
+                            <!-- <div class="BookInstance" cdkDrag>
                             {{item.title}}
                             <button mat-fab (click)="markAsFavorite(item._id)" matTooltip="favorite Book" matTooltipPosition="above">
                                 <mat-icon>star</mat-icon>
@@ -189,129 +202,140 @@
                                 <mat-icon>delete</mat-icon>
                             </button>
                         </div> -->
-                        }
-                      </div>
+                            }
+                        </div>
                     </div>
-                  
+
                     <div class="BookListCol">
-                      <h2>Currently Reading</h2>
-                  
-                      <div
-                        cdkDropList
-                        [cdkDropListData]="readingBooks"
-                        class="BookListColItems"
-                        (cdkDropListDropped)="drop($event)">
-                        @for (item of readingBooks; track item) {
-                            <mat-card appearance="outlined" class="drgCard d-flex justify-content-between flex-row" cdkDrag>
+                        <h2>Currently Reading</h2>
+
+                        <div cdkDropList [cdkDropListData]="readingBooks" class="BookListColItems"
+                            (cdkDropListDropped)="drop($event)">
+                            @for (item of readingBooks; track item) {
+                            <mat-card appearance="outlined" class="drgCard d-flex justify-content-between flex-row"
+                                cdkDrag>
                                 <mat-card-header>
                                     <mat-card-title>{{ item.title }}</mat-card-title>
                                     <mat-card-subtitle>{{ item.author }}</mat-card-subtitle>
                                 </mat-card-header>
                                 <mat-card-actions class="d-flex flex-column align-items-end gap-2">
-                                    <button mat-raised-button color="accent" class="rounded w-8  drgButton" (click)="markAsFavorite(item._id)" matTooltip="Favorite Book" matTooltipPosition="above">
+                                    <button mat-raised-button color="accent" class="rounded w-8  drgButton"
+                                        (click)="markAsFavorite(item._id)" matTooltip="Favorite Book"
+                                        matTooltipPosition="above">
                                         <mat-icon>star</mat-icon>
                                         Favorite
                                     </button>
-                                    <button mat-raised-button class="rounded w-8 drgDelete" (click)="dropBook(item._id)" matTooltip="Drop Book" matTooltipPosition="above">
+                                    <button mat-raised-button class="rounded w-8 drgDelete" (click)="dropBook(item._id)"
+                                        matTooltip="Drop Book" matTooltipPosition="above">
                                         <mat-icon>delete</mat-icon>
                                         Drop Book
                                     </button>
                                 </mat-card-actions>
                             </mat-card>
 
-                        }
-                      </div>
+                            }
+                        </div>
                     </div>
 
                     <div class="BookListCol">
                         <h2>Finished Reading</h2>
-                    
-                        <div
-                          cdkDropList
-                          [cdkDropListData]="hasReadBooks"
-                          class="BookListColItems"
-                          (cdkDropListDropped)="drop($event)">
-                          @for (item of hasReadBooks; track item) {
 
-                            <mat-card appearance="outlined" class="drgCard d-flex justify-content-between flex-row"  cdkDrag>
+                        <div cdkDropList [cdkDropListData]="hasReadBooks" class="BookListColItems"
+                            (cdkDropListDropped)="drop($event)">
+                            @for (item of hasReadBooks; track item) {
+
+                            <mat-card appearance="outlined" class="drgCard d-flex justify-content-between flex-row"
+                                cdkDrag>
                                 <mat-card-header>
-                                  <mat-card-title> {{item.title}}</mat-card-title>
-                                  <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
+                                    <mat-card-title> {{item.title}}</mat-card-title>
+                                    <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
                                 </mat-card-header>
                                 <mat-card-actions class="d-flex flex-column align-items-end gap-2">
                                     @if (favoriteBooks.includes(item)) {
-                                        <button mat-raised-button color="accent" class="rounded w-8  drgDelete" (click)="finishReading(item._id)" matTooltip="Favorite Book" matTooltipPosition="above">
-                                            <mat-icon>star</mat-icon>
-                                            Remove
-                                        </button>
+                                    <button mat-raised-button color="accent" class="rounded w-8  drgDelete"
+                                        (click)="finishReading(item._id)" matTooltip="Favorite Book"
+                                        matTooltipPosition="above">
+                                        <mat-icon>star</mat-icon>
+                                        Remove
+                                    </button>
                                     }
                                     @else {
-                                        <button mat-raised-button color="accent" class="rounded w-8  drgButton" (click)="markAsFavorite(item._id)" matTooltip="Favorite Book" matTooltipPosition="above">
-                                            <mat-icon>star</mat-icon>
-                                            Favorite
-                                        </button>
+                                    <button mat-raised-button color="accent" class="rounded w-8  drgButton"
+                                        (click)="markAsFavorite(item._id)" matTooltip="Favorite Book"
+                                        matTooltipPosition="above">
+                                        <mat-icon>star</mat-icon>
+                                        Favorite
+                                    </button>
                                     }
-                                    <button mat-raised-button class="rounded w-8 drgDelete" (click)="deleteBook(item._id)" matTooltip="Delete Book" matTooltipPosition="above">
+                                    <button mat-raised-button class="rounded w-8 drgDelete"
+                                        (click)="deleteBook(item._id)" matTooltip="Delete Book"
+                                        matTooltipPosition="above">
                                         <mat-icon>delete</mat-icon>
                                         Delete Book
                                     </button>
                                 </mat-card-actions>
-                              </mat-card>
-                          }
+                            </mat-card>
+                            }
                         </div>
-                      </div>
-                  </div>
-                  
-            </mat-tab>
-<!-- Dropped Tab -->
-<mat-tab label="Dropped">
-    <div class="container">
-        <div class="row justify-content-center g-4">
-            <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of droppedBooks">
-                <mat-card class="drg-drg-book-card h-100 p-3">
-                    <mat-card-header class="centered-header">
-                        <mat-card-title>{{ book.title }}</mat-card-title>
-                        <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
-                    </mat-card-header>
-                    <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
-                    <mat-card-actions class="d-flex justify-content-between">
-                        <button mat-raised-button color="primary" class="rounded w-100 drgButton" (click)="startReading(book._id)" matTooltip="Start Reading" matTooltipPosition="above">
-                            <mat-icon>book</mat-icon>
-                            Read
-                        </button>
-                        <button mat-raised-button color="warn" class="rounded w-100 drgDelete" (click)="deleteBook(book._id)" matTooltip="Delete Book" matTooltipPosition="above">
-                            <mat-icon>delete</mat-icon>
-                            Delete
-                        </button>
-                    </mat-card-actions>
-                </mat-card>
-            </div>
-        </div>
-    </div>
-</mat-tab>
+                    </div>
+                </div>
 
-<!-- Favorite Tab -->
-<mat-tab label="Favorite">
-    <div class="container">
-        <div class="row justify-content-center g-4">
-            <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of favoriteBooks">
-                <mat-card class="drg-book-card h-100 p-3">
-                    <mat-card-header class="centered-header">
-                        <mat-card-title>{{ book.title }}</mat-card-title>
-                        <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
-                    </mat-card-header>
-                    <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
-                    <mat-card-actions class="d-flex justify-content-between">
-                        <button mat-raised-button color="warn" class="rounded w-100" (click)="finishReading(book._id)" matTooltip="Remove from Favorites" matTooltipPosition="above">
-                            <mat-icon>remove_circle</mat-icon>
-                            Remove
-                        </button>
-                    </mat-card-actions>
-                </mat-card>
-            </div>
-        </div>
-    </div>
-</mat-tab>
+            </mat-tab>
+            <!-- Dropped Tab -->
+            <mat-tab label="Dropped">
+                <div class="container">
+                    <div class="row justify-content-center g-4">
+                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of droppedBooks; trackBy: trackByBookId">
+                            <mat-card class="drg-drg-book-card h-100 p-3">
+                                <mat-card-header class="centered-header">
+                                    <mat-card-title>{{ book.title }}</mat-card-title>
+                                    <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                                </mat-card-header>
+                                <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
+                                <mat-card-actions class="d-flex justify-content-between">
+                                    <button mat-raised-button color="primary" class="rounded w-100 drgButton"
+                                        (click)="startReading(book._id)" matTooltip="Start Reading"
+                                        matTooltipPosition="above">
+                                        <mat-icon>book</mat-icon>
+                                        Read
+                                    </button>
+                                    <button mat-raised-button color="warn" class="rounded w-100 drgDelete"
+                                        (click)="deleteBook(book._id)" matTooltip="Delete Book"
+                                        matTooltipPosition="above">
+                                        <mat-icon>delete</mat-icon>
+                                        Delete
+                                    </button>
+                                </mat-card-actions>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <!-- Favorite Tab -->
+            <mat-tab label="Favorite">
+                <div class="container">
+                    <div class="row justify-content-center g-4">
+                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let book of favoriteBooks">
+                            <mat-card class="drg-book-card h-100 p-3">
+                                <mat-card-header class="centered-header">
+                                    <mat-card-title>{{ book.title }}</mat-card-title>
+                                    <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+                                </mat-card-header>
+                                <img mat-card-image [src]="book.imageUrl" alt="{{ book.title }}" class="book-image">
+                                <mat-card-actions class="d-flex justify-content-between">
+                                    <button mat-raised-button color="warn" class="rounded w-100"
+                                        (click)="finishReading(book._id)" matTooltip="Remove from Favorites"
+                                        matTooltipPosition="above">
+                                        <mat-icon>remove_circle</mat-icon>
+                                        Remove
+                                    </button>
+                                </mat-card-actions>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
         </mat-tab-group>
     </div>
 </div>
