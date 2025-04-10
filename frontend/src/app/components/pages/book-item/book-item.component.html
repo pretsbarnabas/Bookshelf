@@ -13,16 +13,17 @@
                     <mat-card-header>
                         <img mat-card-image class="book-image w-75 mx-auto"
                             [src]="this.book.imageUrl ?? 'assets/images/no-cover.svg'" [alt]=" book?.title
-                            || 'Photo of a book'" />
+                            || 'Photo of a book'"
+                            [attr.data-cy]="'booki-card-img'"/>
                     </mat-card-header>
                     <mat-card-content>
                         <mat-card-title class=" title">
-                            <h1 class="text-center">{{ book?.title }}</h1>
+                            <h1 class="text-center" [attr.data-cy]="'booki-card-title'">{{ book?.title }}</h1>
                         </mat-card-title>
                         <mat-card-subtitle class="text-center mb-3">
-                            {{ 'BOOKITEM.BOOKCARD.AUTHOR' | translate}}: {{ book?.author }}<br>
-                            <b>{{ 'BOOKITEM.BOOKCARD.RELEASE' | translate}}:</b> {{ formatDate(book?.release) }}<br>
-                            <b>{{ 'BOOKITEM.BOOKCARD.GENRE' | translate}}:</b> {{ `CREATE.GENRES.${book?.genre?.toLocaleUpperCase()}` | translate }}
+                            <span [attr.data-cy]="'booki-card-author'">{{ 'BOOKITEM.BOOKCARD.AUTHOR' | translate}}: {{ book?.author }}</span><br>
+                            <span [attr.data-cy]="'booki-card-release'"><b>{{ 'BOOKITEM.BOOKCARD.RELEASE' | translate}}:</b> {{ formatDate(book?.release) }}</span><br>
+                            <span [attr.data-cy]="'booki-card-genre'"><b>{{ 'BOOKITEM.BOOKCARD.GENRE' | translate}}:</b> {{ `CREATE.GENRES.${book?.genre?.toLocaleUpperCase()}` | translate }}</span>
                         </mat-card-subtitle>
                         <form class="form-row" *ngIf="isLoggedIn" [formGroup]="reviewForm">
                             <mat-form-field class="mw-80" appearance="fill">
@@ -60,19 +61,19 @@
             <div id="Book-Details" class="book-details col-12 col-lg-8 mx-auto">
                 <div class="row px-5 py-3 w-100 mx-auto">
                     <div class="col-12 col-sm-6 col-lg-3">
-                        <button class="w-100" mat-fab color="primary" (click)="onBack()">
+                        <button class="w-100" mat-fab color="primary" (click)="onBack()" [attr.data-cy]="'booki-btn-back'">
                             <mat-icon class="me-2">arrow_back</mat-icon>
                             {{ "BOOKITEM.BACK" | translate }}
                         </button>
                     </div>
                 </div>
-                <mat-card appearance="outlined">
+                <mat-card appearance="outlined" [attr.data-cy]="'booki-desc-card'">
                     <mat-card-header>
                         <mat-card class="w-100 p-2">
-                            <h2>{{ book?.title }}</h2>
-                            <p>{{ book?.author }}</p>
-                            <p>{{ formatDate(book?.release) }}</p>
-                            <p class="book-item-desc">{{ book?.description }}</p>
+                            <h2 [attr.data-cy]="'booki-desc-title'">{{ book?.title }}</h2>
+                            <p [attr.data-cy]="'booki-desc-author'">{{ book?.author }}</p>
+                            <p [attr.data-cy]="'booki-desc-release'">{{ formatDate(book?.release) }}</p>
+                            <p class="book-item-desc" [attr.data-cy]="'booki-desc-desc'">{{ book?.description }}</p>
                         </mat-card>
                     </mat-card-header>
                     <mat-divider class="my-3" />
@@ -84,13 +85,14 @@
                             <custom-paginator [pageSizeOptions]="[5, 10, 25, 50]" [totalPages]="this.maxPages"
                                 [pageSize]="this.pageSize" [pageIndex]="this.currentPageIndex" [itemType]="'review'"
                                 [showSortingMenu]="true" (pageChanged)="this.onPageChange($event)"
-                                (sortingChanged)="this.sortItems($event)" />
+                                (sortingChanged)="this.sortItems($event)"
+                                [attr.data-cy]="'booki-desc-paginator'"/>
                             <mat-divider class="my-2" />
                             <div *ngIf="reviews.length == 0">
                                 <p class="text-center">{{ "BOOKITEM.NOREVIEWS" | translate }}</p>
                             </div>
                             @for (review of this.paginatedReviews; track $index) {
-                            <review-display [review]="review" />
+                            <review-display [review]="review" [attr.data-cy]="'booki-desc-rd'"/>
                             }
                         </mat-card>
                     </mat-card-content>

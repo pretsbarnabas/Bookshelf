@@ -43,7 +43,7 @@ describe('Testing the books page', () => {
         cy.visit("http://localhost:4200/summaries")
 
         cy.get('[data-cy="bd-content-summarycard"]')
-            .eq(2)
+            .eq(1)
             .click()
         cy.url().should('contain', 'summary-item')
     }) 
