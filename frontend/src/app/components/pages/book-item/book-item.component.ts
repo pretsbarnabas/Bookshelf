@@ -13,7 +13,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReviewModel } from '../../../models/Review';
 import { UserService } from '../../../services/page/user.service';
-
+import { BooklistService } from '../../../services/page/booklist.service';
 import { PageEvent } from '@angular/material/paginator';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { AuthService } from '../../../services/global/auth.service';
@@ -88,12 +88,37 @@ export class BookItemComponent implements OnInit {
         private snackBar: MatSnackBar,
         private userService: UserService,
         private authService: AuthService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private booklistService: BooklistService
     ) {
         this.reviewForm = this.fb.group({
             content: ['', Validators.required]
         });
     }
+  
+  addToBooklist(bookId: string | undefined) {
+    if (!this.loggedInUser || !bookId) {
+      this.snackBar.open('You must be logged in to add books to your booklist.', '', {
+        duration: 3000,
+      });
+      return;
+    }
+
+    this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'to_read').subscribe({
+      next: () => {
+        this.snackBar.open('Book added to your booklist!', '', {
+          duration: 3000,
+        });
+      },
+      error: (err) => {
+        console.error('Error adding book to booklist:', err);
+        this.snackBar.open('Failed to add book to your booklist.', '', {
+          duration: 3000,
+        });
+      },
+    });
+  }
+
     ngOnInit() {
         this.uniqueIds = [];
         this.navService.getStateObservable('/book-item')?.subscribe(state =>

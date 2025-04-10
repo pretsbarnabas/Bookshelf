@@ -57,6 +57,10 @@
                     </mat-card-content>
                 </mat-card>
             </div>
+                <button mat-raised-button color="accent" class="add-to-booklist-button" (click)="addToBooklist(book?._id)">
+                    <mat-icon>add</mat-icon>
+                    Add to My Booklist
+                </button>
             <div id="Book-Details" class="book-details col-12 col-lg-8 mx-auto">
                 <div class="row px-5 py-3 w-100 mx-auto">
                     <div class="col-12 col-sm-6 col-lg-3">
