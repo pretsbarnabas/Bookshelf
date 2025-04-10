@@ -1,18 +1,19 @@
 <div class="wrapper">
     <mat-drawer-container class="example-container">
-        <mat-drawer #leftDrawer mode="over" position="start" class="home-side-drawer">
+        <mat-drawer #leftDrawer mode="over" position="start" class="home-side-drawer" [attr.data-cy]="'home-drawer-books'">
             <div class="row w-100 mt-3 mx-auto">
                 <h4 class="text-center">{{ 'HOME.BOOKS.HEADER' | translate }}</h4>
                 <mat-divider />
                 @for (book of this.books; track $index) {
-                <div class="col-12 col-lg-6 mb-4 mx-auto">
+                <div class="col-12 col-lg-6 mb-4 mx-auto" [attr.data-cy]="'home-drawer-bookcard'">
                     <mat-card class="w-100 card-holder" (click)="this.navigateToBook(book._id)"
                         [matTooltip]="this.isMdOrBeyond ? book.title : null" [matTooltipPosition]="'below'">
                         <mat-card-content>
                             <mat-card class="book-card" appearance="outlined">
                                 <img mat-card-image class="book-image w-100"
                                     [src]="book.imageUrl ? book.imageUrl : 'assets/images/no-cover.svg'"
-                                    alt="{{ book.title }}">
+                                    alt="{{ book.title }}"                                    
+                                    >
                                 <mat-divider class="my-2" />
                                 <mat-card-title class="text-center ">
                                     <span class="truncate-title">{{ book.title }}</span>
@@ -32,12 +33,12 @@
                 }
             </div>
         </mat-drawer>
-        <mat-drawer #rightDrawer mode="over" position="end" class="home-side-drawer">
+        <mat-drawer #rightDrawer mode="over" position="end" class="home-side-drawer" [attr.data-cy]="'home-drawer-summaries'">
             <div class="row w-100 mt-3 mx-auto">
                 <h4 class="text-center">{{ 'HOME.SUMMARIES.HEADER' | translate }}</h4>
                 <mat-divider />
                 @for (summary of this.summaries; track $index) {
-                <div class="col-12 col-lg-6 mb-4 mx-auto">
+                <div class="col-12 col-lg-6 mb-4 mx-auto" [attr.data-cy]="'home-drawer-summarycard'">
                     <mat-card class="w-100 card-holder" (click)="this.navigateToSummary(summary._id)"
                         [matTooltip]="this.isMdOrBeyond ? summary.book.title : null" [matTooltipPosition]="'below'">
                         <mat-card-content>
@@ -71,24 +72,28 @@
             <div class="row w-100 mx-auto">
                 <mat-card class="py-5 col-12 col-md-6 mx-auto">
                     <div class="w-25 mx-auto">
-                        <img src="./assets/images/logo.svg" alt="Bookshelf-logo" class="w-100 rounded-circle">
+                        <img src="./assets/images/logo.svg" alt="Bookshelf-logo" class="w-100 rounded-circle" [attr.data-cy]="'home-img-logo'">
                     </div>
                     <mat-card-title class="text-center mb-5">
                         <h1>{{ 'HOME.NEWCOMERS.GREETING' | translate }}</h1>
                     </mat-card-title>
                     <mat-card-subtitle class="text-center mb-3" *ngIf="!this.loggedInUser">
-                        <h5>{{ 'HOME.NEWCOMERS.JOIN' | translate }}</h5>
+                        <h5 [attr.data-cy]="'home-text-join'">{{ 'HOME.NEWCOMERS.JOIN' | translate }}</h5>
                     </mat-card-subtitle>
                     <mat-card-content>
                         <p class="w-75 mx-auto text-justify">
                             {{ 'HOME.NEWCOMERS.DESC' | translate }}
                         </p>
                         <div class="d-flex justify-content-center gap-3" *ngIf="!this.loggedInUser">
-                            <button mat-fab extended (click)="navigateTo('auth/register')">
+                            <button mat-fab extended (click)="navigateTo('auth/register')"
+                            [attr.data-cy]="'home-btn-register'"
+                            >
                                 <mat-icon>person_add</mat-icon>
                                 {{ 'HOME.NEWCOMERS.REGISTER' | translate }}
                             </button>
-                            <button mat-fab extended (click)="navigateTo('auth/login')">
+                            <button mat-fab extended (click)="navigateTo('auth/login')"
+                            [attr.data-cy]="'home-btn-login'"
+                            >
                                 <mat-icon>login</mat-icon>
                                 {{ 'HOME.NEWCOMERS.LOGIN' | translate }}
                             </button>
@@ -96,13 +101,17 @@
                     </mat-card-content>
                     <div class="row mt-4 w-100 mx-auto">
                         <div class="col-12 col-md-6 d-flex justify-content-center mb-4">
-                            <button matRipple [matRippleCentered]="true" mat-fab extended (click)="leftDrawer.toggle()">
+                            <button matRipple [matRippleCentered]="true" mat-fab extended (click)="leftDrawer.toggle()"
+                            [attr.data-cy]="'home-btn-books'"
+                            >
                                 {{ 'HOME.BOOKS.BUTTON' | translate }}
                             </button>
                         </div>
                         <div class="col-12 col-md-6 d-flex justify-content-center">
                             <button matRipple [matRippleCentered]="true" mat-fab extended
-                                (click)="rightDrawer.toggle()">
+                                (click)="rightDrawer.toggle()"
+                                [attr.data-cy]="'home-btn-summaries'"
+                                >
                                 {{ 'HOME.SUMMARIES.BUTTON' | translate }}
                             </button>
                         </div>
