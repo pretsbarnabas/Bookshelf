@@ -197,7 +197,7 @@
             "FANTASY": "Fantasy",
             "HISTORICAL": "Historical",
             "HORROR": "Horror",
-            "LITERARY_PROSE": "Literary prose",
+            "LITERARYPROSE": "Literary prose",
             "MYSTERY": "Mystery",
             "PHILOSOPHICAL": "Philosophical",
             "POETRY": "Poetry",
@@ -251,7 +251,8 @@
             }
         },
         "LIST": {
-            "HEADER": "Your timeline"
+            "HEADER": "Your timeline",
+            "OBSERVED": "'s timeline"
         }
     },
     "ADMIN": {

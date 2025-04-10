@@ -6,7 +6,7 @@
                 <mat-divider />
                 @for (book of this.books; track $index) {
                 <div class="col-12 col-lg-6 mb-4 mx-auto" [attr.data-cy]="'home-drawer-bookcard'">
-                    <mat-card class="w-100 card-holder" (click)="this.navigateToBook(book._id)"
+                    <mat-card class="w-100 card-holder" (click)="this.navigateToPage('book-item', book._id)"
                         [matTooltip]="this.isMdOrBeyond ? book.title : null" [matTooltipPosition]="'below'">
                         <mat-card-content>
                             <mat-card class="book-card" appearance="outlined">
@@ -39,7 +39,7 @@
                 <mat-divider />
                 @for (summary of this.summaries; track $index) {
                 <div class="col-12 col-lg-6 mb-4 mx-auto" [attr.data-cy]="'home-drawer-summarycard'">
-                    <mat-card class="w-100 card-holder" (click)="this.navigateToSummary(summary._id)"
+                    <mat-card class="w-100 card-holder" (click)="this.navigateToPage('summary-item', summary._id)"
                         [matTooltip]="this.isMdOrBeyond ? summary.book.title : null" [matTooltipPosition]="'below'">
                         <mat-card-content>
                             <mat-card class="book-card" appearance="outlined">
@@ -120,70 +120,4 @@
             </div>
         </div>
     </mat-drawer-container>
-
-    <!-- <div class="Bookshelf">
-            <h1>bookshelf.</h1>
-        </div>
-        <div class="gradient w-100 overflow-hidden">
-            <div class="category-container w-100 d-flex flex-column">
-                <h1 id="card-top5-title" class="align-self-start">{{ 'HOME.LATEST.HEADER' | translate }}</h1>
-                <p id="card-top5-description" class="align-self-start">{{ 'HOME.LATEST.CONTENT' | translate }}</p>
-                <div class="card-container d-flex flex-row flex-wrap justify-content-start">
-                    <div id="card-top5" class="flex-shrink-0" *ngFor="let book of books">
-                        <mat-card (click)="navigateToBook(book._id)">
-                            <mat-card-header>
-                                <mat-card-title class="title">{{ book.title }}</mat-card-title>
-                                <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
-                            </mat-card-header>
-                            <img id="card-top5-img" mat-card-image class="w-90 book-image img-fluid"
-                                src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain"
-                                alt="{{ book.title }}">
-                            <mat-card-content>
-                                <p>{{ formatDate(book.release) }}</p>
-                            </mat-card-content>
-                        </mat-card>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="gradient-right w-100 overflow-hidden">
-            <div class="category-container-right d-flex flex-column w-100">
-                <h1 id="card-top5-title-right" class="">{{ 'HOME.POPULAR.HEADER' | translate }}</h1>
-                <p id="card-top5-description-right" class="">{{ 'HOME.POPULAR.CONTENT' | translate }}</p>
-                <div class="card-container-right d-flex flex-row flex-wrap justify-content-start">
-                    <div id="card-top5" class="flex-shrink-0 card-top5-rightsided" *ngFor="let book of books">
-                        <mat-card (click)="navigateToBook(book._id)">
-                            <mat-card-header>
-                                <mat-card-title class="title">{{ book.title }}</mat-card-title>
-                                <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
-                            </mat-card-header>
-                            <img id="card-top5-img" mat-card-image class="book-image w-90 img-fluid"
-                                src="https://th.bing.com/th/id/OIP.OFdwMP8vt4tlo2L0pYGpXQAAAA?rs=1&pid=ImgDetMain"
-                                alt="{{ book.title }}">
-                            <mat-card-content>
-                                <p>{{ formatDate(book.release) }}</p>
-                            </mat-card-content>
-                        </mat-card>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div *ngIf="!this.loggedInUser" class="loginSegment d-flex justify-content-center align-items-center">
-            <div class="text-center w-100">
-                <h1>{{ 'HOME.NEWCOMERS.GREETING' | translate }}</h1>
-                <p class="w-75 mx-auto">
-                    {{ 'HOME.NEWCOMERS.DESC' | translate }}
-                </p>
-                <div class="d-flex justify-content-center gap-3">
-                    <button class="loginSegment-button" mat-fab extended (click)="navigateTo('auth/register')">
-                        <mat-icon>person_add</mat-icon>
-                        {{ 'HOME.NEWCOMERS.REGISTER' | translate }}
-                    </button>
-                    <button class="loginSegment-button" mat-fab extended (click)="navigateTo('auth/login')">
-                        <mat-icon>login</mat-icon>
-                        {{ 'HOME.NEWCOMERS.LOGIN' | translate }}
-                    </button>
-                </div>
-            </div>
-        </div> -->
 </div>

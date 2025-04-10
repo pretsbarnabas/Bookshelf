@@ -312,7 +312,7 @@ export class FormService {
                     validators: {
                         isdate: (control: AbstractControl) => {
                             if (control.value === '') return true;
-                            return (Date.parse(control.value)) > 0;
+                            return Date.parse(control.value);
                         },
                         maxdate: (control: AbstractControl) => {
                             if (control.value === '') return true;

@@ -34,7 +34,7 @@
             </button>
             <mat-menu #profile="matMenu" class="p-2">
                 <router-button
-                    [payload]="{ route: 'profile', icon: 'person', localReference: 'PROFILE.PAGE', isMatMenu: true }"></router-button>
+                    [payload]="{ route: 'profile', icon: 'person', localReference: 'PROFILE.PAGE', isMatMenu: true, userId: this.loggedInUser._id }"></router-button>
                 <router-button
                     [payload]="{ route: 'exit', icon: 'exit_to_app', localReference: 'PROFILE.LOGOUT', isMatMenu: true }"
                     (click)="this.authService.logOut()"></router-button>

@@ -19,6 +19,7 @@ import { SummaryService } from '../../../services/page/summary.service';
 import { SummaryModel } from '../../../models/Summary';
 import { LocalizedDatePipe } from "../../../pipes/date.pipe";
 import { RelativeTimePipe } from "../../../pipes/relative-time.pipe";
+import { NavigationStateService } from '../../../services/global/navigation-state.service';
 
 @Component({
     selector: 'app-home',
@@ -51,6 +52,8 @@ import { RelativeTimePipe } from "../../../pipes/relative-time.pipe";
 })
 export class HomeComponent {
     private summaryService = inject(SummaryService);
+    private navService = inject(NavigationStateService)
+    
     constructor(private bookService: BookService, private router: Router, private datePipe: DatePipe, private authService: AuthService) { }
     books: BookModel[] = [];
     summaries: SummaryModel[] = [];
@@ -90,12 +93,9 @@ export class HomeComponent {
         });
     }
 
-    navigateToBook(bookId: string) {
-        this.router.navigate(['/book-item', bookId]);
-    }
-
-    navigateToSummary(summaryId: string | number) {
-        this.router.navigate(['/summary-item', summaryId]);
+    navigateToPage(_route: string, _id: string) {
+        this.navService.setState('/'+_route, _id.toString(), '')
+        this.router.navigate([_route]);
     }
 
     formatDate(date: any) {
