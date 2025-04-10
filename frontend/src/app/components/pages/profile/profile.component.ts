@@ -17,6 +17,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { bottts } from '@dicebear/collection';
 import { createAvatar } from '@dicebear/core';
+import { NavigationStateService } from '../../../services/global/navigation-state.service';
 
 @Component({
     selector: 'app-profile',
@@ -41,6 +42,7 @@ import { createAvatar } from '@dicebear/core';
 export class ProfileComponent {
     private authService = inject(AuthService);
     private userService = inject(UserService);
+    private navService = inject(NavigationStateService);
     readonly dialog = inject(MatDialog);
     private route = inject(ActivatedRoute);
     private router = inject(Router);
@@ -56,8 +58,8 @@ export class ProfileComponent {
     roleDataHead: string = "";
 
     ngOnInit() {
-        this.route.paramMap.subscribe(param =>{
-            this.userId = param.get('id')!;
+        this.navService.getStateObservable('/profile').subscribe(state =>{
+            this.userId = state?.id!;
             this.userService.getUserById(this.userId!).subscribe({
                 next: (user: UserModel) =>{                
                     this.user = user;

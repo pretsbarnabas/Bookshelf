@@ -132,11 +132,11 @@ describe('BookDisplayComponent', () => {
     it('Should navigate correctly to child page', () => {
         component.mode = 'books';
         component.navigateToBook('testBook');
-        expect(router.navigate).toHaveBeenCalledWith(['/book-item', 'testBook']);
+        expect(router.navigate).toHaveBeenCalledWith(['/book-item']);
 
         component.mode = 'summaries';
         component.navigateToBook('testSummary');
-        expect(router.navigate).toHaveBeenCalledWith(['/summary-item', 'testSummary']);
+        expect(router.navigate).toHaveBeenCalledWith(['/summary-item']);
     });
 
     it('Should navigate to create correctly', () => {

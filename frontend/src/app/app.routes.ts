@@ -9,7 +9,7 @@ export const routes: Routes = [
     { path: 'books', loadComponent: () => import('./components/pages/books/books.component').then(m => m.BooksComponent), title: 'BOOKS.TITLE' },
     { path: 'summaries', loadComponent: () => import('./components/pages/summaries/summaries.component').then(m => m.SummariesComponent), title: 'SUMMARIES.TITLE' },
     { path: 'mylist', loadComponent: () => import('./components/pages/mylist/mylist.component').then(m => m.MylistComponent), canActivate: [authGuard], title: 'MYLIST.TITLE' },
-    { path: 'profile/:id', loadComponent: () => import('./components/pages/profile/profile.component').then(m => m.ProfileComponent), canActivate: [authGuard], title: 'PROFILE.TITLE' },
+    { path: 'profile', loadComponent: () => import('./components/pages/profile/profile.component').then(m => m.ProfileComponent), canActivate: [authGuard], title: 'PROFILE.TITLE' },
     { path: 'admin', loadComponent: () => import('./components/pages/admin/admin.component').then(m => m.AdminComponent), canActivate: [authGuard], title: 'ADMIN.TITLE' },
     {
         path: 'auth', canActivate: [authGuard],
@@ -21,8 +21,8 @@ export const routes: Routes = [
         ]
     },
     // non-visible routes
-    { path: 'book-item/:id', loadComponent: () => import('./components/pages/book-item/book-item.component').then(m => m.BookItemComponent), title: 'BOOKITEM.TITLE' },
-    { path: 'summary-item/:id', loadComponent: () => import('./components/pages/summary-item/summary-item.component').then(m => m.SummaryItemComponent), title: 'SUMMARYITEM.TITLE' },
+    { path: 'book-item', loadComponent: () => import('./components/pages/book-item/book-item.component').then(m => m.BookItemComponent), title: 'BOOKITEM.TITLE' },
+    { path: 'summary-item', loadComponent: () => import('./components/pages/summary-item/summary-item.component').then(m => m.SummaryItemComponent), title: 'SUMMARYITEM.TITLE' },
     { path: 'create', canActivate: [authGuard],
         children:[
             { path: '', redirectTo: '404', pathMatch: 'full' },

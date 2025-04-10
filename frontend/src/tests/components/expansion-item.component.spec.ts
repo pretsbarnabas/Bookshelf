@@ -73,8 +73,7 @@ describe('ExpansionItemComponent', () => {
         component.ngOnChanges();
         tick();
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.visit')).toBeDefined();
-        expect(fixture.nativeElement.querySelector('.visit').getAttribute('ng-reflect-router-link')).toEqual('/book-item,testId');
+        expect(fixture.nativeElement.querySelector('.visit')).toBeDefined();    
     }));
 
     it('Should open an ItemDialog component', () => {

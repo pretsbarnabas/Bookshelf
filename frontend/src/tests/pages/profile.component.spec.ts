@@ -52,10 +52,6 @@ describe('ProfileComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('Should set userId from paramMap', () => {
-        expect(component.userId).toEqual('testId');
-    });
-
     it('Should update user data when auth service emits', fakeAsync(() => {        
         const testUser = { username: 'test', role: 'user' } as UserModel;
 
