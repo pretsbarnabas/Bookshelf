@@ -73,8 +73,8 @@ export class ExpansionItemComponent {
         })
     }
 
-    navigateToProfile(_id: string | number) {
-        this.navService.setState('/profile', _id.toString(), '')
-        this.router.navigate(['profile']);
+    navigateToPage(_route: string, _id: string | number) {
+        this.navService.setState('/'+_route, _id.toString(), '')
+        this.router.navigate([_route]);
     }
 }

@@ -6,7 +6,7 @@
                 <mat-divider />
                 @for (book of this.books; track $index) {
                 <div class="col-12 col-lg-6 mb-4 mx-auto">
-                    <mat-card class="w-100 card-holder" (click)="this.navigateToBook(book._id)"
+                    <mat-card class="w-100 card-holder" (click)="this.navigateToPage('book-item', book._id)"
                         [matTooltip]="this.isMdOrBeyond ? book.title : null" [matTooltipPosition]="'below'">
                         <mat-card-content>
                             <mat-card class="book-card" appearance="outlined">
@@ -38,7 +38,7 @@
                 <mat-divider />
                 @for (summary of this.summaries; track $index) {
                 <div class="col-12 col-lg-6 mb-4 mx-auto">
-                    <mat-card class="w-100 card-holder" (click)="this.navigateToSummary(summary._id)"
+                    <mat-card class="w-100 card-holder" (click)="this.navigateToPage('summary-item', summary._id)"
                         [matTooltip]="this.isMdOrBeyond ? summary.book.title : null" [matTooltipPosition]="'below'">
                         <mat-card-content>
                             <mat-card class="book-card" appearance="outlined">

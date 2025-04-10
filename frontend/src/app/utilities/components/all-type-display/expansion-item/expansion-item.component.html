@@ -5,17 +5,17 @@
 
                 <ng-container *ngIf="payload?.type ==='book' || payload?.item.book || payload?.type === 'user'">
                     @if(payload?.type === 'book'){
-                    <button mat-mini-fab [routerLink]="['/book-item', this.payload?.item._id]" class="visit me-1"
+                    <button mat-mini-fab (click)="this.navigateToPage('book-item', this.payload?.item._id)" class="visit me-1"
                         (click)="$event.stopPropagation()">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
                     } @if(payload?.item.book){
-                    <button mat-mini-fab [routerLink]="['/book-item', this.payload?.item.book._id]" class="visit me-1"
+                    <button mat-mini-fab (click)="this.navigateToPage('book-item', this.payload?.item.book._id)" class="visit me-1"
                         (click)="$event.stopPropagation()">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
                     } @if(payload?.type === 'user'){
-                        <button mat-mini-fab (click)="this.navigateToProfile(payload?.item._id)" class="visit me-1"
+                        <button mat-mini-fab (click)="this.navigateToPage('profile', this.payload?.item._id)" class="visit me-1"
                         (click)="$event.stopPropagation()">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
