@@ -67,7 +67,7 @@ export class BookDisplayComponent {
     isMdOrBeyond: boolean = false;
     user: UserModel | null = null;
 
-    maxPages: number = 0;
+    maxPages: number = 1;
     currentPageIndex = 0;
     pageSize = 10;
 
