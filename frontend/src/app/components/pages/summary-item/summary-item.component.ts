@@ -44,4 +44,8 @@ export class SummaryItemComponent {
     onBack() {
        this.router.navigate(['/summaries']);
     }
+
+    navigateToProfile(_id: string | number) {
+        this.router.navigate(['profile', _id]);
+    }
 }

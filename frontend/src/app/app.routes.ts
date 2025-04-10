@@ -9,7 +9,7 @@ export const routes: Routes = [
     { path: 'books', loadComponent: () => import('./components/pages/books/books.component').then(m => m.BooksComponent), title: 'BOOKS.TITLE' },
     { path: 'summaries', loadComponent: () => import('./components/pages/summaries/summaries.component').then(m => m.SummariesComponent), title: 'SUMMARIES.TITLE' },
     { path: 'mylist', loadComponent: () => import('./components/pages/mylist/mylist.component').then(m => m.MylistComponent), canActivate: [authGuard], title: 'MYLIST.TITLE' },
-    { path: 'profile', loadComponent: () => import('./components/pages/profile/profile.component').then(m => m.ProfileComponent), canActivate: [authGuard], title: 'PROFILE.TITLE' },
+    { path: 'profile/:id', loadComponent: () => import('./components/pages/profile/profile.component').then(m => m.ProfileComponent), canActivate: [authGuard], title: 'PROFILE.TITLE' },
     { path: 'admin', loadComponent: () => import('./components/pages/admin/admin.component').then(m => m.AdminComponent), canActivate: [authGuard], title: 'ADMIN.TITLE' },
     {
         path: 'auth', canActivate: [authGuard],

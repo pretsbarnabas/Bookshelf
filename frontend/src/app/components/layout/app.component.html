@@ -50,7 +50,7 @@
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                         <router-button
-                            [payload]="{ route: 'profile', icon: 'person', localReference: 'PROFILE.PAGE', isSidenav: true }"
+                            [payload]="{ route: 'profile/' + this.loggedInUser._id, icon: 'person', localReference: 'PROFILE.PAGE', isSidenav: true }"
                             (click)="drawer.opened=false; panel.close()" data-test="profile-button"></router-button>
                         <router-button
                             [payload]="{ route: 'exit', icon: 'exit_to_app', localReference: 'PROFILE.LOGOUT', isSidenav: true }"

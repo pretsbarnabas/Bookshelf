@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, inject, Input, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { TranslatePipe } from '@ngx-translate/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
@@ -61,6 +61,7 @@ import { ExpansionItemComponent } from './expansion-item/expansion-item.componen
 })
 export class AllTypeDisplayComponent {
     @Input() isAdmin: boolean = false;
+    @Input() observedProfileId?: string | number;
 
     private authService = inject(AuthService);
     private userService = inject(UserService);
@@ -87,6 +88,7 @@ export class AllTypeDisplayComponent {
 
     errorMessages: HttpErrorResponse[] = [];
     @ViewChild('errorAlert', { static: false }) errorAlert!: ElementRef;
+    @ViewChild('tabGroup') tabGroup!: MatTabGroup;
 
     private fetchMapping = {
         users: {
@@ -94,19 +96,19 @@ export class AllTypeDisplayComponent {
             type: 'user' as const
         },
         books: {
-            fn: () => this.bookService.getAllBooks(this.pageSize, this.currentPageIndex, !this.isAdmin ? this.loggedInUser?._id : '') as any,
+            fn: () => this.bookService.getAllBooks(this.pageSize, this.currentPageIndex, !this.isAdmin ? (this.observedProfileId ?? this.loggedInUser?._id) : '') as any,
             type: 'book' as const
         },
         reviews: {
-            fn: () => this.reviewService.getAllReviews(this.pageSize, this.currentPageIndex, !this.isAdmin ? this.loggedInUser?._id : '') as any,
+            fn: () => this.reviewService.getAllReviews(this.pageSize, this.currentPageIndex, !this.isAdmin ? (this.observedProfileId ?? this.loggedInUser?._id) : '') as any,
             type: 'review' as const
         },
         summaries: {
-            fn: () => this.summaryService.getAllSummaries(this.pageSize, this.currentPageIndex, !this.isAdmin ? this.loggedInUser?._id : '') as any,
+            fn: () => this.summaryService.getAllSummaries(this.pageSize, this.currentPageIndex, !this.isAdmin ? (this.observedProfileId ?? this.loggedInUser?._id) : '') as any,
             type: 'summary' as const
         },
         comments: {
-            fn: () => this.commentService.getAllcomments(this.pageSize, this.currentPageIndex, !this.isAdmin ? this.loggedInUser?._id : '') as any,
+            fn: () => this.commentService.getAllcomments(this.pageSize, this.currentPageIndex, !this.isAdmin ? (this.observedProfileId ?? this.loggedInUser?._id) : '') as any,
             type: 'comment' as const
         }
     };
@@ -173,11 +175,21 @@ export class AllTypeDisplayComponent {
         this.changePaginatedArray(this.currentArrayType);
     }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['observedProfileId'] && !changes['observedProfileId'].firstChange) {
+            this.ngOnInit();
+            if (this.tabGroup) {
+                this.tabGroup.selectedIndex = 0;
+            }
+        }
+    }
+
     changePaginatedArray(arrayKey: 'users' | 'books' | 'reviews' | 'summaries' | 'comments'): void {
         this.errorMessages = [];
         this.currentArrayInPaginator = [];
         if (this.currentArrayType !== arrayKey) {
             this.currentPageIndex = 0;
+            this.maxPages = 1;
             this.currentSortSettings = { field: '', mode: 'asc' };
         }
         this.currentArrayType = arrayKey;

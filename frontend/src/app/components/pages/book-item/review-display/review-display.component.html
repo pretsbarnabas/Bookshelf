@@ -1,8 +1,8 @@
 <div class="row w-100">
     <div class="col-12 col-lg-3 ms-0">
         <div class="ms-2">
-            <img class="user-profile-picture" [src]="this.review?.user?.imageUrl ?? this.review?.user?.profile_image" />
-            <span class="username">{{ this.review?.user?.username }}</span>
+            <img class="user-profile-picture selectable" [src]="this.review?.user?.imageUrl ?? this.review?.user?.profile_image" (click)="this.navigateToProfile(this.review?.user?._id!)"/>
+            <span class="username selectable" (click)="this.navigateToProfile(this.review?.user?._id!)">{{ this.review?.user?.username }}</span>
         </div>
     </div>
     <div class="col-12 col-lg-7 ms-0 p-0">
@@ -89,7 +89,7 @@
     </p>
     <div class="row w-100 ps-3">
         <div class="col-3 col-sm-2 col-lg-1 p-0">
-            <img class="user-profile-picture" [src]="comment.user!.imageUrl ?? comment.user.profile_image" />
+            <img class="user-profile-picture selectable" [src]="comment.user!.imageUrl ?? comment.user.profile_image" (click)="this.navigateToProfile(comment.user._id!)"/>
         </div>
         @if(comment.user._id === this.user?._id){
         <div class="col-7" fxHide.gt-sm></div>

@@ -38,3 +38,10 @@ button.delete {
 button:disabled {
     color: inherit !important;
 }
+
+.selectable:hover{
+    text-decoration: underline;
+    cursor: pointer;
+    transition-duration: 250ms;    
+    transform: scale(1.1);
+}
