@@ -78,6 +78,28 @@ describe('Testing the navbar component', () => {
     })
 })
 
+describe('Testing the footer component', () => {
+    beforeEach(() => {
+        cy.setLangToEn();
+        cy.visit("http://localhost:4200/home")
+    })
+
+    it('Should contain book.gif', () => {
+        cy.get('#book-gif').should('exist')
+            .should('have.attr', 'src')
+            .and('include', './assets/images/book.gif')
+    })
+
+    it('Should contain a quote', () => {
+        cy.get('#quote')
+            .should('exist')
+            .invoke('text')
+            .then((text) => {
+                expect(text.trim().length).to.be.greaterThan(0);
+            });
+    })
+})
+
 function testRouterButton(btn) {
     cy.get(`[data-cy="navbar-routeBtn-${btn}"]`).as('btn')
     cy.get('@btn').should('exist')
