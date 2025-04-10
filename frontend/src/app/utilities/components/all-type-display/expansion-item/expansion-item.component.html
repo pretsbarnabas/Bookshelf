@@ -3,14 +3,19 @@
         <div class="row w-100">
             <div class="d-flex justify-content-end align-item-center p-0">
 
-                <ng-container *ngIf="payload?.type ==='book' || payload?.item.book ">
+                <ng-container *ngIf="payload?.type ==='book' || payload?.item.book || payload?.type === 'user'">
                     @if(payload?.type === 'book'){
                     <button mat-mini-fab [routerLink]="['/book-item', this.payload?.item._id]" class="visit me-1"
                         (click)="$event.stopPropagation()">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
-                    } @else{
+                    } @if(payload?.item.book){
                     <button mat-mini-fab [routerLink]="['/book-item', this.payload?.item.book._id]" class="visit me-1"
+                        (click)="$event.stopPropagation()">
+                        <mat-icon class="mx-auto">open_in_new</mat-icon>
+                    </button>
+                    } @if(payload?.type === 'user'){
+                        <button mat-mini-fab [routerLink]="['/profile', this.payload?.item._id]" class="visit me-1"
                         (click)="$event.stopPropagation()">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
