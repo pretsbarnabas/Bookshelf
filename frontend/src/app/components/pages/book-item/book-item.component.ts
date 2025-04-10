@@ -28,6 +28,7 @@ import { bottts } from '@dicebear/collection';
 import { CustomPaginatorComponent } from '../../../utilities/components/custom-paginator/custom-paginator.component';
 import { ReviewDisplayComponent } from './review-display/review-display.component';
 import { SortItems } from '../../../utilities/components/sort-items';
+import { NavigationStateService } from '../../../services/global/navigation-state.service';
 
 
 @Component({
@@ -56,6 +57,7 @@ import { SortItems } from '../../../utilities/components/sort-items';
 export class BookItemComponent implements OnInit {
     private translationService = inject(TranslationService);
     private router = inject(Router);
+    private navService = inject(NavigationStateService)
 
     public book: any;
     public color: string = 'accent';
@@ -94,7 +96,9 @@ export class BookItemComponent implements OnInit {
     }
     ngOnInit() {
         this.uniqueIds = [];
-        this.bookId = this.route.snapshot.paramMap.get('id');
+        this.navService.getStateObservable('/book-item')?.subscribe(state =>
+            this.bookId = state?.id
+        );
         if (this.bookId) {
             this.bookService.getBookById(this.bookId).subscribe(book => {
                 this.book = book;

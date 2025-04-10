@@ -12,7 +12,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ItemDialogComponent } from './item-dialog/item-dialog.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { RelativeTimePipe } from '../../../../pipes/relative-time.pipe';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { NavigationStateService } from '../../../../services/global/navigation-state.service';
 
 @Component({
     selector: 'expansion-item',
@@ -35,6 +36,8 @@ import { RouterModule } from '@angular/router';
 })
 export class ExpansionItemComponent {
     readonly dialog = inject(MatDialog);
+    private router = inject(Router);
+    private navService = inject(NavigationStateService)
 
     @Input() payload?: { type: 'user' | 'book' | 'review' | 'summary' | 'comment', item: any, isAdminPage?: boolean, observedProfileId?: string | number };
     @Output() onDialogResultTrue = new EventEmitter<{ dialogType: 'delete' | 'edit' | 'roleEdit', item: any, modifiedItem?: any }>();
@@ -68,5 +71,10 @@ export class ExpansionItemComponent {
             if (result.result === true)
                 this.onDialogResultTrue.emit({ dialogType: type, item: this.payload?.item, modifiedItem: result.modifiedData })
         })
+    }
+
+    navigateToProfile(_id: string | number) {
+        this.navService.setState('/profile', _id.toString(), '')
+        this.router.navigate(['profile']);
     }
 }

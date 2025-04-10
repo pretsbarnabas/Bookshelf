@@ -192,7 +192,7 @@ export class AllTypeDisplayComponent {
             this.maxPages = 1;
             this.currentSortSettings = { field: '', mode: 'asc' };
         }
-        this.currentArrayType = arrayKey;
+        this.currentArrayType = arrayKey;    
         this.fetchItems(arrayKey);
         this.animate = !this.animate;
     }

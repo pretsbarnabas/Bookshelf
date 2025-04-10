@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import { NavigationStateService } from '../../../services/global/navigation-state.service';
 
 
 @Component({
@@ -22,7 +23,8 @@ import { TranslatePipe } from '@ngx-translate/core';
     encapsulation: ViewEncapsulation.None
 })
 export class RouterButtonComponent {
-    @Input() payload?: { route: string, icon?: string, localReference: string, isMatMenu?: boolean, isSidenav?: boolean };
+    private navService = inject(NavigationStateService);
+    @Input() payload?: { route: string, icon?: string, localReference: string, isMatMenu?: boolean, isSidenav?: boolean, userId?: string | number };
 
     constructor(
         private router: Router,
@@ -45,5 +47,10 @@ export class RouterButtonComponent {
         if (route)
             return this.activeRoute.startsWith(route);
         return false
+    }
+
+    navigateToProfile() {
+        this.navService.setState('/profile', this.payload?.userId!.toString()!, '')
+        this.router.navigate(['profile']);
     }
 }

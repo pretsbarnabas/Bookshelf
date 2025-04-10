@@ -15,7 +15,7 @@
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
                     } @if(payload?.type === 'user'){
-                        <button mat-mini-fab [routerLink]="['/profile', this.payload?.item._id]" class="visit me-1"
+                        <button mat-mini-fab (click)="this.navigateToProfile(payload?.item._id)" class="visit me-1"
                         (click)="$event.stopPropagation()">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
