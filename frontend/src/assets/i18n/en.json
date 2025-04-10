@@ -251,7 +251,8 @@
             }
         },
         "LIST": {
-            "HEADER": "Your timeline"
+            "HEADER": "Your timeline",
+            "OBSERVED": "'s timeline"
         }
     },
     "ADMIN": {

@@ -32,7 +32,7 @@
                     <mat-card-header class="p-2">
                         <mat-card class="w-100 p-2">
                             <h2>{{ 'SUMMARYITEM.FOR' | translate}}: <i>{{ this.summary!.book.title }}</i></h2>
-                            <p>{{ 'SUMMARIES.BY' | translate}}: {{ this.summary!.user.username }}</p>
+                            <p>{{ 'SUMMARIES.BY' | translate}}: <span class="selectable" (click)="this.navigateToProfile(this.summary.user._id)">{{ this.summary!.user.username }}</span></p>
                             <p>{{ this.summary!.updated_at | localizedDate }}</p>
                             <mat-card-content class="summary-content p-4">
                                 <p>{{ this.summary!.content }}</p>

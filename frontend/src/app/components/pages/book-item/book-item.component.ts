@@ -195,7 +195,7 @@ export class BookItemComponent implements OnInit {
 
     navigateToCreate() {
         this.router.navigate(['create/summary', this.book._id]);
-    }
+    }    
 }
 export enum StarRatingColor {
     primary = "primary",

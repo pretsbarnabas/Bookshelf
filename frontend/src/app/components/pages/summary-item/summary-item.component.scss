@@ -8,3 +8,8 @@
     aspect-ratio: 3 / 4;
     object-fit: cover;
 }
+
+.selectable:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}

@@ -20,6 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DisplayLikesDialogComponent } from './display-likes-dialog/display-likes-dialog.component';
 import { createAvatar } from '@dicebear/core';
 import { bottts } from '@dicebear/collection';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'review-display',
@@ -46,6 +47,7 @@ export class ReviewDisplayComponent {
     private reviewService = inject(ReviewService);
     private commentService = inject(CommentService);
     private fb = inject(FormBuilder);
+    private router = inject(Router);
     readonly dialog = inject(MatDialog);
     @Input() review?: ReviewModel;
 
@@ -83,7 +85,7 @@ export class ReviewDisplayComponent {
         this.commentService.getAllcomments(this.commentSampleSize, 0, undefined, this.review?._id).subscribe({
             next: (result) => {
                 result.data.forEach((comment) => {
-                    if(comment.user.imageUrl === undefined || comment.user.imageUrl === null)
+                    if (comment.user.imageUrl === undefined || comment.user.imageUrl === null)
                         comment.user.imageUrl = createAvatar(bottts, { seed: comment.user.username }).toDataUri();
                     comment.likedBy = [];
                     comment.dislikedBy = [];
@@ -259,7 +261,16 @@ export class ReviewDisplayComponent {
             data: {
                 likes: _likes,
                 dislikes: _dilikes,
-            }
+            },
         });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result && result.navigateTo)
+                this.navigateToProfile(result.navigateTo);
+        });
+
+    }
+
+    navigateToProfile(_id: string | number) {
+        this.router.navigate(['profile', _id]);
     }
 }
