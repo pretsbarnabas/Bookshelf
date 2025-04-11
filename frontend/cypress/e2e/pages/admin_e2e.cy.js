@@ -338,6 +338,12 @@ describe('Testing the Admin page', () => {
                     .forEach(s => testTypeSpecificContent(s));
             })
 
+            it('Should navigate to book-item containing review', () => {
+                cy.get('#mat-expansion-panel-header-41 > .mat-content > .row > .justify-content-end > [data-cy="ei-btn-visitreview"] > .mat-icon')
+                    .click()
+                cy.url().should('eq', 'http://localhost:4200/book-item')
+            })
+
             it('Should edit review', () => {
                 cy.intercept({ method: "PUT", url: "**/api/reviews/**" }, { statusCode: 200, body: {} }).as("updateReview")
                 cy.get(`[data-cy="ei-treview-score"]`)
