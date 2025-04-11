@@ -322,6 +322,60 @@ describe('Testing the Admin page', () => {
                 cy.wait('@deleteComment')
             })
         })
+
+        describe('Review type', () => {
+            beforeEach(() => {
+                testNavigation('allt-tab-reviews', 'allt-tabcontent-reviews');
+            })
+
+            it('Should contain review type specific fields', () => {
+                [
+                    'ei-btn-visitreview', 'ei-btn-edit', 'ei-btn-delete',
+                    'ei-treview-score'
+                ].forEach(s => testTypeSpecificContent(s));
+                cy.get('#mat-expansion-panel-header-41').click();
+                ['ei-treview-userid', 'ei-treview-username', 'ei-treview-content']
+                    .forEach(s => testTypeSpecificContent(s));
+            })
+
+            it('Should edit review', () => {
+                cy.intercept({ method: "PUT", url: "**/api/reviews/**" }, { statusCode: 200, body: {} }).as("updateReview")
+                cy.get(`[data-cy="ei-treview-score"]`)
+                    .as('reviewScore')
+                    .should('contain.text', '7')
+                cy.get('#mat-expansion-panel-header-41 > .mat-content > .row > .d-flex > [data-cy="ei-btn-edit"] > .mat-icon')
+                    .click()
+                cy.get(`[data-cy="itemd-edit-header"]`)
+                    .as('itemDialog')
+                    .should('exist')
+                    .should('contain.text', 'Edit item')
+                cy.get("input").eq(0).as("scoreInput")
+                    .should('exist')
+                    .clear()
+                    .type('10')
+                cy.get(`[data-cy="itemd-edit-save"]`)
+                    .as('saveButton')
+                    .should('exist')
+                    .click({ force: true })
+                cy.wait('@updateReview');
+                cy.wait(150);
+                cy.closeSnackBar();
+            })
+
+            it('Should delete review', () => {
+                cy.intercept({ method: "DELETE", url: "**/api/reviews/**" }, { statusCode: 200, body: {} }).as("deleteReview")
+                cy.get('#mat-expansion-panel-header-41 > .mat-content > .row > .justify-content-end > [data-cy="ei-btn-delete"] > .mat-icon')
+                    .should('exist')
+                    .click({ force: true })
+                cy.get(`[data-cy="itemd-delete-header"]`)
+                    .should('exist')
+                    .should('contain.text', 'Delete?')
+                cy.get(`[data-cy="itemd-btn-delete"]`)
+                    .should('exist')
+                    .click({ force: true })
+                cy.wait('@deleteReview')
+            })
+        })
     })
 })
 

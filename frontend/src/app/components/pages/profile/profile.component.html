@@ -39,7 +39,7 @@
                     <div class="col-12 col-lg-9">                        
                         <h1 class="text-center" *ngIf="this.userId === this.loggedInUser?._id">{{ 'PROFILE.LIST.HEADER' | translate }}</h1>
                         <h1 class="text-center" *ngIf="this.userId !== this.loggedInUser?._id">{{ this.user?.username }}{{ 'PROFILE.LIST.OBSERVED' | translate }}</h1>
-                        <all-type-display [observedProfile]="this.loggedInUser?._id === user?._id ? undefined : {id: user!._id, role: user!.role }"/>
+                        <all-type-display [observedProfile]="this.loggedInUser?._id === user?._id ? undefined : {id: user?._id!, role: user?.role! }"/>
                     </div>
                 </div>
             </mat-card-content>

@@ -9,7 +9,7 @@
                         class="visit me-1" (click)="$event.stopPropagation()" [attr.data-cy]="'ei-btn-visitbook'">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
-                    } @if(payload?.item.book){
+                    } @if(payload?.type === 'summary'){
                     <button mat-mini-fab (click)="this.navigateToPage('summary-item', this.payload?.item._id)"
                         class="visit me-1" (click)="$event.stopPropagation()" [attr.data-cy]="'ei-btn-visitsummary'">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
@@ -17,6 +17,11 @@
                     } @if(payload?.type === 'user'){
                     <button mat-mini-fab (click)="this.navigateToPage('profile', this.payload?.item._id)"
                         class="visit me-1" (click)="$event.stopPropagation()" [attr.data-cy]="'ei-btn-visitprofile'">
+                        <mat-icon class="mx-auto">open_in_new</mat-icon>
+                    </button>
+                    }@if(payload?.type === 'review'){
+                    <button mat-mini-fab (click)="this.navigateToPage('book-item', this.payload?.item.book._id)"
+                        class="visit me-1" (click)="$event.stopPropagation()" [attr.data-cy]="'ei-btn-visitreview'">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
                     }
@@ -182,7 +187,7 @@
                     <div class="row">
                         <div class="col-12 col-sm-4 col-md-3 d-flex mb-2 p-3">
                             <img [src]="payload?.item.imageUrl ?? './assets/images/no-cover.svg'" alt="Book Cover Image"
-                                class="mx-auto my-auto book-cover" [attr.data-cy]="'ei-tbook-img'"/>
+                                class="mx-auto my-auto book-cover" [attr.data-cy]="'ei-tbook-img'" />
                         </div>
                         <div class="col-12 col-sm-8 col-md-9">
                             <div class="row text-center">
@@ -201,7 +206,8 @@
                                 <p class="col-12"><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.DESC' | translate
                                         }}</b></p>
                                 <hr class="m-0" />
-                                <p class="desc mt-1" [attr.data-cy]="'ei-tbook-desc'">{{ payload?.item.description }}</p>
+                                <p class="desc mt-1" [attr.data-cy]="'ei-tbook-desc'">{{ payload?.item.description }}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -220,11 +226,13 @@
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.ADDED', date: payload?.item.created_at }"></ng-container>
                         <ng-container
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.UPDATED', date: payload?.item.updated_at }"></ng-container>
-                        <div class="col-12 col-sm-6 col-lg-3 mx-auto" *ngIf="this.payload?.isAdminPage">
+                        <div class="col-12 col-sm-6 col-lg-3 mx-auto" *ngIf="this.payload?.isAdminPage"
+                            [attr.data-cy]="'ei-treview-userid'">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.USERID' | translate }}: </b>
                             <i>{{ payload?.item.user._id }}</i>
                         </div>
-                        <div class="col-12 col-sm-6 col-lg-3 mx-auto" *ngIf="this.payload?.isAdminPage">
+                        <div class="col-12 col-sm-6 col-lg-3 mx-auto" *ngIf="this.payload?.isAdminPage"
+                            [attr.data-cy]="'ei-treview-username'">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.USERNAME' | translate }}: </b>
                             <i>{{ payload?.item.user.username }}</i>
                         </div>
@@ -239,7 +247,7 @@
                     <div class="row text-center">
                         <p><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.CONTENT' | translate }}</b></p>
                         <hr class="m-0" />
-                        <p class="desc mt-1">{{ payload?.item.content }}</p>
+                        <p class="desc mt-1" [attr.data-cy]="'ei-treview-content'">{{ payload?.item.content }}</p>
                     </div>
                 </mat-card-content>
             </mat-card>
@@ -259,11 +267,13 @@
                         </div>
                         <ng-container
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.UPDATED', date: payload?.item.updated_at }"></ng-container>
-                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage" [attr.data-cy]="'ei-tsummary-username'">
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage"
+                            [attr.data-cy]="'ei-tsummary-username'">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.USERNAME' | translate }}: </b>
                             <i>{{ payload?.item.user.username }}</i>
                         </div>
-                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage" [attr.data-cy]="'ei-tsummary-userid'">
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage"
+                            [attr.data-cy]="'ei-tsummary-userid'">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.USERID' | translate }}: </b>
                             <i>{{ payload?.item.user._id }}</i>
                         </div>

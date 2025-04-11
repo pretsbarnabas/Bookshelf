@@ -110,7 +110,7 @@ export class ReviewDisplayComponent {
                 this.comments = result.data;
             },
             error: (err) => {
-                console.log(err);
+                
             },
         })
     }
@@ -163,7 +163,7 @@ export class ReviewDisplayComponent {
                     }, 1000);
                 },
                 error: (err) => {
-                    console.log(err);
+                    
                 },
             })
         }
@@ -178,7 +178,7 @@ export class ReviewDisplayComponent {
                     this.getComments();
                 },
                 error: (err) => {
-                    console.log(err);
+                    
                 },
             })
         }
@@ -204,7 +204,7 @@ export class ReviewDisplayComponent {
                     }, 1000);
                 },
                 error: (err) => {
-                    console.log(err);
+                    
                 },
             })
         }

@@ -94,9 +94,9 @@ export class ProfileComponent {
                 this.authService.logOut();
                 this.userService.deleteUser(userId)?.subscribe({
                     next: async (response) => {
-                        console.log(response)
+                        
                     },
-                    error: (err: HttpErrorResponse) => console.log(err)
+                    error: (err: HttpErrorResponse) => {}
                 });
             }
             if (result.result === true) {
@@ -104,7 +104,7 @@ export class ProfileComponent {
                     next: async (response) => {                                          
                         window.location.reload();                        
                     },
-                    error: (err: HttpErrorResponse) => console.log(err)
+                    error: (err: HttpErrorResponse) => {}
                 })
             }
         })
