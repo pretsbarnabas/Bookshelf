@@ -1,0 +1,65 @@
+<div class="wrapper">
+    <div class="wrapper-content">
+        <div class="row w-100 mx-auto mt-5">
+            <mat-card class="col-12 col-lg-6 mx-auto" id="form-card">
+                @if (errorMessages.length > 0) {
+                <div class="alert alert-danger row mt-3" role="alert" #errorAlert>
+                    <div class="col-10">
+                        <ul class="m-0">
+                            @for (error of errorMessages; track $index) {
+                            @if (error.error === "UNEXPECTED") {
+                            <li>{{ 'AUTH.EMSG.UNEXPECTED' | translate }}</li>
+                            } @else if (error.status === 0) {
+                            <li>{{ 'AUTH.EMSG.HTTPERRORRESPONSE' | translate }}</li>
+                            } @else{
+                            <li>{{ error.status }}: {{ error.error.error ?? error.error.message }}</li>
+                            }
+                            }
+                        </ul>
+                    </div>
+                    <div class="col-2 justify-content-center align-items-center d-flex">
+                        <mat-icon>error_outline</mat-icon>
+                    </div>
+                </div>
+                }
+                <mat-card-title class="text-center">
+                    <h1>{{ 'CREATE.TITLE' | translate }}</h1>
+                </mat-card-title>
+                <mat-card-content>
+                    <form [formGroup]="this.form" (ngSubmit)="this.onSubmit()">
+                        <formly-form [fields]="fields" [form]="form" [model]="model" />
+                        <div class="w-50 mx-auto">
+                            <button mat-raised-button class="w-100 mt-4" type="submit" [disabled]="!form.valid">
+                                {{ 'CREATE.TITLE' | translate }}
+                            </button>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+            @if(this.mode === 'book') {
+            <div class="col-12 col-lg-3 mx-auto">
+                <h1 class="text-center">{{ 'CREATE.EXAMPLE' | translate }}:</h1>
+                <mat-card class="w-100 card-holder">
+                    <mat-card-content>
+                        <mat-card class="book-card" appearance="outlined">
+                            <img mat-card-image class="book-image mx-auto" id="create-book-image"
+                                [src]="this.model.image ? this.model.image : 'assets/images/no-cover.svg'"
+                                [alt]="this.model.image || 'Photo of a book'">
+                            <mat-divider class="my-2" />
+                            <mat-card-title class="text-center">
+                                <span class="w-75 truncate-title mx-auto">{{ this.model.title.length > 0 ?
+                                    this.model.title : 'Book Title' }}</span>
+                            </mat-card-title>
+                            <mat-card-subtitle class="text-center">{{ this.model.author.length > 0 ? this.model.author :
+                                'Author' }}</mat-card-subtitle>
+                            <mat-card-content class="text-center">
+                                <p>{{ formatDate(this.model.release) ?? 'Release date' }}</p>
+                            </mat-card-content>
+                        </mat-card>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            }
+        </div>
+    </div>
+</div>

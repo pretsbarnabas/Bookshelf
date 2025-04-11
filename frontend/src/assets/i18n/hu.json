@@ -39,7 +39,21 @@
     },
     "HOME": {
         "TITLE": "Főoldal",
-        "TEST": "Főoldal"
+        "SUMMARIES": {
+            "HEADER": "Legújabb Összefoglalók",
+            "BUTTON": "Fedezd fel legújabb összefoglalóinkat"
+        },
+        "BOOKS": {
+            "HEADER": "Legújabb Könyvek",
+            "BUTTON": "Fedezd fel legújabb könyveinket"
+        },
+        "NEWCOMERS": {
+            "GREETING": "Üdvözlünk a Bookshelf oldalán!",
+            "JOIN": "Kérlek, jelentkezz be vagy regisztrálj a folytatáshoz.",
+            "DESC": "A Bookshelf hisz abban, hogy minden könyv megérdemli a saját hangját. Platformunk lehetővé teszi, hogy értékeld, véleményezd és felfedezd a könyvek összefoglalóit, segítve az olvasókat rejtett kincsek megtalálásában. Csatlakozz közösségünkhöz, hogy megoszthasd gondolataidat, megtaláld következő kedvenc olvasmányodat, és alakítsd az irodalom világát – egy véleménycikk egyszerre!",
+            "LOGIN": "Bejelentkezés",
+            "REGISTER": "Regisztráció"
+        }
     },
     "AUTH": {
         "REGISTERTITLE": "Regisztráció",
@@ -113,19 +127,111 @@
         }
     },
     "BOOKS": {
-        "TITLE": "Könyvek"
+        "TITLE": "Könyvek",
+        "HEADER": "Kínálatunk",
+        "SEARCHBAR": {
+            "BUTTON": "Keresés"
+        },
+        "ADD": "Új Könyv Hozzáadása"
     },
     "BOOKITEM": {
-        "TITLE": "Részletek"
+        "TITLE": "Részletek",
+        "BOOKCARD": {
+            "AUTHOR": "Szerző",
+            "RELEASE": "Megjelenés dátuma",
+            "GENRE": "Műfaj",
+            "CONTENT": "Tartalom",
+            "RATED": "Értékelésed",
+            "SUBMIT": "Beküldés"
+        },
+        "REVIEWS": "Vélemények",
+        "COMMENT": {
+            "REPLY": "Válasz",
+            "PLACEHOLDER": "Hagyj egy hozzászólást",
+            "EDITED": "szerkesztve",
+            "CANCEL": "Mégse",
+            "SUBMIT": "Hozzászólás",
+            "EDIT": "Módosítás",
+            "SHOW": "Hozzászólások megjelenítése",
+            "HIDE": "Hozzászólások elrejtése",
+            "MORE": "Több megjelenítése",
+            "LESS": "Kevesebb megjelenítése"
+        },
+        "DIALOG": {
+            "SHOW": "Kedvelők megtekintése",
+            "LIKES": "Kedvelések",
+            "DISLIKES": "Nem kedvelések",
+            "CLOSE": "Bezárás"
+        },
+        "NOREVIEWS": "Még nincs vélemény, de bármikor megírhatod a sajátodat!",
+        "SNACKBAR": {
+            "RATED": "Értékelésed",
+            "SUBMITTED": "Vélemény sikeresen beküldve",
+            "ALREADYSUBMITTED": "Már beküldtél egy véleményt"
+        },
+        "BACK": "Vissza"
     },
     "SUMMARIES": {
-        "TITLE": "Összefoglalók"
+        "TITLE": "Összefoglalók",
+        "ADD": "Új Összefoglaló Hozzáadása",
+        "BY": "Készítette"
     },
     "SUMMARYITEM": {
-        "TITLE": "Részletek"
+        "TITLE": "Részletek",
+        "FOR": "Összefoglaló"
+    },
+    "CREATE": {
+        "TITLE": "Létrehozás",
+        "EXAMPLE": "Kimeneti példa",
+        "CONTENT": "Tartalom",
+        "GENRES": {
+            "NONE": "Nincs",
+            "ACTION": "Akció",
+            "ADVENTURE": "Kaland",
+            "CHILDREN": "Gyermek",
+            "COMEDY": "Vígjáték",
+            "CRIME": "Bűnügyi",
+            "DETECTIVE": "Nyomozós",
+            "DRAMA": "Dráma",
+            "EROTIC": "Erotikus",
+            "FANTASY": "Fantasy",
+            "HISTORICAL": "Történelmi",
+            "HORROR": "Horror",
+            "LITERARYPROSE": "Irodalmi próza",
+            "MYSTERY": "Rejtély",
+            "PHILOSOPHICAL": "Filozófiai",
+            "POETRY": "Költészet",
+            "RELIGIOUS": "Vallási",
+            "ROMANCE": "Romantikus",
+            "SCIFI": "Sci-fi"
+        }
     },
     "MYLIST": {
-        "TITLE": "Listám"
+        "TITLE": "Listám",
+        "TABS": {
+            "TOREAD": {
+                "LABEL": "Elolvasandó",
+                "START": "Olvasás elkezdése"
+            },
+            "ISREADING": {
+                "LABEL": "Folyamatban",
+                "FINISH": "Olvasás befejezése",
+                "DROP": "Félbehagyás"
+            },
+            "HASREAD": {
+                "LABEL": "Elolvasva",
+                "FAVOURITE": "Kedvencekhez"
+            },
+            "DROPPED": {
+                "LABEL": "Félbehagyott",
+                "START": "Olvasás folytatása"
+            },
+            "FAVOURITE": {
+                "LABEL": "Kedvencek",
+                "DELETE": "Eltávolítás a kedvencek közül"
+            },
+            "DELETE": "Törlés"
+        }
     },
     "PROFILE": {
         "TITLE": "Profil",
@@ -145,7 +251,8 @@
             }
         },
         "LIST": {
-            "HEADER": "Az idővonalad"
+            "HEADER": "Az idővonalad",
+            "OBSERVED": " idővonala"
         }
     },
     "ADMIN": {
@@ -308,11 +415,12 @@
                     "CONTENT": "Tartalom",
                     "ERRORS": {
                         "REQUIRED": "Mező kitöltése kötelező",
+                        "INVALID": "Nem megfelelő formátum",
                         "MAXDATE": "A dátum nem lehet a mainál nagyobb",
                         "SCOREMIN": "Pontszám nem lehet negatív",
                         "SCOREMAX": "Pontszám maximum 10 lehet"
                     }
-                },                
+                },
                 "ROLECHANGE": {
                     "HEADER": "Szerepkör módosítása",
                     "BUTTONNO": "Mégsem",

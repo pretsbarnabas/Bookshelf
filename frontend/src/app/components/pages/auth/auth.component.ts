@@ -197,7 +197,6 @@ export class AuthComponent {
 
     private onError(_error: HttpErrorResponse) {
         this.errorMessages.push(_error);
-        console.log(_error)
         setTimeout(() => {
             this.errorAlert.nativeElement.scrollIntoView({ behavior: 'smooth' });
         });

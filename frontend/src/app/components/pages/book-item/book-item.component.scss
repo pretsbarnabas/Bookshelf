@@ -4,23 +4,13 @@
 
 @media (min-width: 992px) {
     #Book-Details {
-        margin-left: 3rem;
         padding: 0;
+        padding-left: 30px;
     }
 }
 
-.user-profile-picture {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.backButton {
-    margin-top: 2.5rem;
-    margin-bottom: 2.5rem;
-    float: right;
-    border-radius: 20%;
+.book-item-desc {
+    text-align: justify;
 }
 
 .mw-80 {
@@ -40,11 +30,42 @@
     padding: 0;
 }
 
-.starButton {
-    margin-bottom: 1rem;
-    padding: 0;
-    max-width: 20%;
+.existing-review-star {
+    pointer-events: none;
 }
+
+.review-card {
+    margin: 1rem 0;
+    padding: 1rem;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .add-to-booklist-button{
     margin-bottom: 1%;
+}
+
+.starButton {
+    margin: 0 0.25rem;
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+.book-image {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+}
+
+#book-item-submit {
+    background-color: #2196F3;
+    color: white;
+
+    mat-icon {
+        color: white;
+    }
 }

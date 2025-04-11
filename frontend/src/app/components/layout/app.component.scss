@@ -12,7 +12,7 @@ app-footer {
     z-index: 1000;
 }
 
-mat-drawer {
+mat-drawer.app {
     min-width: max-content;
     .sidenav-column {
         display: flex;

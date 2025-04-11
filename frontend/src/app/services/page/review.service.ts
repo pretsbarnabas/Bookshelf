@@ -22,4 +22,16 @@ export class ReviewService {
     updateReview(_id: number | string, data: ReviewModel): Observable<any> {
         return this.crudService.update('reviews', _id, data);
     }
+
+    getLikedBy(_id: number | string): Observable<any> {
+        return this.crudService.getAll(`reviews/${_id}/likedby`);
+    }
+
+    getDislikedBy(_id: number | string): Observable<any> {
+        return this.crudService.getAll(`reviews/${_id}/dislikedby`);
+    }
+
+    putLike(_id: number | string, action: 'like' | 'dislike' | 'delete'): Observable<any> {
+        return this.crudService.update(`reviews/${_id}/like`, undefined, { action });
+    }
 }

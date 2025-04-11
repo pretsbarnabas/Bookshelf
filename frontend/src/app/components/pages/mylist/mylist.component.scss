@@ -59,11 +59,11 @@
 }
 
 .title {
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.1rem;
-  margin-top: 0.5rem;
-  word-break: break-word;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+    word-break: break-word;
 }
 
 @media (max-width: 768px) {
@@ -189,5 +189,3 @@
 .sidenav-toggle-button:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
-
-

@@ -3,8 +3,12 @@ import { FormlyFieldConfig } from "@ngx-formly/core";
 import { firstValueFrom } from "rxjs";
 import { TranslationService } from '../global/translation.service';
 import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { PasswordFieldWrapper } from '../../components/pages/auth/custom-field-wrappers/password-field-wrapper.component';
-import { InputFieldWrapper } from '../../components/pages/auth/custom-field-wrappers/input-field-wrapper.component';
+import { PasswordFieldWrapper } from '../../utilities/custom-field-wrappers/password-field-wrapper.component';
+import { InputFieldWrapper } from '../../utilities/custom-field-wrappers/input-field-wrapper.component';
+import { FileInputFieldWrapper } from '../../utilities/custom-field-wrappers/file-field-wrapper.component';
+import { DateFieldWrapper } from '../../utilities/custom-field-wrappers/date-field-wrapper.component';
+import { TextareaFieldWrapper } from '../../utilities/custom-field-wrappers/textarea-field-wrapper.component';
+import { SelectFieldWrapper } from '../../utilities/custom-field-wrappers/select-field-wrapper.component';
 
 @Injectable({
     providedIn: 'root'
@@ -175,7 +179,7 @@ export class FormService {
                 {
                     name: 'email', label: await firstValueFrom(this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.USER.EMAIL')), type: 'text', validators: [
                         Validators.required,
-                        function email (control: AbstractControl) {
+                        function email(control: AbstractControl) {
                             return (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/).test(control.value);
                         },
                     ],
@@ -247,7 +251,241 @@ export class FormService {
             ]
         };
     }
+    async getCreateFormConfigMapping(): Promise<{ [key: string]: FormlyFieldConfig[] }> {
+        return {
+            book: [
+                {
+                    key: 'image',
+                    wrappers: [FileInputFieldWrapper],
+                    templateOptions: {
+                        label: await firstValueFrom(
+                            this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.IMAGE')
+                        ),
+                        placeholder: '',
+                        required: false,
+                        id: 'image'
+                    }
+                },
+                {
+                    key: 'title',
+                    wrappers: [InputFieldWrapper],
+                    templateOptions: {
+                        label: await firstValueFrom(
+                            this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.TITLE')
+                        ),
+                        placeholder: '',
+                        required: true,
+                        id: 'title'
+                    },
+                    validation: {
+                        messages: {
+                            required: await firstValueFrom(
+                                this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.ERRORS.REQUIRED')
+                            )
+                        }
+                    }
+                },
+                {
+                    key: 'author',
+                    wrappers: [InputFieldWrapper],
+                    templateOptions: {
+                        label: await firstValueFrom(
+                            this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.AUTHOR')
+                        ),
+                        placeholder: '',
+                        required: false,
+                        id: 'author'
+                    }
+                },
+                {
+                    key: 'release',
+                    wrappers: [DateFieldWrapper],
+                    type: 'datepicker',
+                    templateOptions: {
+                        label: await firstValueFrom(
+                            this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.RELEASE')
+                        ),
+                        placeholder: '',
+                        required: false,
+                        id: 'release'
+                    },
+                    validators: {
+                        isdate: (control: AbstractControl) => {
+                            if (control.value === '') return true;
+                            return Date.parse(control.value);
+                        },
+                        maxdate: (control: AbstractControl) => {
+                            if (control.value === '') return true;
+                            return (Date.parse(control.value)) < Date.now();
+                        },
+                    },
+                    validation: {
+                        messages: {
+                            isdate: await firstValueFrom(
+                                this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.ERRORS.INVALID')
+                            ),
+                            maxdate: await firstValueFrom(
+                                this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.ERRORS.MAXDATE')
+                            ),
+                        },
+                    }
+                },
+                {
+                    key: 'genre',
+                    type: 'select',
+                    wrappers: [SelectFieldWrapper],
+                    defaultValue: 'None',
+                    templateOptions: {
+                        label: await firstValueFrom(
+                            this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.GENRE')
+                        ),
+                        options: [
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.NONE')
+                                ), value: 'None'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.ACTION')
+                                ), value: 'Action'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.ADVENTURE')
+                                ), value: 'Adventure'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.CHILDREN')
+                                ), value: 'Children'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.COMEDY')
+                                ), value: 'Comedy'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.CRIME')
+                                ), value: 'Crime'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.DETECTIVE')
+                                ), value: 'Detective'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.DRAMA')
+                                ), value: 'Drama'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.EROTIC')
+                                ), value: 'Erotic'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.FANTASY')
+                                ), value: 'Fantasy'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.HISTORICAL')
+                                ), value: 'Historical'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.HORROR')
+                                ), value: 'Horror'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.LITERARYPROSE')
+                                ), value: 'Literary prose'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.MYSTERY')
+                                ), value: 'Mystery'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.PHILOSOPHICAL')
+                                ), value: 'Philosophical'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.POETRY')
+                                ), value: 'Poetry'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.RELIGIOUS')
+                                ), value: 'Religious'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.ROMANCE')
+                                ), value: 'Romance'
+                            },
+                            {
+                                label: await firstValueFrom(
+                                    this.translationService.service.get('CREATE.GENRES.SCIFI')
+                                ), value: 'SciFi'
+                            },
+                        ],
+                        required: true,
+                        id: 'genre'
+                    }
+                },
+                {
+                    key: 'description',
+                    wrappers: [TextareaFieldWrapper],
+                    templateOptions: {
+                        label: await firstValueFrom(
+                            this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BOOK.DESC')
+                        ),
+                        placeholder: '',
+                        required: true,
+                        id: 'description'
+                    },
+                    validation: {
+                        messages: {
+                            required: await firstValueFrom(
+                                this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.ERRORS.REQUIRED')
+                            )
+                        }
+                    }
+                }
+            ],
+            summary: [
+                {
+                    key: 'content',
+                    wrappers: [TextareaFieldWrapper],
+                    templateOptions: {
+                        label: await firstValueFrom(
+                            this.translationService.service.get('CREATE.CONTENT')
+                        ),
+                        placeholder: '',
+                        required: true,
+                        id: 'content'
+                    },
+                    validation: {
+                        messages: {
+                            required: await firstValueFrom(
+                                this.translationService.service.get('STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.ERRORS.REQUIRED')
+                            )
+                        }
+                    }
+                }
+            ]
+        };
+    }
+
 }
+
 
 export function maxDateValidator(maxDate: Date): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {

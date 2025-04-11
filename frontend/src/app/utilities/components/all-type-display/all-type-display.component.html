@@ -22,7 +22,7 @@
     <custom-paginator [pageSizeOptions]="[5, 10, 25, 50]" [totalPages]="this.maxPages" [pageSize]="this.pageSize"
         [pageIndex]="this.currentPageIndex" [itemType]="this.itemType" [showSortingMenu]="true" [isAdmin]="this.isAdmin"
         (pageChanged)="this.changePage($event)" (sortingChanged)="this.sortItems($event)" />
-    <mat-tab-group (selectedTabChange)="this.onTabChange($event)">
+    <mat-tab-group (selectedTabChange)="this.onTabChange($event)" #tabGroup>
         @if(this.isAdmin){
         <mat-tab id="users" aria-label="users">
             <ng-template mat-tab-label>
@@ -32,7 +32,7 @@
             <mat-accordion>
                 @if(this.currentArrayInPaginator.length > 0){
                 @for (item of this.currentArrayInPaginator; track $index) {
-                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin}"
+                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin, observedProfileId: this.observedProfileId}"
                     (onDialogResultTrue)="this.handleDialogRequest($event)" />
                 }
                 }
@@ -50,7 +50,7 @@
             <mat-accordion>
                 @if(this.currentArrayInPaginator.length > 0){
                 @for (item of this.currentArrayInPaginator; track $index) {
-                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin}"
+                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin, observedProfileId: this.observedProfileId}"
                     (onDialogResultTrue)="this.handleDialogRequest($event)" />
                 }
                 }
@@ -64,7 +64,7 @@
             <mat-accordion>
                 @if(this.currentArrayInPaginator.length > 0){
                 @for (item of this.currentArrayInPaginator; track $index) {
-                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin}"
+                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin, observedProfileId: this.observedProfileId}"
                     (onDialogResultTrue)="this.handleDialogRequest($event)" />
                 }
                 }
@@ -79,7 +79,7 @@
             <mat-accordion>
                 @if(this.currentArrayInPaginator.length > 0){
                 @for (item of this.currentArrayInPaginator; track $index) {
-                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin}"
+                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin, observedProfileId: this.observedProfileId}"
                     (onDialogResultTrue)="this.handleDialogRequest($event)" />
                 }
                 }
@@ -93,7 +93,7 @@
             <mat-accordion>
                 @if(this.currentArrayInPaginator.length > 0){
                 @for (item of this.currentArrayInPaginator; track $index) {
-                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin}"
+                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin, observedProfileId: this.observedProfileId}"
                     (onDialogResultTrue)="this.handleDialogRequest($event)" />
                 }}
             </mat-accordion>

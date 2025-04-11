@@ -6,21 +6,21 @@
                     <div class="col-12 col-lg-3 text-center">
                         <mat-card appearance="outlined" class="p-2">
                             <div class="profile-wrapper mx-auto w-50">
-                                <img [src]="this.loggedInUser?.imageUrl ?? this.loggedInUser?.profile_image" alt="Profile Picture"
+                                <img [src]="this.user?.imageUrl ?? this.user?.profile_image" alt="Profile Picture"
                                     class="w-100 h-100">                                
                             </div>
-                            <mat-card-title class="mt-1">{{ this.loggedInUser?.username }}</mat-card-title>
+                            <mat-card-title class="mt-1">{{ this.user?.username }}</mat-card-title>
                             <hr class="my-2 w-75 mx-auto">
-                            <mat-card-subtitle class="mt-2">{{ this.loggedInUser?.email }}</mat-card-subtitle>
+                            <mat-card-subtitle class="mt-2">{{ this.user?.email }}</mat-card-subtitle>
                             <mat-card-subtitle class="mt-2">{{ 'PROFILE.PROFILECARD.ROLE' | translate }}:
                                 {{ this.roleDataHead | translate }}</mat-card-subtitle>
                             <mat-card-subtitle class="mt-2">{{ 'PROFILE.PROFILECARD.CREATED' | translate
                                 }}:</mat-card-subtitle>
-                            {{ this.loggedInUser?.created_at! | localizedDate }}
+                            {{ this.user?.created_at! | localizedDate }}
                             <mat-card-subtitle class="mt-2">{{ 'PROFILE.PROFILECARD.UPDATED' | translate
                                 }}:</mat-card-subtitle>
-                            {{ this.loggedInUser?.updated_at! | localizedDate }}
-                            <mat-expansion-panel>
+                            {{ this.user?.updated_at! | localizedDate }}
+                            <mat-expansion-panel *ngIf="this.loggedInUser?._id === user?._id">
                                 <mat-expansion-panel-header>
                                     {{ 'PROFILE.PROFILECARD.BUTTONS.OPTIONS' | translate }}
                                 </mat-expansion-panel-header>
@@ -36,8 +36,9 @@
                         </mat-card>
                     </div>
                     <div class="col-12 col-lg-9">                        
-                        <h1 class="text-center">{{ 'PROFILE.LIST.HEADER' | translate }}</h1>
-                        <all-type-display/>
+                        <h1 class="text-center" *ngIf="this.userId === this.loggedInUser?._id">{{ 'PROFILE.LIST.HEADER' | translate }}</h1>
+                        <h1 class="text-center" *ngIf="this.userId !== this.loggedInUser?._id">{{ this.user?.username }}{{ 'PROFILE.LIST.OBSERVED' | translate }}</h1>
+                        <all-type-display [observedProfileId]="this.loggedInUser?._id === user?._id ? undefined : user?._id"/>
                     </div>
                 </div>
             </mat-card-content>
