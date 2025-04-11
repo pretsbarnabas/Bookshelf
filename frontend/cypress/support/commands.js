@@ -41,7 +41,7 @@ Cypress.Commands.add("defineInterceptors", () => {
     cy.intercept({ method: "POST", url: "/api/users*" }, { statusCode: 201 }).as("register")
     cy.intercept({ method: "POST", url: "/api/login*" }, { statusCode: 200, body: { token: Cypress.env("exampleToken") } }).as("login")
     cy.intercept({ method: "GET", url: "/api/users*" }, { statusCode: 200, body: {} }).as("getUser")
-    cy.intercept({ method: "GET", url: "/api/users/*" }, { statusCode: 200, body: { username: Cypress.env("username") } }).as("getUser")
+    cy.intercept({ method: "GET", url: "/api/users/*" }, { statusCode: 200, body: { username: Cypress.env("username") } }).as("getUser")   
     cy.intercept('POST', '/api/refreshToken', { statusCode: 200, body: { token: Cypress.env('exampleToken') }, }).as('refreshToken');
 })
 
