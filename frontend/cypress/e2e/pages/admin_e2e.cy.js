@@ -251,7 +251,7 @@ describe('Testing the Admin page', () => {
                     .click({ force: true })
                 cy.wait('@updateSummary');
                 cy.wait(150);
-                cy.closeSnackBar();                
+                cy.closeSnackBar();
             })
 
             it('Should delete summary', () => {
@@ -266,6 +266,60 @@ describe('Testing the Admin page', () => {
                     .should('exist')
                     .click({ force: true })
                 cy.wait('@deleteSummary')
+            })
+        })
+
+        describe('Comment type', () => {
+            beforeEach(() => {
+                testNavigation('allt-tab-comments', 'allt-tabcontent-comments');
+            })
+
+            it('Should contain comment type specific fields', () => {
+                [
+                    'ei-btn-edit', 'ei-btn-delete',
+                    'ei-tcomment-head', 'ei-tcomment-id'
+                ].forEach(s => testTypeSpecificContent(s));
+                cy.get('#mat-expansion-panel-header-36').click();
+                ['ei-datedisplay', 'ei-tcomment-content']
+                    .forEach(s => testTypeSpecificContent(s));
+            })
+
+            it('Should edit comment', () => {
+                cy.intercept({ method: "PUT", url: "**/api/comments/**" }, { statusCode: 200, body: {} }).as("updateComment")
+                cy.get(`[data-cy="ei-tcomment-content"]`)
+                    .as('commentContent')
+                    .should('contain.text', 'Lorem')
+                cy.get('#mat-expansion-panel-header-36 > .mat-content > .row > .d-flex > [data-cy="ei-btn-edit"] > .mat-icon')
+                    .click()
+                cy.get(`[data-cy="itemd-edit-header"]`)
+                    .as('itemDialog')
+                    .should('exist')
+                    .should('contain.text', 'Edit item')
+                cy.get("textarea").eq(0).as("contentInput")
+                    .should('exist')
+                    .clear()
+                    .type('TestContent')
+                cy.get(`[data-cy="itemd-edit-save"]`)
+                    .as('saveButton')
+                    .should('exist')
+                    .click({ force: true })
+                cy.wait('@updateComment');
+                cy.wait(150);
+                cy.closeSnackBar();
+            })
+
+            it('Should delete comment', () => {
+                cy.intercept({ method: "DELETE", url: "**/api/comments/**" }, { statusCode: 200, body: {} }).as("deleteComment")
+                cy.get('#mat-expansion-panel-header-36 > .mat-content > .row > .justify-content-end > [data-cy="ei-btn-delete"] > .mat-icon')
+                    .should('exist')
+                    .click({ force: true })
+                cy.get(`[data-cy="itemd-delete-header"]`)
+                    .should('exist')
+                    .should('contain.text', 'Delete?')
+                cy.get(`[data-cy="itemd-btn-delete"]`)
+                    .should('exist')
+                    .click({ force: true })
+                cy.wait('@deleteComment')
             })
         })
     })

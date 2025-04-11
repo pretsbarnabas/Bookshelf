@@ -304,7 +304,7 @@
             </h5>
             <mat-card appearance="raised">
                 <mat-card-content>
-                    <div class="row text-center">
+                    <div class="row text-center" [attr.data-cy]="'ei-tcomment-content'">
                         <p><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.CONTENT' | translate }}</b></p>
                         <hr class="m-0" />
                         <p class="desc mt-1">{{ payload?.item.content }}</p>
