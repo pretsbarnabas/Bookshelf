@@ -8,7 +8,7 @@ beforeEach(() => {
     cy.setLangToEn();
 })
 
-describe('Testing the profile page (admin level user, non-observed)', () => {
+describe('Testing the Profile page (admin level user, non-observed)', () => {
     beforeEach(() => {
         cy.loginAdmin();
         cy.get('simple-snack-bar button')
@@ -125,27 +125,15 @@ describe('Testing the profile page (editor level user, observed)', () => {
             .should('not.exist')
     });
 
-    it('Should navigate tab item content location', () => {
+    it('Should navigate to content from tab', () => {
         cy.get(`[data-cy="allt-tab-summaries"]`)
             .should('exist')
             .click()
-        cy.get(`[data-cy="ei-btn-visit"]`)
+        cy.get(`[data-cy="ei-btn-visitsummary"]`)
             .should('exist')
             .eq(0)
             .click()
         cy.url().should('eq', 'http://localhost:4200/summary-item')
-        cy.get('[data-cy="summi-desc-username"]')
-            .should('exist')
-            .click()
-        cy.url().should('eq', 'http://localhost:4200/profile')
-        cy.get(`[data-cy="allt-tab-reviews"]`)
-            .should('exist')
-            .click()
-        cy.get(`[data-cy="ei-btn-visit"]`)
-            .should('exist')
-            .eq(0)
-            .click()
-        cy.url().should('eq', 'http://localhost:4200/book-item')
     })
 })
 

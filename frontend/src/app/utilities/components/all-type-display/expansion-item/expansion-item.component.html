@@ -6,17 +6,17 @@
                 <ng-container *ngIf="payload?.type ==='book' || payload?.item.book || payload?.type === 'user'">
                     @if(payload?.type === 'book'){
                     <button mat-mini-fab (click)="this.navigateToPage('book-item', this.payload?.item._id)"
-                        class="visit me-1" (click)="$event.stopPropagation()" [attr.data-cy]="'ei-btn-visit'">
+                        class="visit me-1" (click)="$event.stopPropagation()" [attr.data-cy]="'ei-btn-visitbook'">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
                     } @if(payload?.item.book){
                     <button mat-mini-fab (click)="this.navigateToPage('summary-item', this.payload?.item._id)"
-                        class="visit me-1" (click)="$event.stopPropagation()" [attr.data-cy]="'ei-btn-visit'">
+                        class="visit me-1" (click)="$event.stopPropagation()" [attr.data-cy]="'ei-btn-visitsummary'">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
                     } @if(payload?.type === 'user'){
                     <button mat-mini-fab (click)="this.navigateToPage('profile', this.payload?.item._id)"
-                        class="visit me-1" (click)="$event.stopPropagation()" [attr.data-cy]="'ei-btn-visit'">
+                        class="visit me-1" (click)="$event.stopPropagation()" [attr.data-cy]="'ei-btn-visitprofile'">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
                     }
@@ -64,63 +64,71 @@
                 <ng-container *ngSwitchCase="'user'">
                     <div class="col-12 col-sm-3 d-flex">
                         <img [src]="payload?.item.imageUrl ?? payload?.item.profile_image" alt="Profile Image"
-                            class="avatar-image my-auto me-2" />
-                        <mat-panel-title>{{ payload?.item.username }}</mat-panel-title>
+                            class="avatar-image my-auto me-2" [attr.data-cy]="'ei-tuser-img'" />
+                        <mat-panel-title [attr.data-cy]="'ei-tuser-username'">{{ payload?.item.username
+                            }}</mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-3">
-                        <mat-panel-title class="ms-2">Id: {{ payload?.item._id }}</mat-panel-title>
+                        <mat-panel-title class="ms-2" [attr.data-cy]="'ei-tuser-id'">Id: {{ payload?.item._id
+                            }}</mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-3">
                         <mat-panel-description>
                             {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.USER.ROLE' | translate }}:
-                            <mat-chip class="ms-2">{{ payload?.item.role }}</mat-chip>
+                            <mat-chip class="ms-2" [attr.data-cy]="'ei-tuser-role'">{{ payload?.item.role }}</mat-chip>
                         </mat-panel-description>
                     </div>
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'book'">
                     <div class="col-12 col-sm-4">
-                        <mat-panel-title>{{ payload?.item.title }}</mat-panel-title>
+                        <mat-panel-title [attr.data-cy]="'ei-tbook-title'">{{ payload?.item.title }}</mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-4" *ngIf="this.payload?.isAdminPage">
-                        <mat-panel-description data-test="mat-panel-desc-bookid">Id: {{ payload?.item._id
+                        <mat-panel-description data-test="mat-panel-desc-bookid" [attr.data-cy]="'ei-tbook-id'">Id: {{
+                            payload?.item._id
                             }}</mat-panel-description>
                     </div>
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'review'">
                     <div class="col-12 col-sm-4">
-                        <mat-panel-title>
+                        <mat-panel-title [attr.data-cy]="'ei-treview-score'">
                             {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.SCORE' | translate }}: {{
                             payload?.item.score }}
                         </mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-4">
-                        <mat-panel-description *ngIf="this.payload?.isAdminPage">Id: {{ payload?.item._id
+                        <mat-panel-description *ngIf="this.payload?.isAdminPage" [attr.data-cy]="'ei-treview-id'">Id: {{
+                            payload?.item._id
                             }}</mat-panel-description>
-                        <mat-panel-description *ngIf="!this.payload?.isAdminPage">{{ payload?.item.book.title
+                        <mat-panel-description *ngIf="!this.payload?.isAdminPage" [attr.data-cy]="'ei-treview-title'">{{
+                            payload?.item.book.title
                             }}</mat-panel-description>
                     </div>
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'summary'">
                     <div class="col-12 col-sm-4" *ngIf="this.payload?.isAdminPage; else bookTitle">
-                        <mat-panel-description>Id: {{ payload?.item._id }}</mat-panel-description>
+                        <mat-panel-description [attr.data-cy]="'ei-tsummary-id'">Id: {{ payload?.item._id
+                            }}</mat-panel-description>
                     </div>
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'comment'">
                     <div class="col-12 col-sm-4">
-                        <mat-panel-title *ngIf="!panel.expanded">
+                        <mat-panel-title *ngIf="!panel.expanded" [attr.data-cy]="'ei-tcomment-head'">
                             {{ payload?.item.content | slice:0:15 }}
                         </mat-panel-title>
-                        <mat-panel-description *ngIf="this.payload?.isAdminPage">Id: {{ payload?.item._id
+                        <mat-panel-description *ngIf="this.payload?.isAdminPage" [attr.data-cy]="'ei-tcomment-id'">Id:
+                            {{ payload?.item._id
                             }}</mat-panel-description>
                     </div>
                 </ng-container>
 
                 <ng-template class="col-12 col-sm-4" #bookTitle>
-                    <mat-panel-description>{{ payload?.item.book.title }}</mat-panel-description>
+                    <mat-panel-description [attr.data-cy]="'ei-tsummary-title'">{{ payload?.item.book.title
+                        }}</mat-panel-description>
                 </ng-template>
 
             </ng-container>
@@ -128,7 +136,7 @@
     </mat-expansion-panel-header>
 
     <ng-template #dateDisplay let-label="label" let-date="date">
-        <div class="col-12 col-sm-6 col-lg-3 mx-auto">
+        <div class="col-12 col-sm-6 col-lg-3 mx-auto" [attr.data-cy]="'ei-datedisplay'">
             <b>{{ label | translate }}: </b>
             <i>{{ date | localizedDate }}</i>
             <p><i>({{ date | relativeTime }})</i></p>
@@ -139,7 +147,7 @@
         <ng-container *ngSwitchCase="'user'">
             <div class="row text-center">
                 <div class="col-12 col-sm-6 col-lg-3 mx-auto">
-                    <b>Email: </b> {{ this.payload?.item.email }}
+                    <b [attr.data-cy]="'ei-tuser-email'">Email: </b> {{ this.payload?.item.email }}
                 </div>
                 <ng-container
                     *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.USER.CREATED', date: payload?.item.created_at }"></ng-container>
@@ -159,9 +167,11 @@
                 <mat-card-content>
                     <div class="row text-center">
                         <ng-container
-                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.ADDED', date: payload?.item.added_at }"></ng-container>
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.ADDED', date: payload?.item.added_at }"
+                            [attr.data-cy]="'ei-tbook-added'"></ng-container>
                         <ng-container
-                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.UPDATED', date: payload?.item.updated_at }"></ng-container>
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.UPDATED', date: payload?.item.updated_at }"
+                            [attr.data-cy]="'ei-tbook-updated'"></ng-container>
                     </div>
                 </mat-card-content>
             </mat-card>
