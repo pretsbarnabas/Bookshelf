@@ -124,10 +124,88 @@ describe('Testing the Admin page', () => {
                 cy.get(`[data-cy="itemd-delete-header"]`)
                     .should('exist')
                     .should('contain.text', 'Delete?')
-                cy.get(`[data-cy="itemd-btn-delete"]`)                    
+                cy.get(`[data-cy="itemd-btn-delete"]`)
                     .should('exist')
                     .click({ force: true })
                 cy.wait('@deleteUser')
+            })
+        });
+
+        describe('Book type', () => {
+            beforeEach(() => {
+                testNavigation('allt-tab-books', 'allt-tabcontent-books');
+            })
+
+            it('Should contain book type specific fields', () => {
+                [
+                    'ei-btn-visitbook', 'ei-btn-edit', 'ei-btn-delete',
+                    'ei-tbook-title', 'ei-tbook-id'
+                ].forEach(s => testTypeSpecificContent(s));
+                cy.get('#mat-expansion-panel-header-25').click();
+                ['ei-tbook-img', 'ei-datedisplay', 'ei-tbook-release', 'ei-tbook-genre', 'ei-tbook-author', 'ei-tbook-desc']
+                    .forEach(s => testTypeSpecificContent(s));
+            })
+
+            it('Should navigate to book-item containing book', () => {
+                cy.get('#mat-expansion-panel-header-25 > .mat-content > .row > .justify-content-end > [data-cy="ei-btn-visitbook"] > .mat-icon')
+                    .click()
+                cy.url().should('eq', 'http://localhost:4200/book-item')
+            })
+
+            it('Should edit book', () => {
+                cy.get(`[data-cy="ei-tbook-title"]`)
+                    .as('bookTitle')
+                    .should('contain.text', 'Lorem')
+                cy.get('#mat-expansion-panel-header-25 > .mat-content > .row > .d-flex > [data-cy="ei-btn-edit"] > .mat-icon')
+                    .click()
+                cy.get(`[data-cy="itemd-edit-header"]`)
+                    .as('itemDialog')
+                    .should('exist')
+                    .should('contain.text', 'Edit item')
+                cy.get("input").eq(0).as("titleInput")
+                    .should('exist')
+                    .clear()
+                    .type('TestTitle')
+                cy.get(`[data-cy="itemd-edit-save"]`)
+                    .as('saveButton')
+                    .should('exist')
+                    .click({ force: true })
+                cy.wait(150);
+                cy.closeSnackBar();
+                cy.wait(200);
+                cy.get('@bookTitle')
+                    .should('contain.text', 'TestTitle')
+                cy.get('#mat-expansion-panel-header-25 > .mat-content > .row > .d-flex > [data-cy="ei-btn-edit"] > .mat-icon')
+                    .click()
+                cy.get('@itemDialog')
+                    .should('exist')
+                    .should('contain.text', 'Edit item')
+                cy.get('@titleInput')
+                    .should('exist')
+                    .clear()
+                    .type('Lorem')
+                cy.get('@saveButton')
+                    .should('exist')
+                    .click({ force: true })
+                cy.wait(150);
+                cy.closeSnackBar();
+                cy.wait(200);
+                cy.get('@bookTitle')
+                    .should('contain.text', 'Lorem')
+            })
+
+            it('Should delete book', () => {
+                cy.intercept({ method: "DELETE", url: "**/api/books/**" }, { statusCode: 200, body: {} }).as("deleteBook")
+                cy.get('#mat-expansion-panel-header-25 > .mat-content > .row > .justify-content-end > [data-cy="ei-btn-delete"] > .mat-icon')
+                    .should('exist')
+                    .click({ force: true })
+                cy.get(`[data-cy="itemd-delete-header"]`)
+                    .should('exist')
+                    .should('contain.text', 'Delete?')
+                cy.get(`[data-cy="itemd-btn-delete"]`)
+                    .should('exist')
+                    .click({ force: true })
+                cy.wait('@deleteBook')
             })
         })
     })

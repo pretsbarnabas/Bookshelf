@@ -167,11 +167,9 @@
                 <mat-card-content>
                     <div class="row text-center">
                         <ng-container
-                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.ADDED', date: payload?.item.added_at }"
-                            [attr.data-cy]="'ei-tbook-added'"></ng-container>
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.ADDED', date: payload?.item.added_at }"></ng-container>
                         <ng-container
-                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.UPDATED', date: payload?.item.updated_at }"
-                            [attr.data-cy]="'ei-tbook-updated'"></ng-container>
+                            *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.UPDATED', date: payload?.item.updated_at }"></ng-container>
                     </div>
                 </mat-card-content>
             </mat-card>
@@ -184,26 +182,26 @@
                     <div class="row">
                         <div class="col-12 col-sm-4 col-md-3 d-flex mb-2 p-3">
                             <img [src]="payload?.item.imageUrl ?? './assets/images/no-cover.svg'" alt="Book Cover Image"
-                                class="mx-auto my-auto book-cover" />
+                                class="mx-auto my-auto book-cover" [attr.data-cy]="'ei-tbook-img'"/>
                         </div>
                         <div class="col-12 col-sm-8 col-md-9">
                             <div class="row text-center">
-                                <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="col-12 col-sm-6 col-lg-4" [attr.data-cy]="'ei-tbook-release'">
                                     <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.RELEASE' | translate }}: </b>
                                     <i>{{ payload?.item.release | localizedDate }}</i>
                                 </div>
-                                <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="col-12 col-sm-6 col-lg-4" [attr.data-cy]="'ei-tbook-genre'">
                                     <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.GENRE' | translate }}: </b>
                                     <i>{{ payload?.item.genre }}</i>
                                 </div>
-                                <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="col-12 col-sm-6 col-lg-4" [attr.data-cy]="'ei-tbook-author'">
                                     <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.AUTHOR' | translate }}: </b>
                                     <i>{{ payload?.item.author }}</i>
                                 </div>
                                 <p class="col-12"><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.DESC' | translate
                                         }}</b></p>
                                 <hr class="m-0" />
-                                <p class="desc mt-1">{{ payload?.item.description }}</p>
+                                <p class="desc mt-1" [attr.data-cy]="'ei-tbook-desc'">{{ payload?.item.description }}</p>
                             </div>
                         </div>
                     </div>
