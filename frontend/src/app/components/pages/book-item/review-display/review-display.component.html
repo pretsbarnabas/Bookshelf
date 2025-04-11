@@ -59,7 +59,8 @@
             <mat-form-field appearance="outline" class="w-100">
                 <textarea id="leave-comment" matInput placeholder="{{ 'BOOKITEM.COMMENT.PLACEHOLDER' | translate }}"
                     maxlength="256" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
-                    cdkAutosizeMaxRows="4" formControlName="comment"></textarea>
+                    cdkAutosizeMaxRows="4" formControlName="comment"
+                    [attr.data-cy]="'reviewd-comment-input'"></textarea>
             </mat-form-field>
         </form>
         <div class="w-100 d-flex justify-content-end mt-2">
@@ -67,7 +68,8 @@
                 {{ 'BOOKITEM.COMMENT.CANCEL' | translate }}
             </button>
             <button mat-flat-button class="ms-2" (click)="this.submitComment()"
-                [disabled]="this.commentForm?.controls!['comment'].value.length < 1">
+                [disabled]="this.commentForm?.controls!['comment'].value.length < 1"
+                [attr.data-cy]="'reviewd-comment-submit'">
                 {{ 'BOOKITEM.COMMENT.SUBMIT' | translate }}
             </button>
         </div>
@@ -162,7 +164,8 @@
         </div>
         <div class="col-12 col-lg-4 offset-lg-8 d-flex justify-content-end">
             <button *ngIf="comment.likedBy!.length > 0 || comment.dislikedBy!.length > 0" mat-button
-                (click)="this.showLikesOrDislikes(comment.likedBy!, comment.dislikedBy!)">
+                (click)="this.showLikesOrDislikes(comment.likedBy!, comment.dislikedBy!)"
+                [attr.data-cy]="'comment-dialog-open'">
                 {{ 'BOOKITEM.DIALOG.SHOW' | translate }}
             </button>
         </div>

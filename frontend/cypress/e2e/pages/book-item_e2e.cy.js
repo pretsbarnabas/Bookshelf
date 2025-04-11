@@ -4,9 +4,21 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     return false;
 });
 
+Cypress.Commands.add('openAsAdmin', () => {
+    cy.loginAdmin();
+    cy.visit("http://localhost:4200/books")
+    cy.get('[data-cy="bd-content-bookcard"]')
+        .eq(0)
+        .click()
+})
+
 beforeEach(() => {
+    cy.intercept({ method: "GET", url: '**/api/reviews' }, { statusCode: 200, body: {} }).as("getReviews")
+    cy.intercept({ method: "GET", url: '**/api/comments' }, { statusCode: 200, body: {} }).as("getComments")
     cy.intercept({ method: "PUT", url: '**/api/reviews/**/like' }, { statusCode: 200, body: {} }).as("likeReview")
     cy.intercept({ method: "PUT", url: '**/api/comments/**/like' }, { statusCode: 200, body: {} }).as("likeComment")
+    cy.intercept({ method: "POST", url: '**/api/reviews' }, { statusCode: 200, body: {} }).as("postReview")
+    cy.intercept({ method: "POST", url: '**/api/comments' }, { statusCode: 200, body: {} }).as("postComment")
     cy.setLangToEn();
     cy.visit("http://localhost:4200/books")
     cy.get('[data-cy="bd-content-bookcard"]')
@@ -41,6 +53,14 @@ describe('Testing the books page', () => {
         cy.url().should('eq', 'http://localhost:4200/books')
     })
 
+    it('Should have button that navigates to create/summary', () => {
+        cy.openAsAdmin();
+        cy.get('[data-cy="booki-btn-newsumm"]')
+            .should('exist')
+            .click();
+        cy.url().should('contain', 'create/summary')
+    })
+
     it('Should have description card with values', () => {
         cy.get('[data-cy="booki-desc-card"]')
             .should('exist')
@@ -57,6 +77,21 @@ describe('Testing the books page', () => {
             .should('exist')
             .its('text')
             .should('have.length.gt', 0)
+    })
+
+    it('Should create a new review', () => {
+        cy.openAsAdmin();
+        cy.get('[data-cy="booki-card-reviewinput"]')
+            .should('exist')
+            .type('Test Review Content')
+        cy.get('[data-cy="booki-card-reviewstar"]')
+            .should('exist')
+            .eq(0)
+            .click()
+        cy.get('[data-cy="booki-card-submitreview"]')
+            .should('exist')
+            .click()
+        cy.wait('@postReview')
     })
 
 });
@@ -91,11 +126,7 @@ describe('Testing book-item custom-paginator and review-display', () => {
     })
 
     it('Should navigate to reviewer profile on profile picture or username click', () => {
-        cy.loginAdmin();
-        cy.visit("http://localhost:4200/books")
-        cy.get('[data-cy="bd-content-bookcard"]')
-            .eq(0)
-            .click()
+        cy.openAsAdmin();
         cy.get('[data-cy="reviewd-img-user"]')
             .should('exist')
             .eq(0)
@@ -114,11 +145,7 @@ describe('Testing book-item custom-paginator and review-display', () => {
     })
 
     it('Should let user like and dislike review', () => {
-        cy.loginAdmin();
-        cy.visit("http://localhost:4200/books")
-        cy.get('[data-cy="bd-content-bookcard"]')
-            .eq(0)
-            .click()
+        cy.openAsAdmin();
         cy.get('[data-cy="reviewd-text-likecount"]')
             .should('exist')
             .eq(0).as('likecount')
@@ -144,11 +171,7 @@ describe('Testing book-item custom-paginator and review-display', () => {
     })
 
     it('Should remove like if clicked a second time', () => {
-        cy.loginAdmin();
-        cy.visit("http://localhost:4200/books")
-        cy.get('[data-cy="bd-content-bookcard"]')
-            .eq(0)
-            .click()
+        cy.openAsAdmin();
         cy.get('[data-cy="reviewd-text-likecount"]')
             .should('exist')
             .eq(0).as('likecount')
@@ -168,11 +191,7 @@ describe('Testing book-item custom-paginator and review-display', () => {
     })
 
     it('Should open dialog if review has likes', () => {
-        cy.loginAdmin();
-        cy.visit("http://localhost:4200/books")
-        cy.get('[data-cy="bd-content-bookcard"]')
-            .eq(0)
-            .click()
+        cy.openAsAdmin();
         cy.get('[data-cy="reviewd-btn-like"]')
             .should('exist')
             .eq(0).as('likeBtn')
@@ -205,11 +224,7 @@ describe('Testing review-display comments', () => {
     })
 
     it('Should let user like/dislike comment', () => {
-        cy.loginAdmin();
-        cy.visit("http://localhost:4200/books")
-        cy.get('[data-cy="bd-content-bookcard"]')
-            .eq(0)
-            .click()
+        cy.openAsAdmin();
         cy.get('[data-cy="reviewd-btn-showhide"]')
             .should('exist')
             .eq(0)
@@ -238,5 +253,42 @@ describe('Testing review-display comments', () => {
         cy.wait('@likeComment');
         cy.get('@dislikecount')
             .should('contain.text', 1)
+    })
+
+    it('Should open dialog if comment has likes', () => {
+        cy.openAsAdmin();
+        cy.get('[data-cy="reviewd-btn-showhide"]')
+            .should('exist')
+            .eq(0)
+            .click({ force: true })
+        cy.get('[data-cy="reviewd-comment-like"]')
+            .should('exist')
+            .eq(0).as('likeBtn')
+            .click({ force: true })
+        cy.wait('@likeComment');
+        cy.get('[data-cy="comment-dialog-open"]')
+            .should('exist')
+            .click({ force: true })
+        cy.wait(50);
+        cy.get('[data-cy="reviewd-dialog"]')
+            .should('exist')
+            .eq(0)
+            .should('be.visible')
+    })
+
+    it('Should create a new comment', () => {
+        cy.openAsAdmin();
+        cy.get('[data-cy="reviewd-btn-reply"]')
+            .should('exist')
+            .eq(0)
+            .click()
+        cy.get('[data-cy="reviewd-comment-input"]')
+            .should('exist')
+            .eq(0)
+            .type('test')
+        cy.get('[data-cy="reviewd-comment-submit"]')
+            .should('exist')
+            .click()
+        cy.wait('@postComment')
     })
 })
