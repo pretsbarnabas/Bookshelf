@@ -39,7 +39,7 @@ export class ExpansionItemComponent {
     private router = inject(Router);
     private navService = inject(NavigationStateService)
 
-    @Input() payload?: { type: 'user' | 'book' | 'review' | 'summary' | 'comment', item: any, isAdminPage?: boolean, observedProfileId?: string | number };
+    @Input() payload?: { type: 'user' | 'book' | 'review' | 'summary' | 'comment', item: any, isAdminPage?: boolean, observedProfile?: {id: string | number, role: string }};
     @Output() onDialogResultTrue = new EventEmitter<{ dialogType: 'delete' | 'edit' | 'roleEdit', item: any, modifiedItem?: any }>();
 
     @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;

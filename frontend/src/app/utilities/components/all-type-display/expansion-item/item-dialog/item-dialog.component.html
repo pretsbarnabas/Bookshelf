@@ -40,14 +40,13 @@
 </mat-dialog-actions>
 }
 @if(this.data.type === 'edit') {
-<h2 mat-dialog-title>
+<h2 mat-dialog-title [attr.data-cy]="'itemd-edit-header'">
     <span *ngIf="!this.data.isProfile">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.HEADER' | translate}}</span>
     <span *ngIf="this.data.isProfile">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.HEADERPROFILE' |
         translate}}</span>
 </h2>
-<mat-dialog-content [formGroup]="form" id="edit-dialog">
+<mat-dialog-content [formGroup]="form" id="edit-dialog" [attr.data-cy]="'itemd-edit-content'">
     <div *ngFor="let field of config">
-
         <ng-container *ngIf="field.name === 'image'; else defaultField">
             <label class="mat-body-1">{{ field.label }}</label><br>
             <div class="mt-2">
@@ -91,9 +90,9 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button id="cancel" (click)="this.emitResult(false)">{{
+    <button mat-button id="cancel" (click)="this.emitResult(false)" [attr.data-cy]="'itemd-edit-cancel'">{{
         'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BUTTONNO' | translate}}</button>
-    <button mat-button id="save" color="primary" (click)="this.saveModification()" [disabled]="!this.form.valid">{{
+    <button mat-button id="save" color="primary" (click)="this.saveModification()" [disabled]="!this.form.valid" [attr.data-cy]="'itemd-edit-save'">{{
         'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BUTTONYES' | translate}}</button>
 </mat-dialog-actions>
 }

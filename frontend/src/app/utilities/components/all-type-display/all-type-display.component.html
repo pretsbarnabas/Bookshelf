@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card [attr.data-cy]="'allt-card'">
     @if (errorMessages.length > 0) {
     <div class="alert alert-danger row mt-3" role="alert" #errorAlert>
         <div class="col-10">
@@ -27,30 +27,29 @@
         <mat-tab id="users" aria-label="users">
             <ng-template mat-tab-label>
                 <mat-icon class="me-2">person</mat-icon>
-                {{ 'STANDALONECOMPONENTS.ALLDISPLAY.TABS.USERS' | translate }}
+                <span [attr.data-cy]="'allt-tab-users'">{{ 'STANDALONECOMPONENTS.ALLDISPLAY.TABS.USERS' | translate }}</span>
             </ng-template>
-            <mat-accordion>
+            <mat-accordion [attr.data-cy]="'allt-tabcontent-users'">
                 @if(this.currentArrayInPaginator.length > 0){
                 @for (item of this.currentArrayInPaginator; track $index) {
-                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin, observedProfileId: this.observedProfileId}"
+                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin, observedProfile: this.observedProfile}"
                     (onDialogResultTrue)="this.handleDialogRequest($event)" />
                 }
                 }
             </mat-accordion>
         </mat-tab>
         }
-        @if(this.loggedInUser?.role === 'editor' ||
-        this.loggedInUser?.role === 'admin'
-        ){
+        @if((this.observedProfile ? this.observedProfile.role === 'editor' : this.loggedInUser?.role === 'editor') ||
+        (this.observedProfile ? this.observedProfile.role === 'admin' : this.loggedInUser?.role === 'admin')){
         <mat-tab id="books" aria-label="books">
             <ng-template mat-tab-label>
                 <mat-icon class="me-2">library_books</mat-icon>
-                {{ 'STANDALONECOMPONENTS.ALLDISPLAY.TABS.BOOKS' | translate }}
+                <span [attr.data-cy]="'allt-tab-books'">{{ 'STANDALONECOMPONENTS.ALLDISPLAY.TABS.BOOKS' | translate }}</span>
             </ng-template>
-            <mat-accordion>
+            <mat-accordion [attr.data-cy]="'allt-tabcontent-books'">
                 @if(this.currentArrayInPaginator.length > 0){
                 @for (item of this.currentArrayInPaginator; track $index) {
-                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin, observedProfileId: this.observedProfileId}"
+                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin, observedProfile: this.observedProfile}"
                     (onDialogResultTrue)="this.handleDialogRequest($event)" />
                 }
                 }
@@ -59,12 +58,12 @@
         <mat-tab id="summaries" aria-label="summaries">
             <ng-template mat-tab-label>
                 <mat-icon class="me-2">notes</mat-icon>
-                {{ 'STANDALONECOMPONENTS.ALLDISPLAY.TABS.SUMMARIES' | translate }}
+                <span [attr.data-cy]="'allt-tab-summaries'">{{ 'STANDALONECOMPONENTS.ALLDISPLAY.TABS.SUMMARIES' | translate }}</span>
             </ng-template>
-            <mat-accordion>
+            <mat-accordion [attr.data-cy]="'allt-tabcontent-summaries'">
                 @if(this.currentArrayInPaginator.length > 0){
                 @for (item of this.currentArrayInPaginator; track $index) {
-                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin, observedProfileId: this.observedProfileId}"
+                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin, observedProfile: this.observedProfile}"
                     (onDialogResultTrue)="this.handleDialogRequest($event)" />
                 }
                 }
@@ -74,12 +73,12 @@
         <mat-tab id="comments" aria-label="comments">
             <ng-template mat-tab-label>
                 <mat-icon class="me-2">comment</mat-icon>
-                {{ 'STANDALONECOMPONENTS.ALLDISPLAY.TABS.COMMENTS' | translate }}
+                <span [attr.data-cy]="'allt-tab-comments'">{{ 'STANDALONECOMPONENTS.ALLDISPLAY.TABS.COMMENTS' | translate }}</span>
             </ng-template>
-            <mat-accordion>
+            <mat-accordion [attr.data-cy]="'allt-tabcontent-comments'">
                 @if(this.currentArrayInPaginator.length > 0){
                 @for (item of this.currentArrayInPaginator; track $index) {
-                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin, observedProfileId: this.observedProfileId}"
+                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin, observedProfile: this.observedProfile}"
                     (onDialogResultTrue)="this.handleDialogRequest($event)" />
                 }
                 }
@@ -88,12 +87,12 @@
         <mat-tab id="reviews" aria-label="reviews">
             <ng-template mat-tab-label>
                 <mat-icon class="me-2">rate_review</mat-icon>
-                {{ 'STANDALONECOMPONENTS.ALLDISPLAY.TABS.REVIEWS' | translate }}
+                <span [attr.data-cy]="'allt-tab-reviews'">{{ 'STANDALONECOMPONENTS.ALLDISPLAY.TABS.REVIEWS' | translate }}</span>
             </ng-template>
-            <mat-accordion>
+            <mat-accordion [attr.data-cy]="'allt-tabcontent-reviews'">
                 @if(this.currentArrayInPaginator.length > 0){
                 @for (item of this.currentArrayInPaginator; track $index) {
-                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin, observedProfileId: this.observedProfileId}"
+                <expansion-item [payload]="{ type: this.itemType, item : item, isAdminPage: this.isAdmin, observedProfile: this.observedProfile}"
                     (onDialogResultTrue)="this.handleDialogRequest($event)" />
                 }}
             </mat-accordion>
