@@ -26,7 +26,7 @@ beforeEach(() => {
         .click()
 })
 
-describe('Testing the books page', () => {
+describe('Testing the book-item page', () => {
     it('Should display bookcard with values', () => {
         cy.get('[data-cy="booki-card-img"]')
             .should('exist')

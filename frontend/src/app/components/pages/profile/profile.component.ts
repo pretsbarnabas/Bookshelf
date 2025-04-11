@@ -65,13 +65,13 @@ export class ProfileComponent {
                     this.user = user;
                     if(!this.user.imageUrl)
                         this.user.profile_image = createAvatar(bottts, { seed: this.user.username }).toDataUri();
+                    this.roleDataHead = `PROFILE.PROFILECARD.ROLETABLE.${user?.role.toLocaleUpperCase()}`;
                 },
                 error: () =>
                     this.router.navigate(['404'])
             });
             this.authService.loggedInUser$.subscribe(user => {
                 this.loggedInUser = user;
-                this.roleDataHead = `PROFILE.PROFILECARD.ROLETABLE.${user?.role.toLocaleUpperCase()}`;
             });
         });
     }
