@@ -208,6 +208,66 @@ describe('Testing the Admin page', () => {
                 cy.wait('@deleteBook')
             })
         })
+
+        describe('Summary type', () => {
+            beforeEach(() => {
+                testNavigation('allt-tab-summaries', 'allt-tabcontent-summaries');
+            })
+
+            it('Should contain summary type specific fields', () => {
+                [
+                    'ei-btn-visitsummary', 'ei-btn-edit', 'ei-btn-delete',
+                    'ei-tsummary-id'
+                ].forEach(s => testTypeSpecificContent(s));
+                cy.get('#mat-expansion-panel-header-29').click();
+                ['ei-tsummary-bookid', 'ei-datedisplay', 'ei-tsummary-title', 'ei-tsummary-username', 'ei-tsummary-userid', 'ei-tsummary-content']
+                    .forEach(s => testTypeSpecificContent(s));
+            })
+
+            it('Should navigate to summary-item containing summary', () => {
+                cy.get('#mat-expansion-panel-header-29 > .mat-content > .row > .justify-content-end > [data-cy="ei-btn-visitsummary"] > .mat-icon')
+                    .click()
+                cy.url().should('eq', 'http://localhost:4200/summary-item')
+            })
+
+            it('Should edit summary', () => {
+                cy.intercept({ method: "PUT", url: "**/api/summaries/**" }, { statusCode: 200, body: {} }).as("updateSummary")
+                cy.get(`[data-cy="ei-tsummary-content"]`)
+                    .as('summaryContent')
+                    .should('contain.text', 'Lorem')
+                cy.get('#mat-expansion-panel-header-29 > .mat-content > .row > .d-flex > [data-cy="ei-btn-edit"] > .mat-icon')
+                    .click()
+                cy.get(`[data-cy="itemd-edit-header"]`)
+                    .as('itemDialog')
+                    .should('exist')
+                    .should('contain.text', 'Edit item')
+                cy.get("textarea").eq(0).as("contentInput")
+                    .should('exist')
+                    .clear()
+                    .type('TestContent')
+                cy.get(`[data-cy="itemd-edit-save"]`)
+                    .as('saveButton')
+                    .should('exist')
+                    .click({ force: true })
+                cy.wait('@updateSummary');
+                cy.wait(150);
+                cy.closeSnackBar();                
+            })
+
+            it('Should delete summary', () => {
+                cy.intercept({ method: "DELETE", url: "**/api/summaries/**" }, { statusCode: 200, body: {} }).as("deleteSummary")
+                cy.get('#mat-expansion-panel-header-29 > .mat-content > .row > .justify-content-end > [data-cy="ei-btn-delete"] > .mat-icon')
+                    .should('exist')
+                    .click({ force: true })
+                cy.get(`[data-cy="itemd-delete-header"]`)
+                    .should('exist')
+                    .should('contain.text', 'Delete?')
+                cy.get(`[data-cy="itemd-btn-delete"]`)
+                    .should('exist')
+                    .click({ force: true })
+                cy.wait('@deleteSummary')
+            })
+        })
     })
 })
 

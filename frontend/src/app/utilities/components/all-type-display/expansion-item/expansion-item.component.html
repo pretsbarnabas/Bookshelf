@@ -254,16 +254,16 @@
                     <div class="row text-center">
                         <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.BOOKID' | translate }}: </b>
-                            <i>{{ payload?.item.book._id }}</i>
-                            <p><i>({{ payload?.item.book.title }})</i></p>
+                            <i [attr.data-cy]="'ei-tsummary-bookid'">{{ payload?.item.book._id }}</i>
+                            <p [attr.data-cy]="'ei-tsummary-title'"><i>({{ payload?.item.book.title }})</i></p>
                         </div>
                         <ng-container
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.UPDATED', date: payload?.item.updated_at }"></ng-container>
-                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage" [attr.data-cy]="'ei-tsummary-username'">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.USERNAME' | translate }}: </b>
                             <i>{{ payload?.item.user.username }}</i>
                         </div>
-                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage" [attr.data-cy]="'ei-tsummary-userid'">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.USERID' | translate }}: </b>
                             <i>{{ payload?.item.user._id }}</i>
                         </div>
@@ -278,7 +278,7 @@
                     <div class="row text-center">
                         <p><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.CONTENT' | translate }}</b></p>
                         <hr class="m-0" />
-                        <p class="desc mt-1">{{ payload?.item.content }}</p>
+                        <p class="desc mt-1" [attr.data-cy]="'ei-tsummary-content'">{{ payload?.item.content }}</p>
                     </div>
                 </mat-card-content>
             </mat-card>
