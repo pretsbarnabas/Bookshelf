@@ -1,22 +1,22 @@
-<mat-expansion-panel hideToggle id="item-panel">
+<mat-expansion-panel hideToggle id="item-panel" #panel>
     <mat-expansion-panel-header class="py-3">
         <div class="row w-100">
             <div class="d-flex justify-content-end align-item-center p-0">
 
                 <ng-container *ngIf="payload?.type ==='book' || payload?.item.book || payload?.type === 'user'">
                     @if(payload?.type === 'book'){
-                    <button mat-mini-fab (click)="this.navigateToPage('book-item', this.payload?.item._id)" class="visit me-1"
-                        (click)="$event.stopPropagation()">
+                    <button mat-mini-fab (click)="this.navigateToPage('book-item', this.payload?.item._id)"
+                        class="visit me-1" (click)="$event.stopPropagation()" [attr.data-cy]="'ei-btn-visit'">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
                     } @if(payload?.item.book){
-                    <button mat-mini-fab (click)="this.navigateToPage('book-item', this.payload?.item.book._id)" class="visit me-1"
-                        (click)="$event.stopPropagation()">
+                    <button mat-mini-fab (click)="this.navigateToPage('summary-item', this.payload?.item._id)"
+                        class="visit me-1" (click)="$event.stopPropagation()" [attr.data-cy]="'ei-btn-visit'">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
                     } @if(payload?.type === 'user'){
-                        <button mat-mini-fab (click)="this.navigateToPage('profile', this.payload?.item._id)" class="visit me-1"
-                        (click)="$event.stopPropagation()">
+                    <button mat-mini-fab (click)="this.navigateToPage('profile', this.payload?.item._id)"
+                        class="visit me-1" (click)="$event.stopPropagation()" [attr.data-cy]="'ei-btn-visit'">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
                     }
@@ -25,31 +25,36 @@
                 <ng-container *ngIf="payload?.type === 'user'; else nonUserButtons">
                     <ng-container *ngIf="payload?.item.role === 'user'">
                         <button mat-mini-fab class="promote-demote me-1"
-                            (click)="$event.stopPropagation(); this.openDialog('roleEdit')">
+                            (click)="$event.stopPropagation(); this.openDialog('roleEdit')"
+                            [attr.data-cy]="'ei-btn-promote'">
                             <mat-icon class="mx-auto">vertical_align_top</mat-icon>
                         </button>
                     </ng-container>
                     <ng-container *ngIf="payload?.item.role === 'editor'">
                         <button mat-mini-fab class="promote-demote me-1"
-                            (click)="$event.stopPropagation(); this.openDialog('roleEdit')">
+                            (click)="$event.stopPropagation(); this.openDialog('roleEdit')"
+                            [attr.data-cy]="'ei-btn-demote'">
                             <mat-icon class="mx-auto">vertical_align_bottom</mat-icon>
                         </button>
                     </ng-container>
                 </ng-container>
 
                 <ng-template #nonUserButtons>
-                    <button mat-mini-fab class="edit me-1" (click)="$event.stopPropagation(); this.openDialog('edit')" *ngIf="!this.payload?.observedProfile?.id">
+                    <button mat-mini-fab class="edit me-1" (click)="$event.stopPropagation(); this.openDialog('edit')"
+                        *ngIf="!this.payload?.observedProfile?.id" [attr.data-cy]="'ei-btn-edit'">
                         <mat-icon class="mx-auto">edit</mat-icon>
                     </button>
                 </ng-template>
 
                 <ng-container *ngIf="payload?.item.role === 'admin'; else deleteButton">
-                    <button mat-mini-fab class="admin" (click)="$event.stopPropagation()" disabled *ngIf="!this.payload?.observedProfile?.id">
+                    <button mat-mini-fab class="admin" (click)="$event.stopPropagation()" disabled
+                        *ngIf="!this.payload?.observedProfile?.id" [attr.data-cy]="'ei-btn-admin'">
                         <mat-icon class="mx-auto">stars</mat-icon>
                     </button>
                 </ng-container>
                 <ng-template #deleteButton>
-                    <button mat-mini-fab class="delete" (click)="$event.stopPropagation(); this.openDialog('delete')" *ngIf="!this.payload?.observedProfile?.id">
+                    <button mat-mini-fab class="delete" (click)="$event.stopPropagation(); this.openDialog('delete')"
+                        *ngIf="!this.payload?.observedProfile?.id" [attr.data-cy]="'ei-btn-delete'">
                         <mat-icon class="mx-auto">delete</mat-icon>
                     </button>
                 </ng-template>
@@ -106,6 +111,9 @@
 
                 <ng-container *ngSwitchCase="'comment'">
                     <div class="col-12 col-sm-4">
+                        <mat-panel-title *ngIf="!panel.expanded">
+                            {{ payload?.item.content | slice:0:15 }}
+                        </mat-panel-title>
                         <mat-panel-description *ngIf="this.payload?.isAdminPage">Id: {{ payload?.item._id
                             }}</mat-panel-description>
                     </div>

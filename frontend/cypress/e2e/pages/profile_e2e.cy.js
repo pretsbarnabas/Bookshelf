@@ -118,12 +118,35 @@ describe('Testing the profile page (editor level user, observed)', () => {
 
     it('Should not have items related to logged in user', () => {
         cy.get(`[data-cy="profile-card-options"]`)
-            .should('not.exist')                        
+            .should('not.exist')
         cy.get(`[data-cy="profile-card-options-btn"]`)
-            .should('not.exist')            
+            .should('not.exist')
         cy.get(`[data-cy="itemd-edit-header"]`)
             .should('not.exist')
     });
+
+    it('Should navigate tab item content location', () => {
+        cy.get(`[data-cy="allt-tab-summaries"]`)
+            .should('exist')
+            .click()
+        cy.get(`[data-cy="ei-btn-visit"]`)
+            .should('exist')
+            .eq(0)
+            .click()
+        cy.url().should('eq', 'http://localhost:4200/summary-item')
+        cy.get('[data-cy="summi-desc-username"]')
+            .should('exist')
+            .click()
+        cy.url().should('eq', 'http://localhost:4200/profile')
+        cy.get(`[data-cy="allt-tab-reviews"]`)
+            .should('exist')
+            .click()
+        cy.get(`[data-cy="ei-btn-visit"]`)
+            .should('exist')
+            .eq(0)
+            .click()
+        cy.url().should('eq', 'http://localhost:4200/book-item')
+    })
 })
 
 function testProfileCardItem(element, conatinedText) {
