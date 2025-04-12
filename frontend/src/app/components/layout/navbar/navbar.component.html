@@ -5,7 +5,7 @@
             <mat-icon class="menu-icon mx-auto">menu</mat-icon>
         </button>
         <span class="user-select-none">Bookshelf</span>
-        
+
         <span class="spacer"></span>
         <div fxHide.lt-md>
             <router-button [payload]="{ route: 'home', localReference: 'HOME' }"></router-button>
@@ -15,20 +15,24 @@
             <router-button [payload]="{ route: 'mylist', localReference: 'MYLIST' }"></router-button>
             }
             @if(this.loggedInUser && this.loggedInUser.role === 'admin'){
-            <router-button data-test="admin-button" [payload]="{ route: 'admin', localReference: 'ADMIN' }"></router-button>
+            <router-button data-test="admin-button"
+                [payload]="{ route: 'admin', localReference: 'ADMIN' }"></router-button>
             }
         </div>
         <span class="spacer-center"></span>
         <div fxHide.lt-md>
             @if(!this.loggedInUser){
-            <router-button data-test="login-button" [payload]="{ route: 'auth/login', localReference: 'LOGIN' }"></router-button>
-            <router-button data-test="register-button" [payload]="{ route: 'auth/register', localReference: 'REGISTER' }"></router-button>
+            <router-button data-test="login-button"
+                [payload]="{ route: 'auth/login', localReference: 'LOGIN' }"></router-button>
+            <router-button data-test="register-button"
+                [payload]="{ route: 'auth/register', localReference: 'REGISTER' }"></router-button>
             } @else {
             <button mat-button [matMenuTriggerFor]="profile" (window:resize)="profile.closed.emit()">
-                <div class="d-inline-flex align-items-center">
+                <div class="d-inline-flex align-items-center" [attr.data-cy]="'navbar-menu-profile'">
                     <span>{{ this.displayRemainingTime() }} - {{ this.loggedInUser.username }}</span>
                     <div class="avatar-wrapper ms-2 p-0">
-                        <img [src]="this.loggedInUser.imageUrl ?? this.loggedInUser.profile_image" alt="Profile Picture" class="w-100 h-100 rounded-circle">
+                        <img [src]="this.loggedInUser.imageUrl ?? this.loggedInUser.profile_image" alt="Profile Picture"
+                            class="w-100 h-100 rounded-circle">
                     </div>
                 </div>
             </button>
@@ -45,9 +49,7 @@
         <button mat-icon-button [matMenuTriggerFor]="settings" (click)="settingsIconState = 'clicked'"
             [matBadge]="this.isLastColorBlindnessDiff ? '!' : null"
             [matTooltip]="this.isMdOrBeyond ? ('APP.MENU.SETTINGS.TOOLTIP' | translate ) : null"
-            [matTooltipPosition]="'below'" matTooltipShowDelay="500"
-            data-cy="navbar-btn-settings"
-            >
+            [matTooltipPosition]="'below'" matTooltipShowDelay="500" data-cy="navbar-btn-settings">
             <mat-icon [@rotate]="settingsIconState">settings</mat-icon>
         </button>
         <mat-menu #settings="matMenu" class="p-1 settings" (closed)="settingsIconState = 'default'">
@@ -55,8 +57,8 @@
             <hr class="my-2">
             <div class="mb-3 theme-holder" (click)="$event.stopPropagation()">
                 <mat-icon class="theme-icon" [@pulse]="this.currentTheme === 'light'">wb_sunny</mat-icon>
-                <mat-slide-toggle class="mx-2" (toggleChange)="changeTheme()" [checked]="this.currentTheme === 'dark'" 
-                [attr.data-cy]="'navbar-themeToggle'">
+                <mat-slide-toggle class="mx-2" (toggleChange)="changeTheme()" [checked]="this.currentTheme === 'dark'"
+                    [attr.data-cy]="'navbar-themeToggle'">
                 </mat-slide-toggle>
                 <mat-icon class="theme-icon" [@pulse]="this.currentTheme === 'dark'">brightness_2</mat-icon>
             </div>
@@ -65,7 +67,7 @@
             <div class="mb-3 theme-holder" (click)="$event.stopPropagation()">
                 <mat-icon class="theme-icon">visibility_off</mat-icon>
                 <mat-slide-toggle class="mx-2" (toggleChange)="changeEyeSaveMode()" [checked]="this.isEyeSaveModeOn"
-                [attr.data-cy]="'navbar-eyeSaveToggle'">
+                    [attr.data-cy]="'navbar-eyeSaveToggle'">
                 </mat-slide-toggle>
                 <mat-icon class="theme-icon">visibility</mat-icon>
             </div>
@@ -74,8 +76,10 @@
             <div class="theme-holder mb-3">
                 <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [value]="localizationToggleValue"
                     (click)="$event.stopPropagation()">
-                    <mat-button-toggle value="en" (change)="changeLanguage($event)" [attr.data-cy]="'navbar-langToggle-en'">EN</mat-button-toggle>
-                    <mat-button-toggle value="hu" (change)="changeLanguage($event)" [attr.data-cy]="'navbar-langToggle-hu'">HU</mat-button-toggle>
+                    <mat-button-toggle value="en" (change)="changeLanguage($event)"
+                        [attr.data-cy]="'navbar-langToggle-en'">EN</mat-button-toggle>
+                    <mat-button-toggle value="hu" (change)="changeLanguage($event)"
+                        [attr.data-cy]="'navbar-langToggle-hu'">HU</mat-button-toggle>
                 </mat-button-toggle-group>
             </div>
 
@@ -83,8 +87,7 @@
                 <hr class="my-2">
                 <button class="accessibilityButton text-center" mat-menu-item [matMenuTriggerFor]="accessibility"
                     (click)="$event.stopPropagation()" [matBadge]="this.isLastColorBlindnessDiff ? '!' : null"
-                    (mouseover)="this.isLastColorBlindnessDiff = false"
-                    [attr.data-cy]="'navbar-btn-accessibility'">
+                    (mouseover)="this.isLastColorBlindnessDiff = false" [attr.data-cy]="'navbar-btn-accessibility'">
                     <mat-icon class="mx-auto">accessibility</mat-icon>
                     {{ 'APP.MENU.SETTINGS.ACCESSIBILITY.LABEL' | translate }}
                 </button>
@@ -97,19 +100,22 @@
             <span class="text-center d-block">{{ 'APP.MENU.SETTINGS.ACCESSIBILITY.SUBMENU.COLORBLIND' | translate
                 }}</span>
             <hr class="my-2">
-            <button mat-menu-item (click)="changeColorBlindnessOverlay('red-green')" [attr.data-cy]="'navbar-cbBtn-redgreen'">
+            <button mat-menu-item (click)="changeColorBlindnessOverlay('red-green')"
+                [attr.data-cy]="'navbar-cbBtn-redgreen'">
                 <span>{{ 'APP.MENU.SETTINGS.ACCESSIBILITY.SUBMENU.REDGREEN' | translate }}</span>
                 @if(this.colorBlindnessMode=='red-green'){
                 <mat-icon>check</mat-icon>
                 }
             </button>
-            <button mat-menu-item (click)="changeColorBlindnessOverlay('blue-yellow')" [attr.data-cy]="'navbar-cbBtn-blueyellow'">
+            <button mat-menu-item (click)="changeColorBlindnessOverlay('blue-yellow')"
+                [attr.data-cy]="'navbar-cbBtn-blueyellow'">
                 <span>{{ 'APP.MENU.SETTINGS.ACCESSIBILITY.SUBMENU.BLUEYELLOW' | translate }}</span>
                 @if(this.colorBlindnessMode=='blue-yellow'){
                 <mat-icon>check</mat-icon>
                 }
             </button>
-            <button mat-menu-item (click)="changeColorBlindnessOverlay('monochrome')" [attr.data-cy]="'navbar-cbBtn-monochrome'">
+            <button mat-menu-item (click)="changeColorBlindnessOverlay('monochrome')"
+                [attr.data-cy]="'navbar-cbBtn-monochrome'">
                 <span>{{ 'APP.MENU.SETTINGS.ACCESSIBILITY.SUBMENU.MONOCHROME' | translate }}</span>
                 @if(this.colorBlindnessMode=='monochrome'){
                 <mat-icon>check</mat-icon>

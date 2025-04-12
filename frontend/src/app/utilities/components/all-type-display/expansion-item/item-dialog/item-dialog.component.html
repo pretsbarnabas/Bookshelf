@@ -1,5 +1,5 @@
 @if(this.data.type === 'delete'){
-<h2 mat-dialog-title>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.HEADER' | translate }}?</h2>
+<h2 mat-dialog-title [attr.data-cy]="'itemd-delete-header'">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.HEADER' | translate }}?</h2>
 
 <mat-dialog-content>
     <span *ngIf="this.data.isAdmin">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.MESSAGE' | translate }} </span>
@@ -34,20 +34,19 @@
     <button id="cancel" mat-raised-button (click)="emitResult(false)">{{
         'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.BUTTONNO' | translate
         }}</button>
-    <button id="delete" mat-raised-button (click)="emitResult(true)">{{
+    <button id="delete" mat-raised-button (click)="emitResult(true)" [attr.data-cy]="'itemd-btn-delete'">{{
         'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.DELETE.BUTTONYES' | translate
         }}</button>
 </mat-dialog-actions>
 }
 @if(this.data.type === 'edit') {
-<h2 mat-dialog-title>
+<h2 mat-dialog-title [attr.data-cy]="'itemd-edit-header'">
     <span *ngIf="!this.data.isProfile">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.HEADER' | translate}}</span>
     <span *ngIf="this.data.isProfile">{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.HEADERPROFILE' |
         translate}}</span>
 </h2>
-<mat-dialog-content [formGroup]="form" id="edit-dialog">
+<mat-dialog-content [formGroup]="form" id="edit-dialog" [attr.data-cy]="'itemd-edit-content'">
     <div *ngFor="let field of config">
-
         <ng-container *ngIf="field.name === 'image'; else defaultField">
             <label class="mat-body-1">{{ field.label }}</label><br>
             <div class="mt-2">
@@ -91,14 +90,15 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button id="cancel" (click)="this.emitResult(false)">{{
+    <button mat-button id="cancel" (click)="this.emitResult(false)" [attr.data-cy]="'itemd-edit-cancel'">{{
         'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BUTTONNO' | translate}}</button>
-    <button mat-button id="save" color="primary" (click)="this.saveModification()" [disabled]="!this.form.valid">{{
+    <button mat-button id="save" color="primary" (click)="this.saveModification()" [disabled]="!this.form.valid"
+        [attr.data-cy]="'itemd-edit-save'">{{
         'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.EDIT.BUTTONYES' | translate}}</button>
 </mat-dialog-actions>
 }
 @if(this.data.type === 'roleEdit') {
-<h2 mat-dialog-title>
+<h2 mat-dialog-title [attr.data-cy]="'itemd-roleedit-header'">
     <span>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.ROLECHANGE.HEADER' | translate}}?</span>
 </h2>
 <mat-dialog-content>
@@ -111,13 +111,14 @@
             <span *ngIf="this.data.item.role === 'editor'">{{
                 'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.ROLECHANGE.EDITOR'
                 | translate}}</span>
-        </b>?        
+        </b>?
     </p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button id="cancel" (click)="this.emitResult(false)">{{
         'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.ROLECHANGE.BUTTONNO' | translate}}</button>
-    <button mat-button id="save" color="primary" (click)="this.changeRole()" [disabled]="!this.form.valid">{{
+    <button mat-button id="save" color="primary" (click)="this.changeRole()" [disabled]="!this.form.valid"
+        [attr.data-cy]="'itemd-roleedit-save'">{{
         'STANDALONECOMPONENTS.EXPANSIONITEM.DIALOG.ROLECHANGE.BUTTONYES' | translate}}</button>
 </mat-dialog-actions>
 }

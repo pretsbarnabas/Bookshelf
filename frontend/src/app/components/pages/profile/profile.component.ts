@@ -65,13 +65,13 @@ export class ProfileComponent {
                     this.user = user;
                     if(!this.user.imageUrl)
                         this.user.profile_image = createAvatar(bottts, { seed: this.user.username }).toDataUri();
+                    this.roleDataHead = `PROFILE.PROFILECARD.ROLETABLE.${user?.role.toLocaleUpperCase()}`;
                 },
                 error: () =>
                     this.router.navigate(['404'])
             });
             this.authService.loggedInUser$.subscribe(user => {
                 this.loggedInUser = user;
-                this.roleDataHead = `PROFILE.PROFILECARD.ROLETABLE.${user?.role.toLocaleUpperCase()}`;
             });
         });
     }
@@ -94,9 +94,9 @@ export class ProfileComponent {
                 this.authService.logOut();
                 this.userService.deleteUser(userId)?.subscribe({
                     next: async (response) => {
-                        console.log(response)
+                        
                     },
-                    error: (err: HttpErrorResponse) => console.log(err)
+                    error: (err: HttpErrorResponse) => {}
                 });
             }
             if (result.result === true) {
@@ -104,7 +104,7 @@ export class ProfileComponent {
                     next: async (response) => {                                          
                         window.location.reload();                        
                     },
-                    error: (err: HttpErrorResponse) => console.log(err)
+                    error: (err: HttpErrorResponse) => {}
                 })
             }
         })

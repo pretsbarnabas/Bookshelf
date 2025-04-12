@@ -52,11 +52,11 @@ Cypress.Commands.add("setLangToEn", () => {
     cy.get('@settingsButton').click({ force: true });
 })
 
-Cypress.Commands.add("loginAdmin", () => {    
+Cypress.Commands.add("loginAdmin", () => {
     cy.intercept('POST', '/api/login').as('login');
     cy.visit("http://localhost:4200/auth/login")
     cy.get("input[ng-reflect-id='username']").click({ force: true }).type("admin", { force: true })
-    cy.get("input[ng-reflect-id='password']").click({ force: true }).type("admin", { force: true })    
+    cy.get("input[ng-reflect-id='password']").click({ force: true }).type("admin", { force: true })
     cy.get("button[type='submit']").click({ force: true })
     cy.wait('@login');
 })
