@@ -209,29 +209,28 @@
     "MYLIST": {
         "TITLE": "Mylist",
         "TABS": {
-            "TOREAD": {
-                "LABEL": "To Read",
-                "START": "Start Reading"
-            },
-            "ISREADING": {
-                "LABEL": "Is Reading",
-                "FINISH": "Finish Reading",
-                "DROP": "Drop"
-            },
-            "HASREAD": {
-                "LABEL": "Has Read",
-                "FAVOURITE": "Favorite"
-            },
-            "DROPPED": {
-                "LABEL": "Dropped",
-                "START": "Start Reading"
-            },
-            "FAVOURITE": {
-                "LABEL": "Favorite",
-                "DELETE": "Delete from Favorites"
-            },
-            "DELETE": "Delete"
-        }
+            "BOOKLIST": "Booklist",
+            "DROPPED": "Dropped",
+            "FAVOURITES": "Favorites"
+        },
+        "COLUMNS": {
+            "TOREAD": "To Read",
+            "ISREADING": "Currently Reading",
+            "HASREAD": "Finished Reading"
+        },
+        "BUTTONS": {
+            "FAVOURITE": "Favorite",
+            "DELETE": "Delete",
+            "DROP" : "Drop",
+            "READ": "Read",
+            "FINISH": "Finish",
+            "BACKTOTOREAD": "Mark as To-Read",
+            "BACKTOREADING": "Back to Reading",
+            "PICKUPAGAIN": "Pick Up Again",
+            "REMOVE": "Remove"
+        },
+        "EXPAND": "Expand all",
+        "COLLAPSE": "Collapse all"
     },
     "PROFILE": {
         "TITLE": "Profile",

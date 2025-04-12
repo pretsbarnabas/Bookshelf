@@ -56,7 +56,6 @@ describe('SummaryItemComponent', () => {
     it('Should create the component', () => {
         expect(component).toBeTruthy();
     });
-    
 
     it('Should navigate back to /summaries', () => {
         spyOn(router, 'navigate').and.callThrough();

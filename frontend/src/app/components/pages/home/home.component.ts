@@ -21,6 +21,7 @@ import { LocalizedDatePipe } from "../../../pipes/date.pipe";
 import { RelativeTimePipe } from "../../../pipes/relative-time.pipe";
 import { NavigationStateService } from '../../../services/global/navigation-state.service';
 
+
 @Component({
     selector: 'app-home',
     imports: [
