@@ -179,7 +179,10 @@ export class AllTypeDisplayComponent {
         if (changes['observedProfileId'] && !changes['observedProfileId'].firstChange) {
             this.ngOnInit();
             if (this.tabGroup) {
-                this.tabGroup.selectedIndex = 0;
+                if(this.observedProfile?.role === 'user')
+                    this.tabGroup.selectedIndex = 3;
+                else
+                    this.tabGroup.selectedIndex = 1;
             }
         }
     }
@@ -198,6 +201,7 @@ export class AllTypeDisplayComponent {
     }
 
     private fetchItems(arrayKey: 'users' | 'books' | 'reviews' | 'summaries' | 'comments'): void {
+        if(!this.isAdmin && !this.observedProfile) return;
         this.fetchMapping[arrayKey].fn().subscribe({
             next: (data: any) => {
                 this.fetchedArray = data.data;
