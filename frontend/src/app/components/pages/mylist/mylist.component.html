@@ -5,27 +5,26 @@
             <!-- To Read Tab -->
             <mat-tab label="Booklist">
                 <div class="drgcontainer d-flex justify-content-between align-items-center mx-5" cdkDropListGroup>
-                    <div class="BookListCol">
+                    <div class="BookListCol" fxHide.lt-md>
                         <h2 class="text-center">To Read</h2>
 
                         <div cdkDropList id="toReadList" [cdkDropListData]="toReadBooks" class="BookListColItems"
                             (cdkDropListDropped)="drop($event)">
                             @for (item of toReadBooks; track item) {
-                            <mat-card cdkDrag [cdkDragDisabled]="this.dragDisabled" appearance="outlined" class="drgCard d-flex justify-content-between flex-row">
+                            <mat-card cdkDrag [cdkDragDisabled]="this.dragDisabled" appearance="outlined"
+                                class="drgCard d-flex justify-content-between flex-row">
                                 <mat-card-header>
                                     <mat-card-title> {{item.title}}</mat-card-title>
                                     <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
                                 </mat-card-header>
                                 <mat-card-actions class="d-flex flex-column align-items-end gap-2">
-                                    <button mat-fab extended class="ml-fav"
-                                        (click)="markAsFavorite(item._id)" matTooltip="Favorite Book"
-                                        matTooltipPosition="above">
+                                    <button mat-fab extended class="ml-fav" (click)="markAsFavorite(item._id)"
+                                        matTooltip="Favorite Book" matTooltipPosition="above">
                                         <mat-icon>star</mat-icon>
                                         Favorite
                                     </button>
-                                    <button mat-fab extended class="ml-delete"
-                                        (click)="deleteBook(item._id)" matTooltip="Delete Book"
-                                        matTooltipPosition="above">
+                                    <button mat-fab extended class="ml-delete" (click)="deleteBook(item._id)"
+                                        matTooltip="Delete Book" matTooltipPosition="above">
                                         <mat-icon>delete</mat-icon>
                                         Delete
                                     </button>
@@ -35,7 +34,7 @@
                         </div>
                     </div>
 
-                    <div class="BookListCol">
+                    <div class="BookListCol" fxHide.lt-md>
                         <h2 class="text-center">Currently Reading</h2>
 
                         <div cdkDropList id="readingList" [cdkDropListData]="readingBooks" class="BookListColItems"
@@ -48,9 +47,8 @@
                                     <mat-card-subtitle>{{ item.author }}</mat-card-subtitle>
                                 </mat-card-header>
                                 <mat-card-actions class="d-flex flex-column align-items-end gap-2">
-                                    <button mat-fab extended class="ml-fav"
-                                        (click)="markAsFavorite(item._id)" matTooltip="Favorite Book"
-                                        matTooltipPosition="above">
+                                    <button mat-fab extended class="ml-fav" (click)="markAsFavorite(item._id)"
+                                        matTooltip="Favorite Book" matTooltipPosition="above">
                                         <mat-icon>star</mat-icon>
                                         Favorite
                                     </button>
@@ -66,7 +64,7 @@
                         </div>
                     </div>
 
-                    <div class="BookListCol">
+                    <div class="BookListCol" fxHide.lt-md>
                         <h2 class="text-center">Finished Reading</h2>
 
                         <div cdkDropList id="finishedList" [cdkDropListData]="hasReadBooks" class="BookListColItems"
@@ -81,24 +79,21 @@
                                 </mat-card-header>
                                 <mat-card-actions class="d-flex flex-column align-items-end gap-2">
                                     @if (favoriteBooks.includes(item)) {
-                                    <button mat-fab extended
-                                        (click)="finishReading(item._id)" matTooltip="Favorite Book"
-                                        matTooltipPosition="above">
+                                    <button mat-fab extended (click)="finishReading(item._id)"
+                                        matTooltip="Favorite Book" matTooltipPosition="above">
                                         <mat-icon>star</mat-icon>
                                         Remove
                                     </button>
                                     }
                                     @else {
-                                    <button mat-fab extended class="ml-fav"
-                                        (click)="markAsFavorite(item._id)" matTooltip="Favorite Book"
-                                        matTooltipPosition="above">
+                                    <button mat-fab extended class="ml-fav" (click)="markAsFavorite(item._id)"
+                                        matTooltip="Favorite Book" matTooltipPosition="above">
                                         <mat-icon>star</mat-icon>
                                         Favorite
                                     </button>
                                     }
-                                    <button mat-fab extended class="ml-delete"
-                                        (click)="deleteBook(item._id)" matTooltip="Delete Book"
-                                        matTooltipPosition="above">
+                                    <button mat-fab extended class="ml-delete" (click)="deleteBook(item._id)"
+                                        matTooltip="Delete Book" matTooltipPosition="above">
                                         <mat-icon>delete</mat-icon>
                                         Delete Book
                                     </button>
@@ -109,14 +104,48 @@
                     </div>
                 </div>
 
+                <div fxHide.gt-sm>
+                    <h2 class="text-center">To Read</h2>
+                    <div class="container mt-5">
+                        <div class="row justify-content-center">
+                            <div class="col-12" *ngFor="let book of toReadBooks; trackBy: trackByBookId">
+                                <book-card [book]="book" [cardType]="'toRead'" (markAsFavorite)="markAsFavorite($event)"
+                                    (deleteBook)="deleteBook($event)" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="text-center">Currently Reading</h2>
+                    <div class="container mt-5">
+                        <div class="row justify-content-center">
+                            <div class="col-12" *ngFor="let book of readingBooks; trackBy: trackByBookId">
+                                <book-card [book]="book" [cardType]="'reading'"
+                                    (markAsFavorite)="markAsFavorite($event)" (dropBook)="dropBook($event)" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="text-center">Finished Reading</h2>
+                    <div class="container mt-5">
+                        <div class="row justify-content-center">
+                            <div class="col-12" *ngFor="let book of hasReadBooks; trackBy: trackByBookId">
+                                <book-card [book]="book" [cardType]="'finished'"
+                                    [isFavorite]="favoriteBooks.includes(book)"
+                                    (markAsFavorite)="markAsFavorite($event)" (finishReading)="finishReading($event)"
+                                    (deleteBook)="deleteBook($event)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </mat-tab>
             <!-- Dropped Tab -->
             <mat-tab label="Dropped">
                 <div class="container mt-5">
                     <div class="row justify-content-center g-4">
-                        <div class="col-md-4 col-12"
-                            *ngFor="let book of droppedBooks; trackBy: trackByBookId">
-                            <book-card [book]="book" [action]="'dropped'" (startReading)="this.startReading($event)" (deleteBook)="this.deleteBook($event)"/>
+                        <div class="col-md-4 col-12" *ngFor="let book of droppedBooks; trackBy: trackByBookId">
+                            <book-card [book]="book" [cardType]="'dropped'" (startReading)="this.startReading($event)"
+                                (deleteBook)="this.deleteBook($event)" />
                         </div>
                     </div>
                 </div>
@@ -127,7 +156,8 @@
                 <div class="container mt-5">
                     <div class="row justify-content-center g-4">
                         <div class="col-md-4 col-12" *ngFor="let book of favoriteBooks">
-                            <book-card [book]="book" [action]="'favorite'" (finishReading)="this.finishReading($event)"/>
+                            <book-card [book]="book" [cardType]="'favorite'"
+                                (finishReading)="this.finishReading($event)" />
                         </div>
                     </div>
                 </div>

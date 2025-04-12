@@ -25,6 +25,7 @@ import {
 } from '@angular/cdk/drag-drop';
 import { BookCardComponent } from "./book-card/book-card.component";
 import { MatButtonModule } from '@angular/material/button';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @Component({
     selector: 'app-mylist',
@@ -38,7 +39,8 @@ import { MatButtonModule } from '@angular/material/button';
         MatSidenavModule,
         MatListModule,
         DragDropModule,
-        BookCardComponent
+        BookCardComponent,
+        FlexLayoutModule
     ],
     templateUrl: './mylist.component.html',
     styleUrls: ['./mylist.component.scss'],
