@@ -37,7 +37,7 @@ import { Observable, of } from 'rxjs';
       <mat-error *ngIf="field.formControl?.invalid && (field.formControl?.dirty || field.formControl?.touched)">
         <ng-container *ngIf="field.formControl?.errors">
           <mat-icon class="error-icon">error_outline</mat-icon>
-          {{ field!.validation?.messages?.[getError()!.key] || 'Unknown error' }}
+          <span [attr.data-cy]="'error-' + to['id']"> {{ field!.validation?.messages?.[getError()!.key] || 'Unknown error' }}</span>
         </ng-container>
       </mat-error>
     </mat-form-field>

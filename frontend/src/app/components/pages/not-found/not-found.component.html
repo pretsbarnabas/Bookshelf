@@ -1,8 +1,8 @@
 <div class="wrapper">
     <div class="wrapper-content my-3">
         <div class="mx-auto text-center">
-            <img src="./assets/images/not-found.webp" alt="not-found" class="w-25 my-0 not-found-img user-select-none" fxHide.lt-md/>
-            <img src="./assets/images/not-found.webp" alt="not-found" class="w-50 my-0 not-found-img user-select-none" fxHide.gt-sm/>
+            <img src="./assets/images/not-found.webp" alt="not-found" class="w-25 my-0 not-found-img user-select-none" fxHide.lt-md [attr.data-cy]="'notfound-img'"/>
+            <img src="./assets/images/not-found.webp" alt="not-found" class="w-50 my-0 not-found-img user-select-none" fxHide.gt-sm [attr.data-cy]="'notfound-img'"/>
             <hr class="mt-0 w-25 mx-auto" />
             <h1 class="display-1 user-select-none">404!</h1>
             <p id="not-found-quote" class="user-select-none"><i>{{ '404.MESSAGE' | translate }}</i></p>
@@ -12,6 +12,7 @@
                   [mode]="'determinate'"
                   [value]="this.spinnerValue"
                   strokeWidth="10"
+                  [attr.data-cy]="'notfound-redirect-spinner'"
                 ></mat-progress-spinner>
                 <div class="spinner-label user-select-none">
                   {{ this.currentTime }}

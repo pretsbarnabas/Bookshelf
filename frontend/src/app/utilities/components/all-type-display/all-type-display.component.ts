@@ -61,7 +61,7 @@ import { ExpansionItemComponent } from './expansion-item/expansion-item.componen
 })
 export class AllTypeDisplayComponent {
     @Input() isAdmin: boolean = false;
-    @Input() observedProfileId?: string | number;
+    @Input() observedProfile?: {id: string | number, role: string };
 
     private authService = inject(AuthService);
     private userService = inject(UserService);
@@ -96,19 +96,19 @@ export class AllTypeDisplayComponent {
             type: 'user' as const
         },
         books: {
-            fn: () => this.bookService.getAllBooks(this.pageSize, this.currentPageIndex, !this.isAdmin ? (this.observedProfileId ?? this.loggedInUser?._id) : '') as any,
+            fn: () => this.bookService.getAllBooks(this.pageSize, this.currentPageIndex, !this.isAdmin ? (this.observedProfile?.id ?? this.loggedInUser?._id) : '') as any,
             type: 'book' as const
         },
         reviews: {
-            fn: () => this.reviewService.getAllReviews(this.pageSize, this.currentPageIndex, !this.isAdmin ? (this.observedProfileId ?? this.loggedInUser?._id) : '') as any,
+            fn: () => this.reviewService.getAllReviews(this.pageSize, this.currentPageIndex, !this.isAdmin ? (this.observedProfile?.id ?? this.loggedInUser?._id) : '') as any,
             type: 'review' as const
         },
         summaries: {
-            fn: () => this.summaryService.getAllSummaries(this.pageSize, this.currentPageIndex, !this.isAdmin ? (this.observedProfileId ?? this.loggedInUser?._id) : '') as any,
+            fn: () => this.summaryService.getAllSummaries(this.pageSize, this.currentPageIndex, !this.isAdmin ? (this.observedProfile?.id ?? this.loggedInUser?._id) : '') as any,
             type: 'summary' as const
         },
         comments: {
-            fn: () => this.commentService.getAllcomments(this.pageSize, this.currentPageIndex, !this.isAdmin ? (this.observedProfileId ?? this.loggedInUser?._id) : '') as any,
+            fn: () => this.commentService.getAllcomments(this.pageSize, this.currentPageIndex, !this.isAdmin ? (this.observedProfile?.id ?? this.loggedInUser?._id) : '') as any,
             type: 'comment' as const
         }
     };
@@ -179,7 +179,10 @@ export class AllTypeDisplayComponent {
         if (changes['observedProfileId'] && !changes['observedProfileId'].firstChange) {
             this.ngOnInit();
             if (this.tabGroup) {
-                this.tabGroup.selectedIndex = 0;
+                if(this.observedProfile?.role === 'user')
+                    this.tabGroup.selectedIndex = 3;
+                else
+                    this.tabGroup.selectedIndex = 1;
             }
         }
     }
@@ -198,6 +201,7 @@ export class AllTypeDisplayComponent {
     }
 
     private fetchItems(arrayKey: 'users' | 'books' | 'reviews' | 'summaries' | 'comments'): void {
+        if(!this.isAdmin && !this.observedProfile) return;
         this.fetchMapping[arrayKey].fn().subscribe({
             next: (data: any) => {
                 this.fetchedArray = data.data;

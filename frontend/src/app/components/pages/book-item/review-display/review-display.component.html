@@ -1,14 +1,14 @@
 <div class="row w-100">
     <div class="col-12 col-lg-3 ms-0">
         <div class="ms-2">
-            <img class="user-profile-picture selectable" [src]="this.review?.user?.imageUrl ?? this.review?.user?.profile_image" (click)="this.navigateToProfile(this.review?.user?._id!)"/>
-            <span class="username selectable" (click)="this.navigateToProfile(this.review?.user?._id!)">{{ this.review?.user?.username }}</span>
+            <img class="user-profile-picture selectable" [src]="this.review?.user?.imageUrl ?? this.review?.user?.profile_image" (click)="this.navigateToProfile(this.review?.user?._id!)" [attr.data-cy]="'reviewd-img-user'"/>
+            <span class="username selectable" (click)="this.navigateToProfile(this.review?.user?._id!)" [attr.data-cy]="'reviewd-text-username'">{{ this.review?.user?.username }}</span>
         </div>
     </div>
     <div class="col-12 col-lg-7 ms-0 p-0">
         <button mat-icon-button [color]="'accent'" *ngFor="let ratingId of ratingArr; index as i"
             class="existing-review-star">
-            <mat-icon>
+            <mat-icon [attr.data-cy]="'reviewd-icon-score'">
                 {{ showIconUserReview(i, this.review?.score! / 2) }}
             </mat-icon>
         </button>
@@ -17,31 +17,34 @@
         <p>(<i>{{ this.review?.created_at! | relativeTime }})</i></p>
     </div>
     <div class="px-4 review-content">
-        <p class="book-item-desc m-0">{{ this.review?.content }}</p>
+        <p class="book-item-desc m-0" [attr.data-cy]="'reviewd-text-review'">{{ this.review?.content }}</p>
     </div>
     <div class="col-12 col-lg-4 offset-lg-8 d-flex justify-content-end">
         <div class="text-center d-flex align-items-center">
-            <span>{{ this.review!.likedBy!.length }}</span>
+            <span [attr.data-cy]="'reviewd-text-likecount'">{{ this.review!.likedBy!.length }}</span>
             <button mat-icon-button class="d-flex align-items-center justify-content-center"
-                (click)="this.handleLikeRequest(this.review!, 'like')" [disabled]="!this.user">
+                (click)="this.handleLikeRequest(this.review!, 'like')" [disabled]="!this.user"
+                [attr.data-cy]="'reviewd-btn-like'">
                 <mat-icon>thumb_up</mat-icon>
             </button>
         </div>
         <div class="text-center d-flex align-items-center ms-2">
-            <span>{{ this.review!.dislikedBy!.length }}</span>
+            <span [attr.data-cy]="'reviewd-text-dislikecount'">{{ this.review!.dislikedBy!.length }}</span>
             <button mat-icon-button class="d-flex align-items-center justify-content-center"
-                (click)="this.handleLikeRequest(this.review!, 'dislike')" [disabled]="!this.user">
+                (click)="this.handleLikeRequest(this.review!, 'dislike')" [disabled]="!this.user"
+                [attr.data-cy]="'reviewd-btn-dislike'">
                 <mat-icon>thumb_down</mat-icon>
             </button>
         </div>
-        <button mat-button (click)="this.isCommenting = true" *ngIf="this.user">
+        <button mat-button (click)="this.isCommenting = true" *ngIf="this.user" [attr.data-cy]="'reviewd-btn-reply'">
             <mat-icon>reply</mat-icon>
             {{ 'BOOKITEM.COMMENT.REPLY' | translate }}
         </button>
     </div>
     <div class="col-12 col-lg-4 offset-lg-8 d-flex justify-content-end">
         <button *ngIf="this.review?.likedBy!.length > 0 || this.review?.dislikedBy!.length > 0" mat-button
-            (click)="this.showLikesOrDislikes(this.review!.likedBy!, this.review!.dislikedBy!)">
+            (click)="this.showLikesOrDislikes(this.review!.likedBy!, this.review!.dislikedBy!)"
+            [attr.data-cy]="'reviewd-dialog-open'">
             {{ 'BOOKITEM.DIALOG.SHOW' | translate }}
         </button>
     </div>
@@ -49,14 +52,15 @@
 @if(this.user && this.isCommenting){
 <div class="row w-100">
     <div class="col-3 col-sm-2 col-lg-1">
-        <img class="user-profile-picture ms-2" [src]="this.user!.imageUrl ?? this.user!.profile_image" />
+        <img class="user-profile-picture ms-2" [src]="this.user!.imageUrl ?? this.user!.profile_image" [attr.data-cy]="'reviewd-comment-userpic'"/>
     </div>
     <div class="col-9 col-sm-10 col-lg-11">
         <form [formGroup]="this.commentForm!">
             <mat-form-field appearance="outline" class="w-100">
                 <textarea id="leave-comment" matInput placeholder="{{ 'BOOKITEM.COMMENT.PLACEHOLDER' | translate }}"
                     maxlength="256" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
-                    cdkAutosizeMaxRows="4" formControlName="comment"></textarea>
+                    cdkAutosizeMaxRows="4" formControlName="comment"
+                    [attr.data-cy]="'reviewd-comment-input'"></textarea>
             </mat-form-field>
         </form>
         <div class="w-100 d-flex justify-content-end mt-2">
@@ -64,7 +68,8 @@
                 {{ 'BOOKITEM.COMMENT.CANCEL' | translate }}
             </button>
             <button mat-flat-button class="ms-2" (click)="this.submitComment()"
-                [disabled]="this.commentForm?.controls!['comment'].value.length < 1">
+                [disabled]="this.commentForm?.controls!['comment'].value.length < 1"
+                [attr.data-cy]="'reviewd-comment-submit'">
                 {{ 'BOOKITEM.COMMENT.SUBMIT' | translate }}
             </button>
         </div>
@@ -73,7 +78,7 @@
 }
 @if (this.comments.length > 0) {
 <div>
-    <button mat-button (click)="this.showComments = !this.showComments">
+    <button mat-button (click)="this.showComments = !this.showComments" [attr.data-cy]="'reviewd-btn-showhide'">
         <span *ngIf="!this.showComments" class="d-flex align-items-center"><mat-icon>keyboard_arrow_down</mat-icon>{{
             'BOOKITEM.COMMENT.SHOW' | translate }}</span>
         <span *ngIf="this.showComments" class="d-flex align-items-center"><mat-icon>keyboard_arrow_up</mat-icon>{{
@@ -87,7 +92,7 @@
                 <!-- <i *ngIf="comment.created_at !== comment.updated_at"> ({{ 'BOOKITEM.COMMENT.EDITED' | translate }})</i> -->
                 </span>
     </p>
-    <div class="row w-100 ps-3">
+    <div class="row w-100 ps-3" [attr.data-cy]="'reviewd-comment'">
         <div class="col-3 col-sm-2 col-lg-1 p-0">
             <img class="user-profile-picture selectable" [src]="comment.user!.imageUrl ?? comment.user.profile_image" (click)="this.navigateToProfile(comment.user._id!)"/>
         </div>
@@ -141,23 +146,26 @@
         }
         <div class="col-12 col-lg-4 offset-lg-8 d-flex justify-content-end">
             <div class="text-center d-flex align-items-center">
-                <span>{{ comment.likedBy!.length }}</span>
+                <span [attr.data-cy]="'reviewd-comment-likecount'">{{ comment.likedBy!.length }}</span>
                 <button mat-icon-button class="d-flex align-items-center justify-content-center"
-                    (click)="this.handleLikeRequest(comment, 'like')" [disabled]="!this.user">
+                    (click)="this.handleLikeRequest(comment, 'like')" [disabled]="!this.user"
+                    [attr.data-cy]="'reviewd-comment-like'">
                     <mat-icon>thumb_up</mat-icon>
                 </button>
             </div>
             <div class="text-center d-flex align-items-center ms-2">
-                <span>{{ comment.dislikedBy!.length }}</span>
+                <span [attr.data-cy]="'reviewd-comment-dislikecount'">{{ comment.dislikedBy!.length }}</span>
                 <button mat-icon-button class="d-flex align-items-center justify-content-center"
-                    (click)="this.handleLikeRequest(comment, 'dislike')" [disabled]="!this.user">
+                    (click)="this.handleLikeRequest(comment, 'dislike')" [disabled]="!this.user"
+                    [attr.data-cy]="'reviewd-comment-dislike'">
                     <mat-icon>thumb_down</mat-icon>
                 </button>
             </div>
         </div>
         <div class="col-12 col-lg-4 offset-lg-8 d-flex justify-content-end">
             <button *ngIf="comment.likedBy!.length > 0 || comment.dislikedBy!.length > 0" mat-button
-                (click)="this.showLikesOrDislikes(comment.likedBy!, comment.dislikedBy!)">
+                (click)="this.showLikesOrDislikes(comment.likedBy!, comment.dislikedBy!)"
+                [attr.data-cy]="'comment-dialog-open'">
                 {{ 'BOOKITEM.DIALOG.SHOW' | translate }}
             </button>
         </div>

@@ -41,7 +41,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
             <ng-container *ngIf="field.formControl?.errors">
                 <span *ngIf="getError()">
                     <mat-icon class="error-icon">error_outline</mat-icon>
-                    {{ field!.validation?.messages?.[getError()!.key] || 'Unknown error' }}
+                    <span [attr.data-cy]="'error-' + to['id']"> {{ field!.validation?.messages?.[getError()!.key] || 'Unknown error' }}</span>
                 </span>
             </ng-container>
           </mat-error>
