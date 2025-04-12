@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDragEnter, CdkDragExit, DragDropModule } from '@angular/cdk/drag-drop';
 
 import { BooklistService } from '../../../services/page/booklist.service';
 import { AuthService } from '../../../services/global/auth.service';
@@ -23,6 +23,8 @@ import {
     moveItemInArray,
     transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { BookCardComponent } from "./book-card/book-card.component";
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-mylist',
@@ -30,11 +32,13 @@ import {
     imports: [
         CommonModule,
         MatCardModule,
+        MatButtonModule,
         MatTabsModule,
         MatIconModule,
         MatSidenavModule,
         MatListModule,
         DragDropModule,
+        BookCardComponent
     ],
     templateUrl: './mylist.component.html',
     styleUrls: ['./mylist.component.scss'],
@@ -56,6 +60,7 @@ export class MylistComponent implements OnInit {
     loggedInUser: UserModel | null = null;
     selectedTab: string = 'toRead';
     dragDisabled: boolean = false;
+    hoveredList: string | null = null;
 
     constructor(
         private booklistService: BooklistService,
@@ -224,15 +229,15 @@ export class MylistComponent implements OnInit {
             const book = event.container.data[event.currentIndex];
             if (!book || !book._id) return;
 
-            const dropId = event.container.id;
-
             this.dragDisabled = true;
 
-            if (dropId === 'cdk-drop-list-1') {
+            const dropId = event.container.id;
+
+            if (dropId === 'readingList') {
                 this.startReading(book._id);
-            } else if (dropId === 'cdk-drop-list-0') {
+            } else if (dropId === 'toReadList') {
                 this.ToRead(book._id);
-            } else if (dropId === 'cdk-drop-list-2') {
+            } else if (dropId === 'finishedList') {
                 this.finishReading(book._id);
             }
 

@@ -1,0 +1,40 @@
+<mat-card class="drg-book-card h-100 p-3">
+    <mat-card-header class="centered-header">
+        <mat-card-title>{{ book.title }}</mat-card-title>
+        <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image [src]="book.imageUrl ?? './assets/images/no-cover.svg'" alt="{{ book.title }}"
+        class="book-image">
+    <mat-card-actions class="d-flex justify-content-between">
+        <ng-container *ngIf="action === 'dropped'">
+            <div class="row w-100 mx-auto">
+                <div class="col-12 col-lg-5 mx-auto mt-2">
+                    <button mat-fab extended class="w-100 mx-auto bc-start-btn"
+                        (click)="this.onStartReading(book._id)" matTooltip="Start Reading" matTooltipPosition="above">
+                        <mat-icon>book</mat-icon>
+                        Read
+                    </button>
+                </div>
+                <div class="col-12 col-lg-5 mx-auto mt-2">
+                    <button mat-fab extended class="w-100 mx-auto bc-del-btn" (click)="this.onDeleteBook(book._id)"
+                        matTooltip="Delete Book" matTooltipPosition="above">
+                        <mat-icon>delete</mat-icon>
+                        Delete
+                    </button>                    
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="action === 'favorite'">
+            <div class="row w-100 mx-auto">
+                <div class="col-12 col-lg-6 mx-auto mt-2">
+                    <button mat-fab extended class="w-100 mx-auto bc-del-btn" (click)="this.onFinishReading(book._id)"
+                        matTooltip="Remove from Favorites" matTooltipPosition="above">
+                        <mat-icon>remove_circle</mat-icon>
+                        Remove
+                    </button>
+                </div>
+            </div>
+        </ng-container>
+    </mat-card-actions>
+</mat-card>

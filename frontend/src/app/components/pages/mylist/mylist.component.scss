@@ -1,4 +1,4 @@
-#mylist-main{
+#mylist-main {
     height: 100%;
     width: 100%;
 }
@@ -138,34 +138,6 @@
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.drgCard {
-    margin: 1% 0 1% 0;
-}
-
-.w-8 {
-    width: 8vw;
-}
-
-.drgDelete {
-    background-color: #f8d7da;
-    color: black;
-    border: 1px solid #f5c6cb;
-    border-radius: 0.25rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.drgButton {
-    background-color: #fff3cd;
-    color: black;
-    border: 1px solid #ffeeba;
-    border-radius: 0.25rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .centered-header {
     display: flex;
     flex-direction: column;
@@ -202,4 +174,26 @@
 
 .sidenav-toggle-button:hover {
     background-color: rgba(0, 0, 0, 0.1);
+}
+
+.drop-target-hover {
+    background-color: rgba(0, 150, 255, 0.15);
+    border: 2px dashed #0096ff;
+    transition: background-color 0.2s ease;
+}
+
+.ml-delete{
+    background-color: #F44336;
+
+    mat-icon {
+        color: white;
+    }
+}
+
+.ml-fav{
+    background-color: #7C4DFF;
+
+    mat-icon {
+        color: white;
+    }
 }
