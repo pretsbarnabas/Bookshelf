@@ -3,6 +3,8 @@ import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angu
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export type CardType = 'toRead' | 'reading' | 'finished' | 'dropped' | 'favorite';
 
@@ -16,24 +18,16 @@ export type CardType = 'toRead' | 'reading' | 'finished' | 'dropped' | 'favorite
         MatCardModule,
         MatButtonModule,
         MatIconModule,
+        MatTooltipModule,
+        TranslatePipe
     ],
     encapsulation: ViewEncapsulation.None
 })
 export class BookCardComponent {
-    // The book object that this card displays.
     @Input() book: any;
-    // The type for this card determines which buttons to show.
-    // For example, 'toRead' means show mark-as-favorite and delete buttons,
-    // 'reading' shows mark-as-favorite and drop buttons,
-    // 'finished' shows a toggle button (Favorite/Remove) plus delete,
-    // 'dropped' shows start-reading and delete,
-    // and 'favorite' shows a single remove button.
     @Input() cardType: CardType = 'toRead';
-
-    // For the finished cards, you might need to know if the book is already favorite.
     @Input() isFavorite: boolean = false;
 
-    // Emitters for the various actions.
     @Output() startReading = new EventEmitter<string>();
     @Output() dropBook = new EventEmitter<string>();
     @Output() finishReading = new EventEmitter<string>();

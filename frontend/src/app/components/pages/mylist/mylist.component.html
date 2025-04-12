@@ -1,12 +1,15 @@
 <div class="wrapper">
     <div id="mylist-main">
-
         <mat-tab-group>
             <!-- To Read Tab -->
-            <mat-tab label="Booklist">
+            <mat-tab>
+                <ng-template mat-tab-label class="d-flex align-items-center">
+                    <mat-icon class="me-2">list_alt</mat-icon>
+                    {{ 'MYLIST.TABS.BOOKLIST' | translate }}
+                </ng-template>
                 <div class="drgcontainer d-flex justify-content-between align-items-center mx-5" cdkDropListGroup>
                     <div class="BookListCol" fxHide.lt-md>
-                        <h2 class="text-center">To Read</h2>
+                        <h2 class="text-center">{{ 'MYLIST.COLUMNS.TOREAD' | translate }}</h2>
 
                         <div cdkDropList id="toReadList" [cdkDropListData]="toReadBooks" class="BookListColItems"
                             (cdkDropListDropped)="drop($event)">
@@ -18,15 +21,13 @@
                                     <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
                                 </mat-card-header>
                                 <mat-card-actions class="d-flex flex-column align-items-end gap-2">
-                                    <button mat-fab extended class="ml-fav" (click)="markAsFavorite(item._id)"
-                                        matTooltip="Favorite Book" matTooltipPosition="above">
+                                    <button mat-fab extended class="ml-fav" (click)="markAsFavorite(item._id)">
                                         <mat-icon>star</mat-icon>
-                                        Favorite
+                                        {{ 'MYLIST.BUTTONS.FAVOURITE' | translate }}
                                     </button>
-                                    <button mat-fab extended class="ml-delete" (click)="deleteBook(item._id)"
-                                        matTooltip="Delete Book" matTooltipPosition="above">
+                                    <button mat-fab extended class="ml-delete" (click)="deleteBook(item._id)">
                                         <mat-icon>delete</mat-icon>
-                                        Delete
+                                        {{ 'MYLIST.BUTTONS.DELETE' | translate }}
                                     </button>
                                 </mat-card-actions>
                             </mat-card>
@@ -35,7 +36,7 @@
                     </div>
 
                     <div class="BookListCol" fxHide.lt-md>
-                        <h2 class="text-center">Currently Reading</h2>
+                        <h2 class="text-center">{{ 'MYLIST.COLUMNS.ISREADING' | translate }}</h2>
 
                         <div cdkDropList id="readingList" [cdkDropListData]="readingBooks" class="BookListColItems"
                             (cdkDropListDropped)="drop($event)">
@@ -47,15 +48,13 @@
                                     <mat-card-subtitle>{{ item.author }}</mat-card-subtitle>
                                 </mat-card-header>
                                 <mat-card-actions class="d-flex flex-column align-items-end gap-2">
-                                    <button mat-fab extended class="ml-fav" (click)="markAsFavorite(item._id)"
-                                        matTooltip="Favorite Book" matTooltipPosition="above">
+                                    <button mat-fab extended class="ml-fav" (click)="markAsFavorite(item._id)">
                                         <mat-icon>star</mat-icon>
-                                        Favorite
+                                        {{ 'MYLIST.BUTTONS.FAVOURITE' | translate }}
                                     </button>
-                                    <button mat-fab extended class="ml-delete" (click)="dropBook(item._id)"
-                                        matTooltip="Drop Book" matTooltipPosition="above">
-                                        <mat-icon>delete</mat-icon>
-                                        Drop Book
+                                    <button mat-fab extended class="ml-delete" (click)="dropBook(item._id)">
+                                        <mat-icon>block</mat-icon>
+                                        {{ 'MYLIST.BUTTONS.DROP' | translate }}
                                     </button>
                                 </mat-card-actions>
                             </mat-card>
@@ -65,7 +64,7 @@
                     </div>
 
                     <div class="BookListCol" fxHide.lt-md>
-                        <h2 class="text-center">Finished Reading</h2>
+                        <h2 class="text-center">{{ 'MYLIST.COLUMNS.HASREAD' | translate }}</h2>
 
                         <div cdkDropList id="finishedList" [cdkDropListData]="hasReadBooks" class="BookListColItems"
                             (cdkDropListDropped)="drop($event)">
@@ -79,23 +78,20 @@
                                 </mat-card-header>
                                 <mat-card-actions class="d-flex flex-column align-items-end gap-2">
                                     @if (favoriteBooks.includes(item)) {
-                                    <button mat-fab extended class="ml-fav" (click)="finishReading(item._id)"
-                                        matTooltip="Favorite Book" matTooltipPosition="above">
+                                    <button mat-fab extended class="ml-fav" (click)="finishReading(item._id)">
                                         <mat-icon>star</mat-icon>
-                                        Remove
+                                        {{ 'MYLIST.BUTTONS.REMOVE' | translate }}
                                     </button>
                                     }
                                     @else {
-                                    <button mat-fab extended class="ml-fav" (click)="markAsFavorite(item._id)"
-                                        matTooltip="Favorite Book" matTooltipPosition="above">
+                                    <button mat-fab extended class="ml-fav" (click)="markAsFavorite(item._id)">
                                         <mat-icon>star</mat-icon>
-                                        Favorite
+                                        {{ 'MYLIST.BUTTONS.FAVOURITE' | translate }}
                                     </button>
                                     }
-                                    <button mat-fab extended class="ml-delete" (click)="deleteBook(item._id)"
-                                        matTooltip="Delete Book" matTooltipPosition="above">
+                                    <button mat-fab extended class="ml-delete" (click)="deleteBook(item._id)">
                                         <mat-icon>delete</mat-icon>
-                                        Delete Book
+                                        {{ 'MYLIST.BUTTONS.DELETE' | translate }}
                                     </button>
                                 </mat-card-actions>
                             </mat-card>
@@ -107,42 +103,43 @@
                 <!-- Mobile view -->
                 <mat-accordion multi fxHide.gt-sm>
                     <div class="d-flex justify-content-center align-items-center py-4 gap-4">
-                        <button mat-fab extended (click)="accordion().openAll()">Expand All</button>
-                        <button mat-fab extended (click)="accordion().closeAll()">Collapse All</button>
+                        <button mat-fab extended (click)="accordion().openAll()">{{ 'MYLIST.EXPAND' | translate }}</button>
+                        <button mat-fab extended (click)="accordion().closeAll()">{{ 'MYLIST.COLLAPSE' | translate }}</button>
                     </div>
                     <mat-expansion-panel class="mylist-expansion-panel">
                         <mat-expansion-panel-header class="py-5">
-                            <mat-panel-title>To Read</mat-panel-title>
+                            <mat-panel-title>{{ 'MYLIST.COLUMNS.TOREAD' | translate }}</mat-panel-title>
                             <mat-panel-description>
-                                <!-- Type your name and age
-                                <mat-icon>account_circle</mat-icon> -->
+                                <mat-icon>book</mat-icon>
                             </mat-panel-description>
                         </mat-expansion-panel-header>
                         <div class="container mt-2">
                             <h4 *ngIf="this.toReadBooks.length === 0" class="text-center">No books yet</h4>
                             <div class="row justify-content-center">
-                                <div class="col-12 col-md-6 mx-auto mt-2" *ngFor="let book of toReadBooks; trackBy: trackByBookId">
-                                    <book-card [book]="book" [cardType]="'toRead'"
-                                        (startReading)="startReading($event)" (deleteBook)="deleteBook($event)" />
+                                <div class="col-12 col-md-6 mx-auto mt-2"
+                                    *ngFor="let book of toReadBooks; trackBy: trackByBookId">
+                                    <book-card [book]="book" [cardType]="'toRead'" (startReading)="startReading($event)"
+                                        (deleteBook)="deleteBook($event)" />
                                 </div>
                             </div>
                         </div>
                     </mat-expansion-panel>
                     <mat-expansion-panel class="mylist-expansion-panel">
                         <mat-expansion-panel-header class="py-5">
-                            <mat-panel-title>Currently Reading</mat-panel-title>
+                            <mat-panel-title>{{ 'MYLIST.COLUMNS.ISREADING' | translate }}</mat-panel-title>
                             <mat-panel-description>
-                                <!-- Type the country name
-                                <mat-icon>map</mat-icon> -->
+                                <mat-icon>auto_stories</mat-icon>
                             </mat-panel-description>
                         </mat-expansion-panel-header>
 
                         <div class="container mt-2">
                             <h4 *ngIf="this.readingBooks.length === 0" class="text-center">No books yet</h4>
                             <div class="row justify-content-center">
-                                <div class="col-12 col-md-6 mx-auto mt-2" *ngFor="let book of readingBooks; trackBy: trackByBookId">
+                                <div class="col-12 col-md-6 mx-auto mt-2"
+                                    *ngFor="let book of readingBooks; trackBy: trackByBookId">
                                     <book-card [book]="book" [cardType]="'reading'"
-                                        (finishReading)="finishReading($event)" (dropBook)="dropBook($event)" (backToRead)="ToRead($event)" />
+                                        (finishReading)="finishReading($event)" (dropBook)="dropBook($event)"
+                                        (backToRead)="ToRead($event)" />
                                 </div>
                             </div>
                         </div>
@@ -150,21 +147,22 @@
 
                     <mat-expansion-panel class="mylist-expansion-panel">
                         <mat-expansion-panel-header class="py-5">
-                            <mat-panel-title>Finished Reading</mat-panel-title>
+                            <mat-panel-title>{{ 'MYLIST.COLUMNS.HASREAD' | translate }}</mat-panel-title>
                             <mat-panel-description>
-                                <!-- Inform the date you wish to travel
-                                <mat-icon>date_range</mat-icon> -->
+                                <mat-icon>check_circle</mat-icon>
                             </mat-panel-description>
                         </mat-expansion-panel-header>
 
                         <div class="container mt-2">
                             <h4 *ngIf="this.hasReadBooks.length === 0" class="text-center">No books yet</h4>
                             <div class="row justify-content-center">
-                                <div class="col-12 col-md-6 mx-auto mt-2" *ngFor="let book of hasReadBooks; trackBy: trackByBookId">
+                                <div class="col-12 col-md-6 mx-auto mt-2"
+                                    *ngFor="let book of hasReadBooks; trackBy: trackByBookId">
                                     <book-card [book]="book" [cardType]="'finished'"
                                         [isFavorite]="favoriteBooks.includes(book)"
                                         (markAsFavorite)="markAsFavorite($event)"
-                                        (finishReading)="finishReading($event)" (deleteBook)="deleteBook($event)" (backToRead)="ToRead($event)" (backToReading)="startReading($event)"/>
+                                        (finishReading)="finishReading($event)" (deleteBook)="deleteBook($event)"
+                                        (backToRead)="ToRead($event)" (backToReading)="startReading($event)" />
                                 </div>
                             </div>
                         </div>
@@ -172,7 +170,11 @@
                 </mat-accordion>
             </mat-tab>
             <!-- Dropped Tab -->
-            <mat-tab label="Dropped">
+            <mat-tab>
+                <ng-template mat-tab-label class="d-flex align-items-center">
+                    <mat-icon class="me-2">block</mat-icon>
+                    {{ 'MYLIST.TABS.DROPPED' | translate }}
+                </ng-template>
                 <div class="container mt-5">
                     <div class="row justify-content-center">
                         <div class="col-md-6 col-lg-4 col-12 mt-3"
@@ -186,6 +188,10 @@
 
             <!-- Favorite Tab -->
             <mat-tab label="Favorite">
+                <ng-template mat-tab-label class="d-flex align-items-center">
+                    <mat-icon class="me-2">star</mat-icon>
+                    {{ 'MYLIST.TABS.FAVOURITES' | translate }}
+                </ng-template>
                 <div class="container mt-5">
                     <div class="row justify-content-center">
                         <div class="col-md-6 col-lg-4 col-12 mt-3" *ngFor="let book of favoriteBooks">
@@ -197,5 +203,4 @@
             </mat-tab>
         </mat-tab-group>
     </div>
-    <!-- </div> -->
 </div>

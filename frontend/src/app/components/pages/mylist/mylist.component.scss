@@ -94,7 +94,7 @@
 .BookListColItems {
     height: 70vh;
     display: block;
-    background: grey;
+    background: lightblue;
     border-radius: 4px;
     overflow: hidden;
     display: block;
@@ -200,6 +200,17 @@ button.ml-fav{
     }
 }
 
-.mylist-expansion-panel{
-    background-color: rgba($color: #000000, $alpha: .2)
+body.darkMode{
+    .BookListColItems {
+        height: 70vh;
+        display: block;
+        background: grey;
+        border-radius: 4px;
+        overflow: hidden;
+        display: block;
+    }
+
+    .mylist-expansion-panel{
+        background-color: rgba($color: #000000, $alpha: .2)
+    }
 }

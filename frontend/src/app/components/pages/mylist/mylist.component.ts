@@ -29,6 +29,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-mylist',
@@ -45,7 +46,8 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
         BookCardComponent,
         FlexLayoutModule,
         MatDividerModule,
-        MatExpansionModule
+        MatExpansionModule,
+        TranslatePipe
     ],
     templateUrl: './mylist.component.html',
     styleUrls: ['./mylist.component.scss'],
