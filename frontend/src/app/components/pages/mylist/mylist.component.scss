@@ -182,18 +182,24 @@
     transition: background-color 0.2s ease;
 }
 
-.ml-delete{
-    background-color: #F44336;
+button.ml-delete{
+    background-color: #F44336 !important;
+    color: white !important;
 
     mat-icon {
-        color: white;
+        color: white !important;
     }
 }
 
-.ml-fav{
-    background-color: #7C4DFF;
+button.ml-fav{
+    background-color: #7C4DFF !important;
+    color: white !important;
 
     mat-icon {
-        color: white;
+        color: white !important;
     }
+}
+
+.mylist-expansion-panel{
+    background-color: rgba($color: #000000, $alpha: .2)
 }

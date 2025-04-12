@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,7 +16,8 @@ export type CardType = 'toRead' | 'reading' | 'finished' | 'dropped' | 'favorite
         MatCardModule,
         MatButtonModule,
         MatIconModule,
-    ]
+    ],
+    encapsulation: ViewEncapsulation.None
 })
 export class BookCardComponent {
     // The book object that this card displays.
@@ -38,6 +39,8 @@ export class BookCardComponent {
     @Output() finishReading = new EventEmitter<string>();
     @Output() markAsFavorite = new EventEmitter<string>();
     @Output() deleteBook = new EventEmitter<string>();
+    @Output() backToRead = new EventEmitter<string>();
+    @Output() backToReading = new EventEmitter<string>();
 
     onStartReading() {
         this.startReading.emit(this.book._id);
@@ -57,5 +60,13 @@ export class BookCardComponent {
 
     onDeleteBook() {
         this.deleteBook.emit(this.book._id);
+    }
+
+    onbackToRead() {
+        this.backToRead.emit(this.book._id)
+    }
+
+    onbackToReading() {
+        this.backToReading.emit(this.book._id)
     }
 }

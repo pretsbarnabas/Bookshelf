@@ -79,7 +79,7 @@
                                 </mat-card-header>
                                 <mat-card-actions class="d-flex flex-column align-items-end gap-2">
                                     @if (favoriteBooks.includes(item)) {
-                                    <button mat-fab extended (click)="finishReading(item._id)"
+                                    <button mat-fab extended class="ml-fav" (click)="finishReading(item._id)"
                                         matTooltip="Favorite Book" matTooltipPosition="above">
                                         <mat-icon>star</mat-icon>
                                         Remove
@@ -104,46 +104,79 @@
                     </div>
                 </div>
 
-                <div fxHide.gt-sm>
-                    <h2 class="text-center">To Read</h2>
-                    <div class="container mt-5">
-                        <div class="row justify-content-center">
-                            <div class="col-12" *ngFor="let book of toReadBooks; trackBy: trackByBookId">
-                                <book-card [book]="book" [cardType]="'toRead'" (markAsFavorite)="markAsFavorite($event)"
-                                    (deleteBook)="deleteBook($event)" />
+                <!-- Mobile view -->
+                <mat-accordion multi fxHide.gt-sm>
+                    <div class="d-flex justify-content-center align-items-center py-4 gap-4">
+                        <button mat-fab extended (click)="accordion().openAll()">Expand All</button>
+                        <button mat-fab extended (click)="accordion().closeAll()">Collapse All</button>
+                    </div>
+                    <mat-expansion-panel class="mylist-expansion-panel">
+                        <mat-expansion-panel-header class="py-5">
+                            <mat-panel-title>To Read</mat-panel-title>
+                            <mat-panel-description>
+                                <!-- Type your name and age
+                                <mat-icon>account_circle</mat-icon> -->
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="container mt-2">
+                            <h4 *ngIf="this.toReadBooks.length === 0" class="text-center">No books yet</h4>
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-md-6 mx-auto mt-2" *ngFor="let book of toReadBooks; trackBy: trackByBookId">
+                                    <book-card [book]="book" [cardType]="'toRead'"
+                                        (startReading)="startReading($event)" (deleteBook)="deleteBook($event)" />
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel class="mylist-expansion-panel">
+                        <mat-expansion-panel-header class="py-5">
+                            <mat-panel-title>Currently Reading</mat-panel-title>
+                            <mat-panel-description>
+                                <!-- Type the country name
+                                <mat-icon>map</mat-icon> -->
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
 
-                    <h2 class="text-center">Currently Reading</h2>
-                    <div class="container mt-5">
-                        <div class="row justify-content-center">
-                            <div class="col-12" *ngFor="let book of readingBooks; trackBy: trackByBookId">
-                                <book-card [book]="book" [cardType]="'reading'"
-                                    (markAsFavorite)="markAsFavorite($event)" (dropBook)="dropBook($event)" />
+                        <div class="container mt-2">
+                            <h4 *ngIf="this.readingBooks.length === 0" class="text-center">No books yet</h4>
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-md-6 mx-auto mt-2" *ngFor="let book of readingBooks; trackBy: trackByBookId">
+                                    <book-card [book]="book" [cardType]="'reading'"
+                                        (finishReading)="finishReading($event)" (dropBook)="dropBook($event)" (backToRead)="ToRead($event)" />
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </mat-expansion-panel>
 
-                    <h2 class="text-center">Finished Reading</h2>
-                    <div class="container mt-5">
-                        <div class="row justify-content-center">
-                            <div class="col-12" *ngFor="let book of hasReadBooks; trackBy: trackByBookId">
-                                <book-card [book]="book" [cardType]="'finished'"
-                                    [isFavorite]="favoriteBooks.includes(book)"
-                                    (markAsFavorite)="markAsFavorite($event)" (finishReading)="finishReading($event)"
-                                    (deleteBook)="deleteBook($event)" />
+                    <mat-expansion-panel class="mylist-expansion-panel">
+                        <mat-expansion-panel-header class="py-5">
+                            <mat-panel-title>Finished Reading</mat-panel-title>
+                            <mat-panel-description>
+                                <!-- Inform the date you wish to travel
+                                <mat-icon>date_range</mat-icon> -->
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <div class="container mt-2">
+                            <h4 *ngIf="this.hasReadBooks.length === 0" class="text-center">No books yet</h4>
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-md-6 mx-auto mt-2" *ngFor="let book of hasReadBooks; trackBy: trackByBookId">
+                                    <book-card [book]="book" [cardType]="'finished'"
+                                        [isFavorite]="favoriteBooks.includes(book)"
+                                        (markAsFavorite)="markAsFavorite($event)"
+                                        (finishReading)="finishReading($event)" (deleteBook)="deleteBook($event)" (backToRead)="ToRead($event)" (backToReading)="startReading($event)"/>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-
+                    </mat-expansion-panel>
+                </mat-accordion>
             </mat-tab>
             <!-- Dropped Tab -->
             <mat-tab label="Dropped">
                 <div class="container mt-5">
-                    <div class="row justify-content-center g-4">
-                        <div class="col-md-4 col-12" *ngFor="let book of droppedBooks; trackBy: trackByBookId">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 col-lg-4 col-12 mt-3"
+                            *ngFor="let book of droppedBooks; trackBy: trackByBookId">
                             <book-card [book]="book" [cardType]="'dropped'" (startReading)="this.startReading($event)"
                                 (deleteBook)="this.deleteBook($event)" />
                         </div>
@@ -154,8 +187,8 @@
             <!-- Favorite Tab -->
             <mat-tab label="Favorite">
                 <div class="container mt-5">
-                    <div class="row justify-content-center g-4">
-                        <div class="col-md-4 col-12" *ngFor="let book of favoriteBooks">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 col-lg-4 col-12 mt-3" *ngFor="let book of favoriteBooks">
                             <book-card [book]="book" [cardType]="'favorite'"
                                 (finishReading)="this.finishReading($event)" />
                         </div>

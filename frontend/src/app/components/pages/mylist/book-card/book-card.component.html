@@ -1,4 +1,4 @@
-<mat-card class="drg-book-card h-100 p-3">
+<mat-card class="h-100 p-3">
     <mat-card-header class="centered-header">
         <mat-card-title>{{ book.title }}</mat-card-title>
         <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
@@ -9,63 +9,95 @@
     <mat-card-actions class="d-flex justify-content-between">
         <!-- For "toRead" type: show mark as favorite & delete -->
         <ng-container *ngIf="cardType === 'toRead'">
-            <button mat-raised-button color="accent" class="rounded w-100" (click)="onMarkAsFavorite()"
-                matTooltip="Favorite Book" matTooltipPosition="above">
-                <mat-icon>star</mat-icon> Favorite
+            <button mat-flat-button class="w-100 mx-2 bc-start-btn" (click)="onStartReading()"
+                matTooltip="Start Reading" matTooltipPosition="above">
+                <mat-icon>book</mat-icon> Read
             </button>
-            <button mat-raised-button color="warn" class="rounded w-100" (click)="onDeleteBook()"
-                matTooltip="Delete Book" matTooltipPosition="above">
+            <button mat-flat-button class="w-100 mx-2 bc-del-btn" (click)="onDeleteBook()" matTooltip="Delete Book"
+                matTooltipPosition="above">
                 <mat-icon>delete</mat-icon> Delete
             </button>
         </ng-container>
 
         <!-- For "reading" type: show mark as favorite & drop -->
         <ng-container *ngIf="cardType === 'reading'">
-            <button mat-raised-button color="accent" class="rounded w-100" (click)="onMarkAsFavorite()"
-                matTooltip="Favorite Book" matTooltipPosition="above">
-                <mat-icon>star</mat-icon> Favorite
-            </button>
-            <button mat-raised-button color="warn" class="rounded w-100" (click)="onDropBook()" matTooltip="Drop Book"
-                matTooltipPosition="above">
-                <mat-icon>delete</mat-icon> Drop
-            </button>
+            <div class="row w-100">
+                <div class="col-6">
+                    <button mat-flat-button class="w-100 mx-2 bc-start-btn" (click)="onFinishReading()"
+                        matTooltip="Remove Favorite" matTooltipPosition="above">
+                        <mat-icon>star</mat-icon> Finish
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button mat-flat-button class="w-100 mx-2 bc-del-btn" (click)="onDropBook()" matTooltip="Drop Book"
+                        matTooltipPosition="above">
+                        <mat-icon>delete</mat-icon> Drop
+                    </button>
+                </div>
+                <div class="col-12 mt-3">
+                    <button mat-flat-button class="w-100 mx-2 bc-start-btn" (click)="onbackToRead()"
+                        matTooltip="Start Reading" matTooltipPosition="above">
+                        <mat-icon>book</mat-icon> Back to ToRead
+                    </button>
+                </div>
+            </div>
         </ng-container>
 
         <!-- For "finished" type: conditionally show Favorite or Remove button, plus Delete -->
         <ng-container *ngIf="cardType === 'finished'">
-            <ng-container *ngIf="isFavorite; else notFav">
-                <button mat-raised-button color="accent" class="rounded w-100" (click)="onFinishReading()"
-                    matTooltip="Remove Favorite" matTooltipPosition="above">
-                    <mat-icon>star</mat-icon> Remove
-                </button>
-            </ng-container>
-            <ng-template #notFav>
-                <button mat-raised-button color="accent" class="rounded w-100" (click)="onMarkAsFavorite()"
-                    matTooltip="Favorite Book" matTooltipPosition="above">
-                    <mat-icon>star</mat-icon> Favorite
-                </button>
-            </ng-template>
-            <button mat-raised-button color="warn" class="rounded w-100" (click)="onDeleteBook()"
-                matTooltip="Delete Book" matTooltipPosition="above">
-                <mat-icon>delete</mat-icon> Delete
-            </button>
+            <div class="row w-100">
+                <ng-container *ngIf="isFavorite; else notFav">
+                    <div class="col-6">
+                        <button mat-flat-button class="w-100 mx-2 ml-fav" (click)="onFinishReading()"
+                            matTooltip="Remove Favorite" matTooltipPosition="above">
+                            <mat-icon>star</mat-icon> Remove
+                        </button>
+                    </div>
+                </ng-container>
+                <ng-template #notFav>
+                    <div class="col-6">
+                        <button mat-flat-button class="w-100 mx-2 ml-fav" (click)="onMarkAsFavorite()"
+                            matTooltip="Favorite Book" matTooltipPosition="above">
+                            <mat-icon>star</mat-icon> Favorite
+                        </button>
+                    </div>
+                </ng-template>
+                <div class="col-6">
+                    <button mat-flat-button class="w-100 mx-2 bc-del-btn" (click)="onDeleteBook()"
+                        matTooltip="Delete Book" matTooltipPosition="above">
+                        <mat-icon>delete</mat-icon> Delete
+                    </button>
+                </div>
+                <div class="col-6 mt-3">
+                    <button mat-flat-button class="w-100 mx-2 bc-start-btn" (click)="onbackToRead()"
+                        matTooltip="Start Reading" matTooltipPosition="above">
+                        <mat-icon>book</mat-icon> Back to ToRead
+                    </button>
+                </div>
+                <div class="col-6 mt-3">
+                    <button mat-flat-button class="w-100 mx-2 bc-start-btn" (click)="onbackToReading()"
+                        matTooltip="Start Reading" matTooltipPosition="above">
+                        <mat-icon>book</mat-icon> Back to Reading
+                    </button>
+                </div>
+            </div>
         </ng-container>
 
         <!-- For "dropped" type: show start reading & delete -->
         <ng-container *ngIf="cardType === 'dropped'">
-            <button mat-raised-button color="primary" class="rounded w-100" (click)="onStartReading()"
+            <button mat-flat-button class="w-100 bc-start-btn mx-2" (click)="onStartReading()"
                 matTooltip="Start Reading" matTooltipPosition="above">
                 <mat-icon>book</mat-icon> Read
             </button>
-            <button mat-raised-button color="warn" class="rounded w-100" (click)="onDeleteBook()"
-                matTooltip="Delete Book" matTooltipPosition="above">
+            <button mat-flat-button class="w-100 bc-del-btn mx-2" (click)="onDeleteBook()" matTooltip="Delete Book"
+                matTooltipPosition="above">
                 <mat-icon>delete</mat-icon> Delete
             </button>
         </ng-container>
 
         <!-- For "favorite" type: show just a remove button -->
         <ng-container *ngIf="cardType === 'favorite'">
-            <button mat-raised-button color="warn" class="rounded w-100" (click)="onFinishReading()"
+            <button mat-flat-button class="w-100 bc-del-btn" (click)="onFinishReading()"
                 matTooltip="Remove from Favorites" matTooltipPosition="above">
                 <mat-icon>remove_circle</mat-icon> Remove
             </button>

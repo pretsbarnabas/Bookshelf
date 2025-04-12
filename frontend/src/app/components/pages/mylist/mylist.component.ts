@@ -2,7 +2,8 @@ import {
     Component,
     OnInit,
     ViewChild,
-    ViewEncapsulation
+    ViewEncapsulation,
+    viewChild
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -11,7 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 
-import { CdkDragEnter, CdkDragExit, DragDropModule } from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { BooklistService } from '../../../services/page/booklist.service';
 import { AuthService } from '../../../services/global/auth.service';
@@ -26,6 +27,8 @@ import {
 import { BookCardComponent } from "./book-card/book-card.component";
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
     selector: 'app-mylist',
@@ -40,7 +43,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         MatListModule,
         DragDropModule,
         BookCardComponent,
-        FlexLayoutModule
+        FlexLayoutModule,
+        MatDividerModule,
+        MatExpansionModule
     ],
     templateUrl: './mylist.component.html',
     styleUrls: ['./mylist.component.scss'],
@@ -48,6 +53,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 })
 export class MylistComponent implements OnInit {
     @ViewChild('sidenav') sidenav!: MatSidenav;
+    accordion = viewChild.required(MatAccordion);
 
     toggleSidenav() {
         this.sidenav.toggle();
@@ -136,7 +142,6 @@ export class MylistComponent implements OnInit {
             }
         });
 
-        // Now assign
         this.toReadBooks = toRead;
         this.hasReadBooks = hasRead;
         this.readingBooks = reading;
@@ -147,7 +152,7 @@ export class MylistComponent implements OnInit {
     ToRead(bookId: string) {
         if (!this.loggedInUser) return;
         this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'to_read').subscribe({
-            next: () => {
+            next: (res) => {
                 this.fetchUserBookList(this.loggedInUser!._id);
             },
             error: (err) => {
@@ -157,9 +162,10 @@ export class MylistComponent implements OnInit {
     }
 
     startReading(bookId: string) {
+        
         if (!this.loggedInUser) return;
         this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'is_reading').subscribe({
-            next: () => {
+            next: () => {                
                 this.fetchUserBookList(this.loggedInUser!._id);
             },
             error: (err) => {
