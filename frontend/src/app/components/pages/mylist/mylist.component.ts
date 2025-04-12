@@ -42,7 +42,7 @@ export class MylistComponent implements OnInit {
     readingBooks: any[] = [];
     droppedBooks: any[] = [];
     favoriteBooks: any[] = [];
-    loggedInUser: UserModel | null = null; // Store the logged-in user
+    loggedInUser: UserModel | null = null;
     selectedTab: string = 'toRead';
 
     constructor(
@@ -55,7 +55,6 @@ export class MylistComponent implements OnInit {
             this.loggedInUser = user;
             if (this.loggedInUser) {
                 this.fetchUserBookList(this.loggedInUser._id);
-
             }
         });
     }
@@ -123,28 +122,13 @@ export class MylistComponent implements OnInit {
     startReading(bookId: string) {
         if (!this.loggedInUser) return;
 
-        // Categorize books based on read_status
-        this.bookList!.forEach(item => {
-            const book = item.book; // Access the book object
-            switch (item.read_status) {
-                case 'to_read':
-                    this.toReadBooks.push(book);
-                    break;
-                case 'has_read':
-                    this.hasReadBooks.push(book);
-                    break;
-                case 'is_reading':
-                    this.readingBooks.push(book);
-                    break;
-                case 'dropped':
-                    this.droppedBooks.push(book);
-                    break;
-                case 'favorite':
-                    this.favoriteBooks.push(book);
-                    this.hasReadBooks.push(book); // Add to hasReadBooks if it's also a favorite
-                    break;
-                default:
-                    console.warn(`Unknown read_status: ${item.read_status}`);
+        this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'is_reading').subscribe({
+            next: () => {
+                console.log(`Book with ID ${bookId} marked as "is_reading"`);
+                this.fetchUserBookList(this.loggedInUser!._id);
+            },
+            error: (err) => {
+                console.error('Error updating book status to "is_reading":', err);
             }
         });
     }
