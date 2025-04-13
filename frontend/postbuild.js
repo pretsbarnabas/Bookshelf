@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const apiKey = process.env.API_URL || 'http://[::1]:3000/api';
+const apiKey = process.env.API_URL || 'https://bookshelf.koyeb.app/api';
 
 const config = {
     API_URL: apiKey

@@ -12,7 +12,8 @@
     "test:env": "npm i && concurrently \"npm run start\" \"cd ../backend && npm run test:seed\"",
     "test:cypress": "npm i && concurrently \"npm run start\" \"npx cypress open\" \"cd ../backend && npm run test:seed\"",
     "test:e2e": "npm i && concurrently \"npm run start\" \"npx cypress run\" \"cd ../backend && npm run test:seed\"",
-    "sharp": "npm i && concurrently \"npm run start\" \"cd ../backend && npm run start\""
+    "sharp": "npm i && concurrently \"npm run start\" \"cd ../backend && npm run start\"",
+    "build:android": "npm i && npm run build && npx cap sync && npx cap open android"
   },
   "private": true,
   "dependencies": {
