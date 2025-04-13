@@ -1,4 +1,4 @@
-import {Types} from "mongoose"
+import mongoose, {ObjectId, Types} from "mongoose"
 const BookModel = require("../models/book.model")
 const ReviewModel = require("../models/review.model")
 const UserModel = require("../models/user.model")
@@ -25,7 +25,7 @@ export class BookController{
 
             const allowedFields = ["_id","title","author","release","genre","user._id", "user.username", "user.created_at","user.updated_at","user.last_login","user.role","user.imageUrl","description","added_at","updated_at","imageUrl"]
 
-            let filters: {title?: RegExp,author?:RegExp,genre?:string, user_id?:string} = {}
+            let filters: {title?: RegExp,author?:RegExp,genre?:string, user_id?:mongoose.Types.ObjectId} = {}
 
             if(title) filters.title = new RegExp(`${title}`,"i")
             if(author) filters.author = new RegExp(`${author}`,"i")
@@ -33,7 +33,7 @@ export class BookController{
                 if(!Types.ObjectId.isValid(user_id)){
                     return res.status(400).json({message: "user_id is in invalid format"})
                 }
-                filters.user_id = user_id
+                filters.user_id = new Types.ObjectId(user_id)
             }
             if(genre){
                 const genrePath = BookModel.schema.path("genre")
