@@ -17,7 +17,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { bottts } from '@dicebear/collection';
 import { createAvatar } from '@dicebear/core';
-import { NavigationStateService } from '../../../services/global/navigation-state.service';
+import { ConfigService } from '../../../services/global/config.service';
+import * as CryptoJS from "crypto-js";
 
 @Component({
     selector: 'app-profile',
@@ -40,9 +41,9 @@ import { NavigationStateService } from '../../../services/global/navigation-stat
 })
 
 export class ProfileComponent {
+    private configService = inject(ConfigService);
     private authService = inject(AuthService);
     private userService = inject(UserService);
-    private navService = inject(NavigationStateService);
     readonly dialog = inject(MatDialog);
     private route = inject(ActivatedRoute);
     private router = inject(Router);
@@ -57,22 +58,20 @@ export class ProfileComponent {
     loggedInUser: UserModel | null = null;
     roleDataHead: string = "";
 
-    ngOnInit() {
-        this.navService.getStateObservable('/profile').subscribe(state => {
-            this.userId = state?.id!;
-            this.userService.getUserById(this.userId!).subscribe({
-                next: (user: UserModel) => {
-                    this.user = user;
-                    if (!this.user.imageUrl)
-                        this.user.profile_image = createAvatar(bottts, { seed: this.user.username }).toDataUri();
-                    this.roleDataHead = `PROFILE.PROFILECARD.ROLETABLE.${user?.role.toLocaleUpperCase()}`;
-                },
-                error: () =>
-                    this.router.navigate(['404'])
-            });
-            this.authService.loggedInUser$.subscribe(user => {
-                this.loggedInUser = user;
-            });
+    ngOnInit() {        
+        this.userId = CryptoJS.AES.decrypt(this.route.snapshot.paramMap.get('id')!, this.configService.get('SECURITY_KEY')).toString(CryptoJS.enc.Utf8);
+        this.userService.getUserById(this.userId!).subscribe({
+            next: (user: UserModel) => {
+                this.user = user;
+                if (!this.user.imageUrl)
+                    this.user.profile_image = createAvatar(bottts, { seed: this.user.username }).toDataUri();
+                this.roleDataHead = `PROFILE.PROFILECARD.ROLETABLE.${user?.role.toLocaleUpperCase()}`;
+            },
+            error: () =>
+                this.router.navigate(['404'])
+        });
+        this.authService.loggedInUser$.subscribe(user => {
+            this.loggedInUser = user;
         });
     }
 
@@ -94,9 +93,9 @@ export class ProfileComponent {
                 this.authService.logOut();
                 this.userService.deleteUser(userId)?.subscribe({
                     next: async (response) => {
-                        
+
                     },
-                    error: (err: HttpErrorResponse) => {}
+                    error: (err: HttpErrorResponse) => { }
                 });
             }
             if (result.result === true) {
@@ -104,7 +103,7 @@ export class ProfileComponent {
                     next: async (response) => {
                         window.location.reload();
                     },
-                    error: (err: HttpErrorResponse) => {}
+                    error: (err: HttpErrorResponse) => { }
                 })
             }
         })

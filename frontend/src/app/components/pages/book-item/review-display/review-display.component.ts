@@ -21,7 +21,8 @@ import { DisplayLikesDialogComponent } from './display-likes-dialog/display-like
 import { createAvatar } from '@dicebear/core';
 import { bottts } from '@dicebear/collection';
 import { Router } from '@angular/router';
-import { NavigationStateService } from '../../../../services/global/navigation-state.service';
+import * as CryptoJS from "crypto-js";
+import { ConfigService } from '../../../../services/global/config.service';
 
 @Component({
     selector: 'review-display',
@@ -47,10 +48,10 @@ export class ReviewDisplayComponent {
     private authService = inject(AuthService);
     private reviewService = inject(ReviewService);
     private commentService = inject(CommentService);
-    private navService = inject(NavigationStateService);
     private fb = inject(FormBuilder);
     private router = inject(Router);
     readonly dialog = inject(MatDialog);
+    private configService = inject(ConfigService);
     @Input() review?: ReviewModel;
 
     user?: UserModel | null
@@ -273,7 +274,6 @@ export class ReviewDisplayComponent {
     }
 
     navigateToProfile(_id: string | number) {
-        this.navService.setState('/profile', _id.toString(), '')
-        this.router.navigate(['profile']);
+        this.router.navigate(['profile', CryptoJS.AES.encrypt(_id.toString(), this.configService.get('SECURITY_KEY')).toString()]);
     }
 }

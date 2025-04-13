@@ -8,7 +8,8 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { LocalizedDatePipe } from "../../../pipes/date.pipe";
-import { NavigationStateService } from '../../../services/global/navigation-state.service';
+import * as CryptoJS from "crypto-js";
+import { ConfigService } from '../../../services/global/config.service';
 
 @Component({
     selector: 'app-summary-item',
@@ -29,15 +30,13 @@ export class SummaryItemComponent {
     private summaryService = inject(SummaryService);
     private route = inject(ActivatedRoute);
     private router = inject(Router);
-    private navService = inject(NavigationStateService)
+    private configService = inject(ConfigService);
 
     summaryId: string | null = null;
     summary?: SummaryModel;
 
-    ngOnInit() {
-        this.navService.getStateObservable('/summary-item')?.subscribe(state =>
-            this.summaryId = state?.id!
-        );
+    ngOnInit() {        
+        this.summaryId = CryptoJS.AES.decrypt(this.route.snapshot.paramMap.get('id')!, this.configService.get('SECURITY_KEY')).toString(CryptoJS.enc.Utf8);
         if (this.summaryId) {
             this.summaryService.getSummaryById(this.summaryId).subscribe(summary => {
                 this.summary = summary;
@@ -49,8 +48,7 @@ export class SummaryItemComponent {
         this.router.navigate(['/summaries']);
     }
 
-    navigateToProfile(_id: string | number) {
-        this.navService.setState('/profile', _id.toString(), '')
-        this.router.navigate(['profile']);
+    navigateToProfile(_id: string | number) {                
+        this.router.navigate(['profile', CryptoJS.AES.encrypt(_id.toString(), this.configService.get('SECURITY_KEY')).toString()]);
     }
 }

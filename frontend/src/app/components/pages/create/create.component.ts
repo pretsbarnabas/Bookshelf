@@ -16,6 +16,8 @@ import { CreateSummaryModel, isCreateSummaryModel, SummaryModel } from '../../..
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { SummaryService } from '../../../services/page/summary.service';
+import { ConfigService } from '../../../services/global/config.service';
+import * as CryptoJS from "crypto-js";
 
 @Component({
     selector: 'app-create',
@@ -43,6 +45,7 @@ export class CreateComponent {
     private summaryService = inject(SummaryService);
     private datePipe = inject(DatePipe);
     private router = inject(Router);
+    private configService = inject(ConfigService);
 
     mode: 'book' | 'summary' = 'book';
     form: FormGroup = new FormGroup({});
@@ -74,8 +77,8 @@ export class CreateComponent {
                 this.model = { title: '', author: '', release: '', genre: '', description: '', image: '' } as CreateBookModel;
             this.formService.getCreateFormConfigMapping().then((value) => this.fields = value['book']);
         }
-        if (this.mode === 'summary') {
-            this.bookId = this.route.snapshot.paramMap.get('bookid');
+        if (this.mode === 'summary') {            
+            this.bookId = CryptoJS.AES.decrypt(this.route.snapshot.paramMap.get('bookid')!, this.configService.get('SECURITY_KEY')).toString(CryptoJS.enc.Utf8);
             if (!isCreateSummaryModel(this.model))
                 this.model = { book_id: this.bookId, content: '' }
             this.formService.getCreateFormConfigMapping().then((value) => this.fields = value['summary']);

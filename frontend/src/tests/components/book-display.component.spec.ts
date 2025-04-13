@@ -13,6 +13,7 @@ import { BookService } from '../../app/services/page/book.service';
 import { AuthService } from '../../app/services/global/auth.service';
 import { MediaObserver } from '@angular/flex-layout';
 import { SummaryService } from '../../app/services/page/summary.service';
+import * as CryptoJS from "crypto-js";
 
 class MockMediaObserver {
     asObservable() {
@@ -43,6 +44,7 @@ describe('BookDisplayComponent', () => {
             providers: [
                 provideHttpClient(),
                 provideConfig(['apiurl', 'https://testing.com']),
+                { provide: 'SECRET_KEY', useValue: 'testkey123' },
                 { provide: LOCALE_ID, useValue: 'en-US' },
                 { provide: Router, useClass: MockRouter },
                 { provide: AuthService, useClass: MockAuthService },
@@ -130,14 +132,21 @@ describe('BookDisplayComponent', () => {
     }));
 
     it('Should navigate correctly to child page', () => {
+        const encryptSpy = spyOn(CryptoJS.AES, 'encrypt').and.callFake((id: string, key: string) => {
+            return {
+                toString: () => `encrypted-${id}`
+            } as any;
+        });
+
         component.mode = 'books';
         component.navigateToBook('testBook');
-        expect(router.navigate).toHaveBeenCalledWith(['/book-item']);
+        expect(router.navigate).toHaveBeenCalledWith(['/book-item', 'encrypted-testBook']);
 
         component.mode = 'summaries';
         component.navigateToBook('testSummary');
-        expect(router.navigate).toHaveBeenCalledWith(['/summary-item']);
+        expect(router.navigate).toHaveBeenCalledWith(['/summary-item', 'encrypted-testSummary']);
     });
+
 
     it('Should navigate to create correctly', () => {
         component.mode = 'books';

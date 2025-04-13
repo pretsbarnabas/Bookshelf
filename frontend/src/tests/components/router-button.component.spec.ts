@@ -7,6 +7,7 @@ import { NavigationEnd, Router } from '@angular/router';
 
 
 import { Subject } from 'rxjs';
+import { provideConfig } from '../../app/services/global/config.service';
 
 describe('RouterButtonComponent', () => {
     let component: RouterButtonComponent;
@@ -22,6 +23,7 @@ describe('RouterButtonComponent', () => {
                 TranslateModule.forRoot(),
             ],
             providers: [
+                provideConfig(['apiurl', 'https://testing.com']),
                 {
                     provide: Router, useValue: {
                         events: routerEventsSubject.asObservable(),

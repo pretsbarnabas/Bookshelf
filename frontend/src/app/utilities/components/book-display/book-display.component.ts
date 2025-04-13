@@ -26,7 +26,8 @@ import { AuthService } from '../../../services/global/auth.service';
 import { SummaryService } from '../../../services/page/summary.service';
 import { SummaryModel } from '../../../models/Summary';
 import { LocalizedDatePipe } from "../../../pipes/date.pipe";
-import { NavigationStateService } from '../../../services/global/navigation-state.service';
+import { ConfigService } from '../../../services/global/config.service';
+import * as CryptoJS from "crypto-js";
 
 @Component({
     selector: 'book-display',
@@ -58,7 +59,7 @@ export class BookDisplayComponent {
     private mediaObserver = inject(MediaObserver);
     private authService = inject(AuthService);
     private summaryService = inject(SummaryService);
-    private navService = inject(NavigationStateService);
+    private configService = inject(ConfigService);
     @Input() mode?: 'books' | 'summaries';
 
     @ViewChild('container') container!: ElementRef;
@@ -139,13 +140,11 @@ export class BookDisplayComponent {
     }
 
     navigateToBook(_id: string) {
-        if (this.mode === 'books'){
-            this.navService.setState('/book-item', _id, '');
-            this.router.navigate(['/book-item']);
+        if (this.mode === 'books'){            
+            this.router.navigate(['/book-item', CryptoJS.AES.encrypt(_id, this.configService.get('SECURITY_KEY')).toString()]);
         }
-        if (this.mode === 'summaries'){
-            this.navService.setState('/summary-item', _id, '');
-            this.router.navigate(['/summary-item']);
+        if (this.mode === 'summaries'){            
+            this.router.navigate(['/summary-item', CryptoJS.AES.encrypt(_id, this.configService.get('SECURITY_KEY')).toString()]);
         }
     }
 

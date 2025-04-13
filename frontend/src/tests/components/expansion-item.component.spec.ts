@@ -3,6 +3,7 @@ import { ExpansionItemComponent } from '../../app/utilities/components/all-type-
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { provideConfig } from '../../app/services/global/config.service';
 
 describe('ExpansionItemComponent', () => {
     let component: ExpansionItemComponent;
@@ -14,6 +15,9 @@ describe('ExpansionItemComponent', () => {
                 ExpansionItemComponent,
                 RouterTestingModule,
                 TranslateModule.forRoot()
+            ],
+            providers: [
+                provideConfig(['apiurl', 'https://testing.com']),
             ]
         }).compileComponents();
 
@@ -73,7 +77,7 @@ describe('ExpansionItemComponent', () => {
         component.ngOnChanges();
         tick();
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.visit')).toBeDefined();    
+        expect(fixture.nativeElement.querySelector('.visit')).toBeDefined();
     }));
 
     it('Should open an ItemDialog component', () => {

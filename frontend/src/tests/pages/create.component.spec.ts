@@ -16,6 +16,7 @@ import MockSummaryService from '../mocks/MockSummaryService';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BooksComponent } from '../../app/components/pages/books/books.component';
 import { SummariesComponent } from '../../app/components/pages/summaries/summaries.component';
+import * as CryptoJS from "crypto-js";
 
 describe('CreateComponent', () => {
     let component: CreateComponent;
@@ -90,6 +91,11 @@ describe('CreateComponent', () => {
     }));
 
     it('Should initialize form correctly for summary mode', fakeAsync(() => {
+        const encryptSpy = spyOn(CryptoJS.AES, 'decrypt').and.callFake((id: string, key: string) => {
+            return {
+                toString: () => `decryptedID`
+            } as any;
+        });
         component.mode = 'summary';
         component.getForm();
         fixture.detectChanges();
@@ -121,7 +127,7 @@ describe('CreateComponent', () => {
         expect(bookService.createBook).not.toHaveBeenCalled();
         expect(summaryService.createSummary).not.toHaveBeenCalled();
     }));
-    
+
     it('Should navigate to books on book creation', fakeAsync(() => {
         spyOn(router, 'navigate').and.callThrough();
         component.mode = 'book';
@@ -132,7 +138,7 @@ describe('CreateComponent', () => {
         expect(router.navigate).toHaveBeenCalledWith(['books']);
     }));
 
-    it('Should navigate to summaries on summary creation', fakeAsync(() => {        
+    it('Should navigate to summaries on summary creation', fakeAsync(() => {
         spyOn(router, 'navigate').and.callThrough();
         component.mode = 'summary';
         component.model = { content: 'testContent' };

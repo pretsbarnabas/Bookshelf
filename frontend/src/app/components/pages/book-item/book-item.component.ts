@@ -28,8 +28,8 @@ import { bottts } from '@dicebear/collection';
 import { CustomPaginatorComponent } from '../../../utilities/components/custom-paginator/custom-paginator.component';
 import { ReviewDisplayComponent } from './review-display/review-display.component';
 import { SortItems } from '../../../utilities/components/sort-items';
-import { NavigationStateService } from '../../../services/global/navigation-state.service';
-
+import { ConfigService } from '../../../services/global/config.service';
+import * as CryptoJS from "crypto-js";
 
 @Component({
     selector: 'app-book-item',
@@ -57,7 +57,7 @@ import { NavigationStateService } from '../../../services/global/navigation-stat
 export class BookItemComponent implements OnInit {
     private translationService = inject(TranslationService);
     private router = inject(Router);
-    private navService = inject(NavigationStateService)
+    private configService = inject(ConfigService);
 
     public book: any;
     public color: string = 'accent';
@@ -121,9 +121,7 @@ export class BookItemComponent implements OnInit {
 
     ngOnInit() {
         this.uniqueIds = [];
-        this.navService.getStateObservable('/book-item')?.subscribe(state =>
-            this.bookId = state?.id
-        );
+        this.bookId = CryptoJS.AES.decrypt(this.route.snapshot.paramMap.get('id')!, this.configService.get('SECURITY_KEY')).toString(CryptoJS.enc.Utf8);
         if (this.bookId) {
             this.bookService.getBookById(this.bookId).subscribe(book => {
                 this.book = book;
@@ -223,7 +221,7 @@ export class BookItemComponent implements OnInit {
     }
 
     navigateToCreate() {
-        this.router.navigate(['create/summary', this.book._id]);
+        this.router.navigate(['create/summary', CryptoJS.AES.encrypt(this.book._id, this.configService.get('SECURITY_KEY')).toString()]);
     }
 }
 export enum StarRatingColor {
