@@ -55,13 +55,6 @@
         <mat-menu #settings="matMenu" class="p-1 settings" (closed)="settingsIconState = 'default'">
             <span class="text-center d-block">{{ 'APP.MENU.SETTINGS.THEME' | translate }}</span>
             <hr class="my-2">
-            <div class="mb-3 theme-holder" (click)="$event.stopPropagation()">
-                <mat-icon class="theme-icon" [@pulse]="this.currentTheme === 'light'">wb_sunny</mat-icon>
-                <mat-slide-toggle class="mx-2" (toggleChange)="changeTheme()" [checked]="this.currentTheme === 'dark'"
-                    [attr.data-cy]="'navbar-themeToggle'">
-                </mat-slide-toggle>
-                <mat-icon class="theme-icon" [@pulse]="this.currentTheme === 'dark'">brightness_2</mat-icon>
-            </div>
             <span class="text-center d-block">{{ 'APP.MENU.SETTINGS.EYE' | translate }}</span>
             <hr class="my-2">
             <div class="mb-3 theme-holder" (click)="$event.stopPropagation()">

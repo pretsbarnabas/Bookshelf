@@ -21,11 +21,7 @@
                                 <mat-card-subtitle class="text-center">{{ book.author }}</mat-card-subtitle>
                                 <mat-card-content class="text-center">
                                     <p>{{ formatDate(book.release) }}</p>
-                                </mat-card-content>
-                                <mat-divider class="my-2" />
-                                <mat-card-subtitle>
-                                    <p class="text-center subtext">{{ book.added_at | relativeTime }}</p>
-                                </mat-card-subtitle>
+                                </mat-card-content>                                
                             </mat-card>
                         </mat-card-content>
                     </mat-card>
@@ -55,12 +51,7 @@
                                 <mat-card-content>
                                     <h6 class="text-center">{{ 'SUMMARIES.BY' | translate}}: {{ summary.user.username }}
                                     </h6>
-                                    <h6 class="text-center">{{ summary.updated_at | localizedDate }}</h6>
                                 </mat-card-content>
-                                <mat-divider class="my-2" />
-                                <mat-card-subtitle>
-                                    <p class="text-center subtext">{{ summary.updated_at | relativeTime }}</p>
-                                </mat-card-subtitle>
                             </mat-card>
                         </mat-card-content>
                     </mat-card>

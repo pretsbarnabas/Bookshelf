@@ -9,7 +9,7 @@ export class ThemeService {
 
     constructor(@Inject(DOCUMENT) private document: Document) { }
 
-    private currentThemeSubject = new BehaviorSubject<'light' | 'dark'>('light');
+    private currentThemeSubject = new BehaviorSubject<'light' | 'dark'>('dark');
     currentTheme$ = this.currentThemeSubject.asObservable();
 
     private isEyeSaveModeOnSubject = new BehaviorSubject<boolean>(false);
@@ -19,22 +19,23 @@ export class ThemeService {
     colorBlindessMode$ = this.currentThemeSubject.asObservable();
 
     checkPreferredTheme(): 'light' | 'dark' {
-        const sessionTheme: 'light' | 'dark' = sessionStorage.getItem('preferredTheme') as 'light' | 'dark';
+        // const sessionTheme: 'light' | 'dark' = sessionStorage.getItem('preferredTheme') as 'light' | 'dark';
 
-        if (sessionTheme) {
-            this.changeTheme(sessionTheme);
-            return sessionTheme;
-        }
-        else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            this.changeTheme('dark');
-            sessionStorage.setItem('preferredTheme', 'dark');
-            return 'dark';
-        }
-        else {
-            this.changeTheme('light');
-            sessionStorage.setItem('preferredTheme', 'light');
-            return 'light';
-        }
+        // if (sessionTheme) {
+        //     this.changeTheme(sessionTheme);
+        //     return sessionTheme;
+        // }
+        // else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        //     this.changeTheme('dark');
+        //     sessionStorage.setItem('preferredTheme', 'dark');
+        //     return 'dark';
+        // }
+        // else {
+        //     this.changeTheme('light');
+        //     sessionStorage.setItem('preferredTheme', 'light');
+        //     return 'light';
+        // }
+        return "dark"
     }
 
     checkEyeSaverMode(): boolean {

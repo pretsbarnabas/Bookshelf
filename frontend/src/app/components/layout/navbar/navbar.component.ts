@@ -85,7 +85,7 @@ export class NavbarComponent {
 
     localizationToggleValue: string = "en";
 
-    currentTheme: "light" | "dark" = "light";
+    currentTheme: "light" | "dark" = "dark";
     isEyeSaveModeOn: boolean = false;
     colorBlindnessMode: "red-green" | "blue-yellow" | "monochrome" | "none" = "none";
     isLastColorBlindnessDiff: boolean = true
@@ -95,7 +95,8 @@ export class NavbarComponent {
 
 
     ngOnInit() {
-        this.currentTheme = this.themeService.checkPreferredTheme();
+        // this.currentTheme = this.themeService.checkPreferredTheme();
+        this.changeTheme()
         this.isEyeSaveModeOn = this.themeService.checkEyeSaverMode();
         this.colorBlindnessMode = this.themeService.checkColorBlindnessMode() as "red-green" | "blue-yellow" | "monochrome" | "none";
         this.localizationToggleValue = this.translationService.checkPreferred()
@@ -120,7 +121,7 @@ export class NavbarComponent {
     }
 
     changeTheme() {
-        this.currentTheme = this.currentTheme === "light" ? "dark" : "light"
+        this.currentTheme = this.currentTheme === "light" ? "light" : "dark"
         this.themeService.changeTheme(this.currentTheme)
     }
 

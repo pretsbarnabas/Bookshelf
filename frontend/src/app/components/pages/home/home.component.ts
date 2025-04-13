@@ -72,7 +72,7 @@ export class HomeComponent {
         this.router.navigate([route]);
     }
     getBooks(): void {
-        this.bookService.getAllBooks(4, 0, undefined, 'added_at', 'desc').subscribe({
+        this.bookService.getAllBooks(2, 0, undefined, 'added_at', 'desc').subscribe({
             next: (data) => {
                 this.books = data.data;
             }
@@ -80,7 +80,7 @@ export class HomeComponent {
     }
 
     getsummaries(): void {
-        this.summaryService.getAllSummaries(4, 0).subscribe({
+        this.summaryService.getAllSummaries(2, 0).subscribe({
             next: (data) => {
                 if (data.pages > 1) {
                     this.summaryService.getAllSummaries(4, data.pages-1).subscribe({
