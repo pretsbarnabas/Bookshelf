@@ -15,6 +15,7 @@ import { Subject } from 'rxjs';
 import { UserModel } from '../../app/models/User';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import MockAuthService from '../mocks/MockAuthService';
+import { provideConfig } from '../../app/services/global/config.service';
 
 class MockThemeService {
     changeEyeSaveMode = jasmine.createSpy('changeEyeSaveMode');
@@ -33,10 +34,10 @@ class MockTranslationService {
 
 describe('NavbarComponent', () => {
     let component: NavbarComponent;
-    let fixture: ComponentFixture<NavbarComponent>;    
+    let fixture: ComponentFixture<NavbarComponent>;
     let translationService: MockTranslationService;
     let authService: MockAuthService;
-    let themeService: MockThemeService;    
+    let themeService: MockThemeService;
     let router: Router;
     const routerEventsSubject = new Subject<RouterEvent>
 
@@ -51,6 +52,7 @@ describe('NavbarComponent', () => {
                 TranslateModule.forRoot(),
             ],
             providers: [
+                provideConfig(['apiurl', 'https://testing.com']),
                 { provide: AuthService, useClass: MockAuthService },
                 { provide: ThemeService, useClass: MockThemeService },
                 { provide: TranslationService, useClass: MockTranslationService },
@@ -154,6 +156,6 @@ describe('NavbarComponent', () => {
         component.colorBlindnessMode = 'none';
         component.changeColorBlindnessOverlay('blue-yellow');
         expect(component.colorBlindnessMode).toBe('blue-yellow');
-        expect(themeService.changeColorBlindnessMode).toHaveBeenCalledWith('blue-yellow');        
+        expect(themeService.changeColorBlindnessMode).toHaveBeenCalledWith('blue-yellow');
     });
 });

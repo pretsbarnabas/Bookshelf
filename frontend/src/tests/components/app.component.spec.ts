@@ -12,10 +12,11 @@ import { AppComponent } from '../../app/components/layout/app.component';
 import { AuthService } from '../../app/services/global/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import MockAuthService from '../mocks/MockAuthService';
+import { provideConfig } from '../../app/services/global/config.service';
 
 describe('AppComponent tests', () => {
     let component: AppComponent;
-    let fixture: ComponentFixture<AppComponent>;    
+    let fixture: ComponentFixture<AppComponent>;
     let authService: MockAuthService;
     let router: Router;
     const routerEventsSubject = new Subject<RouterEvent>();
@@ -31,6 +32,7 @@ describe('AppComponent tests', () => {
                 TranslateModule.forRoot(),
             ],
             providers: [
+                provideConfig(['apiurl', 'https://testing.com']),
                 { provide: AuthService, useClass: MockAuthService },
                 {
                     provide: Router, useValue: {
@@ -43,8 +45,8 @@ describe('AppComponent tests', () => {
             ],
             schemas: [CUSTOM_ELEMENTS_SCHEMA]
         }).compileComponents();
-        
-        authService = TestBed.inject(AuthService) as unknown as MockAuthService;        
+
+        authService = TestBed.inject(AuthService) as unknown as MockAuthService;
         router = TestBed.inject(Router);
         fixture = TestBed.createComponent(AppComponent);
         component = fixture.componentInstance;
@@ -63,7 +65,7 @@ describe('AppComponent tests', () => {
         spyOn(NgxSpinnerService.prototype, 'show').and.callThrough();
         spyOn(NgxSpinnerService.prototype, 'hide').and.callThrough();
 
-        routerEventsSubject.next(new NavigationStart(1, '/test'));        
+        routerEventsSubject.next(new NavigationStart(1, '/test'));
         expect(NgxSpinnerService.prototype.show).toHaveBeenCalled();
 
         routerEventsSubject.next(new NavigationEnd(1, '/test', '/test'));

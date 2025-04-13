@@ -13,7 +13,8 @@ import { ItemDialogComponent } from './item-dialog/item-dialog.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { RelativeTimePipe } from '../../../../pipes/relative-time.pipe';
 import { Router, RouterModule } from '@angular/router';
-import { NavigationStateService } from '../../../../services/global/navigation-state.service';
+import { ConfigService } from '../../../../services/global/config.service';
+import * as CryptoJS from "crypto-js";
 
 @Component({
     selector: 'expansion-item',
@@ -37,7 +38,7 @@ import { NavigationStateService } from '../../../../services/global/navigation-s
 export class ExpansionItemComponent {
     readonly dialog = inject(MatDialog);
     private router = inject(Router);
-    private navService = inject(NavigationStateService)
+    private configService = inject(ConfigService);
 
     @Input() payload?: { type: 'user' | 'book' | 'review' | 'summary' | 'comment', item: any, isAdminPage?: boolean, observedProfile?: {id: string | number, role: string }};
     @Output() onDialogResultTrue = new EventEmitter<{ dialogType: 'delete' | 'edit' | 'roleEdit', item: any, modifiedItem?: any }>();
@@ -73,8 +74,7 @@ export class ExpansionItemComponent {
         })
     }
 
-    navigateToPage(_route: string, _id: string | number) {
-        this.navService.setState('/'+_route, _id.toString(), '')
-        this.router.navigate([_route]);
+    navigateToPage(_route: string, _id: string | number) {        
+        this.router.navigate([_route, CryptoJS.AES.encrypt(_id.toString(), this.configService.get('SECURITY_KEY')).toString()]);
     }
 }

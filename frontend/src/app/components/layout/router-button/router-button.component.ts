@@ -5,8 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { NavigationStateService } from '../../../services/global/navigation-state.service';
-
+import { ConfigService } from '../../../services/global/config.service';
+import * as CryptoJS from "crypto-js";
 
 @Component({
     selector: 'router-button',
@@ -23,7 +23,7 @@ import { NavigationStateService } from '../../../services/global/navigation-stat
     encapsulation: ViewEncapsulation.None
 })
 export class RouterButtonComponent {
-    private navService = inject(NavigationStateService);
+    private configService = inject(ConfigService);
     @Input() payload?: { route: string, icon?: string, localReference: string, isMatMenu?: boolean, isSidenav?: boolean, userId?: string | number };
 
     constructor(
@@ -49,8 +49,7 @@ export class RouterButtonComponent {
         return false
     }
 
-    navigateToProfile() {
-        this.navService.setState('/profile', this.payload?.userId!.toString()!, '')
-        this.router.navigate(['profile']);
+    navigateToProfile() {        
+        this.router.navigate(['profile', CryptoJS.AES.encrypt(this.payload?.userId!.toString()!, this.configService.get('SECURITY_KEY')).toString()]);
     }
 }

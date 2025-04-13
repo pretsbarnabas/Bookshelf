@@ -19,8 +19,8 @@ import { SummaryService } from '../../../services/page/summary.service';
 import { SummaryModel } from '../../../models/Summary';
 import { LocalizedDatePipe } from "../../../pipes/date.pipe";
 import { RelativeTimePipe } from "../../../pipes/relative-time.pipe";
-import { NavigationStateService } from '../../../services/global/navigation-state.service';
-
+import { ConfigService } from '../../../services/global/config.service';
+import * as CryptoJS from "crypto-js";
 
 @Component({
     selector: 'app-home',
@@ -53,7 +53,7 @@ import { NavigationStateService } from '../../../services/global/navigation-stat
 })
 export class HomeComponent {
     private summaryService = inject(SummaryService);
-    private navService = inject(NavigationStateService)
+    private configService = inject(ConfigService);
     
     constructor(private bookService: BookService, private router: Router, private datePipe: DatePipe, private authService: AuthService) { }
     books: BookModel[] = [];
@@ -95,8 +95,7 @@ export class HomeComponent {
     }
 
     navigateToPage(_route: string, _id: string) {
-        this.navService.setState('/'+_route, _id.toString(), '')
-        this.router.navigate([_route]);
+        this.router.navigate([_route, CryptoJS.AES.encrypt(_id, this.configService.get('SECURITY_KEY')).toString()]);
     }
 
     formatDate(date: any) {

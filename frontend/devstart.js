@@ -4,7 +4,8 @@ const path = require('path');
 const configPath = path.join(__dirname, 'src/assets/config.json');
 
 const configData = {
-    API_URL: "http://[::1]:3000/api"
+    API_URL: "http://[::1]:3000/api",
+    SECURITY_KEY: "testKey"
 };
 
 const jsonData = JSON.stringify(configData, null, 2);
