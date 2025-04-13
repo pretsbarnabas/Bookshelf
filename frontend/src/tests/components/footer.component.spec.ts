@@ -13,8 +13,7 @@ describe('FooterComponent', () => {
                 FooterComponent,
                 TranslateModule.forRoot(),
             ]
-        })
-            .compileComponents();
+        }).compileComponents();
 
         fixture = TestBed.createComponent(FooterComponent);
         component = fixture.componentInstance;

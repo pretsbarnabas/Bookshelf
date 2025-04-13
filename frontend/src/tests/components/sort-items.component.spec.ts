@@ -2,8 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SortItemsComponent } from '../../app/utilities/components/sort-items/sort-items.component';
 import { TranslateModule } from '@ngx-translate/core';
 
-
-
 describe('SortItemsComponent', () => {
     let component: SortItemsComponent;
     let fixture: ComponentFixture<SortItemsComponent>;

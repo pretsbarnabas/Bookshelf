@@ -1,7 +1,7 @@
 import {Schema, model, Types}  from "mongoose"
 import { Logger } from "../tools/logger"
-const BookModel = require("./book.model")
-const CommentModel = require("./comment.model")
+import BookModel from "./book.model"
+import CommentModel from "./comment.model"
 
 const reviewSchema = new Schema({
     book_id:{
@@ -64,8 +64,10 @@ reviewSchema.post("save",async function(next){
     },0)
     const avgScore = SumScore/RelevantReviews.length 
     const Book = await BookModel.findById(this.book_id)
-    Book.score = avgScore
-    await Book.save()
+    if(Book){
+        Book.score = avgScore
+        await Book.save()
+    }
 })
 
 reviewSchema.pre("deleteMany",async function (next){
@@ -73,8 +75,23 @@ reviewSchema.pre("deleteMany",async function (next){
     deleteData.forEach(async data=>{
         await CommentModel.deleteMany({review_id: data._id})
     })
+    next()
+})
+
+reviewSchema.pre("findOneAndDelete",async function (next){
+    let find = await ReviewModel.findOne(this.getFilter()).select("_id").lean()
+    if(!find){
+        next()
+        return
+    }
+    const reviewId = find._id
+
+    const deletedComments = await CommentModel.deleteMany({user_id: reviewId})
+    if(deletedComments.deletedCount) Logger.info(`Deleted ${deletedComments.deletedCount} comments of review: ${reviewId}`)
+    next()
 })
 
 const ReviewModel = model("ReviewModel",reviewSchema,"reviews")
 
 module.exports = ReviewModel
+export default ReviewModel

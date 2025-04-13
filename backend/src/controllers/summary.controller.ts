@@ -4,13 +4,14 @@ import { Logger } from "../tools/logger"
 import { Projection } from "../models/projection.model"
 import { ErrorHandler } from "../tools/errorhandler"
 import { Authenticator } from "./auth.controller"
+import BookModel from "../models/book.model"
 const SummaryModel = require("../models/summary.model")
 const mongoose = require("mongoose")
 
 
 export class SummaryController{
     
-    private static allowedFields = ["_id","content","added_at","updated_at","book.title","book._id","book.author","book.imageUrl","user._id", "user.username","user.imageUrl","user.role"]
+    private static allowedFields = ["_id","content","created_at","updated_at","book.title","book._id","book.author","book.imageUrl","user._id", "user.username","user.imageUrl","user.role"]
 
     static async getAllSummaries(req:any,res:any){
         try{
@@ -21,7 +22,7 @@ export class SummaryController{
             limit = Number.parseInt(limit)
             page = Number.parseInt(page)
             if(Number.isNaN(limit) || Number.isNaN(page) || limit < 1 || page < 0){
-                return res.status(400).json({error:"Invalid page or limit"})
+                return res.status(400).json({message:"Invalid page or limit"})
             }
 
             if(!minCreate) minCreate = dates.minDate()
@@ -30,7 +31,7 @@ export class SummaryController{
             if(!maxUpdate) maxUpdate = dates.maxDate()
     
             if(!validators.isValidISODate(minCreate)|| !validators.isValidISODate(maxCreate) || !validators.isValidISODate(minUpdate || !validators.isValidISODate(maxUpdate))){
-                return res.status(400).json({error:"Invalid date requested"})
+                return res.status(400).json({message:"Invalid date requested"})
             }
 
             const requestedFields: string[] = fields ? fields.split(",") : SummaryController.allowedFields
@@ -38,7 +39,7 @@ export class SummaryController{
 
             if(validFields.length === 0){
                 Logger.info("Invalid fields requested")
-                return res.status(400).json({error:"Invalid fields requested"})
+                return res.status(400).json({message:"Invalid fields requested"})
             }
 
             if(!validFields.includes("_id")) validFields.push("-_id")
@@ -113,19 +114,26 @@ export class SummaryController{
                     path: "$book",
                     preserveNullAndEmptyArrays: true
                 }},
-                {$project: projection},
-                {$skip: page*limit},
-                {$limit: limit}
+                {$facet:{
+                    data: [
+                        {$skip: page*limit},
+                        {$limit: limit},
+                        {$project: projection}
+                    ],
+                    count:[{$count:"count"}]
+                }},
+                {$project:{data: 1, count: {$arrayElemAt: ["$count",0]}}}
             ])
 
-            if(data.length){
+            let summaries = data[0]
+            if(summaries && summaries.data && summaries.data.length){
+                const pages = Math.ceil(Number.parseInt(summaries.count.count) / limit)
                 Logger.info("Request handled")
-                const pages = Math.ceil(await SummaryModel.estimatedDocumentCount() / limit)
-                res.status(200).json({data: data, pages: pages})
+                res.status(200).json({data: summaries.data, pages: pages})
             }
             else{
-                Logger.warn("No comments found")
-                res.status(404).json({message: "No comments found"})
+                Logger.warn("No summaries found")
+                res.status(404).json({message: "No summaries found"})
             }
 
         }catch(error:any){
@@ -150,7 +158,7 @@ export class SummaryController{
             const requestedFields: string[] = fields ? fields.split(",") : SummaryController.allowedFields
             const validFields: string[] = requestedFields.filter(field =>SummaryController.allowedFields.includes(field))
 
-            if(validFields.length === 0) return res.status(400).json({error:"Invalid fields requested"})
+            if(validFields.length === 0) return res.status(400).json({message:"Invalid fields requested"})
             
             if(!validFields.includes("_id")) validFields.push("-_id")
 
@@ -212,7 +220,12 @@ export class SummaryController{
                 return res.status(400).json({message: "content is required"})
             }
 
-            if(!Authenticator.verifyUser(req,"",["editor"])) return res.json(401).send()
+            if(!Authenticator.verifyUser(req,"",["editor"])) throw new Error("Unauthorized")
+
+            const existingBook = await BookModel.findById(book_id)
+            if(!existingBook){
+                throw new Error("Book doesnt exist")
+            }
 
             const newSummary = new SummaryModel({
                 user_id: new mongoose.Types.ObjectId(req.user.id),
@@ -224,7 +237,7 @@ export class SummaryController{
 
         }
         catch(error:any){
-            res.status(500).json({message:error.message})
+            ErrorHandler.HandleMongooseErrors(error,res)
         }
     }
 
@@ -240,16 +253,16 @@ export class SummaryController{
                 return res.status(400).json({message: "id is required"})
             }
             const summary = await SummaryModel.findById(id)
-            if(!summary) return res.status(404).json({message: "Review not found"})
+            if(!summary) return res.status(404).json({message: "Summary not found"})
             
-            if(!Authenticator.verifyUser(req,summary.user_id)) return res.json(401).send()
+            if(!Authenticator.verifyUser(req,summary.user_id)) throw new Error("Unauthorized")
             
             const data = await SummaryModel.findByIdAndDelete(id)
             if(data){
-                res.status(200).json({message:"Review deleted"})
+                res.status(200).json({message:"Summary deleted"})
             }
             else{
-                res.status(404).json({message:"Review not found"})
+                res.status(404).json({message:"Summary not found"})
             }
         } catch (error:any) {
             ErrorHandler.HandleMongooseErrors(error,res)
@@ -273,9 +286,9 @@ export class SummaryController{
                 return res.status(400).json({message: "content is required"})
             }
             const summary = await SummaryModel.findById(id)
-            if(!summary) return res.status(404).json({message: "Review not found"})
+            if(!summary) return res.status(404).json({message: "Summary not found"})
             
-            if(!Authenticator.verifyUser(req,summary.user_id)) return res.json(401).send()
+            if(!Authenticator.verifyUser(req,summary.user_id)) throw new Error("Unauthorized")
             
             summary.content = content
 

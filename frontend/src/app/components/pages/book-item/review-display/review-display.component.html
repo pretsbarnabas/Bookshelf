@@ -1,0 +1,184 @@
+<div class="row w-100">
+    <div class="col-12 col-lg-3 ms-0">
+        <div class="ms-2">
+            <img class="user-profile-picture" [src]="this.review?.user?.imageUrl ?? this.review?.user?.profile_image" />
+            <span class="username">{{ this.review?.user?.username }}</span>
+        </div>
+    </div>
+    <div class="col-12 col-lg-7 ms-0 p-0">
+        <button mat-icon-button [color]="'accent'" *ngFor="let ratingId of ratingArr; index as i"
+            class="existing-review-star">
+            <mat-icon>
+                {{ showIconUserReview(i, this.review?.score! / 2) }}
+            </mat-icon>
+        </button>
+    </div>
+    <div class="col-12 col-lg-2 me-0 subtext text-end">
+        <p>(<i>{{ this.review?.created_at! | relativeTime }})</i></p>
+    </div>
+    <div class="px-4 review-content">
+        <p class="book-item-desc m-0">{{ this.review?.content }}</p>
+    </div>
+    <div class="col-12 col-lg-4 offset-lg-8 d-flex justify-content-end">
+        <div class="text-center d-flex align-items-center">
+            <span>{{ this.review!.likedBy!.length }}</span>
+            <button mat-icon-button class="d-flex align-items-center justify-content-center"
+                (click)="this.handleLikeRequest(this.review!, 'like')" [disabled]="!this.user">
+                <mat-icon>thumb_up</mat-icon>
+            </button>
+        </div>
+        <div class="text-center d-flex align-items-center ms-2">
+            <span>{{ this.review!.dislikedBy!.length }}</span>
+            <button mat-icon-button class="d-flex align-items-center justify-content-center"
+                (click)="this.handleLikeRequest(this.review!, 'dislike')" [disabled]="!this.user">
+                <mat-icon>thumb_down</mat-icon>
+            </button>
+        </div>
+        <button mat-button (click)="this.isCommenting = true" *ngIf="this.user">
+            <mat-icon>reply</mat-icon>
+            {{ 'BOOKITEM.COMMENT.REPLY' | translate }}
+        </button>
+    </div>
+    <div class="col-12 col-lg-4 offset-lg-8 d-flex justify-content-end">
+        <button *ngIf="this.review?.likedBy!.length > 0 || this.review?.dislikedBy!.length > 0" mat-button
+            (click)="this.showLikesOrDislikes(this.review!.likedBy!, this.review!.dislikedBy!)">
+            {{ 'BOOKITEM.DIALOG.SHOW' | translate }}
+        </button>
+    </div>
+</div>
+@if(this.user && this.isCommenting){
+<div class="row w-100">
+    <div class="col-3 col-sm-2 col-lg-1">
+        <img class="user-profile-picture ms-2" [src]="this.user!.imageUrl ?? this.user!.profile_image" />
+    </div>
+    <div class="col-9 col-sm-10 col-lg-11">
+        <form [formGroup]="this.commentForm!">
+            <mat-form-field appearance="outline" class="w-100">
+                <textarea id="leave-comment" matInput placeholder="{{ 'BOOKITEM.COMMENT.PLACEHOLDER' | translate }}"
+                    maxlength="256" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="4" formControlName="comment"></textarea>
+            </mat-form-field>
+        </form>
+        <div class="w-100 d-flex justify-content-end mt-2">
+            <button mat-raised-button (click)="this.clearComment()">
+                {{ 'BOOKITEM.COMMENT.CANCEL' | translate }}
+            </button>
+            <button mat-flat-button class="ms-2" (click)="this.submitComment()"
+                [disabled]="this.commentForm?.controls!['comment'].value.length < 1">
+                {{ 'BOOKITEM.COMMENT.SUBMIT' | translate }}
+            </button>
+        </div>
+    </div>
+</div>
+}
+@if (this.comments.length > 0) {
+<div>
+    <button mat-button (click)="this.showComments = !this.showComments">
+        <span *ngIf="!this.showComments" class="d-flex align-items-center"><mat-icon>keyboard_arrow_down</mat-icon>{{
+            'BOOKITEM.COMMENT.SHOW' | translate }}</span>
+        <span *ngIf="this.showComments" class="d-flex align-items-center"><mat-icon>keyboard_arrow_up</mat-icon>{{
+            'BOOKITEM.COMMENT.HIDE' | translate }}</span>
+    </button>
+    @if(this.showComments){
+    @for (comment of this.comments; track $index) {
+    <p class="p-0 m-0 row">
+        <span class="text-end col-6 offset-6 col-lg-4 offset-lg-8 subtext"><i>{{ comment.created_at | relativeTime
+                }}</i>
+                <!-- <i *ngIf="comment.created_at !== comment.updated_at"> ({{ 'BOOKITEM.COMMENT.EDITED' | translate }})</i> -->
+                </span>
+    </p>
+    <div class="row w-100 ps-3">
+        <div class="col-3 col-sm-2 col-lg-1 p-0">
+            <img class="user-profile-picture" [src]="comment.user!.imageUrl ?? comment.user.profile_image" />
+        </div>
+        @if(comment.user._id === this.user?._id){
+        <div class="col-7" fxHide.gt-sm></div>
+        <div class="col-2 p-0" fxHide.gt-sm>
+            <button mat-icon-button (click)="this.deleteComment(comment);"
+                class="d-flex align-items-center justify-content-center">
+                <mat-icon class="mx-auto">delete</mat-icon>
+            </button>
+            <button mat-icon-button (click)="this.editComment(comment);"
+                class="d-flex align-items-center justify-content-center">
+                <mat-icon class="mx-auto">edit</mat-icon>
+            </button>
+        </div>
+        }
+        <div class="col-12 col-sm-9 col-lg-10 p-0">
+            <div class="comment-content" *ngIf="this.commentUnderEdit?._id != comment._id">
+                {{ comment.content }}
+            </div>
+            <div class="comment-content" *ngIf="this.commentUnderEdit?._id == comment._id">
+                <form [formGroup]="this.commentEditForm!">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <textarea id="leave-comment" matInput maxlength="256" cdkTextareaAutosize
+                            #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="4"
+                            formControlName="comment"></textarea>
+                    </mat-form-field>
+                </form>
+                <div class="w-100 d-flex justify-content-end mt-2">
+                    <button mat-raised-button (click)="this.cancelEditComment()">
+                        {{ 'BOOKITEM.COMMENT.CANCEL' | translate }}
+                    </button>
+                    <button mat-flat-button class="ms-2" (click)="this.submitEditComment(this.commentUnderEdit!)"
+                        [disabled]="!this.commentForm!.valid">
+                        {{ 'BOOKITEM.COMMENT.EDIT' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+        @if(comment.user._id === this.user?._id){
+        <div class="col-1 p-0" fxHide.lt-md>
+            <button mat-icon-button (click)="this.deleteComment(comment);"
+                class="d-flex align-items-center justify-content-center">
+                <mat-icon class="mx-auto">delete</mat-icon>
+            </button>
+            <button mat-icon-button (click)="this.editComment(comment);"
+                class="d-flex align-items-center justify-content-center">
+                <mat-icon class="mx-auto">edit</mat-icon>
+            </button>
+        </div>
+        }
+        <div class="col-12 col-lg-4 offset-lg-8 d-flex justify-content-end">
+            <div class="text-center d-flex align-items-center">
+                <span>{{ comment.likedBy!.length }}</span>
+                <button mat-icon-button class="d-flex align-items-center justify-content-center"
+                    (click)="this.handleLikeRequest(comment, 'like')" [disabled]="!this.user">
+                    <mat-icon>thumb_up</mat-icon>
+                </button>
+            </div>
+            <div class="text-center d-flex align-items-center ms-2">
+                <span>{{ comment.dislikedBy!.length }}</span>
+                <button mat-icon-button class="d-flex align-items-center justify-content-center"
+                    (click)="this.handleLikeRequest(comment, 'dislike')" [disabled]="!this.user">
+                    <mat-icon>thumb_down</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4 offset-lg-8 d-flex justify-content-end">
+            <button *ngIf="comment.likedBy!.length > 0 || comment.dislikedBy!.length > 0" mat-button
+                (click)="this.showLikesOrDislikes(comment.likedBy!, comment.dislikedBy!)">
+                {{ 'BOOKITEM.DIALOG.SHOW' | translate }}
+            </button>
+        </div>
+    </div>
+    <mat-divider class="my-1 w-100 mx-auto" />
+    }
+    <div class=" d-flex">
+        @if(this.maxCommentPages > 1) {
+        <button mat-button (click)="this.loadCommentsBySampleSize(5)" class="d-flex align-items-center">
+            <mat-icon>keyboard_arrow_down</mat-icon>
+            <span>{{ 'BOOKITEM.COMMENT.MORE' | translate }}</span>
+        </button>
+        }
+        @if(this.commentSampleSize > 5){
+        <button mat-button (click)="this.loadCommentsBySampleSize(-5)" class="d-flex align-items-center">
+            <mat-icon>keyboard_arrow_up</mat-icon>
+            <span>{{ 'BOOKITEM.COMMENT.LESS' | translate }}</span>
+        </button>
+        }
+    </div>
+    }
+</div>
+}
+<mat-divider class="my-2" />

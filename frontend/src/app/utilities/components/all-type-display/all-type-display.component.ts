@@ -81,7 +81,7 @@ export class AllTypeDisplayComponent {
     currentArrayType: 'users' | 'books' | 'reviews' | 'summaries' | 'comments' = 'users';
     animate: boolean = false;
 
-    maxPages: number = 0;
+    maxPages: number = 1;
     currentPageIndex = 0;
     pageSize: number = 10;
 

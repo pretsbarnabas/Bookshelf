@@ -17,13 +17,19 @@ export interface UserLoginModel {
     password: string
 }
 
+export interface UserLikeModel {
+    _id: string | number,
+    username: string,
+    imageUrl: string
+}
+
 export function isUserLoginModel(model: UserLoginModel | UserRegistrationFormModel | undefined): model is UserLoginModel {
-    if(!model) return false;
+    if (!model) return false;
     return 'username' in model && 'password' in model;
 }
 
 export function isUserRegistrationFormModel(model: UserLoginModel | UserRegistrationFormModel | undefined): model is UserRegistrationFormModel {
-    if(!model) return false;
+    if (!model) return false;
     return 'username' in model && 'email' in model && 'passwordGroup' in model;
 }
 

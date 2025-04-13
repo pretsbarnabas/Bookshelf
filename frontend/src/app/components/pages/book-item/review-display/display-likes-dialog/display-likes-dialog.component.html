@@ -1,0 +1,41 @@
+<div>
+    <mat-dialog-content id="likes-dialog-content">
+        <mat-tab-group mat-stretch-tabs mat-stretch-tabs-background>
+            <mat-tab *ngIf="data.likes.length > 0">
+                <ng-template mat-tab-label class="d-flex align-items-center">
+                    <mat-icon class="me-2">thumb_up</mat-icon>
+                    {{ 'BOOKITEM.DIALOG.LIKES' | translate }}
+                </ng-template>
+                <div class="mt-2">
+                    @for (user of data.likes; track $index) {
+                    <div class="ms-2 mt-2">
+                        <img class="user-profile-picture" [src]="user.imageUrl ?? user.profile_image" />
+                        <span class="username">{{ user.username }}</span>
+                    </div>
+                    }
+                </div>
+            </mat-tab>
+            <mat-tab *ngIf="data.dislikes.length > 0">
+                <ng-template mat-tab-label class="d-flex align-items-center">
+                    <mat-icon class="me-2">thumb_down</mat-icon>
+                    {{ 'BOOKITEM.DIALOG.DISLIKES' | translate }}
+                </ng-template>
+                <div class="mt-2">
+                    @for (user of data.dislikes; track $index) {
+                    <div class="ms-2 mt-2">
+                        <img class="user-profile-picture" [src]="user.imageUrl" />
+                        <span class="username">{{ user.username }}</span>
+                    </div>
+                    }
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button mat-flat-button mat-dialog-close>
+            {{ 'BOOKITEM.DIALOG.CLOSE' | translate }}
+        </button>
+    </mat-dialog-actions>
+
+</div>
