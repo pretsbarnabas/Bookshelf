@@ -21,8 +21,8 @@ export const routes: Routes = [
         ]
     },
     // non-visible routes
-    { path: 'book-item/:id', loadComponent: () => import('./components/pages/book-item/book-item.component').then(m => m.BookItemComponent), title: 'BOOKITEM.TITLE' },
-    { path: 'summary-item/:id', loadComponent: () => import('./components/pages/summary-item/summary-item.component').then(m => m.SummaryItemComponent), title: 'SUMMARYITEM.TITLE' },
+    { path: 'book-item', loadComponent: () => import('./components/pages/book-item/book-item.component').then(m => m.BookItemComponent), title: 'BOOKITEM.TITLE' },
+    { path: 'summary-item', loadComponent: () => import('./components/pages/summary-item/summary-item.component').then(m => m.SummaryItemComponent), title: 'SUMMARYITEM.TITLE' },
     { path: 'create', canActivate: [authGuard],
         children:[
             { path: '', redirectTo: '404', pathMatch: 'full' },

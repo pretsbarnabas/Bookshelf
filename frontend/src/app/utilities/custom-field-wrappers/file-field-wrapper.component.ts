@@ -31,7 +31,8 @@ import { BaseFieldWrapper } from './base-field-wrapper.component';
         <input
           [id]="to['id']"
           type="file"
-          accept="image/*"
+          accept="image/png,image/jpeg,image/gif,.png,.jpg,.gif"
+          ngf-max-size="8MB"     
           hidden
           (change)="onFileSelected($event)"
           #fileInput
@@ -57,7 +58,7 @@ import { BaseFieldWrapper } from './base-field-wrapper.component';
         <ng-container *ngIf="field.formControl?.errors">
           <span>
             <mat-icon class="error-icon">error_outline</mat-icon>
-            {{ field!.validation?.messages?.[getError()!.key] || 'Unknown error' }}
+            <span [attr.data-cy]="'error-' + to['id']"> {{ field!.validation?.messages?.[getError()!.key] || 'Unknown error' }}</span>
           </span>
         </ng-container>
       </mat-error>

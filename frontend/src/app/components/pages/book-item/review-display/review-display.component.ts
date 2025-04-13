@@ -20,6 +20,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DisplayLikesDialogComponent } from './display-likes-dialog/display-likes-dialog.component';
 import { createAvatar } from '@dicebear/core';
 import { bottts } from '@dicebear/collection';
+import { Router } from '@angular/router';
+import { NavigationStateService } from '../../../../services/global/navigation-state.service';
 
 @Component({
     selector: 'review-display',
@@ -45,7 +47,9 @@ export class ReviewDisplayComponent {
     private authService = inject(AuthService);
     private reviewService = inject(ReviewService);
     private commentService = inject(CommentService);
+    private navService = inject(NavigationStateService);
     private fb = inject(FormBuilder);
+    private router = inject(Router);
     readonly dialog = inject(MatDialog);
     @Input() review?: ReviewModel;
 
@@ -83,7 +87,7 @@ export class ReviewDisplayComponent {
         this.commentService.getAllcomments(this.commentSampleSize, 0, undefined, this.review?._id).subscribe({
             next: (result) => {
                 result.data.forEach((comment) => {
-                    if(comment.user.imageUrl === undefined || comment.user.imageUrl === null)
+                    if (comment.user.imageUrl === undefined || comment.user.imageUrl === null)
                         comment.user.imageUrl = createAvatar(bottts, { seed: comment.user.username }).toDataUri();
                     comment.likedBy = [];
                     comment.dislikedBy = [];
@@ -106,7 +110,7 @@ export class ReviewDisplayComponent {
                 this.comments = result.data;
             },
             error: (err) => {
-                console.log(err);
+                
             },
         })
     }
@@ -159,7 +163,7 @@ export class ReviewDisplayComponent {
                     }, 1000);
                 },
                 error: (err) => {
-                    console.log(err);
+                    
                 },
             })
         }
@@ -174,7 +178,7 @@ export class ReviewDisplayComponent {
                     this.getComments();
                 },
                 error: (err) => {
-                    console.log(err);
+                    
                 },
             })
         }
@@ -200,7 +204,7 @@ export class ReviewDisplayComponent {
                     }, 1000);
                 },
                 error: (err) => {
-                    console.log(err);
+                    
                 },
             })
         }
@@ -259,7 +263,17 @@ export class ReviewDisplayComponent {
             data: {
                 likes: _likes,
                 dislikes: _dilikes,
-            }
+            },
         });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result && result.navigateTo)
+                this.navigateToProfile(result.navigateTo);
+        });
+
+    }
+
+    navigateToProfile(_id: string | number) {
+        this.navService.setState('/profile', _id.toString(), '')
+        this.router.navigate(['profile']);
     }
 }

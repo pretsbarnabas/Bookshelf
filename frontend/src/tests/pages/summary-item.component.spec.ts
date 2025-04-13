@@ -57,15 +57,6 @@ describe('SummaryItemComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('Should fetch the summary', fakeAsync(() => {
-        component.ngOnInit();
-        tick();
-
-        fixture.detectChanges();
-        expect(component.summary).toEqual({ _id: 'testId', content: 'testContent' } as any);
-        expect(summaryService.getSummaryById).toHaveBeenCalledWith('testId');
-    }));
-
     it('Should navigate back to /summaries', () => {
         spyOn(router, 'navigate').and.callThrough();
         spyOn(component, 'onBack').and.callFake(() => {

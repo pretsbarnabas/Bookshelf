@@ -19,7 +19,7 @@ export const authGuard: CanActivateFn = (route, state) => {
             router.navigate(['home']);
         }
     }
-    if (['/mylist', '/profile'].some((protectedRoute) => state.url.startsWith(protectedRoute))) {
+    if (['/mylist'].some((protectedRoute) => state.url.startsWith(protectedRoute))) {
         if (userRole && ['user', 'editor', 'admin'].includes(userRole)) {
             return of(true);
         } else {

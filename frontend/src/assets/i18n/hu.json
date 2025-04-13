@@ -209,29 +209,28 @@
     "MYLIST": {
         "TITLE": "Listám",
         "TABS": {
-            "TOREAD": {
-                "LABEL": "Elolvasandó",
-                "START": "Olvasás elkezdése"
-            },
-            "ISREADING": {
-                "LABEL": "Folyamatban",
-                "FINISH": "Olvasás befejezése",
-                "DROP": "Félbehagyás"
-            },
-            "HASREAD": {
-                "LABEL": "Elolvasva",
-                "FAVOURITE": "Kedvencekhez"
-            },
-            "DROPPED": {
-                "LABEL": "Félbehagyott",
-                "START": "Olvasás folytatása"
-            },
-            "FAVOURITE": {
-                "LABEL": "Kedvencek",
-                "DELETE": "Eltávolítás a kedvencek közül"
-            },
-            "DELETE": "Törlés"
-        }
+            "BOOKLIST": "Könyvlista",
+            "DROPPED": "Félbehagyott",
+            "FAVOURITES": "Kedvencek"
+        },
+        "COLUMNS": {
+            "TOREAD": "Elolvasandó",
+            "ISREADING": "Folyamatban",
+            "HASREAD": "Elolvasva"
+        },
+        "BUTTONS": {
+            "FAVOURITE": "Kedvenc",
+            "DELETE": "Törlés",
+            "DROP": "Félbehagy",
+            "READ": "Olvasom",
+            "FINISH": "Befejezve",
+            "BACKTOTOREAD": "Megjelölés elolvasandóként",
+            "BACKTOREADING": "Vissza az olvasáshoz",
+            "PICKUPAGAIN": "Újra elkezdem",
+            "REMOVE": "Eltávolítás"
+        },
+        "EXPAND": "Összes kinyitása",
+        "COLLAPSE": "Összes becsukása"
     },
     "PROFILE": {
         "TITLE": "Profil",
@@ -251,7 +250,8 @@
             }
         },
         "LIST": {
-            "HEADER": "Az idővonalad"
+            "HEADER": "Az idővonalad",
+            "OBSERVED": " idővonala"
         }
     },
     "ADMIN": {
