@@ -1,20 +1,23 @@
 <div class="wrapper">
     <div class="wrapper-content">
-
-        <div class="book-item p-2 row w-100 mx-auto" *ngIf="this.summary !== undefined && this.summary.book !== undefined">
+        <div class="book-item p-2 row w-100 mx-auto"
+            *ngIf="this.summary !== undefined && this.summary.book !== undefined">
             <div id="Book" class="col-12 col-lg-4 h-100 mx-auto">
                 <mat-card class="book-card w-100">
                     <mat-card-header>
                         <img mat-card-image class="book-image w-75 mx-auto"
-                            [src]="this.summary.book.imageUrl == undefined ? 'assets/images/no-cover.svg' : this.summary.book.imageUrl" [alt]=" this.summary!.book.title
-                                || 'Photo of a book'" />
+                            [src]="this.summary.book.imageUrl == undefined ? 'assets/images/no-cover.svg' : this.summary.book.imageUrl"
+                            [alt]=" this.summary!.book.title
+                                || 'Photo of a book'" [attr.data-cy]="'summi-card-img'" />
                     </mat-card-header>
                     <mat-card-content>
                         <mat-card-title class=" title">
-                            <h1 class="text-center">{{ this.summary!.book.title }}</h1>
+                            <h1 class="text-center" [attr.data-cy]="'summi-card-title'">{{ this.summary!.book.title }}
+                            </h1>
                         </mat-card-title>
                         <mat-card-subtitle class="text-center mb-3">
-                            {{ 'BOOKITEM.BOOKCARD.AUTHOR' | translate}}: {{ this.summary!.book!.author }}<br>
+                            <span [attr.data-cy]="'summi-card-author'">{{ 'BOOKITEM.BOOKCARD.AUTHOR' | translate}}: {{
+                                this.summary!.book!.author }}<br></span>
                         </mat-card-subtitle>
                     </mat-card-content>
                 </mat-card>
@@ -22,20 +25,23 @@
             <div id="Book-Details" class="book-details col-12 col-lg-8 mx-auto">
                 <div class="row px-5 py-3 w-100 mx-auto">
                     <div class="col-12 col-sm-6 col-lg-3">
-                        <button class="w-100" mat-fab color="primary" (click)="onBack()">
+                        <button class="w-100" mat-fab color="primary" (click)="onBack()"
+                            [attr.data-cy]="'summi-btn-back'">
                             <mat-icon class="me-2">arrow_back</mat-icon>
                             {{ "BOOKITEM.BACK" | translate }}
                         </button>
                     </div>
                 </div>
-                <mat-card appearance="outlined">
+                <mat-card appearance="outlined" [attr.data-cy]="'summi-desc-card'">
                     <mat-card-header class="p-2">
                         <mat-card class="w-100 p-2">
-                            <h2>{{ 'SUMMARYITEM.FOR' | translate}}: <i>{{ this.summary!.book.title }}</i></h2>
-                            <p>{{ 'SUMMARIES.BY' | translate}}: {{ this.summary!.user.username }}</p>
-                            <p>{{ this.summary!.updated_at | localizedDate }}</p>
+                            <h2 [attr.data-cy]="'summi-desc-title'">{{ 'SUMMARYITEM.FOR' | translate}}: <i>{{ this.summary!.book.title }}</i></h2>
+                            <p [attr.data-cy]="'summi-desc-creator'">{{ 'SUMMARIES.BY' | translate}}: <span class="selectable"
+                                    (click)="this.navigateToProfile(this.summary.user._id)" [attr.data-cy]="'summi-desc-username'">{{
+                                    this.summary!.user.username }}</span></p>
+                            <p [attr.data-cy]="'summi-desc-created'">{{ this.summary!.updated_at | localizedDate }}</p>
                             <mat-card-content class="summary-content p-4">
-                                <p>{{ this.summary!.content }}</p>
+                                <p [attr.data-cy]="'summi-desc-content'">{{ this.summary!.content }}</p>
                             </mat-card-content>
                         </mat-card>
                     </mat-card-header>

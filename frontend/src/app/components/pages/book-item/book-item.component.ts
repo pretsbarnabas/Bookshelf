@@ -13,7 +13,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReviewModel } from '../../../models/Review';
 import { UserService } from '../../../services/page/user.service';
-
+import { BooklistService } from '../../../services/page/booklist.service';
 import { PageEvent } from '@angular/material/paginator';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { AuthService } from '../../../services/global/auth.service';
@@ -28,6 +28,7 @@ import { bottts } from '@dicebear/collection';
 import { CustomPaginatorComponent } from '../../../utilities/components/custom-paginator/custom-paginator.component';
 import { ReviewDisplayComponent } from './review-display/review-display.component';
 import { SortItems } from '../../../utilities/components/sort-items';
+import { NavigationStateService } from '../../../services/global/navigation-state.service';
 
 
 @Component({
@@ -56,6 +57,7 @@ import { SortItems } from '../../../utilities/components/sort-items';
 export class BookItemComponent implements OnInit {
     private translationService = inject(TranslationService);
     private router = inject(Router);
+    private navService = inject(NavigationStateService)
 
     public book: any;
     public color: string = 'accent';
@@ -86,15 +88,42 @@ export class BookItemComponent implements OnInit {
         private snackBar: MatSnackBar,
         private userService: UserService,
         private authService: AuthService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private booklistService: BooklistService
     ) {
         this.reviewForm = this.fb.group({
             content: ['', Validators.required]
         });
     }
+  
+  addToBooklist(bookId: string | undefined) {
+    if (!this.loggedInUser || !bookId) {
+      this.snackBar.open('You must be logged in to add books to your booklist.', '', {
+        duration: 3000,
+      });
+      return;
+    }
+
+    this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'to_read').subscribe({
+      next: () => {
+        this.snackBar.open('Book added to your booklist!', '', {
+          duration: 3000,
+        });
+      },
+      error: (err) => {
+        console.error('Error adding book to booklist:', err);
+        this.snackBar.open('Failed to add book to your booklist.', '', {
+          duration: 3000,
+        });
+      },
+    });
+  }
+
     ngOnInit() {
         this.uniqueIds = [];
-        this.bookId = this.route.snapshot.paramMap.get('id');
+        this.navService.getStateObservable('/book-item')?.subscribe(state =>
+            this.bookId = state?.id
+        );
         if (this.bookId) {
             this.bookService.getBookById(this.bookId).subscribe(book => {
                 this.book = book;
@@ -195,7 +224,7 @@ export class BookItemComponent implements OnInit {
 
     navigateToCreate() {
         this.router.navigate(['create/summary', this.book._id]);
-    }
+    }    
 }
 export enum StarRatingColor {
     primary = "primary",

@@ -1,4 +1,4 @@
-<div>
+<div [attr.data-cy]="'reviewd-dialog'">
     <mat-dialog-content id="likes-dialog-content">
         <mat-tab-group mat-stretch-tabs mat-stretch-tabs-background>
             <mat-tab *ngIf="data.likes.length > 0">
@@ -8,9 +8,9 @@
                 </ng-template>
                 <div class="mt-2">
                     @for (user of data.likes; track $index) {
-                    <div class="ms-2 mt-2">
-                        <img class="user-profile-picture" [src]="user.imageUrl ?? user.profile_image" />
-                        <span class="username">{{ user.username }}</span>
+                    <div class="ms-2 mt-2 py-1">
+                        <img class="user-profile-picture selectable" [src]="user.imageUrl ?? user.profile_image" (click)="this.navigateToProfile(user._id)"/>
+                        <span class="username selectable" (click)="this.navigateToProfile(user._id)">{{ user.username }}</span>
                     </div>
                     }
                 </div>
@@ -20,11 +20,11 @@
                     <mat-icon class="me-2">thumb_down</mat-icon>
                     {{ 'BOOKITEM.DIALOG.DISLIKES' | translate }}
                 </ng-template>
-                <div class="mt-2">
+                <div class="mt-2 py-1">
                     @for (user of data.dislikes; track $index) {
                     <div class="ms-2 mt-2">
-                        <img class="user-profile-picture" [src]="user.imageUrl" />
-                        <span class="username">{{ user.username }}</span>
+                        <img class="user-profile-picture selectable" [src]="user.imageUrl" (click)="this.navigateToProfile(user._id)"/>
+                        <span class="username selectable" (click)="this.navigateToProfile(user._id)">{{ user.username }}</span>
                     </div>
                     }
                 </div>

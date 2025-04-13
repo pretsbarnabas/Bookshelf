@@ -1,0 +1,101 @@
+<mat-card class="h-100 p-3">
+    <mat-card-header class="centered-header">
+        <mat-card-title>{{ book.title }}</mat-card-title>
+        <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image [src]="book.imageUrl ?? './assets/images/no-cover.svg'" alt="{{ book.title }}"
+        class="book-image">
+
+    <mat-card-actions class="d-flex justify-content-between">
+        <ng-container *ngIf="cardType === 'toRead'">
+            <button mat-flat-button class="w-100 mx-2 bc-start-btn " (click)="onStartReading()">
+                <mat-icon>auto_stories</mat-icon>
+                <span class="button-text">{{ 'MYLIST.BUTTONS.READ' | translate }}</span>
+            </button>
+            <button mat-flat-button class="w-100 mx-2 bc-del-btn " (click)="onDeleteBook()">
+                <mat-icon>delete</mat-icon>
+                <span class="button-text">{{ 'MYLIST.BUTTONS.DELETE' | translate }}</span>
+            </button>
+        </ng-container>
+
+        <ng-container *ngIf="cardType === 'reading'">
+            <div class="row w-100">
+                <div class="col-6">
+                    <button mat-flat-button class="w-100 mx-2 bc-start-btn " (click)="onFinishReading()">
+                        <mat-icon>check_circle</mat-icon>
+                        <span class="button-text">{{ 'MYLIST.BUTTONS.FINISH' | translate }}</span>
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button mat-flat-button class="w-100 mx-2 bc-del-btn " (click)="onDropBook()">
+                        <mat-icon>block</mat-icon>
+                        <span class="button-text">{{ 'MYLIST.BUTTONS.DROP' | translate }}</span>
+                    </button>
+                </div>
+                <div class="col-12 mt-3">
+                    <button mat-flat-button class="w-100 mx-2 bc-start-btn " (click)="onbackToRead()">
+                        <mat-icon>book</mat-icon>
+                        <span class="button-text">{{ 'MYLIST.BUTTONS.BACKTOTOREAD' | translate }}</span>
+                    </button>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="cardType === 'finished'">
+            <div class="row w-100">
+                <ng-container *ngIf="isFavorite; else notFav">
+                    <div class="col-6">
+                        <button mat-flat-button class="w-100 mx-2 ml-fav " (click)="onFinishReading()">
+                            <mat-icon>star</mat-icon>
+                            <span class="button-text">{{ 'MYLIST.BUTTONS.REMOVE' | translate }}</span>
+                        </button>
+                    </div>
+                </ng-container>
+                <ng-template #notFav>
+                    <div class="col-6">
+                        <button mat-flat-button class="w-100 mx-2 ml-fav " (click)="onMarkAsFavorite()">
+                            <mat-icon>star</mat-icon>
+                            <span class="button-text">{{ 'MYLIST.BUTTONS.FAVOURITE' | translate }}</span>
+                        </button>
+                    </div>
+                </ng-template>
+                <div class="col-6">
+                    <button mat-flat-button class="w-100 mx-2 bc-del-btn " (click)="onDeleteBook()">
+                        <mat-icon>delete</mat-icon>
+                        <span class="button-text">{{ 'MYLIST.BUTTONS.DELETE' | translate }}</span>
+                    </button>
+                </div>
+                <div class="col-12 mt-3">
+                    <button mat-flat-button class="w-100 mx-2 bc-start-btn " (click)="onbackToRead()">
+                        <mat-icon>book</mat-icon>
+                        <span class="button-text">{{ 'MYLIST.BUTTONS.BACKTOTOREAD' | translate }}</span>
+                    </button>
+                </div>
+                <div class="col-12 mt-3">
+                    <button mat-flat-button class="w-100 mx-2 bc-start-btn " (click)="onbackToReading()">
+                        <mat-icon>auto_stories</mat-icon>
+                        <span class="button-text">{{ 'MYLIST.BUTTONS.BACKTOREADING' | translate }}</span>
+                    </button>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="cardType === 'dropped'">
+            <button mat-flat-button class="w-100 bc-start-btn mx-2 " (click)="onStartReading()">
+                <mat-icon>auto_stories</mat-icon>
+                <span class="button-text">{{ 'MYLIST.BUTTONS.PICKUPAGAIN' | translate }}</span>
+            </button>
+            <button mat-flat-button class="w-100 bc-del-btn mx-2 " (click)="onDeleteBook()">
+                <mat-icon>delete</mat-icon>
+                <span class="button-text">{{ 'MYLIST.BUTTONS.DELETE' | translate }}</span>
+            </button>
+        </ng-container>
+
+        <ng-container *ngIf="cardType === 'favorite'">
+            <button mat-flat-button class="w-100 bc-del-btn " (click)="onFinishReading()">
+                <mat-icon>remove_circle</mat-icon>
+                <span class="button-text">{{ 'MYLIST.BUTTONS.REMOVE' | translate }}</span>
+            </button>
+        </ng-container>
+    </mat-card-actions>
+</mat-card>

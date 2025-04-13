@@ -1,117 +1,202 @@
 <div class="wrapper">
-    <div class="wrapper-content">
+    <div id="mylist-main">
         <mat-tab-group>
             <!-- To Read Tab -->
             <mat-tab>
-                <ng-template mat-tab-label>
-                    {{ 'MYLIST.TABS.TOREAD.LABEL' | translate }}
+                <ng-template mat-tab-label class="d-flex align-items-center">
+                    <mat-icon class="me-2">list_alt</mat-icon>
+                    {{ 'MYLIST.TABS.BOOKLIST' | translate }}
                 </ng-template>
-                <div class="card-container row g-3">
-                    <div class="col-6 col-md-3 col-lg-2" *ngFor="let book of toReadBooks">
-                        <div class="card shadow-sm h-100">
-                            <img [src]="book.imageUrl" class="card-img-top" alt="{{ book.title }}">
-                            <div class="card-body d-flex flex-column">
-                                <h6 class="card-title text-truncate">{{ book.title }}</h6>
-                                <p class="card-subtitle text-muted text-truncate">{{ book.author }}</p>
-                                <div class="mt-auto d-flex justify-content-between">
-                                    <button class="btn btn-primary btn-sm" (click)="startReading(book._id)">{{
-                                        'MYLIST.TABS.TOREAD.START' | translate }}</button>
-                                    <button class="btn btn-danger btn-sm" (click)="deleteBook(book._id)">{{
-                                        'MYLIST.TABS.DELETE' | translate }}</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </mat-tab>
-            <!-- Is Reading Tab -->
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    {{ 'MYLIST.TABS.ISREADING.LABEL' | translate }}
-                </ng-template>
-                <div class="card-container row g-3">
-                    <div class="col-6 col-md-3 col-lg-2" *ngFor="let book of readingBooks">
-                        <div class="card shadow-sm h-100">
-                            <img [src]="book.imageUrl" class="card-img-top" alt="{{ book.title }}">
-                            <div class="card-body d-flex flex-column">
-                                <h6 class="card-title text-truncate">{{ book.title }}</h6>
-                                <p class="card-subtitle text-muted text-truncate">{{ book.author }}</p>
-                                <div class="mt-auto d-flex justify-content-between">
-                                    <button class="btn btn-success btn-sm" (click)="finishReading(book._id)">{{
-                                        'MYLIST.TABS.ISREADING.FINISH' | translate }}</button>
-                                    <button class="btn btn-warning btn-sm" (click)="dropBook(book._id)">{{
-                                        'MYLIST.TABS.ISREADING.DROP' | translate }}</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </mat-tab>
+                <div class="drgcontainer d-flex justify-content-between align-items-center mx-5" cdkDropListGroup>
+                    <div class="BookListCol" fxHide.lt-md>
+                        <h2 class="text-center">{{ 'MYLIST.COLUMNS.TOREAD' | translate }}</h2>
 
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    {{ 'MYLIST.TABS.HASREAD.LABEL' | translate }}
-                </ng-template>
-                <div class="card-container row g-3">
-                    <div class="col-6 col-md-3 col-lg-2" *ngFor="let book of hasReadBooks">
-                        <div class="card shadow-sm h-100">
-                            <img [src]="book.imageUrl" class="card-img-top" alt="{{ book.title }}">
-                            <div class="card-body d-flex flex-column">
-                                <h6 class="card-title text-truncate">{{ book.title }}</h6>
-                                <p class="card-subtitle text-muted text-truncate">{{ book.author }}</p>
-                                <div class="mt-auto d-flex justify-content-between">
-                                    <button class="btn btn-warning btn-sm" (click)="markAsFavorite(book._id)">{{
-                                        'MYLIST.TABS.HASREAD.FAVOURITE' | translate }}</button>
-                                    <button class="btn btn-danger btn-sm" (click)="deleteBook(book._id)">{{
-                                        'MYLIST.TABS.DELETE' | translate }}</button>
-                                </div>
-                            </div>
+                        <div cdkDropList id="toReadList" [cdkDropListData]="toReadBooks" class="BookListColItems"
+                            (cdkDropListDropped)="drop($event)">
+                            @for (item of toReadBooks; track item) {
+                            <mat-card cdkDrag [cdkDragDisabled]="this.dragDisabled" appearance="outlined"
+                                class="drgCard d-flex justify-content-between flex-row">
+                                <mat-card-header>
+                                    <mat-card-title> {{item.title}}</mat-card-title>
+                                    <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
+                                </mat-card-header>
+                                <mat-card-actions class="d-flex flex-column align-items-end gap-2">
+                                    <button mat-fab extended class="ml-fav" (click)="markAsFavorite(item._id)">
+                                        <mat-icon>star</mat-icon>
+                                        {{ 'MYLIST.BUTTONS.FAVOURITE' | translate }}
+                                    </button>
+                                    <button mat-fab extended class="ml-delete" (click)="deleteBook(item._id)">
+                                        <mat-icon>delete</mat-icon>
+                                        {{ 'MYLIST.BUTTONS.DELETE' | translate }}
+                                    </button>
+                                </mat-card-actions>
+                            </mat-card>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="BookListCol" fxHide.lt-md>
+                        <h2 class="text-center">{{ 'MYLIST.COLUMNS.ISREADING' | translate }}</h2>
+
+                        <div cdkDropList id="readingList" [cdkDropListData]="readingBooks" class="BookListColItems"
+                            (cdkDropListDropped)="drop($event)">
+                            @for (item of readingBooks; track item) {
+                            <mat-card appearance="outlined" class="drgCard d-flex justify-content-between flex-row"
+                                cdkDrag [cdkDragDisabled]="this.dragDisabled">
+                                <mat-card-header>
+                                    <mat-card-title>{{ item.title }}</mat-card-title>
+                                    <mat-card-subtitle>{{ item.author }}</mat-card-subtitle>
+                                </mat-card-header>
+                                <mat-card-actions class="d-flex flex-column align-items-end gap-2">
+                                    <button mat-fab extended class="ml-fav" (click)="markAsFavorite(item._id)">
+                                        <mat-icon>star</mat-icon>
+                                        {{ 'MYLIST.BUTTONS.FAVOURITE' | translate }}
+                                    </button>
+                                    <button mat-fab extended class="ml-delete" (click)="dropBook(item._id)">
+                                        <mat-icon>block</mat-icon>
+                                        {{ 'MYLIST.BUTTONS.DROP' | translate }}
+                                    </button>
+                                </mat-card-actions>
+                            </mat-card>
+
+                            }
+                        </div>
+                    </div>
+
+                    <div class="BookListCol" fxHide.lt-md>
+                        <h2 class="text-center">{{ 'MYLIST.COLUMNS.HASREAD' | translate }}</h2>
+
+                        <div cdkDropList id="finishedList" [cdkDropListData]="hasReadBooks" class="BookListColItems"
+                            (cdkDropListDropped)="drop($event)">
+                            @for (item of hasReadBooks; track item) {
+
+                            <mat-card appearance="outlined" class="drgCard d-flex justify-content-between flex-row"
+                                cdkDrag [cdkDragDisabled]="this.dragDisabled">
+                                <mat-card-header>
+                                    <mat-card-title> {{item.title}}</mat-card-title>
+                                    <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
+                                </mat-card-header>
+                                <mat-card-actions class="d-flex flex-column align-items-end gap-2">
+                                    @if (favoriteBooks.includes(item)) {
+                                    <button mat-fab extended class="ml-fav" (click)="finishReading(item._id)">
+                                        <mat-icon>star</mat-icon>
+                                        {{ 'MYLIST.BUTTONS.REMOVE' | translate }}
+                                    </button>
+                                    }
+                                    @else {
+                                    <button mat-fab extended class="ml-fav" (click)="markAsFavorite(item._id)">
+                                        <mat-icon>star</mat-icon>
+                                        {{ 'MYLIST.BUTTONS.FAVOURITE' | translate }}
+                                    </button>
+                                    }
+                                    <button mat-fab extended class="ml-delete" (click)="deleteBook(item._id)">
+                                        <mat-icon>delete</mat-icon>
+                                        {{ 'MYLIST.BUTTONS.DELETE' | translate }}
+                                    </button>
+                                </mat-card-actions>
+                            </mat-card>
+                            }
                         </div>
                     </div>
                 </div>
-            </mat-tab>
 
+                <!-- Mobile view -->
+                <mat-accordion multi fxHide.gt-sm>
+                    <div class="d-flex justify-content-center align-items-center py-4 gap-4">
+                        <button mat-fab extended (click)="accordion().openAll()">{{ 'MYLIST.EXPAND' | translate }}</button>
+                        <button mat-fab extended (click)="accordion().closeAll()">{{ 'MYLIST.COLLAPSE' | translate }}</button>
+                    </div>
+                    <mat-expansion-panel class="mylist-expansion-panel">
+                        <mat-expansion-panel-header class="py-5">
+                            <mat-panel-title>{{ 'MYLIST.COLUMNS.TOREAD' | translate }}</mat-panel-title>
+                            <mat-panel-description>
+                                <mat-icon>book</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="container mt-2">
+                            <h4 *ngIf="this.toReadBooks.length === 0" class="text-center">No books yet</h4>
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-md-6 mx-auto mt-2"
+                                    *ngFor="let book of toReadBooks; trackBy: trackByBookId">
+                                    <book-card [book]="book" [cardType]="'toRead'" (startReading)="startReading($event)"
+                                        (deleteBook)="deleteBook($event)" />
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel class="mylist-expansion-panel">
+                        <mat-expansion-panel-header class="py-5">
+                            <mat-panel-title>{{ 'MYLIST.COLUMNS.ISREADING' | translate }}</mat-panel-title>
+                            <mat-panel-description>
+                                <mat-icon>auto_stories</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <div class="container mt-2">
+                            <h4 *ngIf="this.readingBooks.length === 0" class="text-center">No books yet</h4>
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-md-6 mx-auto mt-2"
+                                    *ngFor="let book of readingBooks; trackBy: trackByBookId">
+                                    <book-card [book]="book" [cardType]="'reading'"
+                                        (finishReading)="finishReading($event)" (dropBook)="dropBook($event)"
+                                        (backToRead)="ToRead($event)" />
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel class="mylist-expansion-panel">
+                        <mat-expansion-panel-header class="py-5">
+                            <mat-panel-title>{{ 'MYLIST.COLUMNS.HASREAD' | translate }}</mat-panel-title>
+                            <mat-panel-description>
+                                <mat-icon>check_circle</mat-icon>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <div class="container mt-2">
+                            <h4 *ngIf="this.hasReadBooks.length === 0" class="text-center">No books yet</h4>
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-md-6 mx-auto mt-2"
+                                    *ngFor="let book of hasReadBooks; trackBy: trackByBookId">
+                                    <book-card [book]="book" [cardType]="'finished'"
+                                        [isFavorite]="favoriteBooks.includes(book)"
+                                        (markAsFavorite)="markAsFavorite($event)"
+                                        (finishReading)="finishReading($event)" (deleteBook)="deleteBook($event)"
+                                        (backToRead)="ToRead($event)" (backToReading)="startReading($event)" />
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </mat-tab>
             <!-- Dropped Tab -->
             <mat-tab>
-                <ng-template mat-tab-label>
-                    {{ 'MYLIST.TABS.DROPPED.LABEL' | translate }}
+                <ng-template mat-tab-label class="d-flex align-items-center">
+                    <mat-icon class="me-2">block</mat-icon>
+                    {{ 'MYLIST.TABS.DROPPED' | translate }}
                 </ng-template>
-                <div class="card-container row g-3">
-                    <div class="col-6 col-md-3 col-lg-2" *ngFor="let book of droppedBooks">
-                        <div class="card shadow-sm h-100">
-                            <img [src]="book.imageUrl" class="card-img-top" alt="{{ book.title }}">
-                            <div class="card-body d-flex flex-column">
-                                <h6 class="card-title text-truncate">{{ book.title }}</h6>
-                                <p class="card-subtitle text-muted text-truncate">{{ book.author }}</p>
-                                <div class="mt-auto d-flex justify-content-between">
-                                    <button class="btn btn-primary btn-sm" (click)="startReading(book._id)">{{
-                                        'MYLIST.TABS.DROPPED.START' | translate }}</button>
-                                    <button class="btn btn-danger btn-sm" (click)="deleteBook(book._id)">{{
-                                        'MYLIST.TABS.DELETE' | translate }}</button>
-                                </div>
-                            </div>
+                <div class="container mt-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 col-lg-4 col-12 mt-3"
+                            *ngFor="let book of droppedBooks; trackBy: trackByBookId">
+                            <book-card [book]="book" [cardType]="'dropped'" (startReading)="this.startReading($event)"
+                                (deleteBook)="this.deleteBook($event)" />
                         </div>
                     </div>
                 </div>
             </mat-tab>
 
             <!-- Favorite Tab -->
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    {{ 'MYLIST.TABS.FAVOURITE.LABEL' | translate }}
+            <mat-tab label="Favorite">
+                <ng-template mat-tab-label class="d-flex align-items-center">
+                    <mat-icon class="me-2">star</mat-icon>
+                    {{ 'MYLIST.TABS.FAVOURITES' | translate }}
                 </ng-template>
-                <div class="card-container row g-3">
-                    <div class="col-6 col-md-3 col-lg-2" *ngFor="let book of favoriteBooks">
-                        <div class="card shadow-sm h-100">
-                            <img [src]="book.imageUrl" class="card-img-top" alt="{{ book.title }}">
-                            <div class="card-body d-flex flex-column">
-                                <h6 class="card-title text-truncate">{{ book.title }}</h6>
-                                <p class="card-subtitle text-muted text-truncate">{{ book.author }}</p>
-                                <div class="mt-auto d-flex justify-content-center">
-                                    <button class="btn btn-danger btn-sm" (click)="finishReading(book._id)">{{
-                                        'MYLIST.TABS.FAVOURITE.DELETE' | translate }}</button>
-                                </div>
-                            </div>
+                <div class="container mt-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 col-lg-4 col-12 mt-3" *ngFor="let book of favoriteBooks">
+                            <book-card [book]="book" [cardType]="'favorite'"
+                                (finishReading)="this.finishReading($event)" />
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, inject, Output, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,6 +21,11 @@ import { MatIconModule } from '@angular/material/icon';
     encapsulation: ViewEncapsulation.None,
 })
 export class DisplayLikesDialogComponent {
+    private dialogRef = inject(MatDialogRef<DisplayLikesDialogComponent>);
     data = inject(MAT_DIALOG_DATA);
+
+    navigateToProfile(_id: string | number) {
+        this.dialogRef.close({ navigateTo: _id })
+    }
 
 }

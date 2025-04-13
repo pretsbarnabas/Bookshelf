@@ -1,17 +1,27 @@
-<mat-expansion-panel hideToggle id="item-panel">
+<mat-expansion-panel hideToggle id="item-panel" #panel>
     <mat-expansion-panel-header class="py-3">
         <div class="row w-100">
             <div class="d-flex justify-content-end align-item-center p-0">
 
-                <ng-container *ngIf="payload?.type ==='book' || payload?.item.book ">
+                <ng-container *ngIf="payload?.type ==='book' || payload?.item.book || payload?.type === 'user'">
                     @if(payload?.type === 'book'){
-                    <button mat-mini-fab [routerLink]="['/book-item', this.payload?.item._id]" class="visit me-1"
-                        (click)="$event.stopPropagation()">
+                    <button mat-mini-fab (click)="this.navigateToPage('book-item', this.payload?.item._id)"
+                        class="visit me-1" (click)="$event.stopPropagation()" [attr.data-cy]="'ei-btn-visitbook'">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
-                    } @else{
-                    <button mat-mini-fab [routerLink]="['/book-item', this.payload?.item.book._id]" class="visit me-1"
-                        (click)="$event.stopPropagation()">
+                    } @if(payload?.type === 'summary'){
+                    <button mat-mini-fab (click)="this.navigateToPage('summary-item', this.payload?.item._id)"
+                        class="visit me-1" (click)="$event.stopPropagation()" [attr.data-cy]="'ei-btn-visitsummary'">
+                        <mat-icon class="mx-auto">open_in_new</mat-icon>
+                    </button>
+                    } @if(payload?.type === 'user'){
+                    <button mat-mini-fab (click)="this.navigateToPage('profile', this.payload?.item._id)"
+                        class="visit me-1" (click)="$event.stopPropagation()" [attr.data-cy]="'ei-btn-visitprofile'">
+                        <mat-icon class="mx-auto">open_in_new</mat-icon>
+                    </button>
+                    }@if(payload?.type === 'review'){
+                    <button mat-mini-fab (click)="this.navigateToPage('book-item', this.payload?.item.book._id)"
+                        class="visit me-1" (click)="$event.stopPropagation()" [attr.data-cy]="'ei-btn-visitreview'">
                         <mat-icon class="mx-auto">open_in_new</mat-icon>
                     </button>
                     }
@@ -20,31 +30,36 @@
                 <ng-container *ngIf="payload?.type === 'user'; else nonUserButtons">
                     <ng-container *ngIf="payload?.item.role === 'user'">
                         <button mat-mini-fab class="promote-demote me-1"
-                            (click)="$event.stopPropagation(); this.openDialog('roleEdit')">
+                            (click)="$event.stopPropagation(); this.openDialog('roleEdit')"
+                            [attr.data-cy]="'ei-btn-promote'">
                             <mat-icon class="mx-auto">vertical_align_top</mat-icon>
                         </button>
                     </ng-container>
                     <ng-container *ngIf="payload?.item.role === 'editor'">
                         <button mat-mini-fab class="promote-demote me-1"
-                            (click)="$event.stopPropagation(); this.openDialog('roleEdit')">
+                            (click)="$event.stopPropagation(); this.openDialog('roleEdit')"
+                            [attr.data-cy]="'ei-btn-demote'">
                             <mat-icon class="mx-auto">vertical_align_bottom</mat-icon>
                         </button>
                     </ng-container>
                 </ng-container>
 
                 <ng-template #nonUserButtons>
-                    <button mat-mini-fab class="edit me-1" (click)="$event.stopPropagation(); this.openDialog('edit')">
+                    <button mat-mini-fab class="edit me-1" (click)="$event.stopPropagation(); this.openDialog('edit')"
+                        *ngIf="!this.payload?.observedProfile?.id" [attr.data-cy]="'ei-btn-edit'">
                         <mat-icon class="mx-auto">edit</mat-icon>
                     </button>
                 </ng-template>
 
                 <ng-container *ngIf="payload?.item.role === 'admin'; else deleteButton">
-                    <button mat-mini-fab class="admin" (click)="$event.stopPropagation()" disabled>
+                    <button mat-mini-fab class="admin" (click)="$event.stopPropagation()" disabled
+                        *ngIf="!this.payload?.observedProfile?.id" [attr.data-cy]="'ei-btn-admin'">
                         <mat-icon class="mx-auto">stars</mat-icon>
                     </button>
                 </ng-container>
                 <ng-template #deleteButton>
-                    <button mat-mini-fab class="delete" (click)="$event.stopPropagation(); this.openDialog('delete')">
+                    <button mat-mini-fab class="delete" (click)="$event.stopPropagation(); this.openDialog('delete')"
+                        *ngIf="!this.payload?.observedProfile?.id" [attr.data-cy]="'ei-btn-delete'">
                         <mat-icon class="mx-auto">delete</mat-icon>
                     </button>
                 </ng-template>
@@ -54,60 +69,71 @@
                 <ng-container *ngSwitchCase="'user'">
                     <div class="col-12 col-sm-3 d-flex">
                         <img [src]="payload?.item.imageUrl ?? payload?.item.profile_image" alt="Profile Image"
-                            class="avatar-image my-auto me-2" />
-                        <mat-panel-title>{{ payload?.item.username }}</mat-panel-title>
+                            class="avatar-image my-auto me-2" [attr.data-cy]="'ei-tuser-img'" />
+                        <mat-panel-title [attr.data-cy]="'ei-tuser-username'">{{ payload?.item.username
+                            }}</mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-3">
-                        <mat-panel-title class="ms-2">Id: {{ payload?.item._id }}</mat-panel-title>
+                        <mat-panel-title class="ms-2" [attr.data-cy]="'ei-tuser-id'">Id: {{ payload?.item._id
+                            }}</mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-3">
                         <mat-panel-description>
                             {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.USER.ROLE' | translate }}:
-                            <mat-chip class="ms-2">{{ payload?.item.role }}</mat-chip>
+                            <mat-chip class="ms-2" [attr.data-cy]="'ei-tuser-role'">{{ payload?.item.role }}</mat-chip>
                         </mat-panel-description>
                     </div>
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'book'">
                     <div class="col-12 col-sm-4">
-                        <mat-panel-title>{{ payload?.item.title }}</mat-panel-title>
+                        <mat-panel-title [attr.data-cy]="'ei-tbook-title'">{{ payload?.item.title }}</mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-4" *ngIf="this.payload?.isAdminPage">
-                        <mat-panel-description data-test="mat-panel-desc-bookid">Id: {{ payload?.item._id
+                        <mat-panel-description data-test="mat-panel-desc-bookid" [attr.data-cy]="'ei-tbook-id'">Id: {{
+                            payload?.item._id
                             }}</mat-panel-description>
                     </div>
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'review'">
                     <div class="col-12 col-sm-4">
-                        <mat-panel-title>
+                        <mat-panel-title [attr.data-cy]="'ei-treview-score'">
                             {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.SCORE' | translate }}: {{
                             payload?.item.score }}
                         </mat-panel-title>
                     </div>
                     <div class="col-12 col-sm-4">
-                        <mat-panel-description *ngIf="this.payload?.isAdminPage">Id: {{ payload?.item._id
+                        <mat-panel-description *ngIf="this.payload?.isAdminPage" [attr.data-cy]="'ei-treview-id'">Id: {{
+                            payload?.item._id
                             }}</mat-panel-description>
-                        <mat-panel-description *ngIf="!this.payload?.isAdminPage">{{ payload?.item.book.title
+                        <mat-panel-description *ngIf="!this.payload?.isAdminPage" [attr.data-cy]="'ei-treview-title'">{{
+                            payload?.item.book.title
                             }}</mat-panel-description>
                     </div>
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'summary'">
                     <div class="col-12 col-sm-4" *ngIf="this.payload?.isAdminPage; else bookTitle">
-                        <mat-panel-description>Id: {{ payload?.item._id }}</mat-panel-description>
+                        <mat-panel-description [attr.data-cy]="'ei-tsummary-id'">Id: {{ payload?.item._id
+                            }}</mat-panel-description>
                     </div>
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'comment'">
                     <div class="col-12 col-sm-4">
-                        <mat-panel-description *ngIf="this.payload?.isAdminPage">Id: {{ payload?.item._id
+                        <mat-panel-title *ngIf="!panel.expanded" [attr.data-cy]="'ei-tcomment-head'">
+                            {{ payload?.item.content | slice:0:15 }}
+                        </mat-panel-title>
+                        <mat-panel-description *ngIf="this.payload?.isAdminPage" [attr.data-cy]="'ei-tcomment-id'">Id:
+                            {{ payload?.item._id
                             }}</mat-panel-description>
                     </div>
                 </ng-container>
 
                 <ng-template class="col-12 col-sm-4" #bookTitle>
-                    <mat-panel-description>{{ payload?.item.book.title }}</mat-panel-description>
+                    <mat-panel-description [attr.data-cy]="'ei-tsummary-title'">{{ payload?.item.book.title
+                        }}</mat-panel-description>
                 </ng-template>
 
             </ng-container>
@@ -115,7 +141,7 @@
     </mat-expansion-panel-header>
 
     <ng-template #dateDisplay let-label="label" let-date="date">
-        <div class="col-12 col-sm-6 col-lg-3 mx-auto">
+        <div class="col-12 col-sm-6 col-lg-3 mx-auto" [attr.data-cy]="'ei-datedisplay'">
             <b>{{ label | translate }}: </b>
             <i>{{ date | localizedDate }}</i>
             <p><i>({{ date | relativeTime }})</i></p>
@@ -126,7 +152,7 @@
         <ng-container *ngSwitchCase="'user'">
             <div class="row text-center">
                 <div class="col-12 col-sm-6 col-lg-3 mx-auto">
-                    <b>Email: </b> {{ this.payload?.item.email }}
+                    <b [attr.data-cy]="'ei-tuser-email'">Email: </b> {{ this.payload?.item.email }}
                 </div>
                 <ng-container
                     *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.USER.CREATED', date: payload?.item.created_at }"></ng-container>
@@ -161,26 +187,27 @@
                     <div class="row">
                         <div class="col-12 col-sm-4 col-md-3 d-flex mb-2 p-3">
                             <img [src]="payload?.item.imageUrl ?? './assets/images/no-cover.svg'" alt="Book Cover Image"
-                                class="mx-auto my-auto book-cover" />
+                                class="mx-auto my-auto book-cover" [attr.data-cy]="'ei-tbook-img'" />
                         </div>
                         <div class="col-12 col-sm-8 col-md-9">
                             <div class="row text-center">
-                                <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="col-12 col-sm-6 col-lg-4" [attr.data-cy]="'ei-tbook-release'">
                                     <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.RELEASE' | translate }}: </b>
                                     <i>{{ payload?.item.release | localizedDate }}</i>
                                 </div>
-                                <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="col-12 col-sm-6 col-lg-4" [attr.data-cy]="'ei-tbook-genre'">
                                     <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.GENRE' | translate }}: </b>
                                     <i>{{ payload?.item.genre }}</i>
                                 </div>
-                                <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="col-12 col-sm-6 col-lg-4" [attr.data-cy]="'ei-tbook-author'">
                                     <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.AUTHOR' | translate }}: </b>
                                     <i>{{ payload?.item.author }}</i>
                                 </div>
                                 <p class="col-12"><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.DESC' | translate
                                         }}</b></p>
                                 <hr class="m-0" />
-                                <p class="desc mt-1">{{ payload?.item.description }}</p>
+                                <p class="desc mt-1" [attr.data-cy]="'ei-tbook-desc'">{{ payload?.item.description }}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -199,11 +226,13 @@
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.ADDED', date: payload?.item.created_at }"></ng-container>
                         <ng-container
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.UPDATED', date: payload?.item.updated_at }"></ng-container>
-                        <div class="col-12 col-sm-6 col-lg-3 mx-auto" *ngIf="this.payload?.isAdminPage">
+                        <div class="col-12 col-sm-6 col-lg-3 mx-auto" *ngIf="this.payload?.isAdminPage"
+                            [attr.data-cy]="'ei-treview-userid'">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.USERID' | translate }}: </b>
                             <i>{{ payload?.item.user._id }}</i>
                         </div>
-                        <div class="col-12 col-sm-6 col-lg-3 mx-auto" *ngIf="this.payload?.isAdminPage">
+                        <div class="col-12 col-sm-6 col-lg-3 mx-auto" *ngIf="this.payload?.isAdminPage"
+                            [attr.data-cy]="'ei-treview-username'">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.USERNAME' | translate }}: </b>
                             <i>{{ payload?.item.user.username }}</i>
                         </div>
@@ -218,7 +247,7 @@
                     <div class="row text-center">
                         <p><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.CONTENT' | translate }}</b></p>
                         <hr class="m-0" />
-                        <p class="desc mt-1">{{ payload?.item.content }}</p>
+                        <p class="desc mt-1" [attr.data-cy]="'ei-treview-content'">{{ payload?.item.content }}</p>
                     </div>
                 </mat-card-content>
             </mat-card>
@@ -233,16 +262,18 @@
                     <div class="row text-center">
                         <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.BOOKID' | translate }}: </b>
-                            <i>{{ payload?.item.book._id }}</i>
-                            <p><i>({{ payload?.item.book.title }})</i></p>
+                            <i [attr.data-cy]="'ei-tsummary-bookid'">{{ payload?.item.book._id }}</i>
+                            <p [attr.data-cy]="'ei-tsummary-title'"><i>({{ payload?.item.book.title }})</i></p>
                         </div>
                         <ng-container
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.UPDATED', date: payload?.item.updated_at }"></ng-container>
-                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage"
+                            [attr.data-cy]="'ei-tsummary-username'">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.USERNAME' | translate }}: </b>
                             <i>{{ payload?.item.user.username }}</i>
                         </div>
-                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage">
+                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage"
+                            [attr.data-cy]="'ei-tsummary-userid'">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.USERID' | translate }}: </b>
                             <i>{{ payload?.item.user._id }}</i>
                         </div>
@@ -257,7 +288,7 @@
                     <div class="row text-center">
                         <p><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.CONTENT' | translate }}</b></p>
                         <hr class="m-0" />
-                        <p class="desc mt-1">{{ payload?.item.content }}</p>
+                        <p class="desc mt-1" [attr.data-cy]="'ei-tsummary-content'">{{ payload?.item.content }}</p>
                     </div>
                 </mat-card-content>
             </mat-card>
@@ -283,7 +314,7 @@
             </h5>
             <mat-card appearance="raised">
                 <mat-card-content>
-                    <div class="row text-center">
+                    <div class="row text-center" [attr.data-cy]="'ei-tcomment-content'">
                         <p><b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.CONTENT' | translate }}</b></p>
                         <hr class="m-0" />
                         <p class="desc mt-1">{{ payload?.item.content }}</p>
