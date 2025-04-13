@@ -61,16 +61,16 @@
             </div>
             <div id="Book-Details" class="book-details col-12 col-lg-8 mx-auto">
                 <div class="row px-5 py-3 w-100 mx-auto">
-                    <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="col-12 col-sm-6 col-lg-3 mt-2">
                         <button class="w-100" mat-fab color="primary" (click)="onBack()" [attr.data-cy]="'booki-btn-back'">
                             <mat-icon class="me-2">arrow_back</mat-icon>
                             {{ "BOOKITEM.BACK" | translate }}
                         </button>
                     </div>
-                    <div class="col-12 col-sm-6 col-lg-3 me-0">
-                        <button mat-fab color="primary" class="add-to-booklist-button" (click)="addToBooklist(book?._id)">
+                    <div class="col-12 col-sm-6 col-lg-3 me-0 mt-2">
+                        <button mat-fab extended color="primary" class="w-100" (click)="addToBooklist(book?._id)">
                             <mat-icon>add</mat-icon>
-                            Add to My Booklist
+                            {{ 'BOOKITEM.MYLIST' | translate }}
                         </button>                    
                     </div>
                 </div>

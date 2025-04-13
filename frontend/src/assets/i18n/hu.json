@@ -169,7 +169,8 @@
             "SUBMITTED": "Vélemény sikeresen beküldve",
             "ALREADYSUBMITTED": "Már beküldtél egy véleményt"
         },
-        "BACK": "Vissza"
+        "BACK": "Vissza",
+        "MYLIST": "Listámhoz adás"
     },
     "SUMMARIES": {
         "TITLE": "Összefoglalók",

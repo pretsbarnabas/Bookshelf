@@ -9,7 +9,7 @@
                 <div class="mt-2">
                     @for (user of data.likes; track $index) {
                     <div class="ms-2 mt-2 py-1">
-                        <img class="user-profile-picture selectable" [src]="user.imageUrl ?? user.profile_image" (click)="this.navigateToProfile(user._id)"/>
+                        <img class="user-profile-picture selectable" [src]="this.displayProfileImage(user)" (click)="this.navigateToProfile(user._id)"/>
                         <span class="username selectable" (click)="this.navigateToProfile(user._id)">{{ user.username }}</span>
                     </div>
                     }
@@ -23,7 +23,7 @@
                 <div class="mt-2 py-1">
                     @for (user of data.dislikes; track $index) {
                     <div class="ms-2 mt-2">
-                        <img class="user-profile-picture selectable" [src]="user.imageUrl" (click)="this.navigateToProfile(user._id)"/>
+                        <img class="user-profile-picture selectable" [src]="this.displayProfileImage(user)" (click)="this.navigateToProfile(user._id)"/>
                         <span class="username selectable" (click)="this.navigateToProfile(user._id)">{{ user.username }}</span>
                     </div>
                     }

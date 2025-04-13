@@ -169,7 +169,8 @@
             "SUBMITTED": "Review submitted successfully",
             "ALREADYSUBMITTED": "You have already submitted a review"
         },
-        "BACK": "Back"
+        "BACK": "Back",
+        "MYLIST": "Add to Mylist"
     },
     "SUMMARIES": {
         "TITLE": "Summaries",

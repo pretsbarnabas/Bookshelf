@@ -95,29 +95,29 @@ export class BookItemComponent implements OnInit {
             content: ['', Validators.required]
         });
     }
-  
-  addToBooklist(bookId: string | undefined) {
-    if (!this.loggedInUser || !bookId) {
-      this.snackBar.open('You must be logged in to add books to your booklist.', '', {
-        duration: 3000,
-      });
-      return;
-    }
 
-    this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'to_read').subscribe({
-      next: () => {
-        this.snackBar.open('Book added to your booklist!', '', {
-          duration: 3000,
+    addToBooklist(bookId: string | undefined) {
+        if (!this.loggedInUser || !bookId) {
+            this.snackBar.open('You must be logged in to add books to your booklist.', '', {
+                duration: 3000,
+            });
+            return;
+        }
+
+        this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'to_read').subscribe({
+            next: () => {
+                this.snackBar.open('Book added to your booklist!', '', {
+                    duration: 3000,
+                });
+            },
+            error: (err) => {
+                console.error('Error adding book to booklist:', err);
+                this.snackBar.open('Failed to add book to your booklist.', '', {
+                    duration: 3000,
+                });
+            },
         });
-      },
-      error: (err) => {
-        console.error('Error adding book to booklist:', err);
-        this.snackBar.open('Failed to add book to your booklist.', '', {
-          duration: 3000,
-        });
-      },
-    });
-  }
+    }
 
     ngOnInit() {
         this.uniqueIds = [];
@@ -176,12 +176,12 @@ export class BookItemComponent implements OnInit {
         this.paginatedReviews = SortItems.generalizedSort(this.paginatedReviews as any[], _settings.field, _settings.mode);
     }
 
-    async onClick(rating: number) {    
+    async onClick(rating: number) {
         this.snackBar.open(`${await firstValueFrom(this.translationService.service.get('BOOKITEM.SNACKBAR.RATED'))} ` + rating + ' / ' + this.starCount, '', {
             duration: this.snackBarDuration
         });
         this.rating = rating;
-        return false;        
+        return false;
     }
 
     showIcon(index: number) {
@@ -224,7 +224,7 @@ export class BookItemComponent implements OnInit {
 
     navigateToCreate() {
         this.router.navigate(['create/summary', this.book._id]);
-    }    
+    }
 }
 export enum StarRatingColor {
     primary = "primary",
