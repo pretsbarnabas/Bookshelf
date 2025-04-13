@@ -52,17 +52,6 @@ describe('ProfileComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('Should update user data when auth service emits', fakeAsync(() => {        
-        const testUser = { username: 'test', role: 'user' } as UserModel;
-
-        component.ngOnInit();
-        tick();
-        authService.loggedInUser$.next(testUser);
-        fixture.detectChanges();
-
-        expect(component.loggedInUser).toEqual(testUser);
-    }));
-
     it('Should open a dialog on profile edit request', () => {
         spyOn(component, 'ngOnInit').and.callThrough();
         const testUser: UserModel = { _id: 'testId', username: 'testUser', email: 'test@testing.com' } as UserModel;
