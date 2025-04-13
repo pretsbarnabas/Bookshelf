@@ -45,6 +45,10 @@ jobs:
         run: |
           npm run test:e2e &
         working-directory: backend
+      - name: Start Frontend
+        run: |
+          npm run start &
+        working-directory: frontend
 
      # - name: Wait for Backend to be Ready
      #   run: |
