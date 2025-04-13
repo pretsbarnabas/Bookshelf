@@ -46,10 +46,10 @@ jobs:
           npm run test:e2e &
         working-directory: backend
 
-      - name: Wait for Backend to be Ready
-        run: |
-          npm i -g wait-on
-          npx wait-on http://localhost:3000
+     # - name: Wait for Backend to be Ready
+     #   run: |
+     #     npm i -g wait-on
+     #     npx wait-on http://localhost:3000
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v6
