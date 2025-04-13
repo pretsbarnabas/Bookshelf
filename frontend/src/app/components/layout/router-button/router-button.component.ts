@@ -44,7 +44,7 @@ export class RouterButtonComponent {
     }
 
     isActive(route?: string): boolean {
-        if (route && route == 'profile')
+        if (route && route !== 'profile')
             return this.activeRoute.startsWith(route);
         return false
     }

@@ -12,20 +12,20 @@
                         <h2 class="text-center">{{ 'MYLIST.COLUMNS.TOREAD' | translate }}</h2>
 
                         <div cdkDropList id="toReadList" [cdkDropListData]="toReadBooks" class="BookListColItems"
-                            (cdkDropListDropped)="drop($event)">
+                            (cdkDropListDropped)="drop($event)" [attr.data-cy]="'mylist-cols-toread'">
                             @for (item of toReadBooks; track item) {
                             <mat-card cdkDrag [cdkDragDisabled]="this.dragDisabled" appearance="outlined"
-                                class="drgCard d-flex justify-content-between flex-row">
+                                class="drgCard d-flex justify-content-between flex-row" [attr.data-cy]="'mylist-card-drag'">
                                 <mat-card-header>
                                     <mat-card-title> {{item.title}}</mat-card-title>
                                     <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
                                 </mat-card-header>
                                 <mat-card-actions class="d-flex flex-column align-items-end gap-2">
-                                    <button mat-fab extended class="ml-fav" (click)="markAsFavorite(item._id)">
+                                    <button mat-fab extended class="ml-fav" (click)="markAsFavorite(item._id)" [attr.data-cy]="'mylist-card-favourite'">
                                         <mat-icon>star</mat-icon>
                                         {{ 'MYLIST.BUTTONS.FAVOURITE' | translate }}
                                     </button>
-                                    <button mat-fab extended class="ml-delete" (click)="deleteBook(item._id)">
+                                    <button mat-fab extended class="ml-delete" (click)="deleteBook(item._id)" [attr.data-cy]="'mylist-card-delete'">
                                         <mat-icon>delete</mat-icon>
                                         {{ 'MYLIST.BUTTONS.DELETE' | translate }}
                                     </button>
@@ -39,16 +39,16 @@
                         <h2 class="text-center">{{ 'MYLIST.COLUMNS.ISREADING' | translate }}</h2>
 
                         <div cdkDropList id="readingList" [cdkDropListData]="readingBooks" class="BookListColItems"
-                            (cdkDropListDropped)="drop($event)">
+                            (cdkDropListDropped)="drop($event)" [attr.data-cy]="'mylist-cols-reading'">
                             @for (item of readingBooks; track item) {
                             <mat-card appearance="outlined" class="drgCard d-flex justify-content-between flex-row"
-                                cdkDrag [cdkDragDisabled]="this.dragDisabled">
+                                cdkDrag [cdkDragDisabled]="this.dragDisabled" [attr.data-cy]="'mylist-card-drag'">
                                 <mat-card-header>
                                     <mat-card-title>{{ item.title }}</mat-card-title>
                                     <mat-card-subtitle>{{ item.author }}</mat-card-subtitle>
                                 </mat-card-header>
                                 <mat-card-actions class="d-flex flex-column align-items-end gap-2">
-                                    <button mat-fab extended class="ml-fav" (click)="markAsFavorite(item._id)">
+                                    <button mat-fab extended class="ml-fav" (click)="markAsFavorite(item._id)" [attr.data-cy]="'mylist-card-favourite'">
                                         <mat-icon>star</mat-icon>
                                         {{ 'MYLIST.BUTTONS.FAVOURITE' | translate }}
                                     </button>
@@ -67,18 +67,18 @@
                         <h2 class="text-center">{{ 'MYLIST.COLUMNS.HASREAD' | translate }}</h2>
 
                         <div cdkDropList id="finishedList" [cdkDropListData]="hasReadBooks" class="BookListColItems"
-                            (cdkDropListDropped)="drop($event)">
+                            (cdkDropListDropped)="drop($event)" [attr.data-cy]="'mylist-cols-finished'">
                             @for (item of hasReadBooks; track item) {
 
                             <mat-card appearance="outlined" class="drgCard d-flex justify-content-between flex-row"
-                                cdkDrag [cdkDragDisabled]="this.dragDisabled">
+                                cdkDrag [cdkDragDisabled]="this.dragDisabled" [attr.data-cy]="'mylist-card-drag'">
                                 <mat-card-header>
                                     <mat-card-title> {{item.title}}</mat-card-title>
                                     <mat-card-subtitle>{{item.author}}</mat-card-subtitle>
                                 </mat-card-header>
                                 <mat-card-actions class="d-flex flex-column align-items-end gap-2">
                                     @if (favoriteBooks.includes(item)) {
-                                    <button mat-fab extended class="ml-fav" (click)="finishReading(item._id)">
+                                    <button mat-fab extended class="ml-fav" (click)="finishReading(item._id)" [attr.data-cy]="'mylist-card-favourite'">
                                         <mat-icon>star</mat-icon>
                                         {{ 'MYLIST.BUTTONS.REMOVE' | translate }}
                                     </button>

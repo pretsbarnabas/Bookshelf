@@ -142,6 +142,7 @@
             "GENRE": "Műfaj",
             "CONTENT": "Tartalom",
             "RATED": "Értékelésed",
+            "NOTRATED": "Még nem értékeltél",
             "SUBMIT": "Beküldés"
         },
         "REVIEWS": "Vélemények",

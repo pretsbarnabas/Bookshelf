@@ -62,7 +62,7 @@ export class BookItemComponent implements OnInit {
     public book: any;
     public color: string = 'accent';
     public starCount: number = 5;
-    public rating: number = 3;
+    public rating: number = 0;
     bookId: any;
     private snackBarDuration: number = 2000;
     public ratingArr: any = [];

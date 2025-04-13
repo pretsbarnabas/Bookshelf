@@ -142,6 +142,7 @@
             "GENRE": "Genre",
             "CONTENT": "Content",
             "RATED": "You rated",
+            "NOTRATED": "You have not rated yet",
             "SUBMIT": "Submit"
         },
         "REVIEWS": "Reviews",

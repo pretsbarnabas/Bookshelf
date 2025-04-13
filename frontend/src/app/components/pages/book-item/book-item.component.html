@@ -46,9 +46,13 @@
                                 Star count is <strong>required</strong> and cannot be zero
                             </mat-error>
                             <p class="body-2">
-                                {{ "BOOKITEM.BOOKCARD.RATED" | translate }}
-                                <span class="body-2">{{ rating }}</span> /
-                                <span class="body-2">{{ starCount }}</span>
+                                @if(this.rating !== 0){
+                                    <span>{{ "BOOKITEM.BOOKCARD.RATED" | translate }} </span>
+                                    <span class="body-2">{{ rating }} / </span>
+                                    <span class="body-2">{{ starCount }}</span>
+                                } @else {
+                                    <span>{{ "BOOKITEM.BOOKCARD.NOTRATED" | translate }} </span>
+                                }
                             </p>
                             <button mat-fab class="w-100" id="book-item-submit" type="submit"
                                 (click)="this.onSubmitReview()" [attr.data-cy]="'booki-card-submitreview'">
