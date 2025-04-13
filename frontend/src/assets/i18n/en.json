@@ -231,7 +231,8 @@
             "REMOVE": "Remove"
         },
         "EXPAND": "Expand all",
-        "COLLAPSE": "Collapse all"
+        "COLLAPSE": "Collapse all",
+        "NOBOOKS": "No books here yet"
     },
     "PROFILE": {
         "TITLE": "Profile",

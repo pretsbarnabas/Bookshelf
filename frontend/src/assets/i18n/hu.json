@@ -231,7 +231,8 @@
             "REMOVE": "Eltávolítás"
         },
         "EXPAND": "Összes kinyitása",
-        "COLLAPSE": "Összes becsukása"
+        "COLLAPSE": "Összes becsukása",
+        "NOBOOKS": "Még nincs itt könyv"
     },
     "PROFILE": {
         "TITLE": "Profil",

@@ -114,7 +114,7 @@
                             </mat-panel-description>
                         </mat-expansion-panel-header>
                         <div class="container mt-2">
-                            <h4 *ngIf="this.toReadBooks.length === 0" class="text-center">No books yet</h4>
+                            <h4 *ngIf="this.toReadBooks.length === 0" class="text-center">{{ 'MYLIST.NOBOOKS' | translate }}</h4>
                             <div class="row justify-content-center">
                                 <div class="col-12 col-md-6 mx-auto mt-2"
                                     *ngFor="let book of toReadBooks; trackBy: trackByBookId">
@@ -133,7 +133,7 @@
                         </mat-expansion-panel-header>
 
                         <div class="container mt-2">
-                            <h4 *ngIf="this.readingBooks.length === 0" class="text-center">No books yet</h4>
+                            <h4 *ngIf="this.readingBooks.length === 0" class="text-center">{{ 'MYLIST.NOBOOKS' | translate }}</h4>
                             <div class="row justify-content-center">
                                 <div class="col-12 col-md-6 mx-auto mt-2"
                                     *ngFor="let book of readingBooks; trackBy: trackByBookId">
@@ -154,7 +154,7 @@
                         </mat-expansion-panel-header>
 
                         <div class="container mt-2">
-                            <h4 *ngIf="this.hasReadBooks.length === 0" class="text-center">No books yet</h4>
+                            <h4 *ngIf="this.hasReadBooks.length === 0" class="text-center">{{ 'MYLIST.NOBOOKS' | translate }}</h4>
                             <div class="row justify-content-center">
                                 <div class="col-12 col-md-6 mx-auto mt-2"
                                     *ngFor="let book of hasReadBooks; trackBy: trackByBookId">
