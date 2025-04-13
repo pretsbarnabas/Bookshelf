@@ -54,12 +54,7 @@ import { TranslatePipe } from '@ngx-translate/core';
     encapsulation: ViewEncapsulation.None,
 })
 export class MylistComponent implements OnInit {
-    @ViewChild('sidenav') sidenav!: MatSidenav;
     accordion = viewChild.required(MatAccordion);
-
-    toggleSidenav() {
-        this.sidenav.toggle();
-    }
 
     bookList: BookList[] | null = null;
     toReadBooks: any[] = [];
@@ -164,10 +159,10 @@ export class MylistComponent implements OnInit {
     }
 
     startReading(bookId: string) {
-        
+
         if (!this.loggedInUser) return;
         this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'is_reading').subscribe({
-            next: () => {                
+            next: () => {
                 this.fetchUserBookList(this.loggedInUser!._id);
             },
             error: (err) => {
@@ -214,9 +209,8 @@ export class MylistComponent implements OnInit {
 
     deleteBook(bookId: string) {
         if (!this.loggedInUser) return;
-        this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'deleted').subscribe({
+        this.booklistService.updateBookStatus(this.loggedInUser._id, bookId, 'delete').subscribe({
             next: () => {
-                console.log(`Book with ID ${bookId} marked as "deleted"`);
                 this.fetchUserBookList(this.loggedInUser!._id);
             },
             error: (err) => {

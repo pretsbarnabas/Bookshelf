@@ -5,6 +5,9 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
+import { UserModel } from '../../../../../models/User';
+import { bottts } from '@dicebear/collection';
+import { createAvatar } from '@dicebear/core';
 
 @Component({
     selector: 'app-display-likes-dialog',
@@ -28,4 +31,5 @@ export class DisplayLikesDialogComponent {
         this.dialogRef.close({ navigateTo: _id })
     }
 
+    displayProfileImage = (_user: UserModel): string => _user.imageUrl ?? createAvatar(bottts, { seed: _user.username }).toDataUri();
 }

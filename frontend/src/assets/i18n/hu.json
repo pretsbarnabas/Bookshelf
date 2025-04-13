@@ -142,6 +142,7 @@
             "GENRE": "Műfaj",
             "CONTENT": "Tartalom",
             "RATED": "Értékelésed",
+            "NOTRATED": "Még nem értékeltél",
             "SUBMIT": "Beküldés"
         },
         "REVIEWS": "Vélemények",
@@ -169,7 +170,8 @@
             "SUBMITTED": "Vélemény sikeresen beküldve",
             "ALREADYSUBMITTED": "Már beküldtél egy véleményt"
         },
-        "BACK": "Vissza"
+        "BACK": "Vissza",
+        "MYLIST": "Listámhoz adás"
     },
     "SUMMARIES": {
         "TITLE": "Összefoglalók",
@@ -230,7 +232,8 @@
             "REMOVE": "Eltávolítás"
         },
         "EXPAND": "Összes kinyitása",
-        "COLLAPSE": "Összes becsukása"
+        "COLLAPSE": "Összes becsukása",
+        "NOBOOKS": "Még nincs itt könyv"
     },
     "PROFILE": {
         "TITLE": "Profil",
