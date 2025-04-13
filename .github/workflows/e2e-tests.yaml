@@ -40,20 +40,23 @@ jobs:
         with:
           mongodb-version: '8.0'
           mongodb-port: 27017
+      - name: Install wait-on
+        run: npm install --global wait-on
 
       - name: Start Backend Server
         run: |
           npm run test:e2e &
         working-directory: backend
+      - name: Wait for Backend to be Ready
+        run: npx wait-on http://localhost:3000
+        
       - name: Start Frontend
         run: |
           npm run start &
         working-directory: frontend
+      - name: Wait for Frontend to be Ready
+        run: npx wait-on http://localhost:4200
 
-     # - name: Wait for Backend to be Ready
-     #   run: |
-     #     npm i -g wait-on
-     #     npx wait-on http://localhost:3000
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v6
