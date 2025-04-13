@@ -48,6 +48,7 @@ jobs:
 
       - name: Wait for Backend to be Ready
         run: |
+          npm i -g wait-on
           npx wait-on http://localhost:3000
 
       - name: Run Cypress Tests
