@@ -60,19 +60,22 @@ export class ProfileComponent {
 
     ngOnInit() {        
         this.userId = CryptoJS.AES.decrypt(this.route.snapshot.paramMap.get('id')!, this.configService.get('SECURITY_KEY')).toString(CryptoJS.enc.Utf8);
-        this.userService.getUserById(this.userId!).subscribe({
-            next: (user: UserModel) => {
-                this.user = user;
-                if (!this.user.imageUrl)
-                    this.user.profile_image = createAvatar(bottts, { seed: this.user.username }).toDataUri();
-                this.roleDataHead = `PROFILE.PROFILECARD.ROLETABLE.${user?.role.toLocaleUpperCase()}`;
-            },
-            error: () =>
-                this.router.navigate(['404'])
-        });
-        this.authService.loggedInUser$.subscribe(user => {
-            this.loggedInUser = user;
-        });
+        if(this.userId){
+            this.userService.getUserById(this.userId!).subscribe({
+                next: (user: UserModel) => {
+                    this.user = user;
+                    if (!this.user.imageUrl)
+                        this.user.profile_image = createAvatar(bottts, { seed: this.user.username }).toDataUri();
+                    this.roleDataHead = `PROFILE.PROFILECARD.ROLETABLE.${user?.role.toLocaleUpperCase()}`;
+                },
+                error: () =>
+                    this.router.navigate(['/404'])
+            });
+            this.authService.loggedInUser$.subscribe(user => {
+                this.loggedInUser = user;
+            });
+        } else
+            this.router.navigate(['/404']);        
     }
 
     handleProfile(_type: 'edit' | 'delete') {

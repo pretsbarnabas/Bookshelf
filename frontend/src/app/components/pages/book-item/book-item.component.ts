@@ -30,6 +30,7 @@ import { ReviewDisplayComponent } from './review-display/review-display.componen
 import { SortItems } from '../../../utilities/components/sort-items';
 import { ConfigService } from '../../../services/global/config.service';
 import * as CryptoJS from "crypto-js";
+import { BookModel } from '../../../models/Book';
 
 @Component({
     selector: 'app-book-item',
@@ -123,10 +124,14 @@ export class BookItemComponent implements OnInit {
         this.uniqueIds = [];
         this.bookId = CryptoJS.AES.decrypt(this.route.snapshot.paramMap.get('id')!, this.configService.get('SECURITY_KEY')).toString(CryptoJS.enc.Utf8);
         if (this.bookId) {
-            this.bookService.getBookById(this.bookId).subscribe(book => {
-                this.book = book;
+            this.bookService.getBookById(this.bookId).subscribe({
+                next: (book: BookModel) =>
+                    this.book = book,                
+                error: () =>
+                    this.router.navigate(['/404'])                
             });
-        }
+        } else
+            this.router.navigate(['/404']);        
         this.authService.loggedInUser$.subscribe(user => {
             this.isLoggedIn = !!user;
             this.loggedInUser = user;

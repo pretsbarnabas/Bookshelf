@@ -38,10 +38,14 @@ export class SummaryItemComponent {
     ngOnInit() {        
         this.summaryId = CryptoJS.AES.decrypt(this.route.snapshot.paramMap.get('id')!, this.configService.get('SECURITY_KEY')).toString(CryptoJS.enc.Utf8);
         if (this.summaryId) {
-            this.summaryService.getSummaryById(this.summaryId).subscribe(summary => {
-                this.summary = summary;
+            this.summaryService.getSummaryById(this.summaryId).subscribe({
+                next: (summary) => 
+                    this.summary = summary,
+                error: () =>
+                    this.router.navigate(['/404'])
             });
-        }
+        } else
+            this.router.navigate(['/404']);        
     }
 
     onBack() {
