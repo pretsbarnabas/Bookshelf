@@ -29,17 +29,13 @@
                                     <mat-icon>edit</mat-icon>
                                     {{ 'PROFILE.PROFILECARD.BUTTONS.EDIT' | translate }}
                                 </button>
-                                <!-- <button mat-fab extended class="w-75 mx-auto my-1" id="delete-button" (click)="this.handleProfile('delete')">
-                                    <mat-icon>delete</mat-icon>
-                                    {{ 'PROFILE.PROFILECARD.BUTTONS.DELETE' | translate }}
-                                </button> -->
                             </mat-expansion-panel>
                         </mat-card>
                     </div>
                     <div class="col-12 col-lg-9">                        
                         <h1 class="text-center" *ngIf="this.userId === this.loggedInUser?._id">{{ 'PROFILE.LIST.HEADER' | translate }}</h1>
                         <h1 class="text-center" *ngIf="this.userId !== this.loggedInUser?._id">{{ this.user?.username }}{{ 'PROFILE.LIST.OBSERVED' | translate }}</h1>
-                        <all-type-display [observedProfile]="this.loggedInUser?._id === user?._id ? undefined : {id: user?._id!, role: user?.role! }"/>
+                        <all-type-display [observedProfile]="this.loggedInUser?._id === user?._id ? undefined : {id: user?._id!, role: user?.role! }" *ngIf="this.showDisplay"/>
                     </div>
                 </div>
             </mat-card-content>
