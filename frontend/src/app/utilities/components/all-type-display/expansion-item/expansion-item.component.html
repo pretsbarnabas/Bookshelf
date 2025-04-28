@@ -94,47 +94,75 @@
                             payload?.item._id
                             }}</mat-panel-description>
                     </div>
+                    <div class="col-12 col-sm-4" *ngIf="this.payload?.isAdminPage">
+                        <mat-panel-description data-test="mat-panel-desc-bookid" [attr.data-cy]="'ei-tbook-id'">
+                            {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.BOOK.BY' | translate }}:
+                            {{ payload?.item.user?.username }}</mat-panel-description>
+                    </div>
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'review'">
-                    <div class="col-12 col-sm-4">
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <mat-panel-description *ngIf="this.payload?.isAdminPage" [attr.data-cy]="'ei-treview-id'">Id: {{
+                            payload?.item._id
+                        }}</mat-panel-description>
+                        <mat-panel-description *ngIf="!this.payload?.isAdminPage" [attr.data-cy]="'ei-treview-title'">
+                            {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.FORBOOK' | translate }}:
+                            {{  payload?.item.book.title }}</mat-panel-description>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3">
                         <mat-panel-title [attr.data-cy]="'ei-treview-score'">
                             {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.SCORE' | translate }}: {{
                             payload?.item.score }}
                         </mat-panel-title>
                     </div>
-                    <div class="col-12 col-sm-4">
-                        <mat-panel-description *ngIf="this.payload?.isAdminPage" [attr.data-cy]="'ei-treview-id'">Id: {{
-                            payload?.item._id
-                            }}</mat-panel-description>
-                        <mat-panel-description *ngIf="!this.payload?.isAdminPage" [attr.data-cy]="'ei-treview-title'">{{
-                            payload?.item.book.title
-                            }}</mat-panel-description>
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <mat-panel-description *ngIf="this.payload?.isAdminPage" [attr.data-cy]="'ei-treview-title'">
+                            {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.FORBOOK' | translate }}:
+                            {{ payload?.item.book.title }}</mat-panel-description>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <mat-panel-description *ngIf="this.payload?.isAdminPage" [attr.data-cy]="'ei-treview-title'">
+                            {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.BY' | translate }}:
+                            {{ payload?.item.user.username }}</mat-panel-description>
                     </div>
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'summary'">
-                    <div class="col-12 col-sm-4" *ngIf="this.payload?.isAdminPage; else bookTitle">
+                    <div class="col-12 col-sm-4" *ngIf="this.payload?.isAdminPage">
                         <mat-panel-description [attr.data-cy]="'ei-tsummary-id'">Id: {{ payload?.item._id
                             }}</mat-panel-description>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <mat-panel-description data-test="mat-panel-desc-bookid" [attr.data-cy]="'ei-tbook-id'">
+                            {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.FORBOOK' | translate }}:
+                            {{ payload?.item.book?.title }}</mat-panel-description>
+                    </div>
+                    <div class="col-12 col-sm-4" *ngIf="this.payload?.isAdminPage">
+                        <mat-panel-description data-test="mat-panel-desc-bookid" [attr.data-cy]="'ei-tbook-id'">
+                            {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.BY' | translate }}:
+                            {{ payload?.item.user?.username }}</mat-panel-description>
                     </div>
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'comment'">
-                    <div class="col-12 col-sm-4">
-                        <mat-panel-title *ngIf="!panel.expanded" [attr.data-cy]="'ei-tcomment-head'">
-                            {{ payload?.item.content | slice:0:15 }}
-                        </mat-panel-title>
+                    <div class="col-12 col-sm-4" *ngIf="this.payload?.isAdminPage">
                         <mat-panel-description *ngIf="this.payload?.isAdminPage" [attr.data-cy]="'ei-tcomment-id'">Id:
                             {{ payload?.item._id
                             }}</mat-panel-description>
                     </div>
+                    <div class="col-12 col-sm-4" *ngIf="this.payload?.isAdminPage">
+                        <mat-panel-description data-test="mat-panel-desc-bookid" [attr.data-cy]="'ei-tbook-id'">
+                            {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.BY' | translate }}:
+                            {{ payload?.item.user?.username }}</mat-panel-description>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <mat-panel-title *ngIf="!panel.expanded" [attr.data-cy]="'ei-tcomment-head'">
+                            {{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.COMMENT.CONTENT' | translate }}:
+                            {{ payload?.item.content | slice:0:15 }}
+                        </mat-panel-title>
+                    </div>
                 </ng-container>
-
-                <ng-template class="col-12 col-sm-4" #bookTitle>
-                    <mat-panel-description [attr.data-cy]="'ei-tsummary-title'">{{ payload?.item.book.title
-                        }}</mat-panel-description>
-                </ng-template>
 
             </ng-container>
         </div>
@@ -233,8 +261,8 @@
                         </div>
                         <div class="col-12 col-sm-6 col-lg-3 mx-auto" *ngIf="this.payload?.isAdminPage"
                             [attr.data-cy]="'ei-treview-username'">
-                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.USERNAME' | translate }}: </b>
-                            <i>{{ payload?.item.user.username }}</i>
+                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.REVIEW.BOOKID' | translate }}: </b>
+                            <i>{{ payload?.item.book._id }}</i>
                         </div>
                     </div>
                 </mat-card-content>
@@ -267,11 +295,6 @@
                         </div>
                         <ng-container
                             *ngTemplateOutlet="dateDisplay; context: { label: 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.UPDATED', date: payload?.item.updated_at }"></ng-container>
-                        <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage"
-                            [attr.data-cy]="'ei-tsummary-username'">
-                            <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.USERNAME' | translate }}: </b>
-                            <i>{{ payload?.item.user.username }}</i>
-                        </div>
                         <div class="col-12 col-sm-6 col-lg-4 mx-auto" *ngIf="this.payload?.isAdminPage"
                             [attr.data-cy]="'ei-tsummary-userid'">
                             <b>{{ 'STANDALONECOMPONENTS.EXPANSIONITEM.ITEM.SUMMARY.USERID' | translate }}: </b>

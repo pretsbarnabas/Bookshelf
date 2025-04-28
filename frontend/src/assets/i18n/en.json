@@ -223,7 +223,7 @@
         "BUTTONS": {
             "FAVOURITE": "Favorite",
             "DELETE": "Delete",
-            "DROP" : "Drop",
+            "DROP": "Drop",
             "READ": "Read",
             "FINISH": "Finish",
             "BACKTOTOREAD": "Mark as To-Read",
@@ -340,6 +340,7 @@
                     "RELEASE": "Release date",
                     "GENRE": "Genre",
                     "AUTHOR": "Author",
+                    "BY": "Created by",
                     "DESC": "Description"
                 },
                 "REVIEW": {
@@ -347,9 +348,12 @@
                         "RECORD": "Record Data",
                         "REVIEW": "Review Data"
                     },
+                    "BY": "Created by",
+                    "FORBOOK": "For book",
                     "ADDED": "Created on",
                     "UPDATED": "Updated on",
                     "USERNAME": "Username",
+                    "BOOKID": "BookId",
                     "USERID": "UserId",
                     "SCORE": "Score",
                     "CONTENT": "Content"
@@ -359,6 +363,8 @@
                         "RECORD": "Record Data",
                         "SUMMARY": "Summary Data"
                     },
+                    "FORBOOK": "For book",
+                    "BY": "Created by",
                     "BOOKID": "BookId",
                     "UPDATED": "Updated on",
                     "USERNAME": "Username",
@@ -370,6 +376,7 @@
                         "RECORD": "Record Data",
                         "COMMENT": "Comment Data"
                     },
+                    "BY": "Created by",
                     "ADDED": "Created on",
                     "UPDATED": "Updated on",
                     "REVIEWID": "ReviewId",

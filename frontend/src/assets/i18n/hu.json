@@ -340,6 +340,7 @@
                     "RELEASE": "Kiadás dátuma",
                     "GENRE": "Műfaj",
                     "AUTHOR": "Szerző",
+                    "BY": "Létrehozta",
                     "DESC": "Leírás"
                 },
                 "REVIEW": {
@@ -347,9 +348,12 @@
                         "RECORD": "Rekord adatai",
                         "REVIEW": "Vélemény adatai"
                     },
+                    "BY": "Létrehozta",
+                    "FORBOOK": "Könyv",
                     "ADDED": "Létrehozva",
                     "UPDATED": "Módosítva",
                     "USERNAME": "Felhasználónév",
+                    "BOOKID": "BookId",
                     "USERID": "UserId",
                     "SCORE": "Pontszám",
                     "CONTENT": "Tartalom"
@@ -359,6 +363,8 @@
                         "RECORD": "Rekord adatai",
                         "SUMMARY": "Összefoglaló adatai"
                     },
+                    "FORBOOK": "Könyv",
+                    "BY": "Létrehozta",
                     "BOOKID": "BookId",
                     "UPDATED": "Módosítva",
                     "USERNAME": "Felhasználónév",
@@ -370,6 +376,7 @@
                         "RECORD": "Rekord adatai",
                         "COMMENT": "Komment adatai"
                     },
+                    "BY": "Létrehozta",
                     "ADDED": "Létrehozva",
                     "UPDATED": "Módosítva",
                     "REVIEWID": "ReviewId",
