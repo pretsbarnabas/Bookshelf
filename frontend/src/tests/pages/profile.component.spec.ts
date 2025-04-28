@@ -10,7 +10,7 @@ import MockAuthService from '../mocks/MockAuthService';
 import { of } from 'rxjs';
 import MockUserService from '../mocks/MockUserService';
 import { UserService } from '../../app/services/page/user.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -24,6 +24,7 @@ describe('ProfileComponent', () => {
     let dialog: jasmine.SpyObj<MatDialog>;
 
     const secretKey = 'testkey123';
+    const rawEncryptedId = 'encryptedIdValue';
     const expectedDecryptedId = 'decryptedId';
 
     beforeEach(async () => {
@@ -47,14 +48,9 @@ describe('ProfileComponent', () => {
                 {
                     provide: ActivatedRoute,
                     useValue: {
-                        queryParams: of({ id: 'encryptedIdValue' }),
-                        snapshot: {
-                            paramMap: {
-                                get: (key: string) => {
-                                    return key === 'id' ? 'encryptedIdValue' : null;
-                                }
-                            }
-                        }
+                        paramMap: of<ParamMap>({
+                            get: (key: string) => key === 'id' ? rawEncryptedId : null
+                        } as any)
                     },
                 },
             ]
