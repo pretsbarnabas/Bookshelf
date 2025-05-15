@@ -29,6 +29,12 @@ import { SortItems } from '../sort-items';
 import { UserModel } from '../../../models/User';
 import { AuthService } from '../../../services/global/auth.service';
 import { ExpansionItemComponent } from './expansion-item/expansion-item.component';
+import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormService } from '../../../services/page/form.service';
+import { FormlyMaterialModule } from '@ngx-formly/material';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
     selector: 'all-type-display',
@@ -45,7 +51,12 @@ import { ExpansionItemComponent } from './expansion-item/expansion-item.componen
         MatExpansionModule,
         MatListModule,
         MatSortModule,
-        TranslatePipe
+        TranslatePipe,
+        FormlyModule,
+        ReactiveFormsModule,
+        FormlyMaterialModule,
+        MatFormFieldModule,
+        MatInputModule
     ],
     templateUrl: './all-type-display.component.html',
     styleUrl: './all-type-display.component.scss',
@@ -91,25 +102,31 @@ export class AllTypeDisplayComponent {
     @ViewChild('tabGroup') tabGroup!: MatTabGroup;
     @ViewChildren(MatTab) tabs!: QueryList<MatTab>;
 
+    formService = inject(FormService);
+    searchForm: FormGroup = new FormGroup({});
+    searchModel: { username: string } = {username: ''};
+    searchId: number | string = '';
+    searchFields: FormlyFieldConfig[] = [];
+
     private fetchMapping = {
         users: {
-            fn: () => this.userService.getAllUser(this.pageSize, this.currentPageIndex) as any,
+            fn: () => this.userService.getAllUser(this.pageSize, this.currentPageIndex, this.searchModel?.username !== '' ? this.searchModel?.username : undefined) as any,
             type: 'user' as const
         },
         books: {
-            fn: () => this.bookService.getAllBooks(this.pageSize, this.currentPageIndex, this.isAdmin ? '' : (this.observedProfile?.id ?? this.loggedInUser?._id)) as any,
+            fn: () => this.bookService.getAllBooks(this.pageSize, this.currentPageIndex, this.isAdmin ? this.searchId : (this.observedProfile?.id ?? this.loggedInUser?._id)) as any,
             type: 'book' as const
         },
         reviews: {
-            fn: () => this.reviewService.getAllReviews(this.pageSize, this.currentPageIndex, this.isAdmin ? '' : (this.observedProfile?.id ?? this.loggedInUser?._id)) as any,
+            fn: () => this.reviewService.getAllReviews(this.pageSize, this.currentPageIndex, this.isAdmin ? this.searchId : (this.observedProfile?.id ?? this.loggedInUser?._id)) as any,
             type: 'review' as const
         },
         summaries: {
-            fn: () => this.summaryService.getAllSummaries(this.pageSize, this.currentPageIndex, this.isAdmin ? '' : (this.observedProfile?.id ?? this.loggedInUser?._id)) as any,
+            fn: () => this.summaryService.getAllSummaries(this.pageSize, this.currentPageIndex, this.isAdmin ? this.searchId : (this.observedProfile?.id ?? this.loggedInUser?._id)) as any,
             type: 'summary' as const
         },
         comments: {
-            fn: () => this.commentService.getAllcomments(this.pageSize, this.currentPageIndex, this.isAdmin ? '' : (this.observedProfile?.id ?? this.loggedInUser?._id)) as any,
+            fn: () => this.commentService.getAllcomments(this.pageSize, this.currentPageIndex, this.isAdmin ? this.searchId : (this.observedProfile?.id ?? this.loggedInUser?._id)) as any,
             type: 'comment' as const
         }
     };
@@ -178,8 +195,10 @@ export class AllTypeDisplayComponent {
                     this.changeTabByAriaLabel('books');
                 else
                     this.changeTabByAriaLabel('comments');
-        } else
+        } else {
+            this.formService.getAdminSearchForm().then((value) => this.searchFields = value);
             this.changeTabByAriaLabel('users');
+        }
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -204,7 +223,7 @@ export class AllTypeDisplayComponent {
     private fetchItems(arrayKey: 'users' | 'books' | 'reviews' | 'summaries' | 'comments'): void {
         this.fetchMapping[arrayKey].fn().subscribe({
             next: (data: any) => {
-                console.log(data.data);
+                console.log(data);
                 
                 this.fetchedArray = data.data;
                 this.itemType = this.fetchMapping[arrayKey].type;
@@ -303,6 +322,9 @@ export class AllTypeDisplayComponent {
     }
 
     onTabChange(event: MatTabChangeEvent) {
+        this.searchModel!.username = '';
+        this.searchId = '';
+        this.searchForm.reset();
         this.changePaginatedArray(event.tab.ariaLabel as 'users' | 'books' | 'reviews' | 'summaries' | 'comments');
     }
 
@@ -312,5 +334,23 @@ export class AllTypeDisplayComponent {
             this.tabGroup.selectedIndex = index;
             this.changePaginatedArray(label)
         }
+    }
+
+    searchByUsername(): void {
+        this.errorMessages = [];        
+        this.userService.getUserByName(this.searchModel!.username).subscribe({
+            next: (users: any) => {                 
+                console.log(users);
+                           
+                if(this.searchModel.username !== '')                    
+                    this.searchId = users.data[0]._id;
+                else
+                    this.searchId = '';
+                this.fetchItems(this.currentArrayType);
+            },
+            error: (err: HttpErrorResponse) => {
+                this.onError(err);
+            }
+        });
     }
 }
