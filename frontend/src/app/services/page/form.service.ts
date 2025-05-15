@@ -484,6 +484,26 @@ export class FormService {
         };
     }
 
+    async getAdminSearchForm(): Promise<FormlyFieldConfig[]> {
+        return [
+            {
+                key: 'username',
+                wrappers: [InputFieldWrapper],
+                templateOptions: {
+                    label: await firstValueFrom(this.translationService.service.get('ADMIN.SEARCH.USERNAME')),
+                    placeholder: await firstValueFrom(this.translationService.service.get('ADMIN.SEARCH.PLACEHOLDER')),
+                    required: false,
+                    maxLength: 24,
+                    id: 'username',
+                },
+                validation: {
+                    messages: {
+                        maxlength: await firstValueFrom(this.translationService.service.get('AUTH.EMSG.NAME.MAXLENGTH')),
+                    },
+                },
+            }
+        ];
+    }
 }
 
 
