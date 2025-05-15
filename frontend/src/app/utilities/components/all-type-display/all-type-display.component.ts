@@ -104,7 +104,8 @@ export class AllTypeDisplayComponent {
 
     formService = inject(FormService);
     searchForm: FormGroup = new FormGroup({});
-    searchModel: { username: string } | undefined;
+    searchModel: { username: string } = {username: ''};
+    searchId: number | string = '';
     searchFields: FormlyFieldConfig[] = [];
 
     private fetchMapping = {
@@ -113,19 +114,19 @@ export class AllTypeDisplayComponent {
             type: 'user' as const
         },
         books: {
-            fn: () => this.bookService.getAllBooks(this.pageSize, this.currentPageIndex, this.isAdmin ? '' : (this.observedProfile?.id ?? this.loggedInUser?._id)) as any,
+            fn: () => this.bookService.getAllBooks(this.pageSize, this.currentPageIndex, this.isAdmin ? this.searchId : (this.observedProfile?.id ?? this.loggedInUser?._id)) as any,
             type: 'book' as const
         },
         reviews: {
-            fn: () => this.reviewService.getAllReviews(this.pageSize, this.currentPageIndex, this.isAdmin ? '' : (this.observedProfile?.id ?? this.loggedInUser?._id)) as any,
+            fn: () => this.reviewService.getAllReviews(this.pageSize, this.currentPageIndex, this.isAdmin ? this.searchId : (this.observedProfile?.id ?? this.loggedInUser?._id)) as any,
             type: 'review' as const
         },
         summaries: {
-            fn: () => this.summaryService.getAllSummaries(this.pageSize, this.currentPageIndex, this.isAdmin ? '' : (this.observedProfile?.id ?? this.loggedInUser?._id)) as any,
+            fn: () => this.summaryService.getAllSummaries(this.pageSize, this.currentPageIndex, this.isAdmin ? this.searchId : (this.observedProfile?.id ?? this.loggedInUser?._id)) as any,
             type: 'summary' as const
         },
         comments: {
-            fn: () => this.commentService.getAllcomments(this.pageSize, this.currentPageIndex, this.isAdmin ? '' : (this.observedProfile?.id ?? this.loggedInUser?._id)) as any,
+            fn: () => this.commentService.getAllcomments(this.pageSize, this.currentPageIndex, this.isAdmin ? this.searchId : (this.observedProfile?.id ?? this.loggedInUser?._id)) as any,
             type: 'comment' as const
         }
     };
@@ -222,8 +223,8 @@ export class AllTypeDisplayComponent {
     private fetchItems(arrayKey: 'users' | 'books' | 'reviews' | 'summaries' | 'comments'): void {
         this.fetchMapping[arrayKey].fn().subscribe({
             next: (data: any) => {
-                console.log(data.data);
-
+                console.log(data);
+                
                 this.fetchedArray = data.data;
                 this.itemType = this.fetchMapping[arrayKey].type;
                 this.sortItems(this.currentSortSettings)
@@ -321,9 +322,10 @@ export class AllTypeDisplayComponent {
     }
 
     onTabChange(event: MatTabChangeEvent) {
-        this.changePaginatedArray(event.tab.ariaLabel as 'users' | 'books' | 'reviews' | 'summaries' | 'comments');
         this.searchModel!.username = '';
+        this.searchId = '';
         this.searchForm.reset();
+        this.changePaginatedArray(event.tab.ariaLabel as 'users' | 'books' | 'reviews' | 'summaries' | 'comments');
     }
 
     changeTabByAriaLabel(label: 'users' | 'books' | 'reviews' | 'summaries' | 'comments'): void {
@@ -335,9 +337,15 @@ export class AllTypeDisplayComponent {
     }
 
     searchByUsername(): void {
-        this.errorMessages = [];
+        this.errorMessages = [];        
         this.userService.getUserByName(this.searchModel!.username).subscribe({
-            next: (user: any) => {
+            next: (users: any) => {                 
+                console.log(users);
+                           
+                if(this.searchModel.username !== '')                    
+                    this.searchId = users.data[0]._id;
+                else
+                    this.searchId = '';
                 this.fetchItems(this.currentArrayType);
             },
             error: (err: HttpErrorResponse) => {

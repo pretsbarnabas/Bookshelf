@@ -258,7 +258,12 @@
         }
     },
     "ADMIN": {
-        "TITLE": "Admin"
+        "TITLE": "Admin",
+        "SEARCHBAR": {
+            "SEARCH": "Keresés",
+            "USERNAME": "Keresés felhasználónév alapján",
+            "PLACEHOLDER": "Ide írja a keresett felhasználó nevét"
+        }
     },
     "SORTITEMS": {
         "HEADER": "Rendezés",

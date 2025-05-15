@@ -490,8 +490,8 @@ export class FormService {
                 key: 'username',
                 wrappers: [InputFieldWrapper],
                 templateOptions: {
-                    label: await firstValueFrom(this.translationService.service.get('ADMIN.SEARCH.USERNAME')),
-                    placeholder: await firstValueFrom(this.translationService.service.get('ADMIN.SEARCH.PLACEHOLDER')),
+                    label: await firstValueFrom(this.translationService.service.get('ADMIN.SEARCHBAR.USERNAME')),
+                    placeholder: await firstValueFrom(this.translationService.service.get('ADMIN.SEARCHBAR.PLACEHOLDER')),
                     required: false,
                     maxLength: 24,
                     id: 'username',

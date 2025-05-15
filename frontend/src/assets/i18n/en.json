@@ -258,7 +258,12 @@
         }
     },
     "ADMIN": {
-        "TITLE": "Admin"
+        "TITLE": "Admin",
+        "SEARCHBAR": {
+            "SEARCH": "Search",
+            "USERNAME": "Search by username",
+            "PLACEHOLDER": "Type username here"
+        }
     },
     "SORTITEMS": {
         "HEADER": "Sort by",

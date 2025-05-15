@@ -23,14 +23,18 @@
     <mat-card-content>
         <div class="row my-4">
             <form [formGroup]="this.searchForm" (ngSubmit)="this.searchByUsername()">
-                <formly-form [fields]="this.searchFields" [form]="this.searchForm"
-                    [(model)]="this.searchModel"></formly-form>
-                <div class="w-50 mx-auto">
-                    <button mat-fab class="w-100 " type="submit" [disabled]="!searchForm.valid">
-                        {{ 'ADMIN.SEARCH' | translate }}
-                        <mat-icon class="me-2">search</mat-icon>
-                    </button>
-                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-8 col-lg-10">
+                        <formly-form [fields]="this.searchFields" [form]="this.searchForm"
+                            [(model)]="this.searchModel"></formly-form>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-2 d-flex align-items-center ">
+                        <button mat-fab class="w-100 " type="submit" [disabled]="!searchForm.valid">
+                            {{ 'ADMIN.SEARCHBAR.SEARCH' | translate }}
+                            <mat-icon class="me-2">search</mat-icon>
+                        </button>                        
+                    </div>
+                </div>                
             </form>
         </div>
     </mat-card-content>
