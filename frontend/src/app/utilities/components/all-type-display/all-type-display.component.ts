@@ -178,7 +178,7 @@ export class AllTypeDisplayComponent {
                     this.changeTabByAriaLabel('books');
                 else
                     this.changeTabByAriaLabel('comments');
-        }else
+        } else
             this.changeTabByAriaLabel('users');
     }
 
@@ -204,6 +204,8 @@ export class AllTypeDisplayComponent {
     private fetchItems(arrayKey: 'users' | 'books' | 'reviews' | 'summaries' | 'comments'): void {
         this.fetchMapping[arrayKey].fn().subscribe({
             next: (data: any) => {
+                console.log(data.data);
+                
                 this.fetchedArray = data.data;
                 this.itemType = this.fetchMapping[arrayKey].type;
                 this.sortItems(this.currentSortSettings)
@@ -211,6 +213,8 @@ export class AllTypeDisplayComponent {
             },
             error: (err: HttpErrorResponse) => {
                 if (err.status === 404) {
+                    this.currentArrayInPaginator = [];
+                    this.maxPages = 1;
                     this.currentPageIndex = 0;
                     return;
                 }
@@ -245,7 +249,7 @@ export class AllTypeDisplayComponent {
                     await this.showDialogSnackbar('STANDALONECOMPONENTS.EXPANSIONITEM.SNACKBAR.DELETED');
                     setTimeout(() => {
                         this.changePaginatedArray(mapping.paginatorKey);
-                    }, 250);
+                    }, 1000);
                 },
                 error: (err: HttpErrorResponse) => this.onError(err)
             });
@@ -260,7 +264,7 @@ export class AllTypeDisplayComponent {
                     await this.showDialogSnackbar('STANDALONECOMPONENTS.EXPANSIONITEM.SNACKBAR.UPDATED');
                     setTimeout(() => {
                         this.changePaginatedArray(mapping.paginatorKey);
-                    }, 250);
+                    }, 1000);
                 },
                 error: (err: HttpErrorResponse) => this.onError(err)
             });
@@ -298,7 +302,7 @@ export class AllTypeDisplayComponent {
         this.currentArrayInPaginator = SortItems.generalizedSort(this.currentArrayInPaginator as any[], _settings.field, _settings.mode);
     }
 
-    onTabChange(event: MatTabChangeEvent) {        
+    onTabChange(event: MatTabChangeEvent) {
         this.changePaginatedArray(event.tab.ariaLabel as 'users' | 'books' | 'reviews' | 'summaries' | 'comments');
     }
 

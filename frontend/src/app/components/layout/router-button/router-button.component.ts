@@ -44,12 +44,12 @@ export class RouterButtonComponent {
     }
 
     isActive(route?: string): boolean {
-        if (route && route !== 'profile')
-            return this.activeRoute.startsWith(route);
+        if (route && route !== '/profile')
+            return this.activeRoute.startsWith(route!);
         return false
     }
 
-    navigateToProfile() {        
-        this.router.navigate(['profile', CryptoJS.AES.encrypt(this.payload?.userId!.toString()!, this.configService.get('SECURITY_KEY')).toString()]);
+    navigateToProfile() {          
+        this.router.navigate(['profile', CryptoJS.AES.encrypt(this.payload?.userId!.toString()!, this.configService.get('SECURITY_KEY')).toString()]);        
     }
 }
